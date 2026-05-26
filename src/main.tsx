@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import { PlaygroundPage } from './pages/PlaygroundPage.tsx'
+import { CashlessPage } from './pages/CashlessPage.tsx'
+import { MuseoPage } from './pages/MuseoPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -11,6 +13,8 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/playground" element={<PlaygroundPage />} />
+        <Route path="/case-study/cashless" element={<CashlessPage />} />
+        <Route path="/case-study/museo" element={<MuseoPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface Project {
   id: number
@@ -6,7 +7,9 @@ interface Project {
   category: string
   accentColor: string
   coverImage?: string
+  coverComponent?: React.ReactNode
   videoSrc?: string
+  caseStudyPath?: string
   company: string
   role: string
   title: string
@@ -22,8 +25,10 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [visible, setVisible] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
+  const [videoModalOpen, setVideoModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -41,6 +46,23 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
   const delay = index * 0.1
 
+  const handleCoverClick = () => {
+    if (project.caseStudyPath) {
+      navigate(project.caseStudyPath)
+    } else if (project.videoSrc) {
+      setVideoModalOpen(true)
+    }
+  }
+
+  const handleCtaClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (project.caseStudyPath) {
+      navigate(project.caseStudyPath)
+    } else if (project.videoSrc) {
+      setVideoModalOpen(true)
+    }
+  }
+
   return (
     <>
       <div
@@ -57,28 +79,47 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <span className="card-pill">{project.category}</span>
         </div>
 
-        {/* Dark cover with video placeholder */}
+        {/* Cover */}
         <div
-          className="card-cover"
-          onClick={() => project.videoSrc && setModalOpen(true)}
-          style={{ cursor: project.videoSrc ? 'pointer' : 'default' }}
+          className={`card-cover${project.caseStudyPath || project.videoSrc ? ' card-cover--clickable' : ''}`}
+          onClick={handleCoverClick}
+          role={project.caseStudyPath || project.videoSrc ? 'button' : undefined}
+          tabIndex={project.caseStudyPath || project.videoSrc ? 0 : undefined}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleCoverClick()}
+          aria-label={project.caseStudyPath ? `Open ${project.title} case study` : undefined}
         >
           <div className="card-cover-inner">
-            {project.coverImage && (
+            {project.coverComponent ? (
+              project.coverComponent
+            ) : project.coverImage ? (
               <img
                 src={project.coverImage}
                 alt={project.title}
                 className="card-cover-img"
               />
-            )}
+            ) : null}
           </div>
-          {project.videoSrc && (
+
+          {/* Play button for video-only cards */}
+          {!project.caseStudyPath && project.videoSrc && (
             <div className="card-video-overlay">
               <div className="play-btn">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 5v14l11-7z" />
                 </svg>
               </div>
+            </div>
+          )}
+
+          {/* View case study hover overlay */}
+          {project.caseStudyPath && (
+            <div className="card-cs-overlay">
+              <span className="card-cs-overlay-text">
+                View Case Study
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
             </div>
           )}
         </div>
@@ -103,8 +144,8 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
           <div className="card-footer">
             <span className="card-url">{project.url}</span>
-            <a href="#" className="card-cta">
-              View Case Study
+            <a href="#" className="card-cta" onClick={handleCtaClick}>
+              {project.caseStudyPath ? 'View Case Study' : 'View Project'}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -113,11 +154,11 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </div>
 
-      {/* Video modal */}
-      {modalOpen && project.videoSrc && (
+      {/* Video modal (non-case-study cards) */}
+      {videoModalOpen && project.videoSrc && (
         <div
           className="video-modal-backdrop"
-          onClick={() => setModalOpen(false)}
+          onClick={() => setVideoModalOpen(false)}
         >
           <div
             className="video-modal-content"
@@ -125,16 +166,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           >
             <button
               className="video-modal-close"
-              onClick={() => setModalOpen(false)}
+              onClick={() => setVideoModalOpen(false)}
               aria-label="Close video"
             >
               ✕
             </button>
-            <video
-              autoPlay
-              controls
-              playsInline
-            >
+            <video ref={videoRef} autoPlay controls playsInline>
               <source src={project.videoSrc} type="video/mp4" />
             </video>
           </div>

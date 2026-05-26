@@ -1124,3 +1124,886 @@ html[data-theme="dark"] .pg-page-header {
     align-items: flex-start;
   }
 }
+
+/* ============================================================
+   CARD COVER — CLICKABLE OVERLAY
+   ============================================================ */
+
+.card-cover--clickable {
+  cursor: pointer;
+}
+
+.card-cs-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.card-cover--clickable:hover .card-cs-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.card-cs-overlay-text {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 10px 20px;
+  border-radius: 999px;
+}
+
+.card-cover--clickable:hover .card-cs-overlay-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   CASHLESS COVER COMPONENT
+   ============================================================ */
+
+.cashless-cover {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cashless-cover-bg {
+  position: absolute;
+  inset: 0;
+  background: #011239;
+  z-index: 0;
+}
+
+.cashless-cover-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.cashless-cover-title {
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: clamp(18px, 3vw, 32px);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #ffffff;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.cashless-cover-device {
+  position: relative;
+  z-index: 2;
+  width: 78%;
+  max-width: 480px;
+}
+
+.cashless-device-frame {
+  background: #0B1F4A;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(92, 110, 168, 0.4);
+  border: 1px solid rgba(92, 110, 168, 0.3);
+}
+
+.cashless-device-screen {
+  background: #F4F6FF;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cashless-screen-header {
+  background: #011239;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cashless-screen-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.cashless-nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+}
+
+.cashless-screen-title {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+}
+
+.cashless-screen-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #D4D9F0;
+  padding: 4px 8px 0;
+  background: #fff;
+}
+
+.cashless-tab {
+  font-size: 7px;
+  padding: 3px 6px 4px;
+  color: #6B7A99;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.cashless-tab--active {
+  color: #0B2E8A;
+  border-bottom-color: #0B2E8A;
+  font-weight: 600;
+}
+
+.cashless-screen-table {
+  padding: 4px 0;
+  background: #F5F7FF;
+}
+
+.cashless-table-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.cashless-table-cell {
+  font-size: 6.5px;
+  color: #3A4A6B;
+  white-space: nowrap;
+}
+
+.cashless-cell-amount {
+  font-weight: 600;
+  min-width: 42px;
+}
+
+.cashless-cell-method {
+  flex: 1;
+  opacity: 0.8;
+}
+
+.cashless-table-badge {
+  font-size: 5.5px;
+  font-weight: 600;
+  padding: 1.5px 5px;
+  border-radius: 99px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.cashless-badge-yellow {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.cashless-badge-green {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.cashless-badge-red {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.cashless-cover-play {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   MUSEO COVER COMPONENT
+   ============================================================ */
+
+.museo-cover {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 12px;
+}
+
+.museo-cover-bg {
+  position: absolute;
+  inset: 0;
+  background: #1C0029;
+  z-index: 0;
+}
+
+.museo-spotlight {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(255,255,255,0.14) 0%, transparent 65%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.museo-star {
+  position: absolute;
+  z-index: 3;
+}
+
+.museo-star-br {
+  width: 32px;
+  height: 32px;
+  bottom: 16px;
+  right: 20px;
+}
+
+.museo-star-sm {
+  width: 18px;
+  height: 18px;
+  bottom: 28px;
+  right: 60px;
+}
+
+.museo-cover-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-top: 18px;
+}
+
+.museo-cover-eyebrow {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(9px, 1.2vw, 13px);
+  letter-spacing: 0.04em;
+  color: #C9973B;
+  margin-bottom: 4px;
+}
+
+.museo-cover-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: clamp(24px, 4.5vw, 52px);
+  letter-spacing: 0.08em;
+  color: #C9973B;
+  line-height: 1;
+  margin: 0;
+}
+
+.museo-frame-wrap {
+  position: relative;
+  z-index: 2;
+  width: 70%;
+  max-width: 400px;
+  padding: 0 0 8px;
+}
+
+.museo-frame {
+  background: linear-gradient(145deg, #d4a843 0%, #b8882f 25%, #e8c468 50%, #b8882f 75%, #c9973b 100%);
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.12),
+    0 8px 32px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.museo-frame-inner {
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.museo-painting {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+}
+
+/* ============================================================
+   CASE STUDY PAGE — BASE
+   ============================================================ */
+
+.cs-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Nav */
+.cs-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 48px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.cs-nav--scrolled {
+  background: rgba(1, 18, 57, 0.92);
+  border-bottom-color: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.cs-nav--museo.cs-nav--scrolled {
+  background: rgba(28, 0, 41, 0.92);
+}
+
+.cs-nav-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.cs-nav-back:hover { color: #fff; }
+
+.cs-nav-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ============================================================
+   CASHLESS HERO
+   ============================================================ */
+
+.cs-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.cs-hero--cashless {
+  background: #011239;
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px;
+  padding-bottom: 60px;
+}
+
+.cs-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cs-hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(92, 110, 168, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 110, 168, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.cs-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 80px 40px;
+  width: 100%;
+}
+
+.cs-hero-pills {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.cs-pill {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(203, 214, 251, 0.15);
+  color: rgba(203, 214, 251, 0.9);
+  border: 1px solid rgba(203, 214, 251, 0.2);
+  letter-spacing: 0.04em;
+}
+
+.cs-hero-company {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4DB8A0;
+  margin-bottom: 16px;
+}
+
+.cs-hero-title {
+  font-family: 'Golte', Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(48px, 7vw, 96px);
+  letter-spacing: -2px;
+  line-height: 0.95;
+  color: #ffffff;
+  margin-bottom: 28px;
+}
+
+.cs-hero-sub {
+  font-size: 18px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.6);
+  max-width: 620px;
+  margin-bottom: 48px;
+}
+
+.cs-hero-meta {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.cs-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cs-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+.cs-meta-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+}
+
+/* Hero visual (SVG preview) */
+.cs-hero-visual {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  max-height: 340px;
+}
+
+.cs-hero-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top;
+}
+
+.cs-hero-scroll-hint {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  padding: 20px;
+}
+
+/* ============================================================
+   MUSEO HERO
+   ============================================================ */
+
+.cs-hero--museo {
+  background: #1C0029;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 80px 60px;
+  text-align: center;
+  position: relative;
+}
+
+.cs-museo-spotlight {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 70%;
+  background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(255,255,255,0.13) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cs-hero-content--museo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 48px;
+}
+
+.cs-museo-eyebrow {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: #C9973B;
+  margin-bottom: 8px;
+}
+
+.cs-museo-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: clamp(60px, 9vw, 120px);
+  letter-spacing: 0.1em;
+  color: #C9973B;
+  margin-bottom: 24px;
+  line-height: 1;
+}
+
+.cs-hero-pills--museo {
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.cs-pill--museo {
+  background: rgba(201, 151, 59, 0.12);
+  color: rgba(201, 151, 59, 0.9);
+  border-color: rgba(201, 151, 59, 0.25);
+}
+
+.cs-hero-sub--museo {
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.cs-hero-meta--museo {
+  justify-content: center;
+}
+
+.cs-museo-cover-preview {
+  position: relative;
+  z-index: 2;
+  width: 60%;
+  max-width: 640px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
+  aspect-ratio: 4 / 3;
+}
+
+.cs-museo-cover-preview .museo-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cs-museo-frame {
+  background: linear-gradient(145deg, #d4a843 0%, #b8882f 25%, #e8c468 50%, #b8882f 75%, #c9973b 100%);
+  padding: 16px;
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.1),
+    0 24px 80px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.cs-museo-frame-inner {
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.cs-museo-painting {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.cs-hero-scroll-hint--museo {
+  color: rgba(201, 151, 59, 0.4);
+}
+
+/* ============================================================
+   VIDEO SECTION
+   ============================================================ */
+
+.cs-video-section {
+  width: 100%;
+  padding: 100px 0;
+}
+
+.cs-video-section--cashless {
+  background: #E5EBFF;
+}
+
+.cs-video-section--museo {
+  background: #070707;
+}
+
+.cs-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+.cs-section-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3D5A8A;
+  margin-bottom: 12px;
+}
+
+.cs-section-tag--museo {
+  color: rgba(201, 151, 59, 0.8);
+}
+
+.cs-section-title {
+  font-family: 'Golte', Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(32px, 4vw, 52px);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  color: #0B1F4A;
+  margin-bottom: 16px;
+}
+
+.cs-section-title--museo {
+  color: #FAF7FE;
+}
+
+.cs-section-desc {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #5A6B8C;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+.cs-section-desc--museo {
+  color: rgba(255,255,255,0.5);
+}
+
+.cs-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0B1F4A;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+}
+
+.cs-video-wrap--museo {
+  background: #1A0122;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+}
+
+.cs-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cs-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: background 0.3s ease;
+}
+
+.cs-video-overlay--museo {
+  background: rgba(0,0,0,0.45);
+}
+
+.cs-video-wrap:hover .cs-video-overlay {
+  background: rgba(0,0,0,0.5);
+}
+
+.cs-play-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.2s ease;
+  color: #0B1F4A;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.cs-play-btn--museo {
+  color: #1C0029;
+}
+
+.cs-play-btn:hover {
+  transform: scale(1.08);
+  background: #fff;
+}
+
+.cs-play-btn svg {
+  width: 28px;
+  height: 28px;
+  margin-left: 4px;
+}
+
+.cs-video-hint {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ============================================================
+   FULL SVG CASE STUDY
+   ============================================================ */
+
+.cs-svg-section {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.cs-svg-section--museo {
+  background: #1C0029;
+}
+
+.cs-svg-full {
+  width: 100%;
+  display: block;
+  height: auto;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   CASE STUDY FOOTER
+   ============================================================ */
+
+.cs-footer {
+  width: 100%;
+  padding: 80px 0;
+}
+
+.cs-footer--cashless {
+  background: #011239;
+}
+
+.cs-footer--museo {
+  background: #1C0029;
+}
+
+.cs-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cs-footer-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+.cs-footer-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: normal;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.cs-footer-next:hover { opacity: 0.75; }
+
+.cs-footer-home {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-top: 8px;
+}
+
+.cs-footer-home:hover { color: rgba(255,255,255,0.7); }

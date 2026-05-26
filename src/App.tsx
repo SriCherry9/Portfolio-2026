@@ -3,37 +3,41 @@ import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
+import { CashlessCover } from './components/covers/CashlessCover'
+import { MuseoCover } from './components/covers/MuseoCover'
 
 const PROJECTS = [
   {
     id: 1,
-    dateRange: '2022 – Present',
-    category: 'Web · Enterprise SaaS',
-    accentColor: '#D2D2FF',
-    coverImage: '/images/card1-cover.png',
+    dateRange: '2022 – 2024',
+    category: 'Fintech · B2B SaaS',
+    accentColor: '#B8E4C9',
+    coverComponent: <CashlessCover />,
     videoSrc: '/videos/product-tour.mov',
-    company: 'SUDOZI',
-    role: 'Founding Designer',
-    title: 'Procurement Orchestration Platform',
+    caseStudyPath: '/case-study/cashless',
+    company: 'QAPITA',
+    role: 'Lead Product Designer',
+    title: 'Cashless Equity Ownership',
     description:
-      'Designed end-to-end procurement workflows that reduced approval cycles by 60%. Led UX strategy from 0→1, building a design system and establishing the visual language for a complex enterprise product.',
-    tags: ['Enterprise', 'SaaS', 'B2B', 'Design Systems'],
-    url: 'sudozi.com',
+      'Designed the end-to-end workflow enabling employees to own equity through cashless methods. Scaled a complex fintech platform from India to global markets — applying deep systems thinking to simplify equity management for both companies and their people.',
+    tags: ['B2B', 'SaaS', 'Fintech', 'Systems Thinking'],
+    url: 'qapita.com',
   },
   {
     id: 2,
     dateRange: '2023 – 2024',
-    category: 'AI · Productivity',
-    accentColor: '#ADD6F7',
-    coverImage: '/images/card2-cover.png',
-    videoSrc: '/videos/ask-hanzo.mov',
-    company: 'HANZO',
+    category: 'B2B2C · Design System',
+    accentColor: '#C4A96A',
+    coverComponent: <MuseoCover />,
+    videoSrc: '/videos/product-tour.mov',
+    caseStudyPath: '/case-study/museo',
+    company: 'GAIAN SOLUTIONS',
     role: 'Lead Product Designer',
-    title: 'AI-Powered Workflow Assistant',
+    title: 'Museo — Broadcast Auction Platform',
     description:
-      'Designed the core conversation interface and proactive suggestion system for an AI assistant that learns team workflows. Focused on trust, transparency, and progressive disclosure of AI capabilities.',
-    tags: ['AI/ML', 'Productivity', 'B2B', 'Conversational UI'],
-    url: 'hanzo.ai',
+      "Designed the end-to-end product for the US market — a CES'24 Badge-winning auction platform powered by ATSC 3.0. Built a cohesive design system for a B2B2C experience that lets viewers bid on products right from where they watch.",
+    tags: ['B2B2C', 'Design System', 'ATSC 3.0', 'CES 2024'],
+    url: 'gaian.solutions',
   },
   {
     id: 3,
@@ -55,7 +59,6 @@ const PROJECTS = [
     dateRange: '2020 – 2021',
     category: 'Accessibility · Gov',
     accentColor: '#FFFBE6',
-    coverImage: undefined,
     videoSrc: '/videos/search.mov',
     company: 'CIVIC TECH',
     role: 'Accessibility Designer',
@@ -70,8 +73,6 @@ const PROJECTS = [
     dateRange: '2019 – 2020',
     category: 'Product · Strategy',
     accentColor: '#E7C1E5',
-    coverImage: undefined,
-    videoSrc: undefined,
     company: 'STEALTH',
     role: 'Product Manager & Designer',
     title: 'Zero-to-One Health Platform',
