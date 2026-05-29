@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react'
 import './ShredderLanding.css'
 
 const STRIP_W    = 18
-const MAX_AMP    = 240
-const IDLE_AMP   = 0.07
-const WAVE_SPEED = 2.4
+const MAX_AMP    = 55    // max horizontal throw kept subtle
+const IDLE_AMP   = 0.25  // gentle idle oscillation
+const WAVE_SPEED = 1.4   // slower, calmer wave
 const PHASE_STEP = 0.40
 const SCROLL_FRAC = 0.40   // fraction of total scroll spent panning the newspaper
 
@@ -146,7 +146,7 @@ export function ShredderLanding({ onComplete }: Props) {
             const dstW  = Math.min(STRIP_W, W - dstX0)
             if (dstW <= 0) break
             const depth = 0.55
-            const amp   = depth * depth * MAX_AMP * ampFrac * 2.4
+            const amp   = depth * depth * MAX_AMP * ampFrac
             const shift = Math.round(disp[i] * amp)
             ctx.drawImage(
               img,
@@ -176,14 +176,14 @@ export function ShredderLanding({ onComplete }: Props) {
           e.preventDefault()
           const d = e.deltaY / (window.innerHeight * 2.8)
           rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
-          velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 55))
+          velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
         }
         return
       }
       e.preventDefault()
       const d = e.deltaY / (window.innerHeight * 2.8)
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
-      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 55))
+      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
     }
 
     let touchY = 0
@@ -197,7 +197,7 @@ export function ShredderLanding({ onComplete }: Props) {
           e.preventDefault()
           const d = dy / (window.innerHeight * 2.8)
           rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
-          velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 55))
+          velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
         }
         return
       }
@@ -205,7 +205,7 @@ export function ShredderLanding({ onComplete }: Props) {
       const d = (touchY - e.touches[0].clientY) / (window.innerHeight * 2.8)
       touchY = e.touches[0].clientY
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
-      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 55))
+      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
     }
 
     window.addEventListener('wheel',      onWheel,      { passive: false })
