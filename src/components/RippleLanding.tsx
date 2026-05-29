@@ -158,11 +158,19 @@ export function RippleLanding({ onComplete }: Props) {
 
     // ── Set up video element ────────────────────────────────────────
     const video = document.createElement('video')
-    video.src         = '/images/hero-landing.mp4'
     video.loop        = true
     video.muted       = true   // must start muted for autoplay policy
     video.playsInline = true
     video.autoplay    = true
+    // Provide both MOV and MP4 sources for cross-browser compatibility
+    const srcMov = document.createElement('source')
+    srcMov.src  = '/images/hero-landing.mov'
+    srcMov.type = 'video/quicktime'
+    const srcMp4 = document.createElement('source')
+    srcMp4.src  = '/images/hero-landing.mp4'
+    srcMp4.type = 'video/mp4'
+    video.appendChild(srcMov)
+    video.appendChild(srcMp4)
     videoRef.current  = video
 
     // WebGL texture that we'll update every frame from the video
