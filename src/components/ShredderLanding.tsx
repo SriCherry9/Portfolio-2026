@@ -6,10 +6,10 @@ const MAX_AMP      = 55
 const IDLE_AMP     = 0.25
 const PHASE_STEP   = 0.40
 // Noodle parameters — each strip bends independently after shredding
-const NOODLE_BANDS = 14   // vertical segments per strip for bending
+const NOODLE_BANDS = 28   // more segments = smoother bend curve
 const NOODLE_BEND  = 4.0  // how much curvature along strip height
 const NOODLE_SPEED = 0.25 // base sway speed (slow, like seaweed)
-const STRIP_LEN    = 160  // base hanging length of each strip (px)
+const STRIP_LEN    = 320  // base hanging length of each strip (px)
 const PULL_START   = 0.82 // shredFrac at which cloth-pull begins
 const SCROLL_FRAC = 0.40   // fraction of total scroll spent panning the newspaper
 
@@ -33,11 +33,15 @@ export function ShredderLanding({ onComplete }: Props) {
   useEffect(() => {
     const canvas = canvasRef.current!
     const ctx    = canvas.getContext('2d')!
+    ctx.imageSmoothingEnabled  = true
+    ctx.imageSmoothingQuality  = 'high'
     const root   = rootRef.current!
 
     const resize = () => {
       canvas.width  = window.innerWidth
       canvas.height = window.innerHeight
+      ctx.imageSmoothingEnabled = true
+      ctx.imageSmoothingQuality = 'high'
     }
     resize()
     window.addEventListener('resize', resize)
@@ -165,9 +169,7 @@ export function ShredderLanding({ onComplete }: Props) {
             for (let b = 0; b < NOODLE_BANDS; b++) {
               const norm = b / NOODLE_BANDS
               const amp  = norm * norm * MAX_AMP * ampFrac
-              shifts[b]  = Math.round(
-                Math.sin(stripPhase + norm * NOODLE_BEND + t * stripSpeed) * amp
-              )
+              shifts[b]  = Math.sin(stripPhase + norm * NOODLE_BEND + t * stripSpeed) * amp
             }
 
             // ── Shadow pass (drawn slightly offset, dark + blurred) ───
