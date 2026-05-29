@@ -43,6 +43,12 @@ export function ShredderLanding({ onComplete }: Props) {
     off.height = H
     const c = off.getContext('2d')!
 
+    // Paint cream immediately so canvas is never blank
+    c.fillStyle = '#F4EADE'
+    c.fillRect(0, 0, W, H)
+    offscreenRef.current = off  // show plain cream while fonts load
+
+    // Wait for web fonts then repaint with text
     await document.fonts.ready
 
     // Cream background

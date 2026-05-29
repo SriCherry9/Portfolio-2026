@@ -86,7 +86,8 @@ const PROJECTS = [
 ]
 
 export default function App() {
-  const [landed, setLanded] = useState(() => sessionStorage.getItem('shredded') === '1')
+  // Always show shredder on fresh page load; sessionStorage skip only after explicit completion
+  const [landed, setLanded] = useState(false)
 
   const handleComplete = useCallback(() => {
     sessionStorage.setItem('shredded', '1')
