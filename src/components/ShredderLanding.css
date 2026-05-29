@@ -148,39 +148,6 @@
 }
 
 /* ===================================================
-   TEXT OVERLAY
-   =================================================== */
-
-.shredder-text {
-  position: fixed;
-  bottom: 96px;
-  left: 52px;
-  z-index: 10001;
-  pointer-events: none;
-  user-select: none;
-}
-
-.shredder-name {
-  font-family: 'Golte', Georgia, serif;
-  font-size: clamp(28px, 3.8vw, 52px);
-  color: rgba(255, 255, 255, 0.90);
-  letter-spacing: -0.5px;
-  line-height: 1.1;
-  margin: 0 0 8px;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-}
-
-.shredder-role {
-  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
-}
-
-/* ===================================================
    SCROLL HINT
    =================================================== */
 
@@ -203,7 +170,7 @@
   font-family: 'AvantGarde', 'Century Gothic', sans-serif;
   font-size: 10px;
   letter-spacing: 3px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(30, 20, 10, 0.55);
   text-transform: uppercase;
   user-select: none;
 }
@@ -212,7 +179,7 @@
   display: block;
   width: 1px;
   height: 32px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(to bottom, rgba(30, 20, 10, 0.45), transparent);
   animation: hint-pulse 1.6s ease-in-out infinite;
 }
 

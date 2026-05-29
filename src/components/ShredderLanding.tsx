@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react'
 import './ShredderLanding.css'
 
-const STRIP_W    = 4      // px wide per strip
-const MAX_AMP    = 200    // max horizontal displacement (px) at bottom
-const IDLE_AMP   = 0.08   // strip oscillation when not scrolling (fraction of MAX_AMP)
-const WAVE_SPEED = 2.0    // rad/s
-const PHASE_STEP = 0.42   // phase shift between adjacent strips
+const STRIP_W    = 3      // px per strip — thin for fine shred
+const MAX_AMP    = 220    // max horizontal throw at the bottom (px)
+const IDLE_AMP   = 0.06   // fraction of MAX_AMP when not scrolling
+const WAVE_SPEED = 2.6    // base wave animation speed (rad/s)
+const PHASE_STEP = 0.40   // phase shift between adjacent strips
 
 interface Props { onComplete: () => void }
 
@@ -15,8 +15,8 @@ export function ShredderLanding({ onComplete }: Props) {
   const barRef    = useRef<HTMLDivElement>(null)
   const hintRef   = useRef<HTMLDivElement>(null)
 
-  const progressRef = useRef(0)   // 0 = bar at top, 1 = fully shredded
-  const velRef      = useRef(0)   // scroll velocity, + = down, − = up
+  const progressRef = useRef(0)   // 0 → 1 scroll progress
+  const velRef      = useRef(0)   // smoothed scroll velocity (+ = down)
   const elapsedRef  = useRef(0)
   const lastTsRef   = useRef<number | null>(null)
   const rafRef      = useRef<number | undefined>(undefined)
@@ -33,36 +33,25 @@ export function ShredderLanding({ onComplete }: Props) {
     resize()
     window.addEventListener('resize', resize)
 
-    // ── Video ────────────────────────────────────────────────────────
-    const video = document.createElement('video')
-    video.loop = true; video.muted = true; video.playsInline = true
-    ;[
-      ['/images/hero-landing.mov', 'video/quicktime'],
-      ['/images/hero-landing.mp4', 'video/mp4'],
-    ].forEach(([src, type]) => {
-      const s = document.createElement('source')
-      s.src = src; s.type = type; video.appendChild(s)
-    })
-    video.play().catch(() => {
-      const f = () => { video.play(); document.removeEventListener('pointerdown', f) }
-      document.addEventListener('pointerdown', f)
-    })
+    // ── Load newspaper image ─────────────────────────────────────────
+    const img = new Image()
+    img.src = '/images/newspaper.webp'
 
-    // Strip displacement array (reused every frame)
-    const disp = new Float32Array(Math.ceil(window.innerWidth / STRIP_W) + 1)
+    // Pre-allocated strip displacement array
+    const disp = new Float32Array(Math.ceil(window.innerWidth / STRIP_W) + 2)
 
-    // ── Cover-fit: map canvas viewport → video source rectangle ─────
+    // Cover-fit: maps canvas rect onto image source rect
     const cover = (W: number, H: number) => {
-      const vW = video.videoWidth  || W
-      const vH = video.videoHeight || H
+      const iW = img.naturalWidth  || W
+      const iH = img.naturalHeight || H
       const cr = W / H
-      const vr = vW / vH
-      if (cr > vr) {                        // canvas wider → crop height
-        const h = vW / cr
-        return { sx: 0, sy: (vH - h) / 2, sw: vW, sh: h }
-      } else {                              // canvas taller/narrower → crop sides
-        const w = vH * cr
-        return { sx: (vW - w) / 2, sy: 0, sw: w, sh: vH }
+      const ir = iW / iH
+      if (cr > ir) {                        // canvas wider → crop height
+        const h = iW / cr
+        return { sx: 0, sy: (iH - h) / 2, sw: iW, sh: h }
+      } else {                              // canvas narrower → crop sides
+        const w = iH * cr
+        return { sx: (iW - w) / 2, sy: 0, sw: w, sh: iH }
       }
     }
 
@@ -70,40 +59,45 @@ export function ShredderLanding({ onComplete }: Props) {
     const tick = (ts: number) => {
       if (lastTsRef.current === null) lastTsRef.current = ts
       const dt = Math.min((ts - lastTsRef.current) / 1000, 0.05)
-      lastTsRef.current   = ts
-      elapsedRef.current += dt
+      lastTsRef.current    = ts
+      elapsedRef.current  += dt
 
-      // Friction — velocity decays naturally when user stops scrolling
-      velRef.current *= Math.pow(0.80, dt * 60)
+      // Velocity decays naturally (friction)
+      velRef.current *= Math.pow(0.78, dt * 60)
 
-      const p      = progressRef.current
-      const vel    = velRef.current
-      const t      = elapsedRef.current
-      const W      = canvas.width
-      const H      = canvas.height
+      const p   = progressRef.current
+      const vel = velRef.current
+      const t   = elapsedRef.current
+      const W   = canvas.width
+      const H   = canvas.height
 
-      // Shredder bar Y: starts at top (0), descends to ~97% of screen
+      // Bar descends from top as progress increases
       const barY  = Math.round(H * p * 0.97)
-      const below = H - barY             // height of shredded zone
+      const below = H - barY
 
-      if (video.readyState >= video.HAVE_CURRENT_DATA) {
+      if (img.complete && img.naturalWidth > 0) {
         const { sx, sy, sw, sh } = cover(W, H)
 
-        // ── Intact video above the bar ───────────────────────────────
-        const aboveSH = barY * (sh / H)
+        // ── Intact paper above the bar ───────────────────────────────
         if (barY > 0) {
-          ctx.drawImage(video, sx, sy, sw, aboveSH, 0, 0, W, barY)
+          const aboveSH = barY * (sh / H)
+          ctx.drawImage(img, sx, sy, sw, aboveSH, 0, 0, W, barY)
+        } else {
+          // No shredding yet — draw full image
+          ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, H)
         }
 
         if (below > 0 && p > 0.002) {
-          // Dark gap filler
-          ctx.fillStyle = '#000'
+          // Dark background shows through gaps between displaced strips
+          ctx.fillStyle = '#0a0a0a'
           ctx.fillRect(0, barY, W, below)
 
-          // Velocity-reactive strip animation
-          const velMag  = Math.min(Math.abs(vel), 1)
-          const velDir  = vel >= 0 ? 1 : -1
-          const speed   = WAVE_SPEED * (0.4 + velMag * 1.4) * velDir
+          // Velocity-reactive animation
+          const velMag = Math.min(Math.abs(vel), 1)
+          const velDir = vel >= 0 ? 1 : -1
+          // Speed increases with velocity; direction flips with scroll direction
+          const speed  = WAVE_SPEED * (0.5 + velMag * 2.0) * velDir
+          // Amplitude: idle floor + velocity bonus
           const ampFrac = IDLE_AMP + (1 - IDLE_AMP) * velMag
 
           const numStrips = Math.ceil(W / STRIP_W)
@@ -111,89 +105,89 @@ export function ShredderLanding({ onComplete }: Props) {
             disp[i] = Math.sin(i * PHASE_STEP + t * speed)
           }
 
-          // Displacement grows quadratically with depth below bar
+          // Map the shredded zone in source image coords
+          const scaleX  = sw / W
           const belowSY = sy + barY * (sh / H)
           const belowSH = below * (sh / H)
-          const scaleX  = sw / W
 
+          // Each strip drawn at its displaced X position
           for (let i = 0; i < numStrips; i++) {
             const dstX0 = i * STRIP_W
             const dstW  = Math.min(STRIP_W, W - dstX0)
             if (dstW <= 0) break
 
-            // Amplitude at midpoint of this strip's shredded zone
-            const depth  = 0.55                          // use midpoint depth
-            const amp    = depth * depth * MAX_AMP * ampFrac
-            const shift  = Math.round(disp[i] * amp)
+            // Amplitude grows quadratically with depth into the shredded zone
+            // Use strip midpoint depth for a single representative value
+            const depth = 0.55
+            const amp   = depth * depth * MAX_AMP * ampFrac * 2.2
+            const shift = Math.round(disp[i] * amp)
 
-            const vSrcX  = sx + dstX0 * scaleX
-            const vSrcW  = dstW * scaleX
-
-            ctx.drawImage(video,
-              vSrcX,   belowSY, vSrcW, belowSH,
-              dstX0 + shift, barY,  dstW,  below
+            ctx.drawImage(
+              img,
+              sx + dstX0 * scaleX, belowSY, dstW * scaleX, belowSH,
+              dstX0 + shift, barY, dstW, below
             )
           }
-        } else if (barY === 0) {
-          // Nothing shredded yet — draw full video
-          ctx.drawImage(video, sx, sy, sw, sh, 0, 0, W, H)
         }
       }
 
-      // Sync bar position
+      // Move bar DOM element
       if (barRef.current) barRef.current.style.top = `${barY}px`
 
-      // Hide hint after first scroll
+      // Fade hint on first scroll
       if (hintRef.current) {
         hintRef.current.style.opacity = p > 0.03 ? '0' : '1'
       }
 
-      // ── Done: slide entire page down to reveal portfolio ─────────
+      // ── Completion — slide entire overlay down, reveal portfolio ──
       if (p >= 0.99 && !doneRef.current) {
         doneRef.current = true
         const root = rootRef.current!
-        root.style.transition = 'transform 0.75s cubic-bezier(0.76, 0, 0.24, 1)'
+        root.style.transition = 'transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)'
         root.style.transform  = 'translateY(100vh)'
-        setTimeout(onComplete, 780)
+        setTimeout(onComplete, 850)
       }
 
       rafRef.current = requestAnimationFrame(tick)
     }
 
-    rafRef.current = requestAnimationFrame(tick)
+    // Start once image has loaded (or immediately if cached)
+    const startLoop = () => { rafRef.current = requestAnimationFrame(tick) }
+    if (img.complete) startLoop()
+    else img.onload = startLoop
 
     // ── Scroll input ─────────────────────────────────────────────────
     document.body.style.overflow = 'hidden'
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-      const d = e.deltaY / (window.innerHeight * 3.2)
+      const d = e.deltaY / (window.innerHeight * 3.0)
       progressRef.current = Math.min(1, Math.max(0, progressRef.current + d))
-      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 55))
+      // Velocity proportional to scroll speed (capped at ±1)
+      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 60))
     }
 
     let touchY = 0
     const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0].clientY }
     const onTouchMove  = (e: TouchEvent) => {
       e.preventDefault()
-      const d = (touchY - e.touches[0].clientY) / (window.innerHeight * 3.2)
+      const d = (touchY - e.touches[0].clientY) / (window.innerHeight * 3.0)
       touchY  = e.touches[0].clientY
       progressRef.current = Math.min(1, Math.max(0, progressRef.current + d))
-      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 55))
+      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 60))
     }
 
     window.addEventListener('wheel',      onWheel,      { passive: false })
-    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchstart', onTouchStart, { passive: true  })
     window.addEventListener('touchmove',  onTouchMove,  { passive: false })
 
     return () => {
-      window.removeEventListener('resize', resize)
+      window.removeEventListener('resize',     resize)
       window.removeEventListener('wheel',      onWheel)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchmove',  onTouchMove)
       document.body.style.overflow = ''
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
-      video.pause(); video.src = ''
     }
   }, [onComplete])
 
@@ -216,15 +210,9 @@ export function ShredderLanding({ onComplete }: Props) {
         </div>
       </div>
 
-      {/* Name + role */}
-      <div className="shredder-text">
-        <p className="shredder-name">Sri Cherry Kotamreddy</p>
-        <p className="shredder-role">Interaction Designer</p>
-      </div>
-
-      {/* Hint */}
+      {/* Scroll hint */}
       <div ref={hintRef} className="shredder-hint">
-        <span className="shredder-hint-text">Scroll to enter</span>
+        <span className="shredder-hint-text">Scroll to shred</span>
         <span className="shredder-hint-line" />
       </div>
     </div>
