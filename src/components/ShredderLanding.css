@@ -5,8 +5,8 @@
 .shredder-root {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  /* opacity transition is applied imperatively when done */
+  z-index: 10000;
+  will-change: transform;
 }
 
 .shredder-canvas {

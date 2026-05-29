@@ -137,9 +137,9 @@ const RIPPLE_SRCS = [
   '/images/ripple-5.png',
 ]
 
-interface Props { onComplete: () => void }
+interface Props { onComplete: () => void; hidden?: boolean }
 
-export function RippleLanding({ onComplete }: Props) {
+export function RippleLanding({ onComplete, hidden = false }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rootRef   = useRef<HTMLDivElement>(null)
   const hintRef   = useRef<HTMLDivElement>(null)
@@ -274,19 +274,17 @@ export function RippleLanding({ onComplete }: Props) {
   }, [onComplete])
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
+    if (!hidden) document.body.style.overflow = 'hidden'
 
-    // Unmute on first scroll — browser requires a user gesture before audio plays
     let unmuted = false
     const unmute = () => {
-      if (unmuted) return
+      if (unmuted || !videoRef.current) return
       unmuted = true
-      // Re-grab the video from the GL setup via the closure in startGL.
-      // We store it on the ref so the handlers here can reach it.
-      videoRef.current!.muted = false
+      videoRef.current.muted = false
     }
 
     const onWheel = (e: WheelEvent) => {
+      if (hidden) return
       e.preventDefault()
       unmute()
       targetRef.current = Math.min(1, Math.max(0,
@@ -297,6 +295,7 @@ export function RippleLanding({ onComplete }: Props) {
     let lastY = 0
     const onTouchStart = (e: TouchEvent) => { lastY = e.touches[0].clientY }
     const onTouchMove  = (e: TouchEvent) => {
+      if (hidden) return
       e.preventDefault()
       unmute()
       const dy = lastY - e.touches[0].clientY
@@ -320,10 +319,10 @@ export function RippleLanding({ onComplete }: Props) {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       cleanup.then(fn => fn?.())
     }
-  }, [startGL])
+  }, [hidden, startGL])
 
   return (
-    <div ref={rootRef} className="ripple-root">
+    <div ref={rootRef} className="ripple-root" style={{ visibility: hidden ? 'hidden' : 'visible' }}>
       <canvas ref={canvasRef} className="ripple-canvas" />
 
       <div className="ripple-text">

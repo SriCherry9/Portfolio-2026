@@ -233,12 +233,15 @@ export function ShredderLanding({ onComplete }: Props) {
       hintRef.current.style.opacity = p > 0.04 ? '0' : '1'
     }
 
-    // ── Completion ───────────────────────────────────────────────
+    // ── Completion: slide shredder down off-screen to reveal ripple ──
     if (p >= 0.99 && !doneRef.current) {
       doneRef.current = true
       const root = rootRef.current
-      if (root) { root.style.transition = 'opacity 0.55s ease'; root.style.opacity = '0' }
-      setTimeout(onComplete, 570)
+      if (root) {
+        root.style.transition = 'transform 0.65s cubic-bezier(0.4, 0, 0.2, 1)'
+        root.style.transform  = 'translateY(100vh)'
+      }
+      setTimeout(onComplete, 680)
     }
 
     rafRef.current = requestAnimationFrame(renderFrame)
