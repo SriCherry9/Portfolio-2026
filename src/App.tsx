@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react'
 import './App.css'
 import { ShredderLanding } from './components/ShredderLanding'
-import { RippleLanding } from './components/RippleLanding'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
@@ -86,17 +85,13 @@ const PROJECTS = [
   },
 ]
 
-type Phase = 'shredder' | 'ripple' | 'portfolio'
-
 export default function App() {
-  const [phase, setPhase] = useState<Phase>('shredder')
-
-  const onShredDone  = useCallback(() => setPhase('ripple'),     [])
-  const onRippleDone = useCallback(() => setPhase('portfolio'),  [])
+  const [landed, setLanded] = useState(false)
+  const onShredDone = useCallback(() => setLanded(true), [])
 
   return (
     <>
-      {/* Portfolio always mounted underneath so it's ready when curtain lifts */}
+      {/* Portfolio always mounted beneath — revealed when shredder slides away */}
       <Header />
       <Hero />
       <section className="cards-section">
@@ -107,18 +102,7 @@ export default function App() {
       </section>
       <GardenFooter />
 
-      {/* Ripple video: pre-mounted during shredder so video is ready */}
-      {(phase === 'ripple' || phase === 'shredder') && (
-        <RippleLanding
-          onComplete={onRippleDone}
-          hidden={phase === 'shredder'}
-        />
-      )}
-
-      {/* Shredder sits on top of everything; shreds to reveal ripple */}
-      {phase === 'shredder' && (
-        <ShredderLanding onComplete={onShredDone} />
-      )}
+      {!landed && <ShredderLanding onComplete={onShredDone} />}
     </>
   )
 }
