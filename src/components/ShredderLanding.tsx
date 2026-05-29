@@ -9,7 +9,8 @@ const PHASE_STEP   = 0.40
 const NOODLE_BANDS = 14   // vertical segments per strip for bending
 const NOODLE_BEND  = 4.0  // how much curvature along strip height
 const NOODLE_SPEED = 0.25 // base sway speed (slow, like seaweed)
-const STRIP_LEN    = 160  // max hanging length of each strip (px)
+const STRIP_LEN    = 160  // base hanging length of each strip (px)
+const PULL_START   = 0.82 // shredFrac at which cloth-pull begins
 const SCROLL_FRAC = 0.40   // fraction of total scroll spent panning the newspaper
 
 interface Props { onComplete: () => void }
@@ -133,26 +134,30 @@ export function ShredderLanding({ onComplete }: Props) {
           const numStrips = Math.ceil(W / STRIP_W)
           const scaleX    = srcW / W
           const belowSrcY = srcY + barY * (srcH / H)
-          // Strip length shrinks from STRIP_LEN → 0 as shredding completes
-          const stripH    = Math.min(below, STRIP_LEN * (1 - shredFrac))
-          const stripSrcH = stripH * (srcH / H)
-          const bandH     = stripH / NOODLE_BANDS
-          const bandSrcH  = stripSrcH / NOODLE_BANDS
 
-          // Fade: full opacity first 50%, then dissolve
-          const fadeStart = 0.5
-          const fadeAlpha = shredFrac < fadeStart
-            ? 1
-            : Math.max(0, 1 - (shredFrac - fadeStart) / (1 - fadeStart))
-          ctx.globalAlpha = fadeAlpha
+          // Cloth-pull phase: once shredding is 82% done the shredder
+          // sucks the strips back up — height collapses from 70% → 0
+          const pullFrac  = shredFrac < PULL_START
+            ? 0
+            : (shredFrac - PULL_START) / (1 - PULL_START)          // 0 → 1
+          const easedPull = pullFrac * pullFrac * (3 - 2 * pullFrac) // smooth-step
+          const stripH    = Math.min(below, STRIP_LEN * 0.7 * (1 - easedPull))
+          const stripSrcH = stripH * (srcH / H)
+          const bandH     = stripH > 0 ? stripH / NOODLE_BANDS : 0
+          const bandSrcH  = stripSrcH > 0 ? stripSrcH / NOODLE_BANDS : 0
+
+          // During pull: noodle sway speeds up (urgency of being sucked in)
+          const pullSpeedBoost = 1 + easedPull * 5
+
+          ctx.globalAlpha = 1
 
           for (let i = 0; i < numStrips; i++) {
             const dstX0 = i * STRIP_W
             const dstW  = Math.min(STRIP_W, W - dstX0)
             if (dstW <= 0) break
 
-            // Each strip gets its own slow speed and starting phase — no two alike
-            const stripSpeed = NOODLE_SPEED * (0.7 + 0.6 * ((i * 13 + 5) % 10) / 10)
+            // Each strip gets its own slow speed; pull phase cranks it up
+            const stripSpeed = NOODLE_SPEED * (0.7 + 0.6 * ((i * 13 + 5) % 10) / 10) * pullSpeedBoost
             const stripPhase = i * PHASE_STEP + i * 0.19
 
             // Pre-compute band shifts so we can draw shadow pass first
@@ -218,7 +223,6 @@ export function ShredderLanding({ onComplete }: Props) {
               ctx.fillRect(x, y, dstW, bandH + 0.5)
             }
           }
-          ctx.globalAlpha = 1
         }
 
         if (barRef.current) barRef.current.style.top = `${barY}px`
