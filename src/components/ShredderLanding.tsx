@@ -9,6 +9,7 @@ const PHASE_STEP   = 0.40
 const NOODLE_BANDS = 14   // vertical segments per strip for bending
 const NOODLE_BEND  = 4.0  // how much curvature along strip height
 const NOODLE_SPEED = 0.25 // base sway speed (slow, like seaweed)
+const STRIP_LEN    = 160  // max hanging length of each strip (px)
 const SCROLL_FRAC = 0.40   // fraction of total scroll spent panning the newspaper
 
 interface Props { onComplete: () => void }
@@ -132,9 +133,11 @@ export function ShredderLanding({ onComplete }: Props) {
           const numStrips = Math.ceil(W / STRIP_W)
           const scaleX    = srcW / W
           const belowSrcY = srcY + barY * (srcH / H)
-          const belowSrcH = below * (srcH / H)
-          const bandH     = below / NOODLE_BANDS
-          const bandSrcH  = belowSrcH / NOODLE_BANDS
+          // Each strip hangs freely — cap at STRIP_LEN so tips float in air
+          const stripH    = Math.min(below, STRIP_LEN)
+          const stripSrcH = stripH * (srcH / H)
+          const bandH     = stripH / NOODLE_BANDS
+          const bandSrcH  = stripSrcH / NOODLE_BANDS
 
           // Fade: full opacity first 50%, then dissolve
           const fadeStart = 0.5
@@ -187,19 +190,32 @@ export function ShredderLanding({ onComplete }: Props) {
             }
 
             // ── Paper edge: bright left edge, dark right edge ────────
-            // Simulates the cut cross-section of the paper
             for (let b = 0; b < NOODLE_BANDS; b++) {
               const x  = dstX0 + shifts[b]
               const y  = barY + b * bandH
               const bh = bandH + 0.5   // slight overlap to avoid seams
 
-              // Left edge — bright highlight (paper surface)
               ctx.fillStyle = 'rgba(255,252,240,0.55)'
               ctx.fillRect(x, y, 1.5, bh)
 
-              // Right edge — darker shadow edge
               ctx.fillStyle = 'rgba(0,0,0,0.18)'
               ctx.fillRect(x + dstW - 1, y, 1, bh)
+            }
+
+            // ── Soft tip fade at bottom of strip ─────────────────────
+            // Feather the last 18px so the free end dissolves into air
+            const tipBands = 3
+            const tipStart = NOODLE_BANDS - tipBands
+            for (let b = tipStart; b < NOODLE_BANDS; b++) {
+              const norm   = (b - tipStart) / tipBands   // 0 → 1
+              const tipAlpha = (1 - norm) * 0.85
+              const x = dstX0 + shifts[b]
+              const y = barY  + b * bandH
+              const grad = ctx.createLinearGradient(x, y, x, y + bandH)
+              grad.addColorStop(0, `rgba(255,255,255,0)`)
+              grad.addColorStop(1, `rgba(255,255,255,${1 - tipAlpha})`)
+              ctx.fillStyle = grad
+              ctx.fillRect(x, y, dstW, bandH + 0.5)
             }
           }
           ctx.globalAlpha = 1
