@@ -68,7 +68,11 @@ export function ShredderLanding({ onComplete }: Props) {
         portfolioRef.current = true
         root.style.opacity       = '0'
         root.style.pointerEvents = 'none'
+        window.scrollTo(0, 0)
         document.body.style.overflow = ''
+        // Slide portfolio up from the bottom so the header rises into view
+        document.body.classList.add('portfolio-entering')
+        setTimeout(() => document.body.classList.remove('portfolio-entering'), 700)
         if (!completeFiredRef.current) {
           completeFiredRef.current = true
           onComplete()
