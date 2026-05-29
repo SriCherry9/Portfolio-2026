@@ -216,9 +216,15 @@ export function ShredderLanding({ onComplete }: Props) {
         </div>
       </div>
 
+      {/* Name + role */}
+      <div className="shredder-text">
+        <p className="shredder-name">Sri Cherry Kotamreddy</p>
+        <p className="shredder-role">Interaction Designer</p>
+      </div>
+
       {/* Hint */}
       <div ref={hintRef} className="shredder-hint">
-        <span className="shredder-hint-text">SCROLL TO SHRED</span>
+        <span className="shredder-hint-text">Scroll to enter</span>
         <span className="shredder-hint-line" />
       </div>
     </div>
