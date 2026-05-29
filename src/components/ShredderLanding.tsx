@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import './ShredderLanding.css'
 
-const STRIP_W    = 3
+const STRIP_W    = 18
 const MAX_AMP    = 240
 const IDLE_AMP   = 0.07
 const WAVE_SPEED = 2.4
