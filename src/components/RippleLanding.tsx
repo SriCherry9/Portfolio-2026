@@ -7,17 +7,17 @@ attribute vec2 aPos;
 varying   vec2 vUV;
 void main() {
   vUV         = aPos * 0.5 + 0.5;
-  vUV.y       = 1.0 - vUV.y;          /* flip Y to match image coords */
+  vUV.y       = 1.0 - vUV.y;
   gl_Position = vec4(aPos, 0.0, 1.0);
 }
 `
 
-// ── Fragment shader — glass-distortion effect ─────────────────────
-// uTex   = hero photo
-// uRipA  = ripple image for current stage (lower intensity)
-// uRipB  = ripple image for next stage   (higher intensity)
-// uBlend = 0→1 blend between A and B
-// uStrength = overall displacement strength (0 at p=0 → 1 at p=1)
+// ── Fragment shader ────────────────────────────────────────────────
+// The displacement has two components:
+//   1. A time-driven sinusoidal wave field — always animating
+//   2. The ripple image channels — shape + modulate the wave pattern
+// uStrength ramps 0→1 with scroll, controlling overall intensity.
+// At strength=0 the waves are very gentle (idle state), at 1 = full glass.
 const FRAG = `
 precision highp float;
 
@@ -25,51 +25,92 @@ uniform sampler2D uTex;
 uniform sampler2D uRipA;
 uniform sampler2D uRipB;
 uniform float     uBlend;
-uniform float     uStrength;
+uniform float     uStrength;   /* 0 = idle, 1 = full intensity */
 uniform float     uTime;
 uniform vec2      uResolution;
 
 varying vec2 vUV;
 
 void main() {
-  /* Cover-fit: map canvas UV → photo UV preserving aspect ratio */
-  vec2 canvasAR = uResolution / min(uResolution.x, uResolution.y);
-  vec2 photoAR  = vec2(1500.0, 2000.0) / 1500.0;  /* photo is 3:4 */
-  vec2 scale    = canvasAR / photoAR;
-  vec2 photoUV  = (vUV - 0.5) * scale + 0.5;
+  /* ── Cover-fit photo onto canvas ─────────────────────────────── */
+  /* Photo is portrait 3:4, canvas may be landscape */
+  float canvasW = uResolution.x;
+  float canvasH = uResolution.y;
+  float photoAR = 1500.0 / 2000.0;   /* 0.75 */
+  float canvasAR = canvasW / canvasH;
 
-  /* Sample displacement map — use red channel as dx, green as dy */
+  vec2 photoUV;
+  if (canvasAR > photoAR) {
+    /* canvas is wider — fit width, crop height */
+    float scale = canvasAR / photoAR;
+    photoUV = vec2(vUV.x, (vUV.y - 0.5) * scale + 0.5);
+  } else {
+    /* canvas is taller — fit height, crop width */
+    float scale = photoAR / canvasAR;
+    photoUV = vec2((vUV.x - 0.5) * scale + 0.5, vUV.y);
+  }
+
+  /* ── Ripple displacement maps ─────────────────────────────────── */
   vec4 ripA = texture2D(uRipA, vUV);
   vec4 ripB = texture2D(uRipB, vUV);
   vec4 rip  = mix(ripA, ripB, uBlend);
 
-  /* Subtle animated shimmer — keeps the glass alive */
-  float shimmer = sin(vUV.x * 18.0 + uTime * 1.1) * 0.004
-                + sin(vUV.y * 14.0 - uTime * 0.7) * 0.003;
+  /* Ripple luminance drives local wave amplitude */
+  float ripLum = dot(rip.rgb, vec3(0.299, 0.587, 0.114));
 
-  /* Displacement: ripple red/green channels offset the photo sample */
-  float maxDisp = 0.045;
-  vec2 disp = (rip.rg - 0.5) * 2.0 * maxDisp * uStrength + shimmer * uStrength;
+  /* ── Time-driven wave field — always alive ────────────────────── */
+  /* Multiple overlapping sine waves travelling in different directions */
+  float t   = uTime;
+  float u   = vUV.x;
+  float v   = vUV.y;
 
-  vec2 sampleUV = photoUV + disp;
-  /* Clamp so we don't sample outside the photo */
-  sampleUV = clamp(sampleUV, 0.001, 0.999);
+  /* Wave 1: diagonal, slow */
+  float w1x = sin((u * 6.0 + v * 4.0) + t * 0.55) * 0.5 + 0.5;
+  float w1y = cos((u * 5.0 - v * 7.0) + t * 0.40) * 0.5 + 0.5;
 
-  vec4 photo = texture2D(uTex, sampleUV);
+  /* Wave 2: tighter, faster — shaped by ripple image */
+  float w2x = sin((u * 12.0 + v * 9.0) * ripLum + t * 0.85) * 0.5 + 0.5;
+  float w2y = cos((u * 10.0 - v * 11.0) * ripLum - t * 0.70) * 0.5 + 0.5;
 
-  /* Glass highlight — overlay ripple luminance as bright streaks */
-  float ripLum = dot(rip.rgb, vec3(0.2126, 0.7152, 0.0722));
-  vec3  gloss  = vec3(0.45, 0.65, 1.0) * pow(ripLum, 2.2) * uStrength * 0.55;
+  /* Wave 3: very fine shimmer */
+  float w3x = sin(u * 22.0 + v * 18.0 + t * 1.3) * 0.5 + 0.5;
+  float w3y = cos(u * 19.0 - v * 21.0 - t * 1.1) * 0.5 + 0.5;
 
-  /* Subtle vignette */
-  float vig = 1.0 - dot(vUV - 0.5, vUV - 0.5) * 0.55;
+  /* Mix waves — ripple lum blends from coarse→fine */
+  vec2 wave = mix(
+    vec2(w1x, w1y),
+    mix(vec2(w2x, w2y), vec2(w3x, w3y), ripLum),
+    ripLum
+  );
+
+  /* ── Compute displacement ─────────────────────────────────────── */
+  /* Idle floor: very subtle waves always present (0.008 max offset) */
+  /* At full strength: up to 0.052 offset — strong glass distortion */
+  float idleAmp  = 0.008;
+  float maxAmp   = 0.052;
+  float amp      = idleAmp + (maxAmp - idleAmp) * uStrength;
+
+  vec2 disp = (wave - 0.5) * 2.0 * amp;
+
+  /* Extra: use ripple R/G channels as an additional directional push */
+  disp += (rip.rg - 0.5) * maxAmp * uStrength * 0.6;
+
+  vec2 sampleUV = clamp(photoUV + disp, 0.001, 0.999);
+  vec4 photo    = texture2D(uTex, sampleUV);
+
+  /* ── Glass highlight streaks from ripple bright areas ─────────── */
+  float crest = pow(ripLum, 2.0 - uStrength);
+  vec3  gloss = vec3(0.4, 0.6, 1.0) * crest * (0.08 + uStrength * 0.45);
+
+  /* ── Vignette ─────────────────────────────────────────────────── */
+  vec2  vd  = vUV - 0.5;
+  float vig = 1.0 - dot(vd, vd) * 0.5;
 
   vec3 col = photo.rgb * vig + gloss;
 
-  /* Colour-grade toward deep blue in shadows as effect intensifies */
+  /* ── Subtle blue shadow tint deepens with scroll ──────────────── */
   float lum = dot(col, vec3(0.2126, 0.7152, 0.0722));
-  vec3  tint = mix(vec3(0.0, 0.04, 0.18), vec3(1.0), lum);
-  col = mix(col, tint, uStrength * 0.25);
+  col = mix(col, mix(vec3(0.0, 0.03, 0.15), col, lum), uStrength * 0.22);
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -92,8 +133,8 @@ function makeProgram(gl: WebGLRenderingContext) {
   const buf = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, buf)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-    -1,-1, 1,-1, -1,1,
-     1,-1, 1, 1, -1,1,
+    -1,-1,  1,-1, -1, 1,
+     1,-1,  1, 1, -1, 1,
   ]), gl.STATIC_DRAW)
   const loc = gl.getAttribLocation(prog, 'aPos')
   gl.enableVertexAttribArray(loc)
@@ -101,7 +142,7 @@ function makeProgram(gl: WebGLRenderingContext) {
   return prog
 }
 
-function loadTexture(gl: WebGLRenderingContext, img: HTMLImageElement, unit: number) {
+function uploadTexture(gl: WebGLRenderingContext, img: HTMLImageElement, unit: number) {
   gl.activeTexture(gl.TEXTURE0 + unit)
   const tex = gl.createTexture()!
   gl.bindTexture(gl.TEXTURE_2D, tex)
@@ -135,13 +176,15 @@ const RIPPLE_SRCS = [
 interface Props { onComplete: () => void }
 
 export function RippleLanding({ onComplete }: Props) {
-  const canvasRef   = useRef<HTMLCanvasElement>(null)
-  const rootRef     = useRef<HTMLDivElement>(null)
-  const hintRef     = useRef<HTMLDivElement>(null)
-  const progressRef = useRef(0)
-  const rafRef      = useRef<number | undefined>(undefined)
-  const startRef    = useRef<number | null>(null)
-  const doneRef     = useRef(false)
+  const canvasRef      = useRef<HTMLCanvasElement>(null)
+  const rootRef        = useRef<HTMLDivElement>(null)
+  const hintRef        = useRef<HTMLDivElement>(null)
+  const targetRef      = useRef(0)          // raw scroll target
+  const displayRef     = useRef(0)          // smoothly lerped value used for rendering
+  const rafRef         = useRef<number | undefined>(undefined)
+  const startRef       = useRef<number | null>(null)
+  const prevTsRef      = useRef<number | null>(null)
+  const doneRef        = useRef(false)
 
   const startGL = useCallback(async () => {
     const canvas = canvasRef.current
@@ -150,7 +193,6 @@ export function RippleLanding({ onComplete }: Props) {
     const gl = canvas.getContext('webgl', { alpha: false })
     if (!gl) return
 
-    // Load all images in parallel
     const [heroImg, ...rippleImgs] = await Promise.all([
       loadImage('/images/hero-landing.jpg'),
       ...RIPPLE_SRCS.map(loadImage),
@@ -158,22 +200,22 @@ export function RippleLanding({ onComplete }: Props) {
 
     const prog = makeProgram(gl)
 
-    // Upload hero to unit 0
-    loadTexture(gl, heroImg, 0)
+    // Unit 0 = hero photo
+    uploadTexture(gl, heroImg, 0)
     gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0)
 
-    // Upload 5 ripple textures to units 1–5
-    const ripTextures = rippleImgs.map((img, i) => {
-      loadTexture(gl, img, i + 1)
+    // Units 1–5 = ripple stages
+    const ripUnits = rippleImgs.map((img, i) => {
+      uploadTexture(gl, img, i + 1)
       return i + 1
     })
 
-    const uBlend     = gl.getUniformLocation(prog, 'uBlend')
-    const uStrength  = gl.getUniformLocation(prog, 'uStrength')
-    const uTime      = gl.getUniformLocation(prog, 'uTime')
-    const uRes       = gl.getUniformLocation(prog, 'uResolution')
-    const uRipA      = gl.getUniformLocation(prog, 'uRipA')
-    const uRipB      = gl.getUniformLocation(prog, 'uRipB')
+    const uBlend    = gl.getUniformLocation(prog, 'uBlend')
+    const uStrength = gl.getUniformLocation(prog, 'uStrength')
+    const uTime     = gl.getUniformLocation(prog, 'uTime')
+    const uRes      = gl.getUniformLocation(prog, 'uResolution')
+    const uRipA     = gl.getUniformLocation(prog, 'uRipA')
+    const uRipB     = gl.getUniformLocation(prog, 'uRipB')
 
     const resize = () => {
       canvas.width  = window.innerWidth
@@ -184,35 +226,41 @@ export function RippleLanding({ onComplete }: Props) {
     window.addEventListener('resize', resize)
 
     const tick = (ts: number) => {
-      if (startRef.current === null) startRef.current = ts
-      const elapsed = (ts - startRef.current) / 1000
-      const p       = progressRef.current
+      if (startRef.current  === null) startRef.current  = ts
+      if (prevTsRef.current === null) prevTsRef.current = ts
 
-      // Map p (0→1) across 4 transitions between 5 images
-      // pos 0 = img1, pos 1 = img2, ..., pos 4 = img5
+      const elapsed = (ts - startRef.current)  / 1000
+      const dt      = Math.min((ts - prevTsRef.current) / 1000, 0.05)
+      prevTsRef.current = ts
+
+      // Smooth lerp: display progress chases target at ~4× per second
+      const LERP = 1 - Math.pow(0.012, dt)   // ~exp decay, frame-rate independent
+      displayRef.current += (targetRef.current - displayRef.current) * LERP
+      const p = displayRef.current
+
+      // Map smooth p across 4 transitions between 5 ripple images
       const pos    = p * 4
-      const stageA = Math.min(Math.floor(pos), 3)   // 0–3
-      const stageB = stageA + 1                      // 1–4
-      const blend  = pos - stageA                    // 0→1 within this transition
+      const stageA = Math.min(Math.floor(pos), 3)
+      const stageB = stageA + 1
+      const blend  = pos - stageA   // 0→1 within each transition
 
-      gl.uniform1i(uRipA, ripTextures[stageA])
-      gl.uniform1i(uRipB, ripTextures[stageB])
+      gl.uniform1i(uRipA, ripUnits[stageA])
+      gl.uniform1i(uRipB, ripUnits[stageB])
       gl.uniform1f(uBlend,    blend)
-      gl.uniform1f(uStrength, p)           // 0 = no distortion, 1 = full glass
+      gl.uniform1f(uStrength, p)
       gl.uniform1f(uTime,     elapsed)
       gl.uniform2f(uRes, canvas.width, canvas.height)
-
       gl.drawArrays(gl.TRIANGLES, 0, 6)
 
       if (hintRef.current) {
         hintRef.current.style.opacity = p > 0.04 ? '0' : '1'
       }
 
-      if (p >= 0.99 && !doneRef.current) {
+      if (p >= 0.985 && !doneRef.current) {
         doneRef.current = true
         const root = rootRef.current
-        if (root) { root.style.transition = 'opacity 0.65s ease'; root.style.opacity = '0' }
-        setTimeout(onComplete, 680)
+        if (root) { root.style.transition = 'opacity 0.7s ease'; root.style.opacity = '0' }
+        setTimeout(onComplete, 720)
       }
 
       rafRef.current = requestAnimationFrame(tick)
@@ -225,12 +273,12 @@ export function RippleLanding({ onComplete }: Props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
 
-    const DIVISOR = 2.8
+    const DIVISOR = 3.0
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
-      progressRef.current = Math.min(1, Math.max(0,
-        progressRef.current + e.deltaY / (window.innerHeight * DIVISOR)
+      targetRef.current = Math.min(1, Math.max(0,
+        targetRef.current + e.deltaY / (window.innerHeight * DIVISOR)
       ))
     }
 
@@ -239,9 +287,9 @@ export function RippleLanding({ onComplete }: Props) {
     const onTouchMove  = (e: TouchEvent) => {
       e.preventDefault()
       const dy = lastY - e.touches[0].clientY
-      lastY = e.touches[0].clientY
-      progressRef.current = Math.min(1, Math.max(0,
-        progressRef.current + dy / (window.innerHeight * DIVISOR)
+      lastY    = e.touches[0].clientY
+      targetRef.current = Math.min(1, Math.max(0,
+        targetRef.current + dy / (window.innerHeight * DIVISOR)
       ))
     }
 
@@ -265,15 +313,13 @@ export function RippleLanding({ onComplete }: Props) {
     <div ref={rootRef} className="ripple-root">
       <canvas ref={canvasRef} className="ripple-canvas" />
 
-      {/* Name + role overlay */}
       <div className="ripple-text">
         <p className="ripple-name-top">Sri Cherry Kotamreddy</p>
         <p className="ripple-role">Interaction Designer</p>
       </div>
 
-      {/* Scroll hint */}
       <div ref={hintRef} className="ripple-hint">
-        <span className="ripple-hint-label">SCROLL TO ENTER</span>
+        <span className="ripple-hint-label">Scroll to enter</span>
         <span className="ripple-hint-bar" />
       </div>
     </div>
