@@ -9,7 +9,6 @@ const PHASE_STEP   = 0.40
 const NOODLE_BANDS = 28   // more segments = smoother bend curve
 const NOODLE_BEND  = 4.0  // how much curvature along strip height
 const NOODLE_SPEED = 0.25 // base sway speed (slow, like seaweed)
-const STRIP_LEN    = 320  // base hanging length of each strip (px)
 const PULL_START   = 0.82 // shredFrac at which cloth-pull begins
 const SCROLL_FRAC = 0.40   // fraction of total scroll spent panning the newspaper
 
@@ -140,12 +139,15 @@ export function ShredderLanding({ onComplete }: Props) {
           const belowSrcY = srcY + barY * (srcH / H)
 
           // Cloth-pull phase: once shredding is 82% done the shredder
-          // sucks the strips back up — height collapses from 70% → 0
+          // sucks the strips back up — height collapses from full → 0
           const pullFrac  = shredFrac < PULL_START
             ? 0
             : (shredFrac - PULL_START) / (1 - PULL_START)          // 0 → 1
           const easedPull = pullFrac * pullFrac * (3 - 2 * pullFrac) // smooth-step
-          const stripH    = Math.min(below, STRIP_LEN * 0.7 * (1 - easedPull))
+          // Strip length = exactly how much paper has been shredded (below),
+          // so the strip always reaches from the bar down to screen bottom.
+          // During pull, that length collapses back to zero.
+          const stripH    = below * (1 - easedPull)
           const stripSrcH = stripH * (srcH / H)
           const bandH     = stripH > 0 ? stripH / NOODLE_BANDS : 0
           const bandSrcH  = stripSrcH > 0 ? stripSrcH / NOODLE_BANDS : 0
