@@ -4,54 +4,46 @@
   inset: 0;
   z-index: 9999;
   background: #000;
-  overflow: hidden;
 }
 
-/* ── Image layers — stacked, crossfaded by scroll ─────────────── */
-.ripple-layer {
-  position: absolute;
-  inset: 0;
-  will-change: opacity;
-}
-
-.ripple-img {
+.ripple-canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 /* ── Text overlay ─────────────────────────────────────────────── */
 .ripple-text {
   position: absolute;
-  bottom: 96px;
-  left: 56px;
+  bottom: 88px;
+  left: 52px;
   pointer-events: none;
   user-select: none;
-  z-index: 2;
 }
 
 .ripple-name-top {
   font-family: 'Golte', Georgia, serif;
-  font-size: clamp(28px, 4vw, 52px);
-  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(26px, 3.6vw, 48px);
+  color: rgba(255, 255, 255, 0.82);
   letter-spacing: -0.5px;
-  line-height: 1;
+  line-height: 1.1;
   margin-bottom: 8px;
+  text-shadow: 0 2px 24px rgba(0, 60, 180, 0.7);
 }
 
 .ripple-role {
   font-family: 'AvantGarde', 'Century Gothic', sans-serif;
-  font-size: 11px;
-  letter-spacing: 4px;
+  font-size: 10px;
+  letter-spacing: 5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(160, 200, 255, 0.75);
+  text-shadow: 0 1px 12px rgba(0, 80, 255, 0.5);
 }
 
 /* ── Scroll hint ──────────────────────────────────────────────── */
 .ripple-hint {
   position: absolute;
-  bottom: 40px;
+  bottom: 36px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -59,8 +51,7 @@
   align-items: center;
   gap: 10px;
   pointer-events: none;
-  transition: opacity 0.4s ease;
-  z-index: 2;
+  transition: opacity 0.5s ease;
 }
 
 .ripple-hint-label {
@@ -68,19 +59,19 @@
   font-size: 9px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(100, 160, 255, 0.75);
+  color: rgba(140, 190, 255, 0.7);
   user-select: none;
 }
 
 .ripple-hint-bar {
   display: block;
   width: 1px;
-  height: 30px;
-  background: linear-gradient(to bottom, rgba(80, 140, 255, 0.7), transparent);
-  animation: ripple-hint-pulse 1.8s ease-in-out infinite;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(100, 160, 255, 0.65), transparent);
+  animation: ripple-hint-pulse 1.9s ease-in-out infinite;
 }
 
 @keyframes ripple-hint-pulse {
-  0%, 100% { transform: scaleY(1);   opacity: 0.7; }
-  50%       { transform: scaleY(1.4); opacity: 0.3; }
+  0%, 100% { transform: scaleY(1);   opacity: 0.65; }
+  50%       { transform: scaleY(1.5); opacity: 0.2;  }
 }
