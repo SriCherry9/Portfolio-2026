@@ -138,8 +138,12 @@ export function ShredderLanding({ onComplete }: Props) {
           const belowSrcY = srcY + barY * (srcH / H)
           const belowSrcH = below * (srcH / H)
 
-          // Strips dissolve as bar nears the top
-          ctx.globalAlpha = Math.max(0, 1 - shredFrac * 1.1)
+          // Strips stay fully opaque for first 50% of shred, then dissolve
+          const fadeStart = 0.5
+          const fadeAlpha = shredFrac < fadeStart
+            ? 1
+            : Math.max(0, 1 - (shredFrac - fadeStart) / (1 - fadeStart))
+          ctx.globalAlpha = fadeAlpha
 
           for (let i = 0; i < numStrips; i++) {
             const dstX0 = i * STRIP_W
