@@ -1,343 +1,140 @@
-/* ===== SHREDDER LANDING OVERLAY ===== */
+/* ===================================================
+   SHREDDER LANDING — full-screen canvas overlay
+   =================================================== */
 
-.shredder-landing {
+.shredder-root {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  pointer-events: all;
+  /* opacity transition is applied imperatively when done */
 }
 
-.shredder-landing.shredder-exiting .shredder-viewport {
-  opacity: 0;
-  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.shredder-svg-defs {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-/* ===== VIEWPORT (sticky panel) ===== */
-
-.shredder-viewport {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: #0a0625;
-  transition: opacity 0s;
-}
-
-/* ===== PAPER LAYERS ===== */
-
-.paper-layer {
-  position: absolute;
-  inset: 0;
+.shredder-canvas {
+  display: block;
   width: 100%;
   height: 100%;
+  /* pixel dimensions set via JS; CSS just stretches it */
 }
 
-.paper-clean {
-  z-index: 3;
-  will-change: clip-path;
-}
+/* ===================================================
+   SHREDDER MACHINE BAR
+   =================================================== */
 
-.paper-shredded {
-  z-index: 2;
-  will-change: clip-path, filter;
-  transform-origin: top center;
-}
-
-.paper-shredded-inner {
-  position: absolute;
-  inset: 0;
-  filter: url(#shred-wave);
-}
-
-/* ===== PAPER CONTENT ===== */
-
-.paper-content {
-  width: 100%;
-  height: 100vh;
-  background: #F4EADE;
-  padding: 0;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Rainbow stripe at top - matches reference */
-.paper-rainbow-stripe {
-  height: 6px;
-  width: 100%;
-  background: linear-gradient(
-    to right,
-    #e35b5b 0%,
-    #e3875b 10%,
-    #e3c35b 20%,
-    #b3e35b 30%,
-    #5be387 40%,
-    #5be3c3 50%,
-    #5bb3e3 60%,
-    #5b5be3 70%,
-    #875be3 80%,
-    #c35be3 90%,
-    #e35bb3 100%
-  );
-}
-
-.paper-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 48px;
-}
-
-.paper-logo-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.paper-logo-img {
-  width: 36px;
-  height: 36px;
-}
-
-.paper-logo-text {
-  font-family: 'Golte', serif;
-  font-size: 22px;
-  color: #131313;
-  line-height: 1;
-}
-
-.paper-nav-links {
-  display: flex;
-  gap: 36px;
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 13px;
-  color: #131313;
-  letter-spacing: 0.02em;
-}
-
-.paper-nav-cta {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 13px;
-  color: #131313;
-  border: 1px solid #131313;
-  padding: 8px 18px;
-  border-radius: 100px;
-}
-
-.paper-hero {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 48px 48px 0 48px;
-  position: relative;
-}
-
-.paper-hero-text {
-  flex: 1;
-  max-width: 640px;
-}
-
-.paper-name {
-  font-family: 'Golte', serif;
-  font-size: clamp(52px, 7.5vw, 96px);
-  color: #131313;
-  line-height: 0.92;
-  margin-bottom: 28px;
-  letter-spacing: -0.02em;
-}
-
-.paper-tagline-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.paper-tagline-label {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 15px;
-  color: #767676;
-}
-
-.paper-tagline-role {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #131313;
-  background: #F0E8D0;
-  padding: 3px 12px;
-  border-radius: 100px;
-}
-
-.paper-bio {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 15px;
-  color: #767676;
-  max-width: 440px;
-  line-height: 1.65;
-}
-
-.paper-hero-visual {
-  width: 280px;
-  height: 280px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #E8E5DD;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.paper-hero-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.paper-hero-placeholder {
-  font-size: 80px;
-  line-height: 1;
-}
-
-/* Paper texture lines */
-.paper-lines {
-  position: absolute;
-  bottom: 0;
+.shredder-bar {
+  position: fixed;
   left: 0;
   right: 0;
-  height: 200px;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 28px,
-    rgba(0,0,0,0.04) 28px,
-    rgba(0,0,0,0.04) 29px
-  );
-  pointer-events: none;
-}
+  height: 46px;
+  /* top is set imperatively in rAF loop */
+  transform: translateY(-50%);
+  z-index: 10001;
 
-/* ===== SHREDDER MACHINE BAR ===== */
-
-.shredder-machine {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  height: 48px;
   display: flex;
   align-items: stretch;
-  background: linear-gradient(180deg,
-    #6a6a6a 0%,
-    #4a4a4a 15%,
-    #2e2e2e 40%,
-    #232323 55%,
-    #2e2e2e 70%,
-    #3e3e3e 85%,
-    #555555 100%
+
+  /* Metallic gradient — lighter edges, very dark centre */
+  background: linear-gradient(
+    180deg,
+    #808080 0%,
+    #606060 4%,
+    #3a3a3a 10%,
+    #1c1c1c 30%,
+    #141414 60%,
+    #1c1c1c 80%,
+    #484848 94%,
+    #707070 100%
   );
+
   box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.7),
-    0 2px 8px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
-  transform: translateY(-50%);
-  will-change: top;
+    0 6px 28px rgba(0, 0, 0, 0.7),
+    0 2px 8px  rgba(0, 0, 0, 0.5),
+    inset 0  1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
 }
 
-.shredder-teeth-left,
-.shredder-teeth-right {
+/* ── Slot sections (left & right) ───────────────────── */
+
+.shredder-slots {
   flex: 1;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
   display: flex;
   align-items: center;
-}
-
-.shredder-teeth-left::before,
-.shredder-teeth-right::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to right,
-    transparent 0px,
-    transparent 6px,
-    rgba(255,255,255,0.07) 6px,
-    rgba(255,255,255,0.07) 7px
-  );
-}
-
-.shredder-teeth-slots {
-  display: flex;
   gap: 5px;
-  padding: 0 12px;
+  padding: 9px 14px;
+  background: rgba(0, 0, 0, 0.45);
+  overflow: hidden;
 }
 
-.shredder-teeth-slots span {
-  display: block;
-  width: 3px;
-  height: 28px;
-  background: linear-gradient(180deg, #444 0%, #222 50%, #444 100%);
-  border-radius: 1px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+/* Individual teeth / slots that the paper passes through */
+.shredder-tooth {
+  flex: 1;
+  min-width: 6px;
+  max-width: 14px;
+  height: 24px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #2e2e2e 0%, #181818 50%, #2e2e2e 100%);
+  border: 1px solid #3e3e3e;
+  box-shadow:
+    inset 0  1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.04);
 }
 
-.shredder-center-body {
-  background: linear-gradient(180deg, #1c1c1c 0%, #111 100%);
-  border-left: 1px solid #555;
-  border-right: 1px solid #555;
-  padding: 0 28px;
+/* ── Centre body ─────────────────────────────────────── */
+
+.shredder-body {
+  min-width: 230px;
+  flex-shrink: 0;
+  background: #0c0c0c;
+  border-left:  1px solid #3c3c3c;
+  border-right: 1px solid #3c3c3c;
   display: flex;
   align-items: center;
-  gap: 14px;
-  white-space: nowrap;
-  min-width: 220px;
   justify-content: center;
+  gap: 14px;
+  padding: 0 24px;
 }
 
+/* Green LED indicator */
 .shredder-led {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #00ff41;
-  box-shadow: 0 0 6px #00ff41, 0 0 12px #00ff4180;
-  animation: shredder-blink 1.4s ease-in-out infinite;
+  background: #00e040;
+  box-shadow:
+    0 0  4px #00e040,
+    0 0 10px rgba(0, 224, 64, 0.5);
+  animation: shredder-blink 1.3s ease-in-out infinite;
   flex-shrink: 0;
 }
 
 @keyframes shredder-blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50%       { opacity: 0.35; }
 }
 
-.shredder-label-text {
-  font-family: 'AvantGarde', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: #e0e0e0;
+/* SHREDDER label */
+.shredder-label {
+  font-family: 'AvantGarde', 'Century Gothic', monospace, sans-serif;
+  font-size: 11px;
+  letter-spacing: 3.5px;
+  color: #d8d8d8;
   text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
 }
 
+/* Small dial knob */
 .shredder-dial {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #666, #222);
-  border: 1px solid #555;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  position: relative;
+  background: radial-gradient(circle at 38% 32%, #6a6a6a 0%, #1e1e1e 100%);
+  border: 1px solid #4a4a4a;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
   flex-shrink: 0;
+  position: relative;
 }
 
+/* Dial indicator line */
 .shredder-dial::after {
   content: '';
   position: absolute;
@@ -350,71 +147,43 @@
   border-radius: 1px;
 }
 
-/* ===== SCROLL HINT ===== */
+/* ===================================================
+   SCROLL HINT
+   =================================================== */
 
-.shredder-scroll-hint {
-  position: absolute;
-  bottom: 36px;
+.shredder-hint {
+  position: fixed;
+  bottom: 44px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 20;
+  z-index: 10001;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  /* opacity is updated imperatively */
+  transition: opacity 0.35s ease;
 }
 
-.shredder-scroll-hint.hint-hidden {
-  opacity: 0;
-}
-
-.scroll-hint-text {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 11px;
+.shredder-hint-text {
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: 10px;
   letter-spacing: 3px;
-  color: #F4EADE;
+  color: rgba(19, 19, 19, 0.45);
   text-transform: uppercase;
-  opacity: 0.7;
+  user-select: none;
 }
 
-.scroll-hint-arrow {
+.shredder-hint-line {
+  display: block;
   width: 1px;
   height: 32px;
-  background: linear-gradient(to bottom, rgba(244,234,222,0.7), transparent);
-  animation: scroll-pulse 1.5s ease-in-out infinite;
+  background: linear-gradient(to bottom, rgba(19, 19, 19, 0.4), transparent);
+  animation: hint-pulse 1.6s ease-in-out infinite;
 }
 
-@keyframes scroll-pulse {
-  0%, 100% { transform: scaleY(1); opacity: 0.7; }
-  50% { transform: scaleY(1.3); opacity: 0.4; }
-}
-
-/* ===== DARK SHRED BG ===== */
-
-.shredder-dark-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: radial-gradient(ellipse at 50% 60%, #1a0535 0%, #08021a 70%, #020010 100%);
-}
-
-/* ===== PROGRESS BAR ===== */
-
-.shredder-progress-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  z-index: 20;
-  background: rgba(255,255,255,0.08);
-}
-
-.shredder-progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, #00ff41, #7fff00);
-  box-shadow: 0 0 8px #00ff41;
-  transition: width 0.05s linear;
+@keyframes hint-pulse {
+  0%, 100% { transform: scaleY(1);   opacity: 0.7; }
+  50%       { transform: scaleY(1.3); opacity: 0.3; }
 }

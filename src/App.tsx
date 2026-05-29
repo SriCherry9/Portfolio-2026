@@ -1,4 +1,6 @@
+import { useState, useCallback } from 'react'
 import './App.css'
+import { ShredderLanding } from './components/ShredderLanding'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
@@ -84,6 +86,17 @@ const PROJECTS = [
 ]
 
 export default function App() {
+  const [landed, setLanded] = useState(() => sessionStorage.getItem('shredded') === '1')
+
+  const handleComplete = useCallback(() => {
+    sessionStorage.setItem('shredded', '1')
+    setLanded(true)
+  }, [])
+
+  if (!landed) {
+    return <ShredderLanding onComplete={handleComplete} />
+  }
+
   return (
     <>
       <Header />
