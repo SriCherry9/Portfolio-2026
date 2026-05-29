@@ -143,6 +143,7 @@ export function RippleLanding({ onComplete }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rootRef   = useRef<HTMLDivElement>(null)
   const hintRef   = useRef<HTMLDivElement>(null)
+  const videoRef  = useRef<HTMLVideoElement | null>(null)
   const targetRef = useRef(0)
   const smoothRef = useRef(0)
   const rafRef    = useRef<number | undefined>(undefined)
@@ -157,11 +158,12 @@ export function RippleLanding({ onComplete }: Props) {
 
     // ── Set up video element ────────────────────────────────────────
     const video = document.createElement('video')
-    video.src      = '/images/hero-landing.mp4'
-    video.loop     = true
-    video.muted    = true
+    video.src         = '/images/hero-landing.mp4'
+    video.loop        = true
+    video.muted       = true   // must start muted for autoplay policy
     video.playsInline = true
-    video.autoplay = true
+    video.autoplay    = true
+    videoRef.current  = video
 
     // WebGL texture that we'll update every frame from the video
     const videoTex = makeVideoTexture(gl, 0)
@@ -260,8 +262,19 @@ export function RippleLanding({ onComplete }: Props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
 
+    // Unmute on first scroll — browser requires a user gesture before audio plays
+    let unmuted = false
+    const unmute = () => {
+      if (unmuted) return
+      unmuted = true
+      // Re-grab the video from the GL setup via the closure in startGL.
+      // We store it on the ref so the handlers here can reach it.
+      videoRef.current!.muted = false
+    }
+
     const onWheel = (e: WheelEvent) => {
       e.preventDefault()
+      unmute()
       targetRef.current = Math.min(1, Math.max(0,
         targetRef.current + e.deltaY / (window.innerHeight * 2.8)
       ))
@@ -271,6 +284,7 @@ export function RippleLanding({ onComplete }: Props) {
     const onTouchStart = (e: TouchEvent) => { lastY = e.touches[0].clientY }
     const onTouchMove  = (e: TouchEvent) => {
       e.preventDefault()
+      unmute()
       const dy = lastY - e.touches[0].clientY
       lastY    = e.touches[0].clientY
       targetRef.current = Math.min(1, Math.max(0,
