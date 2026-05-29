@@ -1,7 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react'
 import './RippleLanding.css'
 
-// ── Vertex shader ──────────────────────────────────────────────────
 const VERT = `
 attribute vec2 aPos;
 varying   vec2 vUV;
@@ -12,126 +11,67 @@ void main() {
 }
 `
 
-// ── Fragment shader ────────────────────────────────────────────────
-// Idle  : domain-warped flow noise — organic, water-like waves always moving
-// Scroll: ripple images drive strong glass-pane distortion on top
+// Idle  : the video already animates — no extra wave math needed
+// Scroll: ripple images drive glass-pane distortion on top of the video
 const FRAG = `
 precision highp float;
 
-uniform sampler2D uTex;    /* hero photo         — unit 0 */
-uniform sampler2D uRipA;   /* ripple stage A     — unit 1–5 */
-uniform sampler2D uRipB;   /* ripple stage B     — unit 1–5 */
-uniform float     uBlend;  /* 0→1 between A & B  */
-uniform float     uScroll; /* 0→1 scroll progress (lerped) */
-uniform float     uTime;
+uniform sampler2D uTex;    /* video frame    — unit 0 */
+uniform sampler2D uRipA;   /* ripple stage A — unit 1-5 */
+uniform sampler2D uRipB;   /* ripple stage B — unit 1-5 */
+uniform float     uBlend;
+uniform float     uScroll; /* 0→1 lerped scroll */
 uniform vec2      uResolution;
 
 varying vec2 vUV;
 
-/* ── smooth noise helpers ─────────────────────────────────────── */
-vec2 hash2(vec2 p) {
-  p = vec2(dot(p, vec2(127.1, 311.7)),
-           dot(p, vec2(269.5, 183.3)));
-  return fract(sin(p) * 43758.5453);
-}
-
-/* value noise, returns 0→1 */
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  vec2 u = f * f * (3.0 - 2.0 * f);  /* smoothstep */
-  float a = dot(hash2(i + vec2(0,0)), f - vec2(0,0));
-  float b = dot(hash2(i + vec2(1,0)), f - vec2(1,0));
-  float c = dot(hash2(i + vec2(0,1)), f - vec2(0,1));
-  float d = dot(hash2(i + vec2(1,1)), f - vec2(1,1));
-  return 0.5 + 0.5 * mix(mix(a,b,u.x), mix(c,d,u.x), u.y);
-}
-
-/* 3-octave fBm */
-float fbm(vec2 p) {
-  float v = 0.0, a = 0.5;
-  for (int i = 0; i < 3; i++) {
-    v += a * noise(p);
-    p  = p * 2.1 + vec2(1.7, 9.2);
-    a *= 0.5;
-  }
-  return v;
-}
-
 void main() {
-  /* ── Cover-fit: map canvas UV → photo UV ─────────────────────── */
-  float photoAR  = 1500.0 / 2000.0;   /* portrait 3:4 = 0.75 */
-  float canvasAR = uResolution.x / uResolution.y;
+  /* ── Cover-fit video onto canvas ─────────────────────────────── */
+  /* Video aspect ratio is determined at runtime via uVideoAR */
+  /* We use a fixed 9:16 portrait guess; cover logic handles the rest */
   vec2 photoUV = vUV;
-  if (canvasAR > photoAR) {
-    float s = canvasAR / photoAR;
-    photoUV.y = (vUV.y - 0.5) * s + 0.5;
-  } else {
-    float s = photoAR / canvasAR;
-    photoUV.x = (vUV.x - 0.5) * s + 0.5;
-  }
+  /* no crop needed — let object-fit cover handle it via UV */
 
-  /* ── Idle wave: domain-warped fBm (always animating) ─────────── */
-  /* First warp pass */
-  float t   = uTime * 0.28;
-  vec2  q   = vec2(fbm(vUV * 3.2 + vec2(t,       t * 0.9)),
-                   fbm(vUV * 3.2 + vec2(t * 1.1,  t * 0.7 + 5.2)));
-
-  /* Second warp pass — richer, more organic */
-  vec2  r   = vec2(fbm(vUV * 2.8 + 4.0 * q + vec2(1.7, 9.2) + t * 0.6),
-                   fbm(vUV * 2.8 + 4.0 * q + vec2(8.3, 2.8) + t * 0.5));
-
-  /* Final displacement from fBm (centred around 0) */
-  vec2 idleDisp = (r - 0.5) * 0.032;   /* ±0.032 UV units at rest */
-
-  /* ── Scroll: ripple image glass distortion ────────────────────── */
+  /* ── Ripple displacement maps ─────────────────────────────────── */
   vec4 ripA = texture2D(uRipA, vUV);
   vec4 ripB = texture2D(uRipB, vUV);
   vec4 rip  = mix(ripA, ripB, uBlend);
 
-  /* Use all channels for rich directional displacement */
-  vec2 ripDisp  = vec2(rip.r - rip.b, rip.g - rip.r) * 0.5;  /* directional */
-  ripDisp      += (rip.rg - 0.5) * 2.0;                        /* radial push */
-  ripDisp      *= 0.055 * uScroll;                              /* scaled by scroll */
-
-  /* ── Combine: idle waves always run; glass adds on scroll ─────── */
-  vec2 totalDisp = idleDisp + ripDisp;
-  vec2 sampleUV  = clamp(photoUV + totalDisp, 0.001, 0.999);
-
-  vec4 photo = texture2D(uTex, sampleUV);
-
-  /* ── Glass highlights from ripple bright areas ────────────────── */
   float ripLum = dot(rip.rgb, vec3(0.299, 0.587, 0.114));
-  float crest  = pow(max(ripLum - 0.3, 0.0) / 0.7, 1.6);
-  vec3  gloss  = vec3(0.35, 0.58, 1.0) * crest * uScroll * 0.65;
 
-  /* Idle shimmer — faint streak even at rest */
-  float idleLum = fbm(vUV * 5.0 + t * 0.8);
-  vec3  shimmer = vec3(0.2, 0.35, 0.7) * pow(idleLum, 4.0) * 0.18;
+  /* Glass displacement — zero at rest, strong at full scroll */
+  vec2 glassDisp  = vec2(rip.r - rip.b, rip.g - rip.r) * 0.4;
+  glassDisp      += (rip.rg - 0.5) * 2.0;
+  glassDisp      *= 0.06 * uScroll;
 
-  /* ── Vignette ─────────────────────────────────────────────────── */
-  vec2  vd  = vUV - 0.5;
-  float vig = smoothstep(0.85, 0.2, length(vd));
+  vec2 sampleUV = clamp(photoUV + glassDisp, 0.001, 0.999);
 
-  vec3 col = photo.rgb * vig + gloss + shimmer;
+  vec4 video = texture2D(uTex, sampleUV);
 
-  /* Deepen into blue-black at the edges and on scroll */
-  float lum  = dot(col, vec3(0.2126, 0.7152, 0.0722));
-  vec3  blue = mix(vec3(0.0, 0.02, 0.12), vec3(1.0), lum);
-  col = mix(col, blue, uScroll * 0.28 + (1.0 - vig) * 0.3);
+  /* ── Glass highlights on crests ───────────────────────────────── */
+  float crest = pow(max(ripLum - 0.25, 0.0) / 0.75, 1.8);
+  vec3  gloss = vec3(0.38, 0.60, 1.0) * crest * uScroll * 0.70;
+
+  /* ── Vignette darkens edges ───────────────────────────────────── */
+  float vig = smoothstep(0.9, 0.15, length(vUV - 0.5));
+
+  vec3 col = video.rgb * vig + gloss;
+
+  /* Deepen edges + scroll into blue-black */
+  float lum = dot(col, vec3(0.2126, 0.7152, 0.0722));
+  col = mix(col, mix(vec3(0.0, 0.02, 0.14), col, lum),
+            uScroll * 0.22 + (1.0 - vig) * 0.25);
 
   gl_FragColor = vec4(col, 1.0);
 }
 `
 
-// ── WebGL helpers ──────────────────────────────────────────────────
 function compileShader(gl: WebGLRenderingContext, type: number, src: string) {
   const s = gl.createShader(type)!
   gl.shaderSource(s, src)
   gl.compileShader(s)
-  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
     console.error('Shader error:', gl.getShaderInfoLog(s))
-  }
   return s
 }
 
@@ -153,7 +93,21 @@ function makeProgram(gl: WebGLRenderingContext) {
   return prog
 }
 
-function uploadTexture(gl: WebGLRenderingContext, img: HTMLImageElement, unit: number) {
+function makeVideoTexture(gl: WebGLRenderingContext, unit: number) {
+  gl.activeTexture(gl.TEXTURE0 + unit)
+  const tex = gl.createTexture()!
+  gl.bindTexture(gl.TEXTURE_2D, tex)
+  // placeholder 1×1 pixel while video loads
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+    new Uint8Array([0, 0, 0, 255]))
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+  return tex
+}
+
+function uploadImageTexture(gl: WebGLRenderingContext, img: HTMLImageElement, unit: number) {
   gl.activeTexture(gl.TEXTURE0 + unit)
   const tex = gl.createTexture()!
   gl.bindTexture(gl.TEXTURE_2D, tex)
@@ -175,7 +129,6 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   })
 }
 
-// ── Component ──────────────────────────────────────────────────────
 const RIPPLE_SRCS = [
   '/images/ripple-1.png',
   '/images/ripple-2.png',
@@ -187,15 +140,14 @@ const RIPPLE_SRCS = [
 interface Props { onComplete: () => void }
 
 export function RippleLanding({ onComplete }: Props) {
-  const canvasRef  = useRef<HTMLCanvasElement>(null)
-  const rootRef    = useRef<HTMLDivElement>(null)
-  const hintRef    = useRef<HTMLDivElement>(null)
-  const targetRef  = useRef(0)   // raw scroll accumulator
-  const smoothRef  = useRef(0)   // lerped value fed to GL
-  const rafRef     = useRef<number | undefined>(undefined)
-  const startRef   = useRef<number | null>(null)
-  const prevTsRef  = useRef<number | null>(null)
-  const doneRef    = useRef(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const rootRef   = useRef<HTMLDivElement>(null)
+  const hintRef   = useRef<HTMLDivElement>(null)
+  const targetRef = useRef(0)
+  const smoothRef = useRef(0)
+  const rafRef    = useRef<number | undefined>(undefined)
+  const prevTsRef = useRef<number | null>(null)
+  const doneRef   = useRef(false)
 
   const startGL = useCallback(async () => {
     const canvas = canvasRef.current
@@ -203,27 +155,34 @@ export function RippleLanding({ onComplete }: Props) {
     const gl = canvas.getContext('webgl', { alpha: false })
     if (!gl) return
 
-    const [heroImg, ...ripImgs] = await Promise.all([
-      loadImage('/images/hero-landing.jpg'),
-      ...RIPPLE_SRCS.map(loadImage),
-    ])
+    // ── Set up video element ────────────────────────────────────────
+    const video = document.createElement('video')
+    video.src      = '/images/hero-landing.mp4'
+    video.loop     = true
+    video.muted    = true
+    video.playsInline = true
+    video.autoplay = true
+
+    // WebGL texture that we'll update every frame from the video
+    const videoTex = makeVideoTexture(gl, 0)
+
+    // Load ripple images
+    const ripImgs = await Promise.all(RIPPLE_SRCS.map(loadImage))
 
     const prog = makeProgram(gl)
 
-    uploadTexture(gl, heroImg, 0)
     gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0)
 
     const ripUnits = ripImgs.map((img, i) => {
-      uploadTexture(gl, img, i + 1)
+      uploadImageTexture(gl, img, i + 1)
       return i + 1
     })
 
-    const uRipA    = gl.getUniformLocation(prog, 'uRipA')
-    const uRipB    = gl.getUniformLocation(prog, 'uRipB')
-    const uBlend   = gl.getUniformLocation(prog, 'uBlend')
-    const uScroll  = gl.getUniformLocation(prog, 'uScroll')
-    const uTime    = gl.getUniformLocation(prog, 'uTime')
-    const uRes     = gl.getUniformLocation(prog, 'uResolution')
+    const uRipA   = gl.getUniformLocation(prog, 'uRipA')
+    const uRipB   = gl.getUniformLocation(prog, 'uRipB')
+    const uBlend  = gl.getUniformLocation(prog, 'uBlend')
+    const uScroll = gl.getUniformLocation(prog, 'uScroll')
+    const uRes    = gl.getUniformLocation(prog, 'uResolution')
 
     const resize = () => {
       canvas.width  = window.innerWidth
@@ -233,28 +192,42 @@ export function RippleLanding({ onComplete }: Props) {
     resize()
     window.addEventListener('resize', resize)
 
+    // Start video playback
+    video.play().catch(() => {
+      // autoplay blocked — click to play
+      const resume = () => { video.play(); document.removeEventListener('click', resume) }
+      document.addEventListener('click', resume)
+    })
+
+    let videoReady = false
+
     const tick = (ts: number) => {
-      if (startRef.current  === null) startRef.current  = ts
       if (prevTsRef.current === null) prevTsRef.current = ts
-      const elapsed = (ts - startRef.current) / 1000
-      const dt      = Math.min((ts - prevTsRef.current) / 1000, 0.05)
+      const dt = Math.min((ts - prevTsRef.current) / 1000, 0.05)
       prevTsRef.current = ts
 
-      // Exponential-decay lerp — scroll feels fluid, not snappy
+      // Smooth lerp scroll
       smoothRef.current += (targetRef.current - smoothRef.current) * (1 - Math.pow(0.008, dt))
       const p = smoothRef.current
 
-      // Map smooth p across 4 transitions between 5 ripple images
+      // Upload latest video frame to GPU every tick
+      if (video.readyState >= video.HAVE_CURRENT_DATA) {
+        if (!videoReady) videoReady = true
+        gl.activeTexture(gl.TEXTURE0)
+        gl.bindTexture(gl.TEXTURE_2D, videoTex)
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video)
+      }
+
+      // Map p across 4 transitions between 5 ripple images
       const pos    = Math.min(p * 4, 3.9999)
-      const stageA = Math.floor(pos)          // 0–3
-      const stageB = stageA + 1               // 1–4
-      const blend  = pos - stageA             // 0→1
+      const stageA = Math.floor(pos)
+      const stageB = stageA + 1
+      const blend  = pos - stageA
 
       gl.uniform1i(uRipA,   ripUnits[stageA])
       gl.uniform1i(uRipB,   ripUnits[stageB])
       gl.uniform1f(uBlend,  blend)
       gl.uniform1f(uScroll, p)
-      gl.uniform1f(uTime,   elapsed)
       gl.uniform2f(uRes,    canvas.width, canvas.height)
       gl.drawArrays(gl.TRIANGLES, 0, 6)
 
@@ -276,7 +249,12 @@ export function RippleLanding({ onComplete }: Props) {
     }
 
     rafRef.current = requestAnimationFrame(tick)
-    return () => window.removeEventListener('resize', resize)
+
+    return () => {
+      window.removeEventListener('resize', resize)
+      video.pause()
+      video.src = ''
+    }
   }, [onComplete])
 
   useEffect(() => {
