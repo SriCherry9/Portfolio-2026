@@ -101,9 +101,8 @@ export function ShredderLanding({ onComplete }: Props) {
         }
 
         if (below > 0) {
-          // Dark background shows through strip gaps
-          ctx.fillStyle = '#080808'
-          ctx.fillRect(0, barY, W, below)
+          // Clear to transparent — portfolio beneath shows through the gaps
+          ctx.clearRect(0, barY, W, below)
 
           // Velocity-reactive strip oscillation
           const velMag  = Math.min(Math.abs(vel), 1)
@@ -116,9 +115,13 @@ export function ShredderLanding({ onComplete }: Props) {
             disp[i] = Math.sin(i * PHASE_STEP + t * speed)
           }
 
-          const scaleX   = srcW / W
+          const scaleX    = srcW / W
           const belowSrcY = srcY + barY * (srcH / H)
           const belowSrcH = below * (srcH / H)
+
+          // Strips fade out as shredding nears completion — paper dissolves
+          const stripAlpha = Math.max(0, 1 - shredFrac * 1.1)
+          ctx.globalAlpha  = stripAlpha
 
           for (let i = 0; i < numStrips; i++) {
             const dstX0 = i * STRIP_W
@@ -136,18 +139,20 @@ export function ShredderLanding({ onComplete }: Props) {
               dstX0 + shift, barY, dstW, below
             )
           }
+
+          ctx.globalAlpha = 1  // restore
         }
 
         if (barRef.current) barRef.current.style.top = `${barY}px`
         if (hintRef.current) hintRef.current.style.opacity = '0'
 
-        // ── Done: overlay slides down, portfolio revealed ────────
+        // ── Done: strips are fully faded, just unmount the overlay ──
         if (shredFrac >= 0.99 && !doneRef.current) {
           doneRef.current = true
           const root = rootRef.current!
-          root.style.transition = 'transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)'
-          root.style.transform  = 'translateY(100vh)'
-          setTimeout(onComplete, 850)
+          root.style.transition = 'opacity 0.4s ease'
+          root.style.opacity    = '0'
+          setTimeout(onComplete, 450)
         }
       }
 

@@ -6,7 +6,8 @@
   position: fixed;
   inset: 0;
   z-index: 10000;
-  will-change: transform;
+  will-change: transform, opacity;
+  /* No background — transparent areas let the portfolio show through */
 }
 
 .shredder-canvas {
