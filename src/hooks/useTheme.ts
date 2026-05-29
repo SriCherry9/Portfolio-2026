@@ -4,10 +4,9 @@ type Theme = 'light' | 'dark'
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Read synchronously to avoid flash of wrong theme
+    // Default is always light — user can toggle after landing
     const stored = localStorage.getItem('theme') as Theme | null
-    const resolved =
-      stored ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    const resolved = stored ?? 'light'
     document.documentElement.setAttribute('data-theme', resolved)
     return resolved
   })
