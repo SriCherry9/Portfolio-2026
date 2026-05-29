@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react'
 import './ShredderLanding.css'
 
-const STRIP_W    = 18
-const MAX_AMP    = 55    // max horizontal throw kept subtle
-const IDLE_AMP   = 0.25  // gentle idle oscillation
-const WAVE_SPEED = 1.4   // slower, calmer wave
-const PHASE_STEP = 0.40
+const STRIP_W      = 18
+const MAX_AMP      = 55
+const IDLE_AMP     = 0.25
+const PHASE_STEP   = 0.40
+// Noodle parameters — each strip bends independently after shredding
+const NOODLE_BANDS = 14   // vertical segments per strip for bending
+const NOODLE_BEND  = 4.0  // how much curvature along strip height
+const NOODLE_SPEED = 0.25 // base sway speed (slow, like seaweed)
 const SCROLL_FRAC = 0.40   // fraction of total scroll spent panning the newspaper
 
 interface Props { onComplete: () => void }
@@ -39,7 +42,6 @@ export function ShredderLanding({ onComplete }: Props) {
 
     const img = new Image()
     img.src = '/images/newspaper.webp'
-    const disp = new Float32Array(Math.ceil(window.innerWidth / STRIP_W) + 2)
 
     // ── Render loop ──────────────────────────────────────────────────
     const tick = (ts: number) => {
@@ -125,20 +127,16 @@ export function ShredderLanding({ onComplete }: Props) {
           ctx.clearRect(0, barY, W, below)
 
           const velMag  = Math.min(Math.abs(vel), 1)
-          const velDir  = vel >= 0 ? 1 : -1
-          const speed   = WAVE_SPEED * (0.4 + velMag * 2.0) * velDir
           const ampFrac = IDLE_AMP + (1 - IDLE_AMP) * velMag
 
           const numStrips = Math.ceil(W / STRIP_W)
-          for (let i = 0; i < numStrips; i++) {
-            disp[i] = Math.sin(i * PHASE_STEP + t * speed)
-          }
-
           const scaleX    = srcW / W
           const belowSrcY = srcY + barY * (srcH / H)
           const belowSrcH = below * (srcH / H)
+          const bandH     = below / NOODLE_BANDS
+          const bandSrcH  = belowSrcH / NOODLE_BANDS
 
-          // Strips stay fully opaque for first 50% of shred, then dissolve
+          // Fade: full opacity first 50%, then dissolve
           const fadeStart = 0.5
           const fadeAlpha = shredFrac < fadeStart
             ? 1
@@ -149,14 +147,26 @@ export function ShredderLanding({ onComplete }: Props) {
             const dstX0 = i * STRIP_W
             const dstW  = Math.min(STRIP_W, W - dstX0)
             if (dstW <= 0) break
-            const depth = 0.55
-            const amp   = depth * depth * MAX_AMP * ampFrac
-            const shift = Math.round(disp[i] * amp)
-            ctx.drawImage(
-              img,
-              dstX0 * scaleX, belowSrcY, dstW * scaleX, belowSrcH,
-              dstX0 + shift, barY, dstW, below
-            )
+
+            // Each strip gets its own slow speed and starting phase — no two alike
+            const stripSpeed = NOODLE_SPEED * (0.7 + 0.6 * ((i * 13 + 5) % 10) / 10)
+            const stripPhase = i * PHASE_STEP + i * 0.19
+
+            // Render strip in NOODLE_BANDS vertical slices — each slice offset
+            // differently → strip bends like a ribbon/noodle
+            for (let b = 0; b < NOODLE_BANDS; b++) {
+              const norm = b / NOODLE_BANDS          // 0 = top, 1 = bottom
+              // Amplitude: zero at bar, grows quadratically downward
+              const amp   = norm * norm * MAX_AMP * ampFrac
+              const shift = Math.round(
+                Math.sin(stripPhase + norm * NOODLE_BEND + t * stripSpeed) * amp
+              )
+              ctx.drawImage(
+                img,
+                dstX0 * scaleX,  belowSrcY + b * bandSrcH,  dstW * scaleX,  bandSrcH,
+                dstX0 + shift,   barY      + b * bandH,      dstW,           bandH
+              )
+            }
           }
           ctx.globalAlpha = 1
         }
