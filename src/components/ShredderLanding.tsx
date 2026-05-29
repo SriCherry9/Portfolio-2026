@@ -133,8 +133,8 @@ export function ShredderLanding({ onComplete }: Props) {
           const numStrips = Math.ceil(W / STRIP_W)
           const scaleX    = srcW / W
           const belowSrcY = srcY + barY * (srcH / H)
-          // Each strip hangs freely — cap at STRIP_LEN so tips float in air
-          const stripH    = Math.min(below, STRIP_LEN)
+          // Strip length shrinks from STRIP_LEN → 0 as shredding completes
+          const stripH    = Math.min(below, STRIP_LEN * (1 - shredFrac))
           const stripSrcH = stripH * (srcH / H)
           const bandH     = stripH / NOODLE_BANDS
           const bandSrcH  = stripSrcH / NOODLE_BANDS
