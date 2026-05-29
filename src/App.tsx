@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { } from 'react'
 import './App.css'
 import { ShredderLanding } from './components/ShredderLanding'
 import { Header } from './components/Header'
@@ -86,12 +86,10 @@ const PROJECTS = [
 ]
 
 export default function App() {
-  const [landed, setLanded] = useState(false)
-  const onShredDone = useCallback(() => setLanded(true), [])
-
+  // ShredderLanding stays mounted forever — it manages its own show/hide
+  // so the reverse-shred (scroll up from portfolio top) works at any time.
   return (
     <>
-      {/* Portfolio always mounted beneath — revealed when shredder slides away */}
       <Header />
       <Hero />
       <section className="cards-section">
@@ -102,7 +100,7 @@ export default function App() {
       </section>
       <GardenFooter />
 
-      {!landed && <ShredderLanding onComplete={onShredDone} />}
+      <ShredderLanding onComplete={() => {}} />
     </>
   )
 }
