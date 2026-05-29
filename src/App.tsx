@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import './App.css'
-import { ShredderLanding } from './components/ShredderLanding'
+import { RippleLanding } from './components/RippleLanding'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
@@ -95,7 +95,7 @@ export default function App() {
   }, [])
 
   if (!landed) {
-    return <ShredderLanding onComplete={handleComplete} />
+    return <RippleLanding onComplete={handleComplete} />
   }
 
   return (
