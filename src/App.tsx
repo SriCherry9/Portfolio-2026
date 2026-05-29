@@ -86,31 +86,25 @@ const PROJECTS = [
 ]
 
 export default function App() {
-  // Always show shredder on fresh page load; sessionStorage skip only after explicit completion
   const [landed, setLanded] = useState(false)
 
-  const handleComplete = useCallback(() => {
-    sessionStorage.setItem('shredded', '1')
-    setLanded(true)
-  }, [])
-
-  if (!landed) {
-    return <RippleLanding onComplete={handleComplete} />
-  }
+  const handleComplete = useCallback(() => setLanded(true), [])
 
   return (
     <>
+      {/* Portfolio always mounted underneath — visible once landing slides away */}
       <Header />
       <Hero />
-
       <section className="cards-section">
         <p className="section-label">Selected Work</p>
         {PROJECTS.map((project, index) => (
           <ProjectCard key={project.id} project={project} index={index} />
         ))}
       </section>
-
       <GardenFooter />
+
+      {/* Landing overlays on top and slides up on scroll completion */}
+      {!landed && <RippleLanding onComplete={handleComplete} />}
     </>
   )
 }

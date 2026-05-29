@@ -245,14 +245,20 @@ export function RippleLanding({ onComplete }: Props) {
         hintRef.current.style.opacity = p > 0.05 ? '0' : '1'
       }
 
-      if (p >= 0.98 && !doneRef.current) {
+      // Slide the curtain upward in the final 30% of scroll
+      // p=0.70 → translateY(0),  p=1.0 → translateY(-100vh)
+      const root = rootRef.current
+      if (root) {
+        const slideStart = 0.70
+        const slideFrac  = Math.max(0, (p - slideStart) / (1 - slideStart))  // 0→1
+        // ease-out: decelerate as it exits
+        const eased = 1 - Math.pow(1 - slideFrac, 2)
+        root.style.transform = `translateY(${-eased * 100}vh)`
+      }
+
+      if (p >= 0.99 && !doneRef.current) {
         doneRef.current = true
-        const root = rootRef.current
-        if (root) {
-          root.style.transition = 'opacity 0.8s ease'
-          root.style.opacity    = '0'
-        }
-        setTimeout(onComplete, 850)
+        setTimeout(onComplete, 80)
       }
 
       rafRef.current = requestAnimationFrame(tick)
