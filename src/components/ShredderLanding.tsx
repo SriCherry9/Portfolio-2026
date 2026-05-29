@@ -152,20 +152,54 @@ export function ShredderLanding({ onComplete }: Props) {
             const stripSpeed = NOODLE_SPEED * (0.7 + 0.6 * ((i * 13 + 5) % 10) / 10)
             const stripPhase = i * PHASE_STEP + i * 0.19
 
-            // Render strip in NOODLE_BANDS vertical slices — each slice offset
-            // differently → strip bends like a ribbon/noodle
+            // Pre-compute band shifts so we can draw shadow pass first
+            const shifts: number[] = []
             for (let b = 0; b < NOODLE_BANDS; b++) {
-              const norm = b / NOODLE_BANDS          // 0 = top, 1 = bottom
-              // Amplitude: zero at bar, grows quadratically downward
-              const amp   = norm * norm * MAX_AMP * ampFrac
-              const shift = Math.round(
+              const norm = b / NOODLE_BANDS
+              const amp  = norm * norm * MAX_AMP * ampFrac
+              shifts[b]  = Math.round(
                 Math.sin(stripPhase + norm * NOODLE_BEND + t * stripSpeed) * amp
               )
+            }
+
+            // ── Shadow pass (drawn slightly offset, dark + blurred) ───
+            ctx.save()
+            ctx.shadowColor   = 'rgba(0,0,0,0.38)'
+            ctx.shadowBlur    = 5
+            ctx.shadowOffsetX = 3
+            ctx.shadowOffsetY = 2
+            for (let b = 0; b < NOODLE_BANDS; b++) {
               ctx.drawImage(
                 img,
                 dstX0 * scaleX,  belowSrcY + b * bandSrcH,  dstW * scaleX,  bandSrcH,
-                dstX0 + shift,   barY      + b * bandH,      dstW,           bandH
+                dstX0 + shifts[b], barY + b * bandH, dstW, bandH
               )
+            }
+            ctx.restore()
+
+            // ── Image pass ───────────────────────────────────────────
+            for (let b = 0; b < NOODLE_BANDS; b++) {
+              ctx.drawImage(
+                img,
+                dstX0 * scaleX,  belowSrcY + b * bandSrcH,  dstW * scaleX,  bandSrcH,
+                dstX0 + shifts[b], barY + b * bandH, dstW, bandH
+              )
+            }
+
+            // ── Paper edge: bright left edge, dark right edge ────────
+            // Simulates the cut cross-section of the paper
+            for (let b = 0; b < NOODLE_BANDS; b++) {
+              const x  = dstX0 + shifts[b]
+              const y  = barY + b * bandH
+              const bh = bandH + 0.5   // slight overlap to avoid seams
+
+              // Left edge — bright highlight (paper surface)
+              ctx.fillStyle = 'rgba(255,252,240,0.55)'
+              ctx.fillRect(x, y, 1.5, bh)
+
+              // Right edge — darker shadow edge
+              ctx.fillStyle = 'rgba(0,0,0,0.18)'
+              ctx.fillRect(x + dstW - 1, y, 1, bh)
             }
           }
           ctx.globalAlpha = 1
