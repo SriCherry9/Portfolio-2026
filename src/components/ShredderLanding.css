@@ -7,7 +7,9 @@
   inset: 0;
   z-index: 10000;
   will-change: transform, opacity;
-  /* No background — transparent areas let the portfolio show through */
+  /* Solid cover until the first canvas frame draws, then canvas
+     handles its own transparency for the shred gaps */
+  background: #F4EADE;
 }
 
 .shredder-canvas {
