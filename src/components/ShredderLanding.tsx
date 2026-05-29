@@ -29,7 +29,7 @@ export function ShredderLanding({ onComplete }: Props) {
   const progressRef  = useRef(0)
   const elapsedRef   = useRef(0)
   const lastTRef     = useRef<number | null>(null)
-  const rafRef       = useRef<number>()
+  const rafRef       = useRef<number | undefined>(undefined)
   const doneRef      = useRef(false)
 
   // Pre-allocated typed-array buffers (avoids per-frame GC)
@@ -217,7 +217,7 @@ export function ShredderLanding({ onComplete }: Props) {
         }
 
         // Push pixel data to the canvas
-        const view    = new Uint8ClampedArray(dst.buffer, 0, shredH * W * 4)
+        const view    = dst.slice(0, shredH * W * 4)
         const imgData = new ImageData(view, W, shredH)
         ctx.putImageData(imgData, 0, shredY)
       }

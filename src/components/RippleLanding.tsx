@@ -123,7 +123,7 @@ export function RippleLanding({ onComplete }: Props) {
   const rootRef     = useRef<HTMLDivElement>(null)
   const hintRef     = useRef<HTMLDivElement>(null)
   const progressRef = useRef(0)
-  const rafRef      = useRef<number>()
+  const rafRef      = useRef<number | undefined>(undefined)
   const startRef    = useRef<number | null>(null)
   const doneRef     = useRef(false)
 
