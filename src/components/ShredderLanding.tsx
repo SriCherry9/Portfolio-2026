@@ -119,15 +119,6 @@ export function ShredderLanding({ onComplete }: Props) {
         return
       }
 
-      // ── Reverse: shredder wakes back up ──────────────────────────
-      if (portfolioRef.current && raw < 0.99) {
-        portfolioRef.current = false
-        completeFiredRef.current = false
-        root.style.opacity       = '1'
-        root.style.pointerEvents = 'all'
-        document.body.style.overflow = 'hidden'
-      }
-
       if (portfolioRef.current) {
         rafRef.current = requestAnimationFrame(tick)
         return
@@ -285,16 +276,7 @@ export function ShredderLanding({ onComplete }: Props) {
     document.body.style.overflow = 'hidden'
 
     const onWheel = (e: WheelEvent) => {
-      if (portfolioRef.current) {
-        // Portfolio is active — only intercept a scroll-up at page top
-        if (e.deltaY < 0 && window.scrollY === 0) {
-          e.preventDefault()
-          const d = e.deltaY / (window.innerHeight * 2.8)
-          rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
-          velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
-        }
-        return
-      }
+      if (portfolioRef.current) return
       e.preventDefault()
       const d = e.deltaY / (window.innerHeight * 2.8)
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
@@ -325,15 +307,7 @@ export function ShredderLanding({ onComplete }: Props) {
       touchY = currentY
       lastTouchTime = e.timeStamp
 
-      if (portfolioRef.current) {
-        if (dy < 0 && window.scrollY === 0) {
-          e.preventDefault()
-          const d = dy / (window.innerHeight * TOUCH_DIV)
-          rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
-          velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
-        }
-        return
-      }
+      if (portfolioRef.current) return
       e.preventDefault()
       const d = dy / (window.innerHeight * TOUCH_DIV)
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
