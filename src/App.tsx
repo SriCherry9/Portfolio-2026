@@ -1,6 +1,9 @@
+import { } from 'react'
 import './App.css'
+import { ShredderLanding } from './components/ShredderLanding'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { AboutSection } from './components/AboutSection'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
 import { CashlessCover } from './components/covers/CashlessCover'
@@ -84,19 +87,22 @@ const PROJECTS = [
 ]
 
 export default function App() {
+  // ShredderLanding stays mounted forever — it manages its own show/hide
+  // so the reverse-shred (scroll up from portfolio top) works at any time.
   return (
     <>
       <Header />
       <Hero />
-
+      <AboutSection />
       <section className="cards-section">
         <p className="section-label">Selected Work</p>
         {PROJECTS.map((project, index) => (
           <ProjectCard key={project.id} project={project} index={index} />
         ))}
       </section>
-
       <GardenFooter />
+
+      <ShredderLanding onComplete={() => {}} />
     </>
   )
 }

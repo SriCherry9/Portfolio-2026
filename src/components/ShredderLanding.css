@@ -1,0 +1,195 @@
+/* ===================================================
+   SHREDDER LANDING — full-screen canvas overlay
+   =================================================== */
+
+.shredder-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  will-change: transform, opacity;
+  background: #F4EADE;
+  overflow: hidden;
+}
+
+.shredder-canvas {
+  display: block;
+  /* Natural pixel size — do NOT stretch with CSS width/height 100%
+     as that compresses the image when the mobile toolbar appears */
+  width: auto;
+  height: auto;
+}
+
+/* ===================================================
+   SHREDDER MACHINE BAR
+   =================================================== */
+
+.shredder-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 46px;
+  /* top is set imperatively in rAF loop */
+  transform: translateY(-50%);
+  z-index: 10001;
+
+  display: flex;
+  align-items: stretch;
+
+  /* Metallic gradient — lighter edges, very dark centre */
+  background: linear-gradient(
+    180deg,
+    #808080 0%,
+    #606060 4%,
+    #3a3a3a 10%,
+    #1c1c1c 30%,
+    #141414 60%,
+    #1c1c1c 80%,
+    #484848 94%,
+    #707070 100%
+  );
+
+  box-shadow:
+    0 6px 28px rgba(0, 0, 0, 0.7),
+    0 2px 8px  rgba(0, 0, 0, 0.5),
+    inset 0  1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* ── Slot sections (left & right) ───────────────────── */
+
+.shredder-slots {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 14px;
+  background: rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+/* Individual teeth / slots that the paper passes through */
+.shredder-tooth {
+  flex: 1;
+  min-width: 6px;
+  max-width: 14px;
+  height: 24px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #2e2e2e 0%, #181818 50%, #2e2e2e 100%);
+  border: 1px solid #3e3e3e;
+  box-shadow:
+    inset 0  1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.04);
+}
+
+/* ── Centre body ─────────────────────────────────────── */
+
+.shredder-body {
+  min-width: 230px;
+  flex-shrink: 0;
+  background: #0c0c0c;
+  border-left:  1px solid #3c3c3c;
+  border-right: 1px solid #3c3c3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 24px;
+}
+
+/* Green LED indicator */
+.shredder-led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00e040;
+  box-shadow:
+    0 0  4px #00e040,
+    0 0 10px rgba(0, 224, 64, 0.5);
+  animation: shredder-blink 1.3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes shredder-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* SHREDDER label */
+.shredder-label {
+  font-family: 'AvantGarde', 'Century Gothic', monospace, sans-serif;
+  font-size: 11px;
+  letter-spacing: 3.5px;
+  color: #d8d8d8;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Small dial knob */
+.shredder-dial {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #6a6a6a 0%, #1e1e1e 100%);
+  border: 1px solid #4a4a4a;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Dial indicator line */
+.shredder-dial::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 6px;
+  background: #aaa;
+  border-radius: 1px;
+}
+
+/* ===================================================
+   SCROLL HINT
+   =================================================== */
+
+.shredder-hint {
+  position: fixed;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  /* opacity is updated imperatively */
+  transition: opacity 0.35s ease;
+}
+
+.shredder-hint-text {
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(30, 20, 10, 0.55);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.shredder-hint-line {
+  display: block;
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(30, 20, 10, 0.45), transparent);
+  animation: hint-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  0%, 100% { transform: scaleY(1);   opacity: 0.7; }
+  50%       { transform: scaleY(1.3); opacity: 0.3; }
+}
