@@ -8,7 +8,6 @@ const ROLES = [
   'Accessibility Designer',
 ]
 
-/* Starting positions as % of viewport */
 const INITIAL_SHAPES = [
   { id: 'clover',    x: 11,  y: 18 },
   { id: 'squiggle',  x: 78,  y: 12 },
@@ -20,13 +19,18 @@ const INITIAL_SHAPES = [
 interface ShapePos { id: string; x: number; y: number }
 
 export function Hero() {
-  const [roleIndex, setRoleIndex]   = useState(0)
-  const [isExiting, setIsExiting]   = useState(false)
-  const [displayed, setDisplayed]   = useState(ROLES[0])
-  const [positions, setPositions]   = useState<ShapePos[]>(INITIAL_SHAPES)
-  const [dragging, setDragging]     = useState<string | null>(null)
-  const dragStart = useRef<{ mx: number; my: number; sx: number; sy: number } | null>(null)
-  const timerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [roleIndex, setRoleIndex] = useState(0)
+  const [isExiting, setIsExiting] = useState(false)
+  const [displayed, setDisplayed] = useState(ROLES[0])
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // All drag state lives in refs — zero re-renders during move
+  const positionsRef = useRef<ShapePos[]>(INITIAL_SHAPES.map(s => ({ ...s })))
+  const draggingRef  = useRef<string | null>(null)
+  const dragStart    = useRef<{ mx: number; my: number; sx: number; sy: number } | null>(null)
+
+  // Refs to the wrapper DOM nodes so we can move them with style directly
+  const nodeRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   /* Role ticker */
   useEffect(() => {
@@ -45,35 +49,53 @@ export function Hero() {
     return () => { clearInterval(id); if (timerRef.current) clearTimeout(timerRef.current) }
   }, [])
 
-  /* Drag handlers */
   const onPointerDown = useCallback((e: React.PointerEvent, id: string) => {
+    e.preventDefault()
     e.currentTarget.setPointerCapture(e.pointerId)
-    setDragging(id)
-    const pos = positions.find(p => p.id === id)!
-    dragStart.current = {
-      mx: e.clientX, my: e.clientY,
-      sx: pos.x,     sy: pos.y,
-    }
-  }, [positions])
+    draggingRef.current = id
+    const pos = positionsRef.current.find(p => p.id === id)!
+    dragStart.current = { mx: e.clientX, my: e.clientY, sx: pos.x, sy: pos.y }
 
-  const onPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!dragging || !dragStart.current) return
-    const dx = ((e.clientX - dragStart.current.mx) / window.innerWidth)  * 100
-    const dy = ((e.clientY - dragStart.current.my) / window.innerHeight) * 100
-    setPositions(prev => prev.map(p =>
-      p.id === dragging
-        ? { ...p, x: Math.max(0, Math.min(90, dragStart.current!.sx + dx)),
-                  y: Math.max(0, Math.min(88, dragStart.current!.sy + dy)) }
-        : p
-    ))
-  }, [dragging])
-
-  const onPointerUp = useCallback(() => {
-    setDragging(null)
-    dragStart.current = null
+    // Add dragging class directly on DOM node
+    const node = nodeRefs.current[id]
+    if (node) node.classList.add('dragging')
   }, [])
 
-  const pos = (id: string) => positions.find(p => p.id === id)!
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    const id = draggingRef.current
+    if (!id || !dragStart.current) return
+
+    const dx = ((e.clientX - dragStart.current.mx) / window.innerWidth)  * 100
+    const dy = ((e.clientY - dragStart.current.my) / window.innerHeight) * 100
+    const nx = Math.max(0, Math.min(90, dragStart.current.sx + dx))
+    const ny = Math.max(0, Math.min(88, dragStart.current.sy + dy))
+
+    // Update ref position
+    const p = positionsRef.current.find(p => p.id === id)!
+    p.x = nx
+    p.y = ny
+
+    // Move DOM node directly — no React re-render
+    const node = nodeRefs.current[id]
+    if (node) {
+      node.style.left = `${nx}%`
+      node.style.top  = `${ny}%`
+    }
+  }, [])
+
+  const onPointerUp = useCallback(() => {
+    const id = draggingRef.current
+    if (id) {
+      const node = nodeRefs.current[id]
+      if (node) node.classList.remove('dragging')
+    }
+    draggingRef.current = null
+    dragStart.current   = null
+  }, [])
+
+  const setRef = (id: string) => (el: HTMLDivElement | null) => {
+    nodeRefs.current[id] = el
+  }
 
   return (
     <section
@@ -81,12 +103,11 @@ export function Hero() {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
     >
-      {/* ── Draggable shapes ──────────────────────────────────────── */}
-
       {/* Purple clover — rotates */}
       <div
-        className={`dh-shape-wrap${dragging === 'clover' ? ' dragging' : ''}`}
-        style={{ left: `${pos('clover').x}%`, top: `${pos('clover').y}%` }}
+        ref={setRef('clover')}
+        className="dh-shape-wrap"
+        style={{ left: `${INITIAL_SHAPES[0].x}%`, top: `${INITIAL_SHAPES[0].y}%` }}
         onPointerDown={e => onPointerDown(e, 'clover')}
       >
         <svg viewBox="0 0 80 80" width="90" height="90" className="dh-rotate-svg">
@@ -99,8 +120,9 @@ export function Hero() {
 
       {/* Purple squiggle — noodle wiggle */}
       <div
-        className={`dh-shape-wrap${dragging === 'squiggle' ? ' dragging' : ''}`}
-        style={{ left: `${pos('squiggle').x}%`, top: `${pos('squiggle').y}%` }}
+        ref={setRef('squiggle')}
+        className="dh-shape-wrap"
+        style={{ left: `${INITIAL_SHAPES[1].x}%`, top: `${INITIAL_SHAPES[1].y}%` }}
         onPointerDown={e => onPointerDown(e, 'squiggle')}
       >
         <svg viewBox="0 0 60 110" width="55" height="100" className="dh-noodle-svg">
@@ -113,8 +135,9 @@ export function Hero() {
 
       {/* Teal daisy — fast spin */}
       <div
-        className={`dh-shape-wrap${dragging === 'daisy' ? ' dragging' : ''}`}
-        style={{ left: `${pos('daisy').x}%`, top: `${pos('daisy').y}%` }}
+        ref={setRef('daisy')}
+        className="dh-shape-wrap"
+        style={{ left: `${INITIAL_SHAPES[2].x}%`, top: `${INITIAL_SHAPES[2].y}%` }}
         onPointerDown={e => onPointerDown(e, 'daisy')}
       >
         <svg viewBox="0 0 100 100" width="105" height="105" className="dh-spin-svg">
@@ -128,8 +151,9 @@ export function Hero() {
 
       {/* Blue scalloped circle — slow rotate */}
       <div
-        className={`dh-shape-wrap${dragging === 'scallop' ? ' dragging' : ''}`}
-        style={{ left: `${pos('scallop').x}%`, top: `${pos('scallop').y}%` }}
+        ref={setRef('scallop')}
+        className="dh-shape-wrap"
+        style={{ left: `${INITIAL_SHAPES[3].x}%`, top: `${INITIAL_SHAPES[3].y}%` }}
         onPointerDown={e => onPointerDown(e, 'scallop')}
       >
         <svg viewBox="0 0 100 100" width="100" height="100" className="dh-rotate-slow-svg">
@@ -139,8 +163,9 @@ export function Hero() {
 
       {/* Dark teal hourglass — float + bob */}
       <div
-        className={`dh-shape-wrap dh-float-b${dragging === 'hourglass' ? ' dragging' : ''}`}
-        style={{ left: `${pos('hourglass').x}%`, top: `${pos('hourglass').y}%`, animationDelay: '1.2s' }}
+        ref={setRef('hourglass')}
+        className="dh-shape-wrap dh-float-b"
+        style={{ left: `${INITIAL_SHAPES[4].x}%`, top: `${INITIAL_SHAPES[4].y}%`, animationDelay: '1.2s' }}
         onPointerDown={e => onPointerDown(e, 'hourglass')}
       >
         <svg viewBox="0 0 70 110" width="65" height="100">
@@ -149,12 +174,10 @@ export function Hero() {
         </svg>
       </div>
 
-      {/* ── Centre text ─────────────────────────────────────────── */}
+      {/* ── Centre text ── */}
       <div className="dh-center">
-
         <h1 className="dh-name">
           <span className="dh-name-sri">Sri&nbsp;</span>
-          {/* C as actual font letter — orange, spinning */}
           <span className="dh-crescent" aria-label="C">C</span>
           <span className="dh-name-rest">herry&nbsp;</span>
           <span className="dh-name-last">Kotamreddy</span>
@@ -172,7 +195,6 @@ export function Hero() {
         <p className="dh-bio">
           Crafting intuitive interfaces at the intersection of research, interaction & AI.
         </p>
-
       </div>
     </section>
   )
