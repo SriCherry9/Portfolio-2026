@@ -4,19 +4,22 @@
 
 .shredder-root {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 10000;
   will-change: transform, opacity;
-  /* Solid cover until the first canvas frame draws, then canvas
-     handles its own transparency for the shred gaps */
   background: #F4EADE;
+  overflow: hidden;
 }
 
 .shredder-canvas {
   display: block;
-  width: 100%;
-  height: 100%;
-  /* pixel dimensions set via JS; CSS just stretches it */
+  /* Natural pixel size — do NOT stretch with CSS width/height 100%
+     as that compresses the image when the mobile toolbar appears */
+  width: auto;
+  height: auto;
 }
 
 /* ===================================================

@@ -39,20 +39,28 @@ export function ShredderLanding({ onComplete }: Props) {
     ctx.imageSmoothingQuality  = 'high'
     const root   = rootRef.current!
 
+    // Lock initial dimensions — height is frozen so mobile browser toolbar
+    // appearing/disappearing never resizes the canvas and compresses the image.
+    // Only update on genuine orientation changes (width changes).
+    let lockedW = window.innerWidth
+    let lockedH = window.innerHeight
+
+    canvas.width  = lockedW
+    canvas.height = lockedH
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
+
     const resize = () => {
-      const w = window.innerWidth
-      // Use visualViewport height if available (avoids mobile toolbar resize jitter)
-      const h = window.visualViewport ? window.visualViewport.height : window.innerHeight
-      canvas.width  = w
-      canvas.height = h
+      const newW = window.innerWidth
+      if (newW === lockedW) return  // height-only change (toolbar) — ignore
+      lockedW = newW
+      lockedH = window.innerHeight
+      canvas.width  = lockedW
+      canvas.height = lockedH
       ctx.imageSmoothingEnabled = true
       ctx.imageSmoothingQuality = 'high'
     }
-    resize()
     window.addEventListener('resize', resize)
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', resize)
-    }
 
     // ── Shredder audio ───────────────────────────────────────────────
     const audio = new Audio('/shredder.mp3')
@@ -333,8 +341,7 @@ export function ShredderLanding({ onComplete }: Props) {
     window.addEventListener('touchend',   onTouchEnd,   { passive: true  })
 
     return () => {
-      window.removeEventListener('resize',     resize)
-      if (window.visualViewport) window.visualViewport.removeEventListener('resize', resize)
+      window.removeEventListener('resize', resize)
       window.removeEventListener('wheel',      onWheel)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchmove',  onTouchMove)
