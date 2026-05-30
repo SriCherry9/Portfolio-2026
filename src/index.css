@@ -140,17 +140,189 @@
   50% { transform: translateY(-6px) rotate(-2deg); }
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== DANIEL-SUN STYLE HERO ===== */
 
-.hero-section {
+.dh-section {
+  position: relative;
   width: 100%;
-  max-width: 1440px;
-  padding: 80px 120px 100px;
+  min-height: 100vh;
+  background: var(--page-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Centre text block ── */
+.dh-center {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 0;
+  z-index: 2;
   position: relative;
+  max-width: 820px;
+  padding: 0 24px;
 }
+
+/* ── One-line name ── */
+.dh-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  line-height: 1.1;
+  margin: 0 0 20px;
+  gap: 0;
+}
+
+.dh-name-sri,
+.dh-name-rest,
+.dh-name-last {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(36px, 5.5vw, 72px);
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+/* C is now the real font letter, orange, spinning in place */
+.dh-crescent {
+  display: inline-block;
+  font-family: 'Golte', Georgia, serif;
+  font-size: inherit;
+  font-weight: 700;
+  color: #E8694A;
+  letter-spacing: inherit;
+  line-height: inherit;
+  animation: dh-crescent-spin 3.5s linear infinite;
+  transform-origin: 50% 55%;
+}
+
+@keyframes dh-crescent-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Role row ── */
+.dh-role-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.dh-role-label {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.dh-role-ticker {
+  overflow: hidden;
+  height: 1.6em;
+  display: flex;
+  align-items: center;
+}
+
+.dh-role-slide {
+  display: block;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 600;
+  color: #1A1A1A;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  animation: role-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.dh-role-slide.exiting {
+  animation: role-exit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* ── Bio ── */
+.dh-bio {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(13px, 1.2vw, 16px);
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 440px;
+  margin-bottom: 36px;
+}
+
+/* ── Free-floating draggable shapes ── */
+.dh-shape-wrap {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+  transition: filter 0.2s ease, transform 0.2s ease;
+  z-index: 3;
+}
+
+.dh-shape-wrap:hover {
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.18));
+  transform: scale(1.06);
+}
+
+.dh-shape-wrap.dragging {
+  cursor: grabbing;
+  filter: drop-shadow(0 18px 36px rgba(0,0,0,0.22));
+  transform: scale(1.1);
+  z-index: 10;
+  /* Pause float animation while dragging */
+  animation-play-state: paused !important;
+}
+
+/* Per-shape SVG animations — on the SVG itself so drag/hover transforms
+   on the wrapper don't conflict */
+
+/* Daisy: fast continuous spin */
+.dh-spin-svg        { animation: dh-spin      6s linear      infinite; }
+/* Clover: medium rotate */
+.dh-rotate-svg      { animation: dh-spin     12s linear      infinite; }
+/* Scallop: slow rotate reversed */
+.dh-rotate-slow-svg { animation: dh-spin-rev 16s linear      infinite; }
+/* Squiggle: side-to-side noodle wiggle */
+.dh-noodle-svg      { animation: dh-noodle    2s ease-in-out infinite; transform-origin: 50% 50%; }
+
+/* Wrapper float for hourglass */
+.dh-float-b { animation: dh-float-b 6.4s ease-in-out infinite; }
+
+.dh-shape-wrap.dragging .dh-spin-svg,
+.dh-shape-wrap.dragging .dh-rotate-svg,
+.dh-shape-wrap.dragging .dh-rotate-slow-svg,
+.dh-shape-wrap.dragging .dh-noodle-svg {
+  animation-play-state: paused;
+}
+
+@keyframes dh-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes dh-spin-rev {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+@keyframes dh-noodle {
+  0%   { transform: skewX(0deg)   skewY(0deg); }
+  20%  { transform: skewX(12deg)  skewY(4deg); }
+  40%  { transform: skewX(-10deg) skewY(-3deg); }
+  60%  { transform: skewX(8deg)   skewY(2deg); }
+  80%  { transform: skewX(-6deg)  skewY(-2deg); }
+  100% { transform: skewX(0deg)   skewY(0deg); }
+}
+@keyframes dh-float-b {
+  0%, 100% { transform: translateY(0px)  rotate(0deg); }
+  40%       { transform: translateY(12px) rotate(-3deg); }
+  70%       { transform: translateY(-9px) rotate(1.5deg); }
+}
+
 
 .hero-top {
   display: flex;
@@ -298,23 +470,203 @@
 .sticky-line:nth-child(2) { width: 75%; }
 .sticky-line:nth-child(3) { width: 55%; }
 
-/* Hero video block */
-.hero-video-block {
+
+/* ===== ABOUT SECTION ===== */
+
+.about-section {
   width: 100%;
-  max-width: 1021px;
-  margin: 60px auto 0;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--card-dark);
-  aspect-ratio: 16/9;
-  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 80px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.hero-video-block video {
+/* ── Reveal animation ── */
+.about-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition-delay: var(--delay, 0ms);
+}
+.about-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Full-width headline row ── */
+.about-headline-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 56px;
+}
+
+.about-kicker {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.about-headline {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(32px, 4.5vw, 62px);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.12;
+  margin: 0;
+}
+
+/* ── Horizontal divider ── */
+.about-divider {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+  margin: 0;
+}
+
+/* ── Two-column philosophy ── */
+.about-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  padding: 56px 0;
+}
+
+.about-col-left {
+  display: flex;
+  align-items: flex-start;
+}
+
+.about-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.about-quote {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-style: italic;
+  font-weight: normal;
+  color: var(--text-primary);
+  line-height: 1.35;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-quote cite {
   display: block;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-top: 14px;
+}
+
+.about-body {
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Era rows ── */
+.about-eras {
+  display: flex;
+  flex-direction: column;
+  padding-top: 56px;
+}
+
+.about-era-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 48px;
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  align-items: start;
+}
+
+.about-era-row:first-child {
+  border-top: 1px solid rgba(0,0,0,0.07);
+}
+
+.about-era-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 3px;
+}
+
+.about-era-tag {
+  display: inline-block;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.07);
+  color: var(--text-secondary);
+  width: fit-content;
+}
+
+.about-era-tag--present {
+  background: #E8694A;
+  color: #fff;
+}
+
+.about-era-tag--future {
+  background: #1B5252;
+  color: #fff;
+}
+
+.about-era-year {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.about-era-body {
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.about-era-body strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ── Dark mode ── */
+html[data-theme="dark"] .about-divider {
+  background: rgba(255,255,255,0.1);
+}
+
+html[data-theme="dark"] .about-era-row {
+  border-color: rgba(255,255,255,0.08);
+}
+
+html[data-theme="dark"] .about-era-tag {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .about-section { padding: 72px 32px 80px; }
+  .about-two-col { grid-template-columns: 1fr; gap: 40px; }
+  .about-era-row { grid-template-columns: 1fr; gap: 16px; }
 }
 
 /* ===== PROJECT CARDS ===== */
@@ -593,123 +945,116 @@
 
 /* ===== HEADER ===== */
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  width: 100%;
-  background: var(--page-bg);
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+/* ===== PILL NAVIGATION ===== */
+
+.pill-header {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pill-nav {
+  pointer-events: all;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 120px;
-}
-
-.header-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.header-logo svg {
-  display: block;
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 48px;
-}
-
-.nav-link {
-  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  color: #8B1A1A;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.nav-link:hover {
-  opacity: 0.65;
-}
-
-/* ===== THEME TOGGLE ===== */
-
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px 6px;
+  gap: 6px;
+  background: rgba(248, 244, 238, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0,0,0,0.08);
   border-radius: 999px;
-  color: var(--text-secondary);
-  transition: color 0.2s ease;
-  flex-shrink: 0;
+  padding: 8px 12px 8px 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
 }
 
-/* Visible focus ring for keyboard users (WCAG 2.4.7, 2.4.11) */
-.theme-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
+.pill-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px 8px 2px 4px;
+  border-right: 1px solid rgba(0,0,0,0.1);
+  margin-right: 4px;
 }
 
-/* Remove outline on mouse click while keeping it for keyboard */
-.theme-toggle:focus:not(:focus-visible) {
-  outline: none;
+.pill-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
-.theme-toggle:hover {
-  color: var(--text-primary);
+.pill-link {
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #3a3a3a;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
-.theme-toggle-icon {
+.pill-link:hover {
+  background: rgba(0,0,0,0.06);
+  color: #1a1a1a;
+}
+
+.pill-theme-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-/* Track */
-.theme-toggle-track {
-  position: relative;
-  width: 40px;
-  height: 22px;
-  background: var(--tag-bg);
-  border-radius: 999px;
-  border: 1.5px solid rgba(0,0,0,0.12);
-  flex-shrink: 0;
-  transition: background 0.25s ease, border-color 0.25s ease;
-}
-
-/* Thumb */
-.theme-toggle-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 14px;
-  height: 14px;
-  background: #8B1A1A;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  transition: transform 0.25s ease, background 0.25s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #555;
+  margin-left: 4px;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
-/* Checked (dark) state — move thumb right */
-[aria-checked="true"] .theme-toggle-thumb {
-  transform: translateX(18px);
-  background: #E87878;
+.pill-theme-btn:hover {
+  background: rgba(0,0,0,0.07);
+  color: #111;
 }
 
-[aria-checked="true"] .theme-toggle-track {
-  background: #2a2621;
-  border-color: rgba(255,255,255,0.12);
+.pill-theme-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+html[data-theme="dark"] .pill-nav {
+  background: rgba(28, 24, 20, 0.88);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+html[data-theme="dark"] .pill-logo {
+  border-right-color: rgba(255,255,255,0.1);
+}
+
+html[data-theme="dark"] .pill-link {
+  color: #ccc;
+}
+
+html[data-theme="dark"] .pill-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+html[data-theme="dark"] .pill-theme-btn {
+  color: #aaa;
+}
+
+html[data-theme="dark"] .pill-theme-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
 
 /* ===== DARK MODE VARIABLES ===== */
@@ -731,6 +1076,24 @@ html[data-theme="dark"] {
 html[data-theme="dark"] .nav-link {
   color: #E87878;               /* 6.2:1 on #111 — passes AA */
 }
+
+/* ── Hero dark mode ── */
+html[data-theme="dark"] .dh-name-sri,
+html[data-theme="dark"] .dh-name-rest,
+html[data-theme="dark"] .dh-name-last,
+html[data-theme="dark"] .dh-role-slide {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .dh-shape-wrap {
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
+}
+
+html[data-theme="dark"] .dh-shape-wrap:hover {
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.6));
+}
+
+/* Shape colors stay vivid in dark — they're already saturated */
 
 /* Header border: black at 7% is invisible on dark bg */
 html[data-theme="dark"] .site-header {
