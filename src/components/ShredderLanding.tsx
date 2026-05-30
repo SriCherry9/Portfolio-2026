@@ -24,6 +24,9 @@ export function ShredderLanding({ onComplete }: Props) {
   const velRef          = useRef(0)    // scroll velocity
   const elapsedRef      = useRef(0)
   const lastTsRef       = useRef<number | null>(null)
+  const audioRef        = useRef<HTMLAudioElement | null>(null)
+  const scrollTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const audioPlayingRef = useRef(false)
   const rafRef          = useRef<number | undefined>(undefined)
   // true once we've handed off to portfolio; false when shredder is active
   const portfolioRef    = useRef(false)
@@ -44,6 +47,26 @@ export function ShredderLanding({ onComplete }: Props) {
     }
     resize()
     window.addEventListener('resize', resize)
+
+    // ── Shredder audio ───────────────────────────────────────────────
+    const audio = new Audio('/shredder.mp3')
+    audio.loop   = true
+    audio.volume = 0.55
+    audioRef.current = audio
+
+    const startAudio = () => {
+      if (audioPlayingRef.current) return
+      audio.play().then(() => { audioPlayingRef.current = true }).catch(() => {})
+    }
+    const stopAudio = () => {
+      if (!audioPlayingRef.current) return
+      audio.pause()
+      audioPlayingRef.current = false
+    }
+    const scheduleStop = () => {
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
+      scrollTimerRef.current = setTimeout(stopAudio, 180)
+    }
 
     const img = new Image()
     img.src = '/images/newspaper.webp'
@@ -256,6 +279,12 @@ export function ShredderLanding({ onComplete }: Props) {
       const d = e.deltaY / (window.innerHeight * 2.8)
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
       velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
+      // Play shredder sound only during active forward shredding phase
+      if (e.deltaY > 0 && rawRef.current > SCROLL_FRAC && rawRef.current < 0.99) {
+        startAudio(); scheduleStop()
+      } else {
+        scheduleStop()
+      }
     }
 
     let touchY = 0
@@ -278,6 +307,11 @@ export function ShredderLanding({ onComplete }: Props) {
       touchY = e.touches[0].clientY
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
       velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
+      if (d > 0 && rawRef.current > SCROLL_FRAC && rawRef.current < 0.99) {
+        startAudio(); scheduleStop()
+      } else {
+        scheduleStop()
+      }
     }
 
     window.addEventListener('wheel',      onWheel,      { passive: false })
@@ -291,6 +325,9 @@ export function ShredderLanding({ onComplete }: Props) {
       window.removeEventListener('touchmove',  onTouchMove)
       document.body.style.overflow = ''
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
+      audio.pause()
+      audioRef.current = null
     }
   }, [onComplete])
 
