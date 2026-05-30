@@ -140,17 +140,196 @@
   50% { transform: translateY(-6px) rotate(-2deg); }
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== DANIEL-SUN STYLE HERO ===== */
 
-.hero-section {
+.dh-section {
+  position: relative;
   width: 100%;
-  max-width: 1440px;
-  padding: 80px 120px 100px;
+  min-height: 100vh;
+  background: #EDE8DF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Centre text block ── */
+.dh-center {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0;
+  z-index: 2;
   position: relative;
 }
+
+.dh-pre {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #1A1A1A;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.dh-name {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  line-height: 1;
+  margin: 0;
+}
+
+.dh-crescent {
+  display: inline-flex;
+  align-items: center;
+  height: 0.9em;
+  margin-right: 1px;
+}
+
+.dh-crescent svg {
+  height: 100%;
+  width: auto;
+}
+
+.dh-name-rest {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(64px, 10vw, 130px);
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -3px;
+  line-height: 1;
+}
+
+.dh-last {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 400;
+  color: #1A1A1A;
+  letter-spacing: 0.01em;
+  margin-top: 4px;
+}
+
+.dh-role-row {
+  margin-top: 28px;
+}
+
+.dh-role-ticker {
+  overflow: hidden;
+  height: 1.4em;
+}
+
+.dh-role-slide {
+  display: block;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 400;
+  color: #555;
+  letter-spacing: 0.02em;
+  animation: role-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.dh-role-slide.exiting {
+  animation: role-exit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* ── Shape cards ── */
+.dh-card {
+  position: absolute;
+  background: #F0EBE3;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.dh-shape {
+  display: block;
+}
+
+/* Card positions */
+.dh-card--tl {
+  top: 14%;
+  left: 9%;
+  width: clamp(110px, 12vw, 170px);
+  height: clamp(110px, 12vw, 170px);
+}
+
+.dh-card--tr {
+  top: 10%;
+  right: 6%;
+  width: clamp(90px, 9vw, 140px);
+  height: clamp(150px, 18vw, 240px);
+}
+
+.dh-card--bl {
+  bottom: 14%;
+  left: 7%;
+  width: clamp(120px, 13vw, 185px);
+  height: clamp(120px, 13vw, 185px);
+}
+
+.dh-card--mr {
+  top: 46%;
+  right: 6%;
+  width: clamp(110px, 12vw, 175px);
+  height: clamp(110px, 12vw, 175px);
+}
+
+.dh-card--bc {
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(90px, 9vw, 140px);
+  height: clamp(130px, 14vw, 200px);
+}
+
+/* ── Animations ── */
+
+/* Gentle float up/down */
+@keyframes float-a {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(2deg); }
+  66%       { transform: translateY(6px) rotate(-1.5deg); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  40%       { transform: translateY(10px) rotate(-2deg); }
+  70%       { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes float-c {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-14px) scale(1.03); }
+}
+
+/* Slow continuous spin for the daisy */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.dh-float-a { animation: float-a 5.5s ease-in-out infinite; }
+.dh-float-b { animation: float-b 6.2s ease-in-out infinite; }
+.dh-float-c { animation: float-c 4.8s ease-in-out infinite; }
+
+/* Spin applies to the SVG inside the card, not the card itself */
+.dh-spin-slow .dh-shape { animation: spin-slow 9s linear infinite; }
+/* Card itself still floats */
+.dh-spin-slow { animation: float-a 7s ease-in-out infinite; animation-delay: 0.8s; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .dh-card--tl { top: 5%; left: 2%; }
+  .dh-card--tr { top: 4%; right: 2%; }
+  .dh-card--bl { bottom: 8%; left: 2%; }
+  .dh-card--mr { top: auto; bottom: 8%; right: 2%; }
+  .dh-card--bc { display: none; }
+}
+
 
 .hero-top {
   display: flex;
@@ -298,32 +477,6 @@
 .sticky-line:nth-child(2) { width: 75%; }
 .sticky-line:nth-child(3) { width: 55%; }
 
-/* ===== HERO TREE (3D canvas) ===== */
-
-.hero-tree-wrap {
-  width: 100%;
-  max-width: 640px;
-  margin: 32px auto 0;
-  position: relative;
-}
-
-.hero-tree-hint {
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  opacity: 0.7;
-}
-
-.hero-tree-canvas {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 20px;
-  overflow: hidden;
-  display: block;
-}
 
 /* ===== PROJECT CARDS ===== */
 
