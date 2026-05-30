@@ -157,43 +157,49 @@
 .dh-center {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 0;
   z-index: 2;
   position: relative;
+  max-width: 820px;
+  padding: 0 24px;
 }
 
-.dh-pre {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #1A1A1A;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-
+/* ── One-line name ── */
 .dh-name {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  line-height: 1.1;
+  margin: 0 0 20px;
   gap: 0;
-  line-height: 1;
-  margin: 0;
+}
+
+.dh-name-sri,
+.dh-name-rest,
+.dh-name-last {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(36px, 5.5vw, 72px);
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
 }
 
 .dh-crescent {
   display: inline-flex;
   align-items: center;
-  height: 1em;         /* exactly matches the cap-height */
-  margin-right: 0.02em;
+  height: 1em;
+  flex-shrink: 0;
 }
 
 .dh-crescent-svg {
-  /* Square so the arc stays proportional at any font size */
   height: 1em;
   width: 1em;
   display: block;
-  overflow: visible;   /* arc slightly overflows square — let it */
+  overflow: visible;
   animation: dh-crescent-spin 3.5s linear infinite;
   transform-origin: 50% 50%;
 }
@@ -203,48 +209,91 @@
   to   { transform: rotate(360deg); }
 }
 
-.dh-name-rest {
-  font-family: 'Golte', Georgia, serif;
-  font-size: clamp(64px, 10vw, 130px);
-  font-weight: 700;
-  color: #1A1A1A;
-  letter-spacing: -3px;
-  line-height: 1;
-}
-
-.dh-last {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: clamp(20px, 2.5vw, 30px);
-  font-weight: 400;
-  color: #1A1A1A;
-  letter-spacing: 0.01em;
-  margin-top: 4px;
-}
-
+/* ── Role row ── */
 .dh-role-row {
-  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.dh-role-label {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .dh-role-ticker {
   overflow: hidden;
-  /* Generous height so ascenders/descenders never clip */
-  height: 2em;
+  height: 1.6em;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .dh-role-slide {
   display: block;
   font-family: 'AvantGarde', sans-serif;
-  font-size: clamp(16px, 1.8vw, 22px);
-  font-weight: 400;
-  color: #555;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 600;
+  color: #1A1A1A;
   letter-spacing: 0.02em;
+  white-space: nowrap;
   animation: role-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .dh-role-slide.exiting {
   animation: role-exit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* ── Bio ── */
+.dh-bio {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(13px, 1.2vw, 16px);
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 440px;
+  margin-bottom: 36px;
+}
+
+/* ── CTA buttons ── */
+.dh-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.dh-btn {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.dh-btn--primary {
+  background: #1A1A1A;
+  color: #fff;
+}
+
+.dh-btn--primary:hover {
+  background: #E8694A;
+  transform: translateY(-2px);
+}
+
+.dh-btn--ghost {
+  background: transparent;
+  color: #1A1A1A;
+  border: 1.5px solid rgba(0,0,0,0.2);
+}
+
+.dh-btn--ghost:hover {
+  border-color: #1A1A1A;
+  transform: translateY(-2px);
 }
 
 /* ── Free-floating draggable shapes ── */
@@ -873,14 +922,25 @@ html[data-theme="dark"] .nav-link {
 }
 
 /* ── Hero dark mode ── */
-html[data-theme="dark"] .dh-pre,
+html[data-theme="dark"] .dh-name-sri,
 html[data-theme="dark"] .dh-name-rest,
-html[data-theme="dark"] .dh-last {
+html[data-theme="dark"] .dh-name-last,
+html[data-theme="dark"] .dh-role-slide {
   color: var(--text-primary);
 }
 
-html[data-theme="dark"] .dh-role-slide {
-  color: var(--text-secondary);
+html[data-theme="dark"] .dh-btn--primary {
+  background: var(--text-primary);
+  color: #111;
+}
+
+html[data-theme="dark"] .dh-btn--ghost {
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.2);
+}
+
+html[data-theme="dark"] .dh-btn--ghost:hover {
+  border-color: var(--text-primary);
 }
 
 html[data-theme="dark"] .dh-shape-wrap {
