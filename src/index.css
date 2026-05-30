@@ -184,17 +184,18 @@
 .dh-crescent {
   display: inline-flex;
   align-items: center;
-  /* Match the cap-height of the letter exactly */
-  height: 1em;
-  margin-right: -0.05em;
+  height: 1em;         /* exactly matches the cap-height */
+  margin-right: 0.02em;
 }
 
 .dh-crescent-svg {
+  /* Square so the arc stays proportional at any font size */
   height: 1em;
-  width: auto;
+  width: 1em;
   display: block;
-  animation: dh-crescent-spin 4s linear infinite;
-  transform-origin: center;
+  overflow: visible;   /* arc slightly overflows square — let it */
+  animation: dh-crescent-spin 3.5s linear infinite;
+  transform-origin: 50% 50%;
 }
 
 @keyframes dh-crescent-spin {
@@ -226,7 +227,10 @@
 
 .dh-role-ticker {
   overflow: hidden;
-  height: 1.4em;
+  /* Generous height so ascenders/descenders never clip */
+  height: 2em;
+  display: flex;
+  align-items: flex-start;
 }
 
 .dh-role-slide {
@@ -268,37 +272,49 @@
   animation-play-state: paused !important;
 }
 
-.dh-spin-svg {
-  animation: dh-spin 9s linear infinite;
-}
+/* Per-shape SVG animations — on the SVG itself so drag/hover transforms
+   on the wrapper don't conflict */
 
-.dh-shape-wrap.dragging .dh-spin-svg {
+/* Daisy: fast continuous spin */
+.dh-spin-svg        { animation: dh-spin      6s linear      infinite; }
+/* Clover: medium rotate */
+.dh-rotate-svg      { animation: dh-spin     12s linear      infinite; }
+/* Scallop: slow rotate reversed */
+.dh-rotate-slow-svg { animation: dh-spin-rev 16s linear      infinite; }
+/* Squiggle: side-to-side noodle wiggle */
+.dh-noodle-svg      { animation: dh-noodle    2s ease-in-out infinite; transform-origin: 50% 50%; }
+
+/* Wrapper float for hourglass */
+.dh-float-b { animation: dh-float-b 6.4s ease-in-out infinite; }
+
+.dh-shape-wrap.dragging .dh-spin-svg,
+.dh-shape-wrap.dragging .dh-rotate-svg,
+.dh-shape-wrap.dragging .dh-rotate-slow-svg,
+.dh-shape-wrap.dragging .dh-noodle-svg {
   animation-play-state: paused;
 }
 
-/* ── Float keyframes ── */
-@keyframes dh-float-a {
-  0%, 100% { transform: translateY(0px)   rotate(0deg); }
-  33%       { transform: translateY(-14px) rotate(3deg); }
-  66%       { transform: translateY(7px)   rotate(-2deg); }
+@keyframes dh-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes dh-spin-rev {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+@keyframes dh-noodle {
+  0%   { transform: skewX(0deg)   skewY(0deg); }
+  20%  { transform: skewX(12deg)  skewY(4deg); }
+  40%  { transform: skewX(-10deg) skewY(-3deg); }
+  60%  { transform: skewX(8deg)   skewY(2deg); }
+  80%  { transform: skewX(-6deg)  skewY(-2deg); }
+  100% { transform: skewX(0deg)   skewY(0deg); }
 }
 @keyframes dh-float-b {
   0%, 100% { transform: translateY(0px)  rotate(0deg); }
   40%       { transform: translateY(12px) rotate(-3deg); }
   70%       { transform: translateY(-9px) rotate(1.5deg); }
 }
-@keyframes dh-float-c {
-  0%, 100% { transform: translateY(0px)   scale(1); }
-  50%       { transform: translateY(-16px) scale(1.04); }
-}
-@keyframes dh-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.dh-float-a { animation: dh-float-a 5.5s ease-in-out infinite; }
-.dh-float-b { animation: dh-float-b 6.4s ease-in-out infinite; }
-.dh-float-c { animation: dh-float-c 4.9s ease-in-out infinite; }
 
 
 .hero-top {
@@ -855,6 +871,27 @@ html[data-theme="dark"] {
 html[data-theme="dark"] .nav-link {
   color: #E87878;               /* 6.2:1 on #111 — passes AA */
 }
+
+/* ── Hero dark mode ── */
+html[data-theme="dark"] .dh-pre,
+html[data-theme="dark"] .dh-name-rest,
+html[data-theme="dark"] .dh-last {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .dh-role-slide {
+  color: var(--text-secondary);
+}
+
+html[data-theme="dark"] .dh-shape-wrap {
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
+}
+
+html[data-theme="dark"] .dh-shape-wrap:hover {
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.6));
+}
+
+/* Shape colors stay vivid in dark — they're already saturated */
 
 /* Header border: black at 7% is invisible on dark bg */
 html[data-theme="dark"] .site-header {

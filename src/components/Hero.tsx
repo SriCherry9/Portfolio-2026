@@ -83,13 +83,13 @@ export function Hero() {
     >
       {/* ── Draggable shapes ──────────────────────────────────────── */}
 
-      {/* Purple clover */}
+      {/* Purple clover — rotates */}
       <div
-        className={`dh-shape-wrap dh-float-a${dragging === 'clover' ? ' dragging' : ''}`}
+        className={`dh-shape-wrap${dragging === 'clover' ? ' dragging' : ''}`}
         style={{ left: `${pos('clover').x}%`, top: `${pos('clover').y}%` }}
         onPointerDown={e => onPointerDown(e, 'clover')}
       >
-        <svg viewBox="0 0 80 80" width="90" height="90">
+        <svg viewBox="0 0 80 80" width="90" height="90" className="dh-rotate-svg">
           <circle cx="40" cy="22" r="18" fill="#C49DD8"/>
           <circle cx="40" cy="58" r="18" fill="#C49DD8"/>
           <circle cx="22" cy="40" r="18" fill="#C49DD8"/>
@@ -97,13 +97,13 @@ export function Hero() {
         </svg>
       </div>
 
-      {/* Purple squiggle */}
+      {/* Purple squiggle — noodle wiggle */}
       <div
-        className={`dh-shape-wrap dh-float-b${dragging === 'squiggle' ? ' dragging' : ''}`}
+        className={`dh-shape-wrap${dragging === 'squiggle' ? ' dragging' : ''}`}
         style={{ left: `${pos('squiggle').x}%`, top: `${pos('squiggle').y}%` }}
         onPointerDown={e => onPointerDown(e, 'squiggle')}
       >
-        <svg viewBox="0 0 60 110" width="55" height="100">
+        <svg viewBox="0 0 60 110" width="55" height="100" className="dh-noodle-svg">
           <path
             d="M30 8 C52 8 52 32 30 38 C8 44 8 68 30 74 C52 80 52 100 30 102"
             fill="none" stroke="#C49DD8" strokeWidth="14" strokeLinecap="round"
@@ -111,10 +111,10 @@ export function Hero() {
         </svg>
       </div>
 
-      {/* Teal daisy — spins */}
+      {/* Teal daisy — fast spin */}
       <div
-        className={`dh-shape-wrap dh-float-a${dragging === 'daisy' ? ' dragging' : ''}`}
-        style={{ left: `${pos('daisy').x}%`, top: `${pos('daisy').y}%`, animationDelay: '0.8s' }}
+        className={`dh-shape-wrap${dragging === 'daisy' ? ' dragging' : ''}`}
+        style={{ left: `${pos('daisy').x}%`, top: `${pos('daisy').y}%` }}
         onPointerDown={e => onPointerDown(e, 'daisy')}
       >
         <svg viewBox="0 0 100 100" width="105" height="105" className="dh-spin-svg">
@@ -126,18 +126,18 @@ export function Hero() {
         </svg>
       </div>
 
-      {/* Blue scalloped circle */}
+      {/* Blue scalloped circle — slow rotate */}
       <div
-        className={`dh-shape-wrap dh-float-c${dragging === 'scallop' ? ' dragging' : ''}`}
+        className={`dh-shape-wrap${dragging === 'scallop' ? ' dragging' : ''}`}
         style={{ left: `${pos('scallop').x}%`, top: `${pos('scallop').y}%` }}
         onPointerDown={e => onPointerDown(e, 'scallop')}
       >
-        <svg viewBox="0 0 100 100" width="100" height="100">
+        <svg viewBox="0 0 100 100" width="100" height="100" className="dh-rotate-slow-svg">
           <path d={scallop(50, 50, 36, 24)} fill="#2B62E8"/>
         </svg>
       </div>
 
-      {/* Dark teal hourglass */}
+      {/* Dark teal hourglass — float + bob */}
       <div
         className={`dh-shape-wrap dh-float-b${dragging === 'hourglass' ? ' dragging' : ''}`}
         style={{ left: `${pos('hourglass').x}%`, top: `${pos('hourglass').y}%`, animationDelay: '1.2s' }}
@@ -153,10 +153,19 @@ export function Hero() {
       <div className="dh-center">
         <span className="dh-pre">Sri</span>
         <h1 className="dh-name">
+          {/* Orange C — thick arc, same height as text, spins */}
           <span className="dh-crescent" aria-hidden="true">
-            <svg viewBox="0 0 54 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="dh-crescent-svg">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+              className="dh-crescent-svg" style={{ overflow: 'visible' }}>
+              {/* Thick arc: outer r=46, inner r=28, open on the right ~60° */}
               <path
-                d="M46 36C46 53.673 36.703 68 25 68C13.297 68 4 53.673 4 36C4 18.327 13.297 4 25 4C19 11 16 23 16 36C16 49 19 61 25 68C36.703 68 46 53.673 46 36Z"
+                d="
+                  M 73,27
+                  A 46,46 0 1,0 73,73
+                  L 60,73
+                  A 32,32 0 1,1 60,27
+                  Z
+                "
                 fill="#E8694A"
               />
             </svg>
