@@ -15,10 +15,9 @@ createRoot(document.getElementById('root')!).render(
         <Route element={<Layout />}>
           <Route path="/" element={<App />} />
           <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/case-study/cashless" element={<CashlessPage />} />
+          <Route path="/case-study/museo" element={<MuseoPage />} />
         </Route>
-        {/* Case study pages keep their own contextual nav */}
-        <Route path="/case-study/cashless" element={<CashlessPage />} />
-        <Route path="/case-study/museo" element={<MuseoPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
