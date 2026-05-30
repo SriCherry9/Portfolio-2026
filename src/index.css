@@ -296,7 +296,7 @@
   left: 0;
   cursor: grab;
   user-select: none;
-  touch-action: pan-y;
+  touch-action: auto;
   filter: drop-shadow(0 8px 20px rgba(0,0,0,0.13));
   z-index: 3;
   /* transform set by Matter.js each frame */
@@ -706,7 +706,7 @@ html[data-theme="dark"] .about-era-tag {
 .cards-section {
   width: 100%;
   max-width: 1440px;
-  padding: 0 120px 120px;
+  padding: 100px 120px 120px;
   display: flex;
   flex-direction: column;
   gap: 48px;
