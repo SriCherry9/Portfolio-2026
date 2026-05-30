@@ -7,8 +7,8 @@ export function Layout() {
   const [shredderKey, setShredderKey] = useState(0)
   const location = useLocation()
 
-  // Only show the shredder on the home page
-  const showShredder = location.pathname === '/'
+  // Only show the shredder after About has been clicked (key > 0), and only on home
+  const showShredder = shredderKey > 0 && location.pathname === '/'
 
   return (
     <>
