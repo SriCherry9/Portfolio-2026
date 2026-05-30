@@ -152,23 +152,14 @@ export function Hero() {
       {/* ── Centre text ─────────────────────────────────────────── */}
       <div className="dh-center">
 
-        {/* One-line name */}
         <h1 className="dh-name">
           <span className="dh-name-sri">Sri&nbsp;</span>
-          <span className="dh-crescent" aria-hidden="true">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
-              className="dh-crescent-svg" style={{ overflow: 'visible' }}>
-              <path
-                d="M 73,27 A 46,46 0 1,0 73,73 L 60,73 A 32,32 0 1,1 60,27 Z"
-                fill="#E8694A"
-              />
-            </svg>
-          </span>
+          {/* C as actual font letter — orange, spinning */}
+          <span className="dh-crescent" aria-label="C">C</span>
           <span className="dh-name-rest">herry&nbsp;</span>
           <span className="dh-name-last">Kotamreddy</span>
         </h1>
 
-        {/* Role ticker */}
         <div className="dh-role-row">
           <span className="dh-role-label">I design as a&nbsp;</span>
           <div className="dh-role-ticker">
@@ -178,15 +169,9 @@ export function Hero() {
           </div>
         </div>
 
-        {/* One-line bio + CTA */}
         <p className="dh-bio">
           Crafting intuitive interfaces at the intersection of research, interaction & AI.
         </p>
-
-        <div className="dh-actions">
-          <a href="#work"    className="dh-btn dh-btn--primary">View Work</a>
-          <a href="#about"   className="dh-btn dh-btn--ghost">About Me</a>
-        </div>
 
       </div>
     </section>
