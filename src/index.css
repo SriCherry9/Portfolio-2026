@@ -76,9 +76,6 @@
 
   #root {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 }
 
@@ -144,66 +141,68 @@
 
 .dh-section {
   position: relative;
+  display: block;
   width: 100%;
   min-height: 100vh;
   background: var(--page-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
 /* ── Centre text block ── */
 .dh-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 0;
-  z-index: 2;
-  position: relative;
-  max-width: 820px;
-  padding: 0 24px;
+  z-index: 4;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 40px;
 }
 
-/* ── One-line name ── */
-.dh-name {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
+/* ── Big editorial headline ── */
+.dh-hero-headline {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(28px, 4.8vw, 72px);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.12;
+  letter-spacing: -1px;
+  text-align: center;
   white-space: nowrap;
-  line-height: 1.1;
-  margin: 0 0 20px;
+  margin: 0 0 40px;
+}
+
+/* ── Divider ── */
+.dh-hero-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+  margin-bottom: 36px;
+}
+
+/* ── Lower block (name / role / bio / button) — centred ── */
+.dh-hero-lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
   gap: 0;
 }
 
-.dh-name-sri,
-.dh-name-rest,
-.dh-name-last {
+/* ── Name in blue ── */
+.dh-name-blue {
   font-family: 'Golte', Georgia, serif;
-  font-size: clamp(36px, 5.5vw, 72px);
+  font-size: clamp(18px, 2vw, 26px);
   font-weight: 700;
-  color: #1A1A1A;
-  letter-spacing: -1.5px;
-  line-height: 1.1;
-}
-
-/* C is now the real font letter, orange, spinning in place */
-.dh-crescent {
-  display: inline-block;
-  font-family: 'Golte', Georgia, serif;
-  font-size: inherit;
-  font-weight: 700;
-  color: #E8694A;
-  letter-spacing: inherit;
-  line-height: inherit;
-  animation: dh-crescent-spin 3.5s linear infinite;
-  transform-origin: 50% 55%;
-}
-
-@keyframes dh-crescent-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  color: #2B62E8;
+  margin: 0 0 12px;
 }
 
 /* ── Role row ── */
@@ -212,7 +211,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .dh-role-label {
@@ -247,36 +246,62 @@
 /* ── Bio ── */
 .dh-bio {
   font-family: 'AvantGarde', sans-serif;
-  font-size: clamp(13px, 1.2vw, 16px);
+  font-size: clamp(14px, 1.3vw, 18px);
   line-height: 1.65;
   color: var(--text-secondary);
-  max-width: 440px;
-  margin-bottom: 36px;
+  max-width: 520px;
+  margin-bottom: 28px;
+  text-align: center;
 }
 
-/* ── Free-floating draggable shapes ── */
+/* ── View Work button ── */
+.dh-view-work {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  padding: 10px 20px;
+  cursor: pointer;
+  pointer-events: all;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dh-view-work:hover {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+.dh-view-work svg {
+  transition: transform 0.2s ease;
+}
+
+.dh-view-work:hover svg {
+  transform: translateY(3px);
+}
+
+/* ── Physics shapes ── */
 .dh-shape-wrap {
   position: absolute;
+  top: 0;
+  left: 0;
   cursor: grab;
   user-select: none;
-  touch-action: none;
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
-  transition: filter 0.2s ease, transform 0.2s ease;
+  touch-action: auto;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.13));
   z-index: 3;
+  /* transform set by Matter.js each frame */
 }
 
-.dh-shape-wrap:hover {
-  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.18));
-  transform: scale(1.06);
-}
-
-.dh-shape-wrap.dragging {
+.dh-shape-wrap:active {
   cursor: grabbing;
-  filter: drop-shadow(0 18px 36px rgba(0,0,0,0.22));
-  transform: scale(1.1);
-  z-index: 10;
-  /* Pause float animation while dragging */
-  animation-play-state: paused !important;
 }
 
 /* Per-shape SVG animations — on the SVG itself so drag/hover transforms
@@ -475,12 +500,17 @@
 
 .about-section {
   width: 100%;
-  max-width: 1100px;
+  max-width: 100%;
+  background: #FB7C63;
   margin: 0 auto;
   padding: 100px 80px 120px;
   display: flex;
   flex-direction: column;
   gap: 0;
+  /* Override text tokens for orange background */
+  --text-primary:    #1a0f0a;
+  --text-secondary:  rgba(26,15,10,0.75);
+  --text-muted:      rgba(26,15,10,0.5);
 }
 
 /* ── Reveal animation ── */
@@ -621,8 +651,8 @@
 }
 
 .about-era-tag--present {
-  background: #E8694A;
-  color: #fff;
+  background: rgba(26,15,10,0.18);
+  color: #1a0f0a;
 }
 
 .about-era-tag--future {
@@ -673,8 +703,9 @@ html[data-theme="dark"] .about-era-tag {
 
 .cards-section {
   width: 100%;
-  max-width: 1440px;
-  padding: 0 120px 120px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 80px 120px;
   display: flex;
   flex-direction: column;
   gap: 48px;
@@ -979,6 +1010,11 @@ html[data-theme="dark"] .about-era-tag {
   padding: 2px 8px 2px 4px;
   border-right: 1px solid rgba(0,0,0,0.1);
   margin-right: 4px;
+  background: none;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  cursor: pointer;
 }
 
 .pill-links {
@@ -997,6 +1033,9 @@ html[data-theme="dark"] .about-era-tag {
   padding: 6px 14px;
   border-radius: 999px;
   transition: background 0.18s ease, color 0.18s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .pill-link:hover {
@@ -1408,29 +1447,6 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 /* ===== RESPONSIVE ===== */
-
-@media (max-width: 640px) {
-  .pill-header {
-    top: 12px;
-    padding: 0 12px;
-  }
-
-  .pill-nav {
-    width: 100%;
-    justify-content: space-between;
-    padding: 6px 10px 6px 8px;
-  }
-
-  .pill-links {
-    gap: 0;
-  }
-
-  .pill-link {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-}
-
 @media (max-width: 1024px) {
   .site-header {
     padding: 14px 40px;
