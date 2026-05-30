@@ -40,13 +40,19 @@ export function ShredderLanding({ onComplete }: Props) {
     const root   = rootRef.current!
 
     const resize = () => {
-      canvas.width  = window.innerWidth
-      canvas.height = window.innerHeight
+      const w = window.innerWidth
+      // Use visualViewport height if available (avoids mobile toolbar resize jitter)
+      const h = window.visualViewport ? window.visualViewport.height : window.innerHeight
+      canvas.width  = w
+      canvas.height = h
       ctx.imageSmoothingEnabled = true
       ctx.imageSmoothingQuality = 'high'
     }
     resize()
     window.addEventListener('resize', resize)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', resize)
+    }
 
     // ── Shredder audio ───────────────────────────────────────────────
     const audio = new Audio('/shredder.mp3')
@@ -354,6 +360,7 @@ export function ShredderLanding({ onComplete }: Props) {
 
     return () => {
       window.removeEventListener('resize',     resize)
+      if (window.visualViewport) window.visualViewport.removeEventListener('resize', resize)
       window.removeEventListener('wheel',      onWheel)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchmove',  onTouchMove)

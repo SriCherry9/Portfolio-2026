@@ -1408,6 +1408,29 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 /* ===== RESPONSIVE ===== */
+
+@media (max-width: 640px) {
+  .pill-header {
+    top: 12px;
+    padding: 0 12px;
+  }
+
+  .pill-nav {
+    width: 100%;
+    justify-content: space-between;
+    padding: 6px 10px 6px 8px;
+  }
+
+  .pill-links {
+    gap: 0;
+  }
+
+  .pill-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 1024px) {
   .site-header {
     padding: 14px 40px;
