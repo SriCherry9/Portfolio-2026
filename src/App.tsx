@@ -86,7 +86,7 @@ export default function App() {
   return (
     <>
       <Hero />
-      <section className="cards-section">
+      <section id="work" className="cards-section">
         <p className="section-label">Selected Work</p>
         {PROJECTS.map((project, index) => (
           <ProjectCard key={project.id} project={project} index={index} />

@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
 
 interface Props { onAboutClick: () => void }
@@ -7,27 +7,17 @@ export function Header({ onAboutClick }: Props) {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
   const navigate = useNavigate()
-  const location = useLocation()
 
   const goHome = () => {
-    if (location.pathname !== '/') {
-      navigate('/')
-      // After navigation, scroll to top on next tick
-      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 50)
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
+    navigate('/')
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 50)
   }
 
   const goWork = () => {
-    if (location.pathname !== '/') {
-      navigate('/')
-      setTimeout(() => {
-        document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    } else {
-      document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })
-    }
+    navigate('/#work')
+    setTimeout(() => {
+      document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
+    }, 80)
   }
 
   return (
