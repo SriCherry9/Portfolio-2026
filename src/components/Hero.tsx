@@ -175,14 +175,13 @@ export function Hero() {
     })
     Composite.add(world, bodies)
 
-    const mouse = Mouse.create(section)
-    // Remove all Matter.js listeners that call preventDefault and block scroll
+    // Bind to document so the section element itself never intercepts scroll events
+    const mouse = Mouse.create(document.body)
     mouse.element.removeEventListener('mousewheel',    (mouse as any).mousewheel)
     mouse.element.removeEventListener('DOMMouseScroll',(mouse as any).mousewheel)
     mouse.element.removeEventListener('touchstart',    (mouse as any).mousedown)
     mouse.element.removeEventListener('touchmove',     (mouse as any).mousemove)
     mouse.element.removeEventListener('touchend',      (mouse as any).mouseup)
-    // Re-add touch listeners as passive so scroll is never blocked
     mouse.element.addEventListener('touchstart', (mouse as any).mousedown, { passive: true })
     mouse.element.addEventListener('touchmove',  (mouse as any).mousemove, { passive: true })
     mouse.element.addEventListener('touchend',   (mouse as any).mouseup,   { passive: true })
