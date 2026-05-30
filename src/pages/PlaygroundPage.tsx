@@ -1,4 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 interface PlayItem {
   id: number
@@ -245,6 +247,24 @@ export function PlaygroundPage() {
 
   return (
     <div className="pg-page">
+      {/* Minimal header with back nav */}
+      <header className="pg-page-header">
+        <Link to="/" className="pg-back-link" aria-label="Back to home">
+          <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="13" cy="31" r="10" fill="#C41C1C" />
+            <circle cx="10" cy="27" r="3.5" fill="rgba(255,255,255,0.28)" />
+            <circle cx="32" cy="33" r="10" fill="#C41C1C" />
+            <circle cx="29" cy="29" r="3.5" fill="rgba(255,255,255,0.28)" />
+            <path d="M13 21 Q16 10 23 6" stroke="#2B6B2B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+            <path d="M32 23 Q29 12 23 6" stroke="#2B6B2B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+            <ellipse cx="33" cy="9" rx="7" ry="3.5" fill="#3A8C3A" transform="rotate(-38 33 9)" />
+          </svg>
+        </Link>
+
+        <p className="pg-page-title">Playground</p>
+
+        <ThemeToggle />
+      </header>
 
       {/* Full-screen infinite canvas */}
       <div

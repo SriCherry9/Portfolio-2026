@@ -1,11 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 export function CashlessPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoPlaying, setVideoPlaying] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const handlePlayVideo = () => {
@@ -22,6 +31,18 @@ export function CashlessPage() {
 
   return (
     <div className="cs-page cs-cashless">
+      {/* ── Nav ── */}
+      <header className={`cs-nav${scrolled ? ' cs-nav--scrolled' : ''}`}>
+        <Link to="/" className="cs-nav-back" aria-label="Back to portfolio">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+          <span>Portfolio</span>
+        </Link>
+        <div className="cs-nav-label">CASHLESS EXERCISE — QAPITA</div>
+        <ThemeToggle />
+      </header>
+
       {/* ── Hero / Cover ── */}
       <section className="cs-hero cs-hero--cashless">
         <div className="cs-hero-bg">
