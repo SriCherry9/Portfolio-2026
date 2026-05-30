@@ -93,7 +93,6 @@ export default function App() {
     <>
       <Header />
       <Hero />
-      <AboutSection />
       <section className="cards-section">
         <p className="section-label">Selected Work</p>
         {PROJECTS.map((project, index) => (
