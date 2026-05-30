@@ -261,7 +261,7 @@
   left: 0;
   cursor: grab;
   user-select: none;
-  touch-action: none;
+  touch-action: pan-y;
   filter: drop-shadow(0 8px 20px rgba(0,0,0,0.13));
   z-index: 3;
   /* transform set by Matter.js each frame */

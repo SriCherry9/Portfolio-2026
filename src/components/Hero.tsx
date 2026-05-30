@@ -9,31 +9,106 @@ const ROLES = [
   'Accessibility Designer',
 ]
 
-const SHAPES = [
-  // existing
-  { id: 'clover',          r: 42, w: 90,  h: 90  },
-  { id: 'squiggle',        r: 26, w: 55,  h: 100 },
-  { id: 'daisy',           r: 44, w: 105, h: 105 },
-  { id: 'scallop',         r: 42, w: 100, h: 100 },
-  { id: 'hourglass',       r: 32, w: 65,  h: 100 },
-  // new
-  { id: 'teal-sunflower',  r: 44, w: 95,  h: 95  },
-  { id: 'lavender-blob',   r: 44, w: 95,  h: 95  },
-  { id: 'blue-starburst',  r: 44, w: 95,  h: 95  },
-  { id: 'yellow-flower',   r: 40, w: 88,  h: 88  },
-  { id: 'orange-wave',     r: 28, w: 58,  h: 108 },
-  { id: 'lavender-petals', r: 40, w: 88,  h: 88  },
-  { id: 'blue-asterisk',   r: 38, w: 84,  h: 84  },
-  { id: 'teal-vase',       r: 32, w: 68,  h: 108 },
-  { id: 'blue-sparkle',    r: 44, w: 95,  h: 95  },
-  { id: 'teal-star',       r: 42, w: 90,  h: 90  },
-  { id: 'yellow-vase',     r: 30, w: 64,  h: 105 },
-  { id: 'yellow-sparkle',  r: 40, w: 90,  h: 90  },
-  { id: 'orange-daisy',    r: 42, w: 90,  h: 90  },
-  { id: 'blue-column',     r: 28, w: 58,  h: 108 },
+/* ── Shape catalogue ──────────────────────────────────────────────────────────
+   Each type has 2-3 size variants. Shapes of the same type share a spawn
+   column so they fall onto each other and stack naturally.
+   r = physics radius, w/h = visual bounding box
+──────────────────────────────────────────────────────────────────────────── */
+const SHAPE_DEFS = [
+  { type: 'clover',          variants: [
+    { r: 44, w: 92,  h: 92  },
+    { r: 30, w: 62,  h: 62  },
+    { r: 20, w: 42,  h: 42  },
+  ]},
+  { type: 'squiggle',        variants: [
+    { r: 26, w: 55,  h: 100 },
+    { r: 17, w: 36,  h: 66  },
+  ]},
+  { type: 'daisy',           variants: [
+    { r: 44, w: 105, h: 105 },
+    { r: 28, w: 66,  h: 66  },
+  ]},
+  { type: 'scallop',         variants: [
+    { r: 44, w: 100, h: 100 },
+    { r: 26, w: 60,  h: 60  },
+  ]},
+  { type: 'hourglass',       variants: [
+    { r: 32, w: 65,  h: 100 },
+    { r: 20, w: 40,  h: 62  },
+  ]},
+  { type: 'teal-sunflower',  variants: [
+    { r: 44, w: 95,  h: 95  },
+    { r: 28, w: 60,  h: 60  },
+    { r: 18, w: 38,  h: 38  },
+  ]},
+  { type: 'lavender-blob',   variants: [
+    { r: 44, w: 95,  h: 95  },
+    { r: 28, w: 60,  h: 60  },
+  ]},
+  { type: 'blue-starburst',  variants: [
+    { r: 44, w: 95,  h: 95  },
+    { r: 26, w: 56,  h: 56  },
+  ]},
+  { type: 'yellow-flower',   variants: [
+    { r: 40, w: 88,  h: 88  },
+    { r: 24, w: 52,  h: 52  },
+    { r: 15, w: 34,  h: 34  },
+  ]},
+  { type: 'orange-wave',     variants: [
+    { r: 28, w: 58,  h: 108 },
+    { r: 18, w: 38,  h: 70  },
+  ]},
+  { type: 'lavender-petals', variants: [
+    { r: 40, w: 88,  h: 88  },
+    { r: 24, w: 52,  h: 52  },
+  ]},
+  { type: 'blue-asterisk',   variants: [
+    { r: 38, w: 84,  h: 84  },
+    { r: 22, w: 48,  h: 48  },
+    { r: 14, w: 30,  h: 30  },
+  ]},
+  { type: 'teal-vase',       variants: [
+    { r: 32, w: 68,  h: 108 },
+    { r: 20, w: 42,  h: 68  },
+  ]},
+  { type: 'blue-sparkle',    variants: [
+    { r: 44, w: 95,  h: 95  },
+    { r: 26, w: 56,  h: 56  },
+    { r: 16, w: 34,  h: 34  },
+  ]},
+  { type: 'teal-star',       variants: [
+    { r: 42, w: 90,  h: 90  },
+    { r: 24, w: 52,  h: 52  },
+  ]},
+  { type: 'yellow-vase',     variants: [
+    { r: 30, w: 64,  h: 105 },
+    { r: 18, w: 38,  h: 62  },
+  ]},
+  { type: 'yellow-sparkle',  variants: [
+    { r: 40, w: 90,  h: 90  },
+    { r: 24, w: 54,  h: 54  },
+    { r: 14, w: 32,  h: 32  },
+  ]},
+  { type: 'orange-daisy',    variants: [
+    { r: 42, w: 90,  h: 90  },
+    { r: 26, w: 56,  h: 56  },
+  ]},
+  { type: 'blue-column',     variants: [
+    { r: 28, w: 58,  h: 108 },
+    { r: 18, w: 36,  h: 68  },
+  ]},
 ]
 
-const shapeMap = Object.fromEntries(SHAPES.map(s => [s.id, s]))
+/* Flatten to a single list with unique ids and a col index for spawn grouping */
+const SHAPES = SHAPE_DEFS.flatMap((def, typeIdx) =>
+  def.variants.map((v, vi) => ({
+    id:   `${def.type}-${vi}`,
+    type: def.type,
+    col:  typeIdx,
+    vi,
+    ...v,
+  }))
+)
 
 export function Hero() {
   const [roleIndex, setRoleIndex] = useState(0)
@@ -74,23 +149,27 @@ export function Hero() {
 
     const THICK = 60
     const buildWalls = (W: number, H: number) => [
-      Bodies.rectangle(W / 2, H + THICK / 2, W * 3, THICK, { isStatic: true, label: 'floor',  restitution: 0.5, friction: 0.3 }),
-      Bodies.rectangle(-THICK / 2, H / 2, THICK, H * 3,    { isStatic: true, label: 'wallL',  restitution: 0.5, friction: 0.1 }),
-      Bodies.rectangle(W + THICK / 2, H / 2, THICK, H * 3, { isStatic: true, label: 'wallR',  restitution: 0.5, friction: 0.1 }),
+      Bodies.rectangle(W / 2, H + THICK / 2, W * 3, THICK, { isStatic: true, label: 'floor', restitution: 0.45, friction: 0.4 }),
+      Bodies.rectangle(-THICK / 2, H / 2, THICK, H * 3,    { isStatic: true, label: 'wallL', restitution: 0.45, friction: 0.1 }),
+      Bodies.rectangle(W + THICK / 2, H / 2, THICK, H * 3, { isStatic: true, label: 'wallR', restitution: 0.45, friction: 0.1 }),
     ]
 
     let W = getW(), H = getH()
     const walls = buildWalls(W, H)
     Composite.add(world, walls)
 
-    const bodies = SHAPES.map((s, i) => {
-      const x = (W / (SHAPES.length + 1)) * (i + 1)
-      const y = 40 + (i % 6) * 28
+    const numCols = SHAPE_DEFS.length
+    const bodies = SHAPES.map(s => {
+      // Each type gets a column zone; variants of the same type spawn at the
+      // same x (±small jitter) but staggered y so they fall and pile up.
+      const baseX = (W / (numCols + 1)) * (s.col + 1)
+      const x = baseX + (s.vi % 2 === 0 ? -6 : 6)
+      const y = 30 + s.vi * 38
       return Bodies.circle(x, y, s.r, {
         label:       s.id,
-        restitution: 0.55,
-        friction:    0.05,
-        frictionAir: 0.010,
+        restitution: 0.50,
+        friction:    0.06,
+        frictionAir: 0.012,
         density:     0.0015,
       })
     })
@@ -108,11 +187,12 @@ export function Hero() {
     const runner = Runner.create()
     Runner.run(runner, engine)
 
+    const shapeById = Object.fromEntries(SHAPES.map(s => [s.id, s]))
     const syncDOM = () => {
       for (const b of bodies) {
         const node = nodeRefs.current[b.label]
         if (!node) continue
-        const s  = shapeMap[b.label]
+        const s  = shapeById[b.label]
         const hw = s.w / 2
         const hh = s.h / 2
         const { x, y } = b.position
@@ -150,7 +230,7 @@ export function Hero() {
           className="dh-shape-wrap"
           style={{ position: 'absolute', top: 0, left: 0, willChange: 'transform' }}
         >
-          {renderShape(s.id)}
+          {renderShape(s.type, s.w, s.h)}
         </div>
       ))}
 
@@ -177,16 +257,14 @@ export function Hero() {
   )
 }
 
-/* ── Shape SVGs ───────────────────────────────────────────────────────────── */
+/* ── Shape SVGs ── w/h passed so each variant scales correctly ───────────── */
 
-function renderShape(id: string) {
-  switch (id) {
-
-    /* ── Original 5 ── */
+function renderShape(type: string, w: number, h: number) {
+  switch (type) {
 
     case 'clover':
       return (
-        <svg viewBox="0 0 80 80" width="90" height="90" className="dh-rotate-svg">
+        <svg viewBox="0 0 80 80" width={w} height={h} className="dh-rotate-svg">
           <circle cx="40" cy="22" r="18" fill="#C49DD8"/>
           <circle cx="40" cy="58" r="18" fill="#C49DD8"/>
           <circle cx="22" cy="40" r="18" fill="#C49DD8"/>
@@ -196,7 +274,7 @@ function renderShape(id: string) {
 
     case 'squiggle':
       return (
-        <svg viewBox="0 0 60 110" width="55" height="100" className="dh-noodle-svg">
+        <svg viewBox="0 0 60 110" width={w} height={h} className="dh-noodle-svg">
           <path d="M30 8 C52 8 52 32 30 38 C8 44 8 68 30 74 C52 80 52 100 30 102"
             fill="none" stroke="#C49DD8" strokeWidth="14" strokeLinecap="round"/>
         </svg>
@@ -204,7 +282,7 @@ function renderShape(id: string) {
 
     case 'daisy':
       return (
-        <svg viewBox="0 0 100 100" width="105" height="105" className="dh-spin-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-spin-svg">
           {[0,45,90,135].map(a => (
             <ellipse key={a} cx="50" cy="50" rx="10" ry="32" fill="#4A9B7F"
               transform={`rotate(${a} 50 50)`}/>
@@ -215,25 +293,22 @@ function renderShape(id: string) {
 
     case 'scallop':
       return (
-        <svg viewBox="0 0 100 100" width="100" height="100" className="dh-rotate-slow-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-slow-svg">
           <path d={starPath(50, 50, 46, 36, 24)} fill="#2B62E8"/>
         </svg>
       )
 
     case 'hourglass':
       return (
-        <svg viewBox="0 0 70 110" width="65" height="100">
+        <svg viewBox="0 0 70 110" width={w} height={h}>
           <path d="M10 5 L60 5 Q60 5 38 52 Q60 99 60 105 L10 105 Q10 105 32 52 Q10 5 10 5 Z"
             fill="#1B5252"/>
         </svg>
       )
 
-    /* ── New shapes ── */
-
-    /* Teal 12-petal sunflower */
     case 'teal-sunflower':
       return (
-        <svg viewBox="0 0 100 100" width="95" height="95" className="dh-rotate-slow-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-slow-svg">
           {[0,30,60,90,120,150,180,210,240,270,300,330].map(a => (
             <ellipse key={a} cx="50" cy="24" rx="8" ry="16" fill="#4A9B7F"
               transform={`rotate(${a} 50 50)`}/>
@@ -242,10 +317,9 @@ function renderShape(id: string) {
         </svg>
       )
 
-    /* Lavender 8-petal rounded blob */
     case 'lavender-blob':
       return (
-        <svg viewBox="0 0 100 100" width="95" height="95" className="dh-spin-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-spin-svg">
           {[0,45,90,135,180,225,270,315].map(a => (
             <circle key={a}
               cx={50 + 26 * Math.cos(a * Math.PI / 180)}
@@ -256,18 +330,16 @@ function renderShape(id: string) {
         </svg>
       )
 
-    /* Dark navy 20-point spiky starburst */
     case 'blue-starburst':
       return (
-        <svg viewBox="0 0 100 100" width="95" height="95" className="dh-rotate-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-svg">
           <path d={starPath(50, 50, 46, 26, 20)} fill="#1B4B6B"/>
         </svg>
       )
 
-    /* Yellow 5-petal flower */
     case 'yellow-flower':
       return (
-        <svg viewBox="0 0 100 100" width="88" height="88" className="dh-rotate-slow-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-slow-svg">
           {[270,342,54,126,198].map(a => (
             <circle key={a}
               cx={50 + 24 * Math.cos(a * Math.PI / 180)}
@@ -278,28 +350,20 @@ function renderShape(id: string) {
         </svg>
       )
 
-    /* Orange wavy column */
     case 'orange-wave':
       return (
-        <svg viewBox="0 0 60 110" width="58" height="108" className="dh-noodle-svg">
-          <path d="
-            M14,5 L46,5
-            C46,18 54,26 46,36
-            C38,46 54,54 46,64
-            C38,74 54,82 46,92
-            L46,106 L14,106
-            C14,92 22,82 14,72
-            C6,62 22,54 14,44
-            C6,34 22,26 14,18
-            Z"
+        <svg viewBox="0 0 60 110" width={w} height={h} className="dh-noodle-svg">
+          <path d="M14,5 L46,5 C46,18 54,26 46,36 C38,46 54,54 46,64
+                   C38,74 54,82 46,92 L46,106 L14,106
+                   C14,92 22,82 14,72 C6,62 22,54 14,44
+                   C6,34 22,26 14,18 Z"
             fill="#E8694A"/>
         </svg>
       )
 
-    /* Lavender 8 pointed petals (elongated ellipses) */
     case 'lavender-petals':
       return (
-        <svg viewBox="0 0 100 100" width="88" height="88" className="dh-rotate-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-svg">
           {[0,45,90,135,180,225,270,315].map(a => (
             <ellipse key={a} cx="50" cy="50" rx="9" ry="38" fill="#C9B4E8"
               transform={`rotate(${a} 50 50)`}/>
@@ -308,10 +372,9 @@ function renderShape(id: string) {
         </svg>
       )
 
-    /* Blue 6-bar asterisk */
     case 'blue-asterisk':
       return (
-        <svg viewBox="0 0 100 100" width="84" height="84" className="dh-spin-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-spin-svg">
           {[0,30,60,90,120,150].map(a => (
             <rect key={a} x="44" y="12" width="12" height="76" rx="4" fill="#2B62E8"
               transform={`rotate(${a} 50 50)`}/>
@@ -319,67 +382,49 @@ function renderShape(id: string) {
         </svg>
       )
 
-    /* Dark teal wavy vase */
     case 'teal-vase':
       return (
-        <svg viewBox="0 0 70 110" width="68" height="108">
-          <path d="
-            M8,5 L62,5
-            Q58,20 46,28
-            Q62,42 46,56
-            Q62,70 62,90
-            Q62,106 35,106
-            Q8,106 8,90
-            Q8,70 24,56
-            Q8,42 24,28
-            Q12,20 8,5 Z"
-            fill="#1B5252"/>
+        <svg viewBox="0 0 70 110" width={w} height={h}>
+          <path d="M8,5 L62,5 Q58,20 46,28 Q62,42 46,56 Q62,70 62,90
+                   Q62,106 35,106 Q8,106 8,90 Q8,70 24,56 Q8,42 24,28
+                   Q12,20 8,5 Z" fill="#1B5252"/>
         </svg>
       )
 
-    /* Blue 8-point sharp sparkle star */
     case 'blue-sparkle':
       return (
-        <svg viewBox="0 0 100 100" width="95" height="95" className="dh-rotate-slow-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-slow-svg">
           <path d={starPath(50, 50, 46, 10, 8)} fill="#2B62E8"/>
         </svg>
       )
 
-    /* Teal 9-point star */
     case 'teal-star':
       return (
-        <svg viewBox="0 0 100 100" width="90" height="90" className="dh-rotate-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-svg">
           <path d={starPath(50, 50, 46, 26, 9)} fill="#4A9B7F"/>
         </svg>
       )
 
-    /* Yellow wavy vase with scalloped sides */
     case 'yellow-vase':
       return (
-        <svg viewBox="0 0 65 105" width="64" height="105">
-          <path d="
-            M6,5 L59,5
-            Q54,16 46,22 Q54,30 46,38 Q54,46 46,54
-            Q54,62 59,72
-            Q59,100 32,100
-            Q6,100 6,72
-            Q11,62 19,54 Q11,46 19,38 Q11,30 19,22 Q11,16 6,5 Z"
+        <svg viewBox="0 0 65 105" width={w} height={h}>
+          <path d="M6,5 L59,5 Q54,16 46,22 Q54,30 46,38 Q54,46 46,54
+                   Q54,62 59,72 Q59,100 32,100 Q6,100 6,72
+                   Q11,62 19,54 Q11,46 19,38 Q11,30 19,22 Q11,16 6,5 Z"
             fill="#F5D47E"/>
         </svg>
       )
 
-    /* Yellow 4-point sparkle */
     case 'yellow-sparkle':
       return (
-        <svg viewBox="0 0 100 100" width="90" height="90" className="dh-rotate-slow-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-rotate-slow-svg">
           <path d={starPath(50, 50, 46, 8, 4)} fill="#F5D47E"/>
         </svg>
       )
 
-    /* Orange/coral 9-petal rounded daisy */
     case 'orange-daisy':
       return (
-        <svg viewBox="0 0 100 100" width="90" height="90" className="dh-spin-svg">
+        <svg viewBox="0 0 100 100" width={w} height={h} className="dh-spin-svg">
           {[0,40,80,120,160,200,240,280,320].map(a => (
             <ellipse key={a} cx="50" cy="22" rx="10" ry="20" fill="#E8694A"
               transform={`rotate(${a} 50 50)`}/>
@@ -388,33 +433,22 @@ function renderShape(id: string) {
         </svg>
       )
 
-    /* Blue narrow column with scalloped/tooth sides */
     case 'blue-column':
       return (
-        <svg viewBox="0 0 60 110" width="58" height="108">
-          <path d="
-            M14,5 L46,5
-            Q46,14 38,18 Q46,22 38,26 Q46,30 38,34
-            Q46,38 38,42 Q46,46 38,50
-            Q46,54 38,58 Q46,62 38,66
-            Q46,70 38,74 Q46,78 38,82
-            Q46,86 38,90 Q46,94 46,105
-            L14,105
-            Q14,94 22,90 Q14,86 22,82 Q14,78 22,74
-            Q14,70 22,66 Q14,62 22,58
-            Q14,54 22,50 Q14,46 22,42
-            Q14,38 22,34 Q14,30 22,26
-            Q14,22 22,18 Q14,14 14,5 Z"
+        <svg viewBox="0 0 60 110" width={w} height={h}>
+          <path d="M14,5 L46,5 Q46,14 38,18 Q46,22 38,26 Q46,30 38,34
+                   Q46,38 38,42 Q46,46 38,50 Q46,54 38,58 Q46,62 38,66
+                   Q46,70 38,74 Q46,78 38,82 Q46,86 38,90 Q46,94 46,105
+                   L14,105 Q14,94 22,90 Q14,86 22,82 Q14,78 22,74
+                   Q14,70 22,66 Q14,62 22,58 Q14,54 22,50 Q14,46 22,42
+                   Q14,38 22,34 Q14,30 22,26 Q14,22 22,18 Q14,14 14,5 Z"
             fill="#2B62E8"/>
         </svg>
       )
 
-    default:
-      return null
+    default: return null
   }
 }
-
-/* ── Path helpers ─────────────────────────────────────────────────────────── */
 
 function starPath(cx: number, cy: number, outerR: number, innerR: number, points: number): string {
   const step = Math.PI / points
