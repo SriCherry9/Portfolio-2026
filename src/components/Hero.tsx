@@ -154,7 +154,7 @@ export function Hero() {
         <span className="dh-pre">Sri</span>
         <h1 className="dh-name">
           <span className="dh-crescent" aria-hidden="true">
-            <svg viewBox="0 0 54 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 54 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="dh-crescent-svg">
               <path
                 d="M46 36C46 53.673 36.703 68 25 68C13.297 68 4 53.673 4 36C4 18.327 13.297 4 25 4C19 11 16 23 16 36C16 49 19 61 25 68C36.703 68 46 53.673 46 36Z"
                 fill="#E8694A"

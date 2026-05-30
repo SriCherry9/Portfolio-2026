@@ -184,13 +184,22 @@
 .dh-crescent {
   display: inline-flex;
   align-items: center;
-  height: 0.9em;
-  margin-right: 1px;
+  /* Match the cap-height of the letter exactly */
+  height: 1em;
+  margin-right: -0.05em;
 }
 
-.dh-crescent svg {
-  height: 100%;
+.dh-crescent-svg {
+  height: 1em;
   width: auto;
+  display: block;
+  animation: dh-crescent-spin 4s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes dh-crescent-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .dh-name-rest {
