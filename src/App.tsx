@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
@@ -84,29 +83,6 @@ const PROJECTS = [
 ]
 
 export default function App() {
-  const enteredWork = useRef(false)
-
-  useEffect(() => {
-    const onScroll = () => {
-      const cardsEl = document.querySelector('.cards-section') as HTMLElement | null
-      if (!cardsEl) return
-      const cardsTop = cardsEl.offsetTop
-
-      // Mark as entered once they reach the work section
-      if (!enteredWork.current && window.scrollY >= cardsTop) {
-        enteredWork.current = true
-      }
-
-      // Once entered, clamp scroll so they can't drift back into the hero
-      if (enteredWork.current && window.scrollY < cardsTop) {
-        window.scrollTo({ top: cardsTop, behavior: 'instant' })
-      }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
   return (
     <>
       <Hero />

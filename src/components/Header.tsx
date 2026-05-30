@@ -1,25 +1,40 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
-
-const scrollTo = (selector: string) => {
-  document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' })
-}
 
 interface Props { onAboutClick: () => void }
 
 export function Header({ onAboutClick }: Props) {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const goHome = () => {
+    if (location.pathname !== '/') {
+      navigate('/')
+      // After navigation, scroll to top on next tick
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 50)
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  const goWork = () => {
+    if (location.pathname !== '/') {
+      navigate('/')
+      setTimeout(() => {
+        document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    } else {
+      document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
     <header className="pill-header">
       <nav className="pill-nav">
-        {/* Cherry logo → hero */}
-        <button
-          className="pill-logo"
-          aria-label="Home"
-          onClick={() => scrollTo('.dh-section')}
-        >
+        {/* Cherry logo → top of home */}
+        <button className="pill-logo" aria-label="Home" onClick={goHome}>
           <svg width="32" height="30" viewBox="0 0 48 44" fill="none">
             <circle cx="13" cy="31" r="10" fill="#C41C1C"/>
             <circle cx="10" cy="27" r="3.5" fill="rgba(255,255,255,0.28)"/>
@@ -32,20 +47,18 @@ export function Header({ onAboutClick }: Props) {
         </button>
 
         <div className="pill-links">
-          <button className="pill-link" onClick={() => scrollTo('.cards-section')}>Work</button>
+          <button className="pill-link" onClick={goWork}>Work</button>
           <Link to="/playground" className="pill-link">Playground</Link>
           <button className="pill-link" onClick={onAboutClick}>About</button>
           <a href="#resume" className="pill-link">Resume</a>
         </div>
 
-        {/* Theme toggle — sun/moon icon only, no track */}
         <button
           onClick={toggleTheme}
           className="pill-theme-btn"
           aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {isDark ? (
-            /* Sun */
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <circle cx="12" cy="12" r="4"/>
@@ -59,7 +72,6 @@ export function Header({ onAboutClick }: Props) {
               <line x1="17.66" y1="6.34"  x2="19.78" y2="4.22"/>
             </svg>
           ) : (
-            /* Moon */
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="none">
               <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
             </svg>
