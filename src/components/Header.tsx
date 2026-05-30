@@ -1,15 +1,25 @@
 import { Link } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
 
-export function Header() {
+const scrollTo = (selector: string) => {
+  document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' })
+}
+
+interface Props { onAboutClick: () => void }
+
+export function Header({ onAboutClick }: Props) {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
 
   return (
     <header className="pill-header">
       <nav className="pill-nav">
-        {/* Cherry logo */}
-        <a href="/" className="pill-logo" aria-label="Home">
+        {/* Cherry logo → hero */}
+        <button
+          className="pill-logo"
+          aria-label="Home"
+          onClick={() => scrollTo('.dh-section')}
+        >
           <svg width="32" height="30" viewBox="0 0 48 44" fill="none">
             <circle cx="13" cy="31" r="10" fill="#C41C1C"/>
             <circle cx="10" cy="27" r="3.5" fill="rgba(255,255,255,0.28)"/>
@@ -19,13 +29,13 @@ export function Header() {
             <path d="M32 23 Q29 12 23 6" stroke="#2B6B2B" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
             <ellipse cx="33" cy="9" rx="7" ry="3.5" fill="#3A8C3A" transform="rotate(-38 33 9)"/>
           </svg>
-        </a>
+        </button>
 
         <div className="pill-links">
-          <a href="#work"     className="pill-link">Work</a>
+          <button className="pill-link" onClick={() => scrollTo('.cards-section')}>Work</button>
           <Link to="/playground" className="pill-link">Playground</Link>
-          <a href="#about"    className="pill-link">About</a>
-          <a href="#resume"   className="pill-link">Resume</a>
+          <button className="pill-link" onClick={onAboutClick}>About</button>
+          <a href="#resume" className="pill-link">Resume</a>
         </div>
 
         {/* Theme toggle — sun/moon icon only, no track */}

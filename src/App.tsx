@@ -1,4 +1,4 @@
-import { } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { ShredderLanding } from './components/ShredderLanding'
 import { Header } from './components/Header'
@@ -86,11 +86,13 @@ const PROJECTS = [
 ]
 
 export default function App() {
-  // ShredderLanding stays mounted forever — it manages its own show/hide
-  // so the reverse-shred (scroll up from portfolio top) works at any time.
+  const [shredderKey, setShredderKey] = useState(0)
+
+  const showShredder = () => setShredderKey(k => k + 1)
+
   return (
     <>
-      <Header />
+      <Header onAboutClick={showShredder} />
       <Hero />
       <section className="cards-section">
         <p className="section-label">Selected Work</p>
@@ -100,7 +102,7 @@ export default function App() {
       </section>
       <GardenFooter />
 
-      <ShredderLanding onComplete={() => {}} />
+      <ShredderLanding key={shredderKey} onComplete={() => {}} />
     </>
   )
 }
