@@ -1,9 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
 
-interface Props { onAboutClick: () => void }
-
-export function Header({ onAboutClick }: Props) {
+export function Header() {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
   const navigate = useNavigate()
@@ -14,7 +12,7 @@ export function Header({ onAboutClick }: Props) {
   }
 
   const goWork = () => {
-    navigate('/#work')
+    navigate('/')
     setTimeout(() => {
       document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
     }, 80)
@@ -23,7 +21,6 @@ export function Header({ onAboutClick }: Props) {
   return (
     <header className="pill-header">
       <nav className="pill-nav">
-        {/* Cherry logo → top of home */}
         <button className="pill-logo" aria-label="Home" onClick={goHome}>
           <svg width="32" height="30" viewBox="0 0 48 44" fill="none">
             <circle cx="13" cy="31" r="10" fill="#C41C1C"/>
@@ -39,7 +36,7 @@ export function Header({ onAboutClick }: Props) {
         <div className="pill-links">
           <button className="pill-link" onClick={goWork}>Work</button>
           <Link to="/playground" className="pill-link">Playground</Link>
-          <button className="pill-link" onClick={onAboutClick}>About</button>
+          <button className="pill-link" onClick={() => navigate('/about')}>About</button>
           <a href="#resume" className="pill-link">Resume</a>
         </div>
 
