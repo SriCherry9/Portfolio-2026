@@ -50,22 +50,36 @@ export function ShredderLanding({ onComplete }: Props) {
 
     // ── Shredder audio ───────────────────────────────────────────────
     const audio = new Audio('/shredder.mp3')
-    audio.loop   = true
-    audio.volume = 0.55
+    audio.loop    = true
+    audio.volume  = 0.7
+    audio.preload = 'auto'
     audioRef.current = audio
 
+    // Unlock audio context on first user gesture (required by browsers)
+    let unlocked = false
+    const unlock = () => {
+      if (unlocked) return
+      unlocked = true
+      // Play then immediately pause to satisfy autoplay policy
+      audio.play().then(() => { audio.pause(); audio.currentTime = 0 }).catch(() => {})
+    }
+    window.addEventListener('wheel',      unlock, { once: true })
+    window.addEventListener('touchstart', unlock, { once: true })
+
     const startAudio = () => {
+      if (scrollTimerRef.current) { clearTimeout(scrollTimerRef.current); scrollTimerRef.current = null }
       if (audioPlayingRef.current) return
       audio.play().then(() => { audioPlayingRef.current = true }).catch(() => {})
     }
     const stopAudio = () => {
+      scrollTimerRef.current = null
       if (!audioPlayingRef.current) return
       audio.pause()
       audioPlayingRef.current = false
     }
     const scheduleStop = () => {
       if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
-      scrollTimerRef.current = setTimeout(stopAudio, 180)
+      scrollTimerRef.current = setTimeout(stopAudio, 220)
     }
 
     const img = new Image()
@@ -281,10 +295,9 @@ export function ShredderLanding({ onComplete }: Props) {
       velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
       // Play shredder sound only during active forward shredding phase
       if (e.deltaY > 0 && rawRef.current > SCROLL_FRAC && rawRef.current < 0.99) {
-        startAudio(); scheduleStop()
-      } else {
-        scheduleStop()
+        startAudio()
       }
+      scheduleStop()
     }
 
     let touchY = 0
@@ -308,10 +321,9 @@ export function ShredderLanding({ onComplete }: Props) {
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
       velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
       if (d > 0 && rawRef.current > SCROLL_FRAC && rawRef.current < 0.99) {
-        startAudio(); scheduleStop()
-      } else {
-        scheduleStop()
+        startAudio()
       }
+      scheduleStop()
     }
 
     window.addEventListener('wheel',      onWheel,      { passive: false })
@@ -323,6 +335,8 @@ export function ShredderLanding({ onComplete }: Props) {
       window.removeEventListener('wheel',      onWheel)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchmove',  onTouchMove)
+      window.removeEventListener('wheel',      unlock)
+      window.removeEventListener('touchstart', unlock)
       document.body.style.overflow = ''
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
