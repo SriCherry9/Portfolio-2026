@@ -500,12 +500,17 @@
 
 .about-section {
   width: 100%;
-  max-width: 1100px;
+  max-width: 100%;
+  background: #FB7C63;
   margin: 0 auto;
   padding: 100px 80px 120px;
   display: flex;
   flex-direction: column;
   gap: 0;
+  /* Override text tokens for orange background */
+  --text-primary:    #1a0f0a;
+  --text-secondary:  rgba(26,15,10,0.75);
+  --text-muted:      rgba(26,15,10,0.5);
 }
 
 /* ── Reveal animation ── */
@@ -646,8 +651,8 @@
 }
 
 .about-era-tag--present {
-  background: #E8694A;
-  color: #fff;
+  background: rgba(26,15,10,0.18);
+  color: #1a0f0a;
 }
 
 .about-era-tag--future {
