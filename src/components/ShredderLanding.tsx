@@ -51,7 +51,7 @@ export function ShredderLanding({ onComplete }: Props) {
     // ── Shredder audio ───────────────────────────────────────────────
     const audio = new Audio('/shredder.mp3')
     audio.loop    = true
-    audio.volume  = 0.7
+    audio.volume  = 0.3
     audio.preload = 'auto'
     audioRef.current = audio
 
@@ -300,24 +300,36 @@ export function ShredderLanding({ onComplete }: Props) {
       scheduleStop()
     }
 
+    // Touch: tighter divisor for mobile (finger swipe = less px than mousewheel)
+    const TOUCH_DIV = 1.4
     let touchY = 0
-    const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0].clientY }
+    let lastTouchTime = 0
+    let touchVelY = 0  // px/ms — for momentum on touchend
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0].clientY
+      lastTouchTime = e.timeStamp
+      touchVelY = 0
+    }
     const onTouchMove  = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY
+      const dy = touchY - currentY  // positive = swipe up = scroll forward
+      const dt = e.timeStamp - lastTouchTime || 1
+      touchVelY = dy / dt           // px/ms for momentum
+      touchY = currentY
+      lastTouchTime = e.timeStamp
+
       if (portfolioRef.current) {
-        const dy = touchY - e.touches[0].clientY
-        touchY = e.touches[0].clientY
-        // Only intercept upward swipe at page top
         if (dy < 0 && window.scrollY === 0) {
           e.preventDefault()
-          const d = dy / (window.innerHeight * 2.8)
+          const d = dy / (window.innerHeight * TOUCH_DIV)
           rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
           velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
         }
         return
       }
       e.preventDefault()
-      const d = (touchY - e.touches[0].clientY) / (window.innerHeight * 2.8)
-      touchY = e.touches[0].clientY
+      const d = dy / (window.innerHeight * TOUCH_DIV)
       rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
       velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
       if (d > 0 && rawRef.current > SCROLL_FRAC && rawRef.current < 0.99) {
@@ -325,16 +337,27 @@ export function ShredderLanding({ onComplete }: Props) {
       }
       scheduleStop()
     }
+    const onTouchEnd = () => {
+      if (portfolioRef.current) return
+      // Carry finger momentum into rawRef for a natural flick feel
+      const momentum = touchVelY * 80  // scale px/ms → fraction
+      const d = momentum / (window.innerHeight * TOUCH_DIV)
+      rawRef.current = Math.min(1, Math.max(0, rawRef.current + d))
+      velRef.current = Math.max(-1, Math.min(1, velRef.current + d * 18))
+      scheduleStop()
+    }
 
     window.addEventListener('wheel',      onWheel,      { passive: false })
     window.addEventListener('touchstart', onTouchStart, { passive: true  })
     window.addEventListener('touchmove',  onTouchMove,  { passive: false })
+    window.addEventListener('touchend',   onTouchEnd,   { passive: true  })
 
     return () => {
       window.removeEventListener('resize',     resize)
       window.removeEventListener('wheel',      onWheel)
       window.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchmove',  onTouchMove)
+      window.removeEventListener('touchend',   onTouchEnd)
       window.removeEventListener('wheel',      unlock)
       window.removeEventListener('touchstart', unlock)
       document.body.style.overflow = ''
