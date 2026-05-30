@@ -242,7 +242,7 @@ export function Hero() {
         <div className="dh-hero-lower">
           <p className="dh-name-blue">Sri Cherry Kotamreddy</p>
           <div className="dh-role-row">
-            <span className="dh-role-label">I design as a&nbsp;</span>
+            <span className="dh-role-label">I wear multiple hats&nbsp;—&nbsp;</span>
             <div className="dh-role-ticker">
               <span key={roleIndex} className={`dh-role-slide${isExiting ? ' exiting' : ''}`}>
                 {displayed}
