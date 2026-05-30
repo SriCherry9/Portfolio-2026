@@ -235,32 +235,35 @@ export function Hero() {
       ))}
 
       <div className="dh-center" style={{ position: 'relative', zIndex: 4, pointerEvents: 'none' }}>
-        <h1 className="dh-name">
-          <span className="dh-name-sri">Sri&nbsp;</span>
-          <span className="dh-crescent" aria-label="C">C</span>
-          <span className="dh-name-rest">herry&nbsp;</span>
-          <span className="dh-name-last">Kotamreddy</span>
+        <h1 className="dh-hero-headline">
+          Expanding the horizon<br />of what design can influence.
         </h1>
-        <div className="dh-role-row">
-          <span className="dh-role-label">I design as a&nbsp;</span>
-          <div className="dh-role-ticker">
-            <span key={roleIndex} className={`dh-role-slide${isExiting ? ' exiting' : ''}`}>
-              {displayed}
-            </span>
+        <div className="dh-hero-divider" />
+        <div className="dh-hero-lower">
+          <p className="dh-name-blue">Sri Cherry Kotamreddy</p>
+          <div className="dh-role-row">
+            <span className="dh-role-label">I design as a&nbsp;</span>
+            <div className="dh-role-ticker">
+              <span key={roleIndex} className={`dh-role-slide${isExiting ? ' exiting' : ''}`}>
+                {displayed}
+              </span>
+            </div>
           </div>
+          <p className="dh-bio">
+            So far simplified complex workflows and added delight<br />
+            through embodied interactions which reached 1M + users
+          </p>
+          <button
+            className="dh-view-work"
+            style={{ pointerEvents: 'all' }}
+            onClick={() => document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            View Work
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 1v10M1 6.5l5 4.5 5-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
         </div>
-        <p className="dh-bio">
-          Crafting intuitive interfaces at the intersection of research, interaction & AI.
-        </p>
-        <button
-          className="dh-view-work"
-          onClick={() => document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          View Work
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M6 1v10M1 6.5l5 4.5 5-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
       </div>
     </section>
   )
