@@ -3,6 +3,7 @@ import './App.css'
 import { ShredderLanding } from './components/ShredderLanding'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { AboutSection } from './components/AboutSection'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
 import { CashlessCover } from './components/covers/CashlessCover'
@@ -92,6 +93,7 @@ export default function App() {
     <>
       <Header />
       <Hero />
+      <AboutSection />
       <section className="cards-section">
         <p className="section-label">Selected Work</p>
         {PROJECTS.map((project, index) => (
