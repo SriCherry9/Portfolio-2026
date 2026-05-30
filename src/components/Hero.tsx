@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 const ROLES = [
   'Interaction Designer',
@@ -8,40 +8,88 @@ const ROLES = [
   'Accessibility Designer',
 ]
 
-export function Hero() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isExiting, setIsExiting]       = useState(false)
-  const [displayedRole, setDisplayedRole] = useState(ROLES[0])
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+/* Starting positions as % of viewport */
+const INITIAL_SHAPES = [
+  { id: 'clover',    x: 11,  y: 18 },
+  { id: 'squiggle',  x: 78,  y: 12 },
+  { id: 'daisy',     x: 9,   y: 58 },
+  { id: 'scallop',   x: 76,  y: 50 },
+  { id: 'hourglass', x: 44,  y: 72 },
+]
 
+interface ShapePos { id: string; x: number; y: number }
+
+export function Hero() {
+  const [roleIndex, setRoleIndex]   = useState(0)
+  const [isExiting, setIsExiting]   = useState(false)
+  const [displayed, setDisplayed]   = useState(ROLES[0])
+  const [positions, setPositions]   = useState<ShapePos[]>(INITIAL_SHAPES)
+  const [dragging, setDragging]     = useState<string | null>(null)
+  const dragStart = useRef<{ mx: number; my: number; sx: number; sy: number } | null>(null)
+  const timerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  /* Role ticker */
   useEffect(() => {
     const cycle = () => {
       setIsExiting(true)
       timerRef.current = setTimeout(() => {
-        setCurrentIndex(prev => {
+        setRoleIndex(prev => {
           const next = (prev + 1) % ROLES.length
-          setDisplayedRole(ROLES[next])
+          setDisplayed(ROLES[next])
           return next
         })
         setIsExiting(false)
       }, 420)
     }
-    const interval = setInterval(cycle, 2800)
-    return () => {
-      clearInterval(interval)
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
+    const id = setInterval(cycle, 2800)
+    return () => { clearInterval(id); if (timerRef.current) clearTimeout(timerRef.current) }
   }, [])
 
+  /* Drag handlers */
+  const onPointerDown = useCallback((e: React.PointerEvent, id: string) => {
+    e.currentTarget.setPointerCapture(e.pointerId)
+    setDragging(id)
+    const pos = positions.find(p => p.id === id)!
+    dragStart.current = {
+      mx: e.clientX, my: e.clientY,
+      sx: pos.x,     sy: pos.y,
+    }
+  }, [positions])
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    if (!dragging || !dragStart.current) return
+    const dx = ((e.clientX - dragStart.current.mx) / window.innerWidth)  * 100
+    const dy = ((e.clientY - dragStart.current.my) / window.innerHeight) * 100
+    setPositions(prev => prev.map(p =>
+      p.id === dragging
+        ? { ...p, x: Math.max(0, Math.min(90, dragStart.current!.sx + dx)),
+                  y: Math.max(0, Math.min(88, dragStart.current!.sy + dy)) }
+        : p
+    ))
+  }, [dragging])
+
+  const onPointerUp = useCallback(() => {
+    setDragging(null)
+    dragStart.current = null
+  }, [])
+
+  const pos = (id: string) => positions.find(p => p.id === id)!
+
   return (
-    <section className="dh-section">
+    <section
+      className="dh-section"
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+    >
+      {/* ── Draggable shapes ──────────────────────────────────────── */}
 
-      {/* ── Shape cards ─────────────────────────────────────────────── */}
-
-      {/* Top-left: purple clover */}
-      <div className="dh-card dh-card--tl dh-float-a">
-        <svg viewBox="0 0 80 80" className="dh-shape">
-          {/* 4-petal clover — four circles */}
+      {/* Purple clover */}
+      <div
+        className={`dh-shape-wrap dh-float-a${dragging === 'clover' ? ' dragging' : ''}`}
+        style={{ left: `${pos('clover').x}%`, top: `${pos('clover').y}%` }}
+        onPointerDown={e => onPointerDown(e, 'clover')}
+      >
+        <svg viewBox="0 0 80 80" width="90" height="90">
           <circle cx="40" cy="22" r="18" fill="#C49DD8"/>
           <circle cx="40" cy="58" r="18" fill="#C49DD8"/>
           <circle cx="22" cy="40" r="18" fill="#C49DD8"/>
@@ -49,97 +97,92 @@ export function Hero() {
         </svg>
       </div>
 
-      {/* Top-right: purple squiggle */}
-      <div className="dh-card dh-card--tr dh-float-b">
-        <svg viewBox="0 0 60 110" className="dh-shape">
+      {/* Purple squiggle */}
+      <div
+        className={`dh-shape-wrap dh-float-b${dragging === 'squiggle' ? ' dragging' : ''}`}
+        style={{ left: `${pos('squiggle').x}%`, top: `${pos('squiggle').y}%` }}
+        onPointerDown={e => onPointerDown(e, 'squiggle')}
+      >
+        <svg viewBox="0 0 60 110" width="55" height="100">
           <path
             d="M30 8 C52 8 52 32 30 38 C8 44 8 68 30 74 C52 80 52 100 30 102"
-            fill="none"
-            stroke="#C49DD8"
-            strokeWidth="14"
-            strokeLinecap="round"
+            fill="none" stroke="#C49DD8" strokeWidth="14" strokeLinecap="round"
           />
         </svg>
       </div>
 
-      {/* Bottom-left: green asterisk / daisy */}
-      <div className="dh-card dh-card--bl dh-spin-slow">
-        <svg viewBox="0 0 100 100" className="dh-shape">
-          {[0,45,90,135].map(angle => (
-            <ellipse
-              key={angle}
-              cx="50" cy="50"
-              rx="10" ry="32"
-              fill="#4A9B7F"
-              transform={`rotate(${angle} 50 50)`}
-            />
+      {/* Teal daisy — spins */}
+      <div
+        className={`dh-shape-wrap dh-float-a${dragging === 'daisy' ? ' dragging' : ''}`}
+        style={{ left: `${pos('daisy').x}%`, top: `${pos('daisy').y}%`, animationDelay: '0.8s' }}
+        onPointerDown={e => onPointerDown(e, 'daisy')}
+      >
+        <svg viewBox="0 0 100 100" width="105" height="105" className="dh-spin-svg">
+          {[0,45,90,135].map(a => (
+            <ellipse key={a} cx="50" cy="50" rx="10" ry="32" fill="#4A9B7F"
+              transform={`rotate(${a} 50 50)`}/>
           ))}
           <circle cx="50" cy="50" r="10" fill="#4A9B7F"/>
         </svg>
       </div>
 
-      {/* Bottom-right: blue scalloped circle */}
-      <div className="dh-card dh-card--mr dh-float-c">
-        <svg viewBox="0 0 100 100" className="dh-shape">
+      {/* Blue scalloped circle */}
+      <div
+        className={`dh-shape-wrap dh-float-c${dragging === 'scallop' ? ' dragging' : ''}`}
+        style={{ left: `${pos('scallop').x}%`, top: `${pos('scallop').y}%` }}
+        onPointerDown={e => onPointerDown(e, 'scallop')}
+      >
+        <svg viewBox="0 0 100 100" width="100" height="100">
           <path d={scallop(50, 50, 36, 24)} fill="#2B62E8"/>
         </svg>
       </div>
 
-      {/* Bottom-center: dark teal hourglass */}
-      <div className="dh-card dh-card--bc dh-float-b" style={{ animationDelay: '1.2s' }}>
-        <svg viewBox="0 0 70 110" className="dh-shape">
-          <path
-            d="M10 5 L60 5 Q60 5 38 52 Q60 99 60 105 L10 105 Q10 105 32 52 Q10 5 10 5 Z"
-            fill="#1B5252"
-          />
+      {/* Dark teal hourglass */}
+      <div
+        className={`dh-shape-wrap dh-float-b${dragging === 'hourglass' ? ' dragging' : ''}`}
+        style={{ left: `${pos('hourglass').x}%`, top: `${pos('hourglass').y}%`, animationDelay: '1.2s' }}
+        onPointerDown={e => onPointerDown(e, 'hourglass')}
+      >
+        <svg viewBox="0 0 70 110" width="65" height="100">
+          <path d="M10 5 L60 5 Q60 5 38 52 Q60 99 60 105 L10 105 Q10 105 32 52 Q10 5 10 5 Z"
+            fill="#1B5252"/>
         </svg>
       </div>
 
-      {/* ── Centre text ──────────────────────────────────────────────── */}
+      {/* ── Centre text ─────────────────────────────────────────── */}
       <div className="dh-center">
         <span className="dh-pre">Sri</span>
-
         <h1 className="dh-name">
-          {/* Orange crescent replaces the "C" */}
           <span className="dh-crescent" aria-hidden="true">
-            <svg viewBox="0 0 54 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 54 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
-                d="M46 32C46 47.464 36.703 60 25 60C13.297 60 4 47.464 4 32C4 16.536 13.297 4 25 4C19 10 16 20.5 16 32C16 43.5 19 54 25 60C36.703 60 46 47.464 46 32Z"
+                d="M46 36C46 53.673 36.703 68 25 68C13.297 68 4 53.673 4 36C4 18.327 13.297 4 25 4C19 11 16 23 16 36C16 49 19 61 25 68C36.703 68 46 53.673 46 36Z"
                 fill="#E8694A"
               />
             </svg>
           </span>
           <span className="dh-name-rest">herry</span>
         </h1>
-
         <span className="dh-last">Kotamreddy</span>
-
         <div className="dh-role-row">
           <div className="dh-role-ticker">
-            <span
-              key={currentIndex}
-              className={`dh-role-slide${isExiting ? ' exiting' : ''}`}
-            >
-              {displayedRole}
+            <span key={roleIndex} className={`dh-role-slide${isExiting ? ' exiting' : ''}`}>
+              {displayed}
             </span>
           </div>
         </div>
       </div>
-
     </section>
   )
 }
 
-/* ── Scalloped circle path generator ─────────────────────────────────── */
 function scallop(cx: number, cy: number, r: number, petals: number): string {
-  const points: string[] = []
   const step = (Math.PI * 2) / (petals * 2)
-  for (let i = 0; i < petals * 2; i++) {
+  return Array.from({ length: petals * 2 }, (_, i) => {
     const angle  = i * step - Math.PI / 2
     const radius = i % 2 === 0 ? r : r * 0.78
     const x = cx + radius * Math.cos(angle)
     const y = cy + radius * Math.sin(angle)
-    points.push(i === 0 ? `M${x},${y}` : `L${x},${y}`)
-  }
-  return points.join(' ') + ' Z'
+    return (i === 0 ? 'M' : 'L') + `${x},${y}`
+  }).join(' ') + ' Z'
 }

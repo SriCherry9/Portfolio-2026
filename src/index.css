@@ -146,7 +146,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: #EDE8DF;
+  background: var(--page-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,101 +234,62 @@
   animation: role-exit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
-/* ── Shape cards ── */
-.dh-card {
+/* ── Free-floating draggable shapes ── */
+.dh-shape-wrap {
   position: absolute;
-  background: #F0EBE3;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+  transition: filter 0.2s ease, transform 0.2s ease;
+  z-index: 3;
 }
 
-.dh-shape {
-  display: block;
+.dh-shape-wrap:hover {
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.18));
+  transform: scale(1.06);
 }
 
-/* Card positions */
-.dh-card--tl {
-  top: 14%;
-  left: 9%;
-  width: clamp(110px, 12vw, 170px);
-  height: clamp(110px, 12vw, 170px);
+.dh-shape-wrap.dragging {
+  cursor: grabbing;
+  filter: drop-shadow(0 18px 36px rgba(0,0,0,0.22));
+  transform: scale(1.1);
+  z-index: 10;
+  /* Pause float animation while dragging */
+  animation-play-state: paused !important;
 }
 
-.dh-card--tr {
-  top: 10%;
-  right: 6%;
-  width: clamp(90px, 9vw, 140px);
-  height: clamp(150px, 18vw, 240px);
+.dh-spin-svg {
+  animation: dh-spin 9s linear infinite;
 }
 
-.dh-card--bl {
-  bottom: 14%;
-  left: 7%;
-  width: clamp(120px, 13vw, 185px);
-  height: clamp(120px, 13vw, 185px);
+.dh-shape-wrap.dragging .dh-spin-svg {
+  animation-play-state: paused;
 }
 
-.dh-card--mr {
-  top: 46%;
-  right: 6%;
-  width: clamp(110px, 12vw, 175px);
-  height: clamp(110px, 12vw, 175px);
+/* ── Float keyframes ── */
+@keyframes dh-float-a {
+  0%, 100% { transform: translateY(0px)   rotate(0deg); }
+  33%       { transform: translateY(-14px) rotate(3deg); }
+  66%       { transform: translateY(7px)   rotate(-2deg); }
 }
-
-.dh-card--bc {
-  bottom: 6%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: clamp(90px, 9vw, 140px);
-  height: clamp(130px, 14vw, 200px);
+@keyframes dh-float-b {
+  0%, 100% { transform: translateY(0px)  rotate(0deg); }
+  40%       { transform: translateY(12px) rotate(-3deg); }
+  70%       { transform: translateY(-9px) rotate(1.5deg); }
 }
-
-/* ── Animations ── */
-
-/* Gentle float up/down */
-@keyframes float-a {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33%       { transform: translateY(-12px) rotate(2deg); }
-  66%       { transform: translateY(6px) rotate(-1.5deg); }
+@keyframes dh-float-c {
+  0%, 100% { transform: translateY(0px)   scale(1); }
+  50%       { transform: translateY(-16px) scale(1.04); }
 }
-
-@keyframes float-b {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  40%       { transform: translateY(10px) rotate(-2deg); }
-  70%       { transform: translateY(-8px) rotate(1deg); }
-}
-
-@keyframes float-c {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50%       { transform: translateY(-14px) scale(1.03); }
-}
-
-/* Slow continuous spin for the daisy */
-@keyframes spin-slow {
+@keyframes dh-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
 
-.dh-float-a { animation: float-a 5.5s ease-in-out infinite; }
-.dh-float-b { animation: float-b 6.2s ease-in-out infinite; }
-.dh-float-c { animation: float-c 4.8s ease-in-out infinite; }
-
-/* Spin applies to the SVG inside the card, not the card itself */
-.dh-spin-slow .dh-shape { animation: spin-slow 9s linear infinite; }
-/* Card itself still floats */
-.dh-spin-slow { animation: float-a 7s ease-in-out infinite; animation-delay: 0.8s; }
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .dh-card--tl { top: 5%; left: 2%; }
-  .dh-card--tr { top: 4%; right: 2%; }
-  .dh-card--bl { bottom: 8%; left: 2%; }
-  .dh-card--mr { top: auto; bottom: 8%; right: 2%; }
-  .dh-card--bc { display: none; }
-}
+.dh-float-a { animation: dh-float-a 5.5s ease-in-out infinite; }
+.dh-float-b { animation: dh-float-b 6.4s ease-in-out infinite; }
+.dh-float-c { animation: dh-float-c 4.9s ease-in-out infinite; }
 
 
 .hero-top {
@@ -754,123 +715,116 @@
 
 /* ===== HEADER ===== */
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  width: 100%;
-  background: var(--page-bg);
-  border-bottom: 1px solid rgba(0,0,0,0.07);
+/* ===== PILL NAVIGATION ===== */
+
+.pill-header {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pill-nav {
+  pointer-events: all;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 120px;
-}
-
-.header-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.header-logo svg {
-  display: block;
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 48px;
-}
-
-.nav-link {
-  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  color: #8B1A1A;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.nav-link:hover {
-  opacity: 0.65;
-}
-
-/* ===== THEME TOGGLE ===== */
-
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px 6px;
+  gap: 6px;
+  background: rgba(248, 244, 238, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0,0,0,0.08);
   border-radius: 999px;
-  color: var(--text-secondary);
-  transition: color 0.2s ease;
-  flex-shrink: 0;
+  padding: 8px 12px 8px 10px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
 }
 
-/* Visible focus ring for keyboard users (WCAG 2.4.7, 2.4.11) */
-.theme-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
+.pill-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px 8px 2px 4px;
+  border-right: 1px solid rgba(0,0,0,0.1);
+  margin-right: 4px;
 }
 
-/* Remove outline on mouse click while keeping it for keyboard */
-.theme-toggle:focus:not(:focus-visible) {
-  outline: none;
+.pill-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
-.theme-toggle:hover {
-  color: var(--text-primary);
+.pill-link {
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #3a3a3a;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
-.theme-toggle-icon {
+.pill-link:hover {
+  background: rgba(0,0,0,0.06);
+  color: #1a1a1a;
+}
+
+.pill-theme-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-/* Track */
-.theme-toggle-track {
-  position: relative;
-  width: 40px;
-  height: 22px;
-  background: var(--tag-bg);
-  border-radius: 999px;
-  border: 1.5px solid rgba(0,0,0,0.12);
-  flex-shrink: 0;
-  transition: background 0.25s ease, border-color 0.25s ease;
-}
-
-/* Thumb */
-.theme-toggle-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 14px;
-  height: 14px;
-  background: #8B1A1A;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  transition: transform 0.25s ease, background 0.25s ease;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #555;
+  margin-left: 4px;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
-/* Checked (dark) state — move thumb right */
-[aria-checked="true"] .theme-toggle-thumb {
-  transform: translateX(18px);
-  background: #E87878;
+.pill-theme-btn:hover {
+  background: rgba(0,0,0,0.07);
+  color: #111;
 }
 
-[aria-checked="true"] .theme-toggle-track {
-  background: #2a2621;
-  border-color: rgba(255,255,255,0.12);
+.pill-theme-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+html[data-theme="dark"] .pill-nav {
+  background: rgba(28, 24, 20, 0.88);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+html[data-theme="dark"] .pill-logo {
+  border-right-color: rgba(255,255,255,0.1);
+}
+
+html[data-theme="dark"] .pill-link {
+  color: #ccc;
+}
+
+html[data-theme="dark"] .pill-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+html[data-theme="dark"] .pill-theme-btn {
+  color: #aaa;
+}
+
+html[data-theme="dark"] .pill-theme-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
 
 /* ===== DARK MODE VARIABLES ===== */
