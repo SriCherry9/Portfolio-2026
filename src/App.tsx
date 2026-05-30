@@ -1,7 +1,4 @@
-import { useState } from 'react'
 import './App.css'
-import { ShredderLanding } from './components/ShredderLanding'
-import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
@@ -86,13 +83,8 @@ const PROJECTS = [
 ]
 
 export default function App() {
-  const [shredderKey, setShredderKey] = useState(0)
-
-  const showShredder = () => setShredderKey(k => k + 1)
-
   return (
     <>
-      <Header onAboutClick={showShredder} />
       <Hero />
       <section className="cards-section">
         <p className="section-label">Selected Work</p>
@@ -101,8 +93,6 @@ export default function App() {
         ))}
       </section>
       <GardenFooter />
-
-      <ShredderLanding key={shredderKey} onComplete={() => {}} />
     </>
   )
 }
