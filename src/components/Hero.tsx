@@ -252,6 +252,15 @@ export function Hero() {
         <p className="dh-bio">
           Crafting intuitive interfaces at the intersection of research, interaction & AI.
         </p>
+        <button
+          className="dh-view-work"
+          onClick={() => document.querySelector('.cards-section')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          View Work
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M6 1v10M1 6.5l5 4.5 5-4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
     </section>
   )

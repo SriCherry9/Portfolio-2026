@@ -251,7 +251,40 @@
   line-height: 1.65;
   color: var(--text-secondary);
   max-width: 440px;
-  margin-bottom: 36px;
+  margin-bottom: 28px;
+}
+
+/* ── View Work button ── */
+.dh-view-work {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  padding: 10px 20px;
+  cursor: pointer;
+  pointer-events: all;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dh-view-work:hover {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+.dh-view-work svg {
+  transition: transform 0.2s ease;
+}
+
+.dh-view-work:hover svg {
+  transform: translateY(3px);
 }
 
 /* ── Physics shapes ── */
