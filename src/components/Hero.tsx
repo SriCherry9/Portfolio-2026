@@ -179,6 +179,7 @@ export function Hero() {
     const mouse = Mouse.create(document.body)
     mouse.element.removeEventListener('mousewheel',    (mouse as any).mousewheel)
     mouse.element.removeEventListener('DOMMouseScroll',(mouse as any).mousewheel)
+    mouse.element.removeEventListener('wheel',         (mouse as any).mousewheel)
     mouse.element.removeEventListener('touchstart',    (mouse as any).mousedown)
     mouse.element.removeEventListener('touchmove',     (mouse as any).mousemove)
     mouse.element.removeEventListener('touchend',      (mouse as any).mouseup)
