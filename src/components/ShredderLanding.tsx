@@ -29,7 +29,6 @@ export function ShredderLanding() {
 
   useEffect(() => {
     const root   = rootRef.current!
-    const sticky = stickyRef.current!
     const canvas = canvasRef.current!
     const ctx    = canvas.getContext('2d')!
     ctx.imageSmoothingEnabled = true
