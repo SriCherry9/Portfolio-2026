@@ -1,12 +1,17 @@
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import { ShredderLanding } from '../components/ShredderLanding'
+import { AboutSection } from '../components/AboutSection'
 
 export function AboutPage() {
-  const navigate = useNavigate()
+  const [shredderDone, setShredderDone] = useState(false)
 
   const handleComplete = () => {
     document.body.style.overflow = ''
-    navigate('/')
+    setShredderDone(true)
+  }
+
+  if (shredderDone) {
+    return <AboutSection />
   }
 
   return <ShredderLanding onComplete={handleComplete} />
