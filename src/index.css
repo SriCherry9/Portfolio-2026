@@ -2,7 +2,7 @@
 
 /* ── Custom cherry cursor ── */
 *, *::before, *::after {
-  cursor: url('/cursor-cherry.svg') 11 36, auto !important;
+  cursor: url('/cursor-cherry.svg') 8 25, auto !important;
 }
 
 /* ===== FONTS ===== */
