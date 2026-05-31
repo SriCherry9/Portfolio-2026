@@ -720,7 +720,7 @@ html[data-theme="dark"] .about-era-tag {
 .tl-list::before {
   content: '';
   position: absolute;
-  left: 88px;
+  left: 148px;
   top: 24px;
   bottom: 24px;
   width: 1px;
@@ -730,22 +730,15 @@ html[data-theme="dark"] .about-era-tag {
 /* ── Single row ── */
 .tl-row {
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 180px 1fr;
   gap: 40px;
   padding: 48px 0;
   border-bottom: 1px solid rgba(0,0,0,0.06);
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .tl-row:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
 
-.tl-row--visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+/* Left column animates in from the side */
 /* ── Left column ── */
 .tl-left {
   display: flex;
@@ -754,6 +747,14 @@ html[data-theme="dark"] .about-era-tag {
   gap: 10px;
   padding-top: 4px;
   position: relative;
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.tl-row--visible .tl-left {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .tl-year {
@@ -777,7 +778,7 @@ html[data-theme="dark"] .about-era-tag {
   border: 2px solid var(--page-bg);
   box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
   position: absolute;
-  right: -24px;
+  right: -20px;
   top: 6px;
   transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -793,6 +794,14 @@ html[data-theme="dark"] .about-era-tag {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+}
+
+.tl-row--visible .tl-card {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .tl-card-header {
@@ -975,8 +984,8 @@ html[data-theme="dark"] .tl-year--active { color: var(--text-primary); }
 /* Responsive */
 @media (max-width: 900px) {
   .cards-section { padding: 60px 24px 80px; }
-  .tl-list::before { left: 56px; }
-  .tl-row { grid-template-columns: 80px 1fr; gap: 20px; padding: 36px 0; }
+  .tl-list::before { left: 96px; }
+  .tl-row { grid-template-columns: 120px 1fr; gap: 20px; padding: 36px 0; }
   .tl-dot { right: -16px; }
 }
 
