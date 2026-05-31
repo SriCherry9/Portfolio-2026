@@ -503,7 +503,7 @@
   max-width: 100%;
   background: #910707;
   margin: 0 auto;
-  padding: 8px 80px 120px;
+  padding: 100px 80px 120px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -694,7 +694,7 @@ html[data-theme="dark"] .about-era-tag {
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .about-section { padding: 32px 32px 80px; }
+  .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
 }
