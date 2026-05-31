@@ -7,6 +7,7 @@ import { Layout } from './components/Layout.tsx'
 import { PlaygroundPage } from './pages/PlaygroundPage.tsx'
 import { CashlessPage } from './pages/CashlessPage.tsx'
 import { MuseoPage } from './pages/MuseoPage.tsx'
+import { AboutPage } from './pages/AboutPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<App />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="/case-study/cashless" element={<CashlessPage />} />
           <Route path="/case-study/museo" element={<MuseoPage />} />

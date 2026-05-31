@@ -1,9 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
 
-interface Props { onAboutClick: () => void }
-
-export function Header({ onAboutClick }: Props) {
+export function Header() {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
   const navigate = useNavigate()
@@ -39,7 +37,7 @@ export function Header({ onAboutClick }: Props) {
         <div className="pill-links">
           <button className="pill-link" onClick={goWork}>Work</button>
           <Link to="/playground" className="pill-link">Playground</Link>
-          <button className="pill-link" onClick={onAboutClick}>About</button>
+          <button className="pill-link" onClick={() => navigate('/about')}>About</button>
           <a href="#resume" className="pill-link">Resume</a>
         </div>
 
