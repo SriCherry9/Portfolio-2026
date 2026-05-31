@@ -31,6 +31,7 @@ export function ShredderLanding({ onComplete }: Props) {
   // true once we've handed off to portfolio; false when shredder is active
   const portfolioRef    = useRef(false)
   const completeFiredRef = useRef(false)
+  const firstDrawRef    = useRef(false)
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -38,6 +39,8 @@ export function ShredderLanding({ onComplete }: Props) {
     ctx.imageSmoothingEnabled  = true
     ctx.imageSmoothingQuality  = 'high'
     const root   = rootRef.current!
+    root.style.opacity = '0'
+    firstDrawRef.current = false
 
     // Lock initial dimensions — height is frozen so mobile browser toolbar
     // appearing/disappearing never resizes the canvas and compresses the image.
@@ -143,6 +146,12 @@ export function ShredderLanding({ onComplete }: Props) {
       const srcW   = iW
       const srcH   = iW * (H / W)
       const maxSrcY = Math.max(0, iH - srcH)
+
+      if (!firstDrawRef.current) {
+        firstDrawRef.current = true
+        root.style.transition = 'opacity 0.15s ease'
+        root.style.opacity = '1'
+      }
 
       if (raw <= SCROLL_FRAC) {
         // Phase 1: pan newspaper top → bottom
