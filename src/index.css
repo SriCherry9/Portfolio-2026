@@ -1508,6 +1508,12 @@ html[data-theme="dark"] .sticky-note::before {
   }
 }
 
+.garden-footer *,
+.garden-footer *::before,
+.garden-footer *::after {
+  cursor: auto !important;
+}
+
 .garden-footer {
   width: 100%;
   background: #0d0d0d;
