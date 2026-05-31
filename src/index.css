@@ -265,31 +265,35 @@
   align-items: center;
   gap: 8px;
   font-family: 'AvantGarde', sans-serif;
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  background: none;
-  border: 1px solid currentColor;
+  color: var(--text-primary);
+  background: var(--page-bg);
+  border: 1.5px solid rgba(0,0,0,0.2);
   border-radius: 100px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   cursor: pointer;
   pointer-events: all;
-  opacity: 0.65;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .dh-view-work:hover {
-  opacity: 1;
+  border-color: rgba(0,0,0,0.45);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
   transform: translateY(2px);
 }
 
 .dh-view-work svg {
   transition: transform 0.2s ease;
+  opacity: 0.7;
 }
 
 .dh-view-work:hover svg {
   transform: translateY(3px);
+  opacity: 1;
 }
 
 /* ── Physics shapes ── */
