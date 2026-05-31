@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* ── Custom cherry cursor ── */
+*, *::before, *::after {
+  cursor: url('/cursor-cherry.svg') 11 36, auto !important;
+}
+
 /* ===== FONTS ===== */
 
 @font-face {
