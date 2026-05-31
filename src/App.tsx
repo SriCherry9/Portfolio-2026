@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
@@ -86,13 +86,52 @@ const PROJECTS = [
 export default function App() {
   const [activeId, setActiveId] = useState(PROJECTS[0].id)
   const handleActive = useCallback((id: number) => setActiveId(id), [])
+  const listRef = useRef<HTMLDivElement>(null)
+  const lineRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const list = listRef.current
+      const fill = lineRef.current
+      if (!list || !fill) return
+
+      const listRect = list.getBoundingClientRect()
+      const dots = list.querySelectorAll<HTMLElement>('.tl-dot')
+      const lefts = list.querySelectorAll<HTMLElement>('.tl-left')
+      if (!dots.length) return
+
+      // Line top anchored to first dot's centre, relative to list
+      const firstDotRect = dots[0].getBoundingClientRect()
+      const lineTop = firstDotRect.top - listRect.top + firstDotRect.height / 2
+      fill.style.top = `${lineTop}px`
+
+      // Line tip tracks a point 55% down the viewport
+      const tipViewport = window.innerHeight * 0.55
+      const tipInList = tipViewport - listRect.top
+      const fillHeight = Math.max(0, Math.min(tipInList - lineTop, list.offsetHeight - lineTop))
+      fill.style.height = `${fillHeight}px`
+
+      // Reveal each year when the line tip reaches its dot
+      dots.forEach((dot, i) => {
+        const dotMid = dot.getBoundingClientRect().top + dot.offsetHeight / 2
+        if (dotMid <= tipViewport + 12) {
+          lefts[i]?.classList.add('tl-left--reached')
+        }
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <>
       <Hero />
       <section id="work" className="cards-section">
         <p className="section-label">Selected Work</p>
-        <div className="tl-list">
+        <div className="tl-list" ref={listRef}>
+          <div className="tl-line-fill" ref={lineRef} />
           {PROJECTS.map((project, index) => (
             <ProjectCard
               key={project.id}
