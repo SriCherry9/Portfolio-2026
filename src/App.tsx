@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react'
 import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
@@ -83,14 +84,25 @@ const PROJECTS = [
 ]
 
 export default function App() {
+  const [activeId, setActiveId] = useState(PROJECTS[0].id)
+  const handleActive = useCallback((id: number) => setActiveId(id), [])
+
   return (
     <>
       <Hero />
       <section id="work" className="cards-section">
         <p className="section-label">Selected Work</p>
-        {PROJECTS.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
-        ))}
+        <div className="tl-list">
+          {PROJECTS.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              onActive={handleActive}
+              activeId={activeId}
+            />
+          ))}
+        </div>
       </section>
       <GardenFooter />
     </>
