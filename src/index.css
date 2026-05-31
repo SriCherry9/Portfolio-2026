@@ -501,16 +501,16 @@
 .about-section {
   width: 100%;
   max-width: 100%;
-  background: #FB7C63;
+  background: #910707;
   margin: 0 auto;
   padding: 100px 80px 120px;
   display: flex;
   flex-direction: column;
   gap: 0;
-  /* Override text tokens for orange background */
-  --text-primary:    #1a0f0a;
-  --text-secondary:  rgba(26,15,10,0.75);
-  --text-muted:      rgba(26,15,10,0.5);
+  /* Override text tokens for dark red background */
+  --text-primary:    #f5e6e6;
+  --text-secondary:  rgba(245,230,230,0.75);
+  --text-muted:      rgba(245,230,230,0.5);
 }
 
 /* ── Reveal animation ── */
