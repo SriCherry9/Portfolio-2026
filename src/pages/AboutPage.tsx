@@ -8,8 +8,10 @@ export function AboutPage() {
   const [shredderDone, setShredderDone] = useState(false)
 
   useEffect(() => {
-    setShredderDone(false)
-    document.body.style.overflow = ''
+    if ((location.state as any)?.reset) {
+      setShredderDone(false)
+      document.body.style.overflow = ''
+    }
   }, [location.key])
 
   const handleComplete = () => {
