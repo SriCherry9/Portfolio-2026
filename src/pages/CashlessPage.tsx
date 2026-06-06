@@ -24,18 +24,56 @@ export function CashlessPage() {
 
   return (
     <div className="cs-page cs-cashless-design">
-      {/* ── Header Section ── */}
-      <section className="cs-design-header">
-        <div className="cs-design-header-content">
-          <h2 className="cs-design-header-title">CASHLESS EXERCISE</h2>
-          <p className="cs-design-header-subtitle">Enterprise Experience Design</p>
+      {/* ── Premium Hero Landing Section ── */}
+      <section className="cs-landing-hero">
+        <div className="cs-landing-inner">
+          {/* Timeline & Category Badges */}
+          <div className="cs-landing-badges">
+            <span className="cs-landing-badge">2022 – 2024</span>
+            <span className="cs-landing-badge">Fintech · B2B SaaS</span>
+          </div>
+
+          {/* Company & Role */}
+          <p className="cs-landing-company">QAPITA · LEAD PRODUCT DESIGNER</p>
+
+          {/* Main Title */}
+          <h1 className="cs-landing-title">Cashless Exercise</h1>
+
+          {/* Description */}
+          <p className="cs-landing-description">
+            Designing the end-to-end workflow enabling employees to own equity through cashless methods — scaling a complex fintech platform from India to global markets.
+          </p>
+
+          {/* Key Info */}
+          <div className="cs-landing-info">
+            <div className="cs-landing-info-item">
+              <span className="cs-landing-info-label">ROLE</span>
+              <p className="cs-landing-info-value">Lead Product Designer</p>
+            </div>
+            <div className="cs-landing-info-item">
+              <span className="cs-landing-info-label">PLATFORM</span>
+              <p className="cs-landing-info-value">Web · Enterprise SaaS</p>
+            </div>
+            <div className="cs-landing-info-item">
+              <span className="cs-landing-info-label">DURATION</span>
+              <p className="cs-landing-info-value">2 years</p>
+            </div>
+          </div>
+
+          {/* Scroll Prompt */}
+          <div className="cs-landing-scroll">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+            <span>SCROLL TO READ</span>
+          </div>
         </div>
       </section>
 
       {/* ── Hero Section with Product Screenshot ── */}
       <section className="cs-design-hero">
         <div className="cs-design-hero-inner">
-          <h1 className="cs-design-hero-title">CASHLESS EXERCISE</h1>
+          <h2 className="cs-design-hero-title">CASHLESS EXERCISE</h2>
           <div className="cs-design-product-screenshot">
             <img src="/images/card1-cover.png" alt="Cashless Exercise Product" />
           </div>
