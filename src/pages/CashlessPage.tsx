@@ -87,7 +87,7 @@ export function CashlessPage() {
             </div>
             <div className="cs-design-overview-item">
               <h4>Team & Role</h4>
-              <p>1 Product Designer, 1 Product Manager, 5 Engineers, 1 QA Tester, 1 Engineering Manager</p>
+              <p>1 <span className="cs-design-highlight">Product Designer</span>, 1 Product Manager, 5 Engineers, 1 QA Tester, 1 Engineering Manager</p>
             </div>
             <div className="cs-design-overview-item">
               <h4>Design Sprint</h4>

@@ -3054,6 +3054,14 @@ html[data-theme="dark"] .pg-page-header {
   line-height: 1.6;
 }
 
+.cs-design-highlight {
+  font-weight: 600;
+  color: #011239;
+  background: rgba(93, 127, 218, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
 /* Context & Problem Section */
 .cs-design-context {
   background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
