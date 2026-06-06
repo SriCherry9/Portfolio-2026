@@ -3696,13 +3696,20 @@ html[data-theme="dark"] .pg-page-header {
   font-weight: 500;
 }
 
-/* Artifact Analysis */
+/* Artifact Analysis - Premium Double-Bezel Design */
 .cs-research-artifact {
-  margin-top: 48px;
-  padding: 48px 40px;
-  border-top: 2px solid #D8E0F5;
-  background: white;
-  border-radius: 20px;
+  margin-top: 60px;
+  padding: 60px 48px;
+  border-top: none;
+  background: linear-gradient(to bottom, #ffffff 0%, #fafbff 100%);
+  border-radius: 32px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 0 0 1px rgba(216, 224, 245, 0.4),
+    0 4px 12px rgba(0, 31, 92, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.04);
+  position: relative;
+  backdrop-filter: blur(40px);
 }
 
 .cs-research-artifact-title {
@@ -3726,37 +3733,65 @@ html[data-theme="dark"] .pg-page-header {
 .cs-research-artifact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 48px;
+  gap: 48px;
+  margin-bottom: 0;
+  margin-top: 48px;
 }
 
 .cs-research-artifact-item {
   text-align: center;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(216, 224, 245, 0.2), rgba(0, 31, 92, 0.08));
+  border-radius: 24px;
+  transition: all 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+  cursor: pointer;
+}
+
+.cs-research-artifact-item:hover {
+  box-shadow: 0 16px 48px rgba(0, 31, 92, 0.12);
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, rgba(216, 224, 245, 0.3), rgba(0, 31, 92, 0.12));
 }
 
 .cs-artifact-image {
   width: 100%;
   height: auto;
-  max-height: 400px;
+  max-height: 450px;
   object-fit: contain;
-  border: 2px solid #D8E0F5;
-  border-radius: 12px;
-  margin-bottom: 24px;
-  background: #FAFBFF;
+  border: 1px solid rgba(216, 224, 245, 0.6);
+  border-radius: calc(24px - 2px);
+  margin-bottom: 28px;
+  background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
   display: block;
+  padding: 24px;
+  box-sizing: border-box;
+  transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), filter 0.6s ease;
+}
+
+.cs-research-artifact-item:hover .cs-artifact-image {
+  transform: scale(1.02);
+  filter: brightness(1.02);
 }
 
 .cs-artifact-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: #001F5C;
   line-height: 1.7;
+  letter-spacing: -0.3px;
+  transition: all 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Insights */
+.cs-research-artifact-item:hover .cs-artifact-label {
+  color: #00236F;
+  font-weight: 800;
+}
+
+/* Insights - Premium Section */
 .cs-research-insights {
-  padding-top: 48px;
-  border-top: 2px solid #D8E0F5;
+  padding-top: 60px;
+  border-top: 1px solid rgba(216, 224, 245, 0.6);
+  margin-top: 60px;
 }
 
 .cs-research-insights-title {
@@ -3784,11 +3819,23 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-research-insight-box {
-  border: 2px solid #D8E0F5;
-  border-radius: 16px;
+  border: 1px solid rgba(216, 224, 245, 0.5);
+  border-radius: 24px;
   padding: 36px;
-  background: white;
-  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
+  transition: all 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 4px 12px rgba(0, 31, 92, 0.04);
+}
+
+.cs-research-insight-box:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 16px 48px rgba(0, 31, 92, 0.12);
+  transform: translateY(-6px);
+  border-color: rgba(0, 31, 92, 0.15);
 }
 
 .cs-research-insight-box h4 {
