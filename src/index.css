@@ -1949,6 +1949,270 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 /* ============================================================
+   CASE STUDY CONTENT SECTIONS
+   ============================================================ */
+
+.cs-section {
+  width: 100%;
+  background: #011239;
+  color: #fff;
+  padding: 80px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.cs-section:last-of-type {
+  border-bottom: none;
+}
+
+.cs-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+.cs-section-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(203, 214, 251, 0.6);
+  margin-bottom: 16px;
+}
+
+.cs-section-title {
+  font-family: 'Golte', Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(32px, 5vw, 56px);
+  letter-spacing: -1px;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.cs-section-desc {
+  font-size: 18px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+  max-width: 700px;
+  margin-bottom: 48px;
+}
+
+.cs-content-block {
+  background: rgba(92, 110, 168, 0.08);
+  border-left: 3px solid rgba(203, 214, 251, 0.3);
+  padding: 32px;
+  border-radius: 8px;
+  margin-top: 32px;
+}
+
+.cs-content-block h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.cs-content-block p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.7);
+}
+
+.cs-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.cs-content-item {
+  background: rgba(203, 214, 251, 0.05);
+  border: 1px solid rgba(203, 214, 251, 0.12);
+  padding: 32px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.cs-content-item:hover {
+  background: rgba(203, 214, 251, 0.08);
+  border-color: rgba(203, 214, 251, 0.2);
+}
+
+.cs-content-item h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(203, 214, 251, 0.95);
+  margin-bottom: 16px;
+}
+
+.cs-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-list li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.65);
+  padding-left: 24px;
+  position: relative;
+}
+
+.cs-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: rgba(203, 214, 251, 0.5);
+}
+
+.cs-objectives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.cs-objective-card {
+  background: linear-gradient(135deg, rgba(92, 110, 168, 0.15) 0%, rgba(77, 184, 160, 0.1) 100%);
+  border: 1px solid rgba(203, 214, 251, 0.2);
+  padding: 28px;
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.cs-objective-card:hover {
+  border-color: rgba(203, 214, 251, 0.4);
+  background: linear-gradient(135deg, rgba(92, 110, 168, 0.25) 0%, rgba(77, 184, 160, 0.15) 100%);
+  transform: translateY(-4px);
+}
+
+.cs-objective-icon {
+  font-size: 32px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.cs-objective-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.85);
+}
+
+.cs-decisions {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.cs-decision-block {
+  padding: 32px;
+  background: rgba(203, 214, 251, 0.06);
+  border-left: 3px solid rgba(77, 184, 160, 0.5);
+  border-radius: 8px;
+}
+
+.cs-decision-block h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.cs-decision-block p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+}
+
+.cs-process-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.cs-process-item {
+  padding: 24px;
+  background: rgba(92, 110, 168, 0.1);
+  border: 1px solid rgba(203, 214, 251, 0.15);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.cs-process-item:hover {
+  background: rgba(92, 110, 168, 0.15);
+  border-color: rgba(203, 214, 251, 0.3);
+}
+
+.cs-process-item h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(203, 214, 251, 0.95);
+  margin-bottom: 8px;
+}
+
+.cs-process-item p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.6);
+}
+
+.cs-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.cs-metric-category {
+  background: rgba(203, 214, 251, 0.05);
+  border: 1px solid rgba(203, 214, 251, 0.12);
+  padding: 28px;
+  border-radius: 12px;
+}
+
+.cs-metric-category h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(203, 214, 251, 0.95);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(203, 214, 251, 0.2);
+}
+
+.cs-learnings {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.cs-learning-block {
+  padding: 32px;
+  background: rgba(77, 184, 160, 0.08);
+  border-left: 3px solid rgba(77, 184, 160, 0.6);
+  border-radius: 8px;
+}
+
+.cs-learning-block h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.cs-learning-block p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ============================================================
    CASE STUDY FOOTER
    ============================================================ */
 
