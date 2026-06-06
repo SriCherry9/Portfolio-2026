@@ -3721,16 +3721,19 @@ html[data-theme="dark"] .pg-page-header {
   position: absolute;
   top: 50%;
   width: 40%;
-  height: 1px;
+  height: 2px;
   background: #001F5C;
+  transform: translateY(-50%);
 }
 
 .cs-research-artifact-title::before {
   left: 0;
+  box-shadow: 0 0 0 4px #ffffff, -8px 0 0 -4px #001F5C;
 }
 
 .cs-research-artifact-title::after {
   right: 0;
+  box-shadow: 0 0 0 4px #ffffff, 8px 0 0 -4px #001F5C;
 }
 
 .cs-research-artifact-grid {
