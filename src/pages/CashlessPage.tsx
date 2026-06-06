@@ -342,6 +342,53 @@ export function CashlessPage() {
         </div>
       </section>
 
+      {/* ── HTA Section ── */}
+      <section className="cs-design-hta">
+        <div className="cs-design-hta-inner">
+          <div className="cs-design-hta-header">
+            <h2 className="cs-design-hta-title">PRODUCT REQUIREMENT DOCUMENT</h2>
+            <p className="cs-design-hta-subtitle">Hierarchical Task Analysis</p>
+          </div>
+
+          <div className="cs-hta-grid">
+            <div className="cs-hta-item">
+              <div className="cs-hta-image-wrapper">
+                <img src="/images/hta-1-spv-setup.png" alt="HTA 1: Admin - SPV Set-up" className="cs-hta-image" />
+              </div>
+              <p className="cs-hta-label">Admin - SPV Set-up</p>
+            </div>
+
+            <div className="cs-hta-item">
+              <div className="cs-hta-image-wrapper">
+                <img src="/images/hta-2-broker-charges.png" alt="HTA 2: Admin - Configure Broker & Cashless Charges" className="cs-hta-image" />
+              </div>
+              <p className="cs-hta-label">Admin - Configure Broker & Cashless Charges</p>
+            </div>
+
+            <div className="cs-hta-item">
+              <div className="cs-hta-image-wrapper">
+                <img src="/images/hta-3-cashless-activation.png" alt="HTA 3: Admin - Cashless Activation" className="cs-hta-image" />
+              </div>
+              <p className="cs-hta-label">Admin - Cashless Activation</p>
+            </div>
+
+            <div className="cs-hta-item">
+              <div className="cs-hta-image-wrapper">
+                <img src="/images/hta-4-employee-exercise.png" alt="HTA 4: Employee Exercise Flow - Cashless with Calculations" className="cs-hta-image" />
+              </div>
+              <p className="cs-hta-label">Employee Exercise Flow - Cashless with Calculations</p>
+            </div>
+
+            <div className="cs-hta-item">
+              <div className="cs-hta-image-wrapper">
+                <img src="/images/hta-5-cashless-processing.png" alt="HTA 5: Admin - Cashless Processing" className="cs-hta-image" />
+              </div>
+              <p className="cs-hta-label">Admin - Cashless Processing</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Footer ── */}
       <footer className="cs-footer cs-footer--cashless">
         <div className="cs-footer-inner">
