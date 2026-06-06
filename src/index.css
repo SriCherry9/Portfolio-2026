@@ -3289,7 +3289,7 @@ html[data-theme="dark"] .pg-page-header {
 .cs-design-painpoint-items li::before {
   content: "•";
   position: absolute;
-  left: 0;
+  left: 12px;
   color: #4A5B7F;
   font-weight: bold;
 }
