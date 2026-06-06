@@ -922,14 +922,8 @@ html[data-theme="dark"] .about-era-tag {
   background: var(--card-dark);
   aspect-ratio: 16 / 9;
   margin-top: 8px;
-  border: 3px solid transparent;
-  box-shadow: 0 0 0 3px var(--accent, rgba(0,0,0,0.08));
-}
-
-/* Remove border from first card (Cashless) */
-.tl-row:first-of-type .tl-cover {
-  box-shadow: none;
   border: none;
+  box-shadow: none;
 }
 
 .tl-cover--clickable { cursor: pointer; }
