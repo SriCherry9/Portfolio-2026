@@ -31,48 +31,34 @@ export function CashlessPage() {
         </div>
       </section>
 
-      {/* ── Premium Hero Landing Section ── */}
-      <section className="cs-landing-hero">
-        <div className="cs-landing-inner">
-          {/* Timeline & Category Badges */}
-          <div className="cs-landing-badges">
-            <span className="cs-landing-badge">2022 – 2024</span>
-            <span className="cs-landing-badge">Fintech · B2B SaaS</span>
-          </div>
-
-          {/* Company & Role */}
-          <p className="cs-landing-company">QAPITA · LEAD PRODUCT DESIGNER</p>
-
-          {/* Main Title */}
-          <h1 className="cs-landing-title">Cashless Exercise</h1>
-
-          {/* Description */}
-          <p className="cs-landing-description">
-            Designing the end-to-end workflow enabling employees to own equity through cashless methods — scaling a complex fintech platform from India to global markets.
+      {/* ── Video Section ── */}
+      <section className="cs-design-video-section">
+        <div className="cs-design-video-inner">
+          <div className="cs-section-tag">Product Walkthrough</div>
+          <h2 className="cs-section-title">See it in action</h2>
+          <p className="cs-section-desc">
+            A walkthrough of the Cashless Exercise settlement flow — from request initiation to shares issued.
           </p>
-
-          {/* Key Info */}
-          <div className="cs-landing-info">
-            <div className="cs-landing-info-item">
-              <span className="cs-landing-info-label">ROLE</span>
-              <p className="cs-landing-info-value">Lead Product Designer</p>
-            </div>
-            <div className="cs-landing-info-item">
-              <span className="cs-landing-info-label">PLATFORM</span>
-              <p className="cs-landing-info-value">Web · Enterprise SaaS</p>
-            </div>
-            <div className="cs-landing-info-item">
-              <span className="cs-landing-info-label">DURATION</span>
-              <p className="cs-landing-info-value">2 years</p>
-            </div>
-          </div>
-
-          {/* Scroll Prompt */}
-          <div className="cs-landing-scroll">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-            <span>SCROLL TO READ</span>
+          <div className="cs-video-wrap" onClick={handlePlayVideo}>
+            <video
+              ref={videoRef}
+              className="cs-video"
+              playsInline
+              onEnded={() => setVideoPlaying(false)}
+              poster="/images/card1-cover.png"
+            >
+              <source src="/videos/product-tour.mov" type="video/mp4" />
+            </video>
+            {!videoPlaying && (
+              <div className="cs-video-overlay">
+                <button className="cs-play-btn" aria-label="Play video">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                <span className="cs-video-hint">Watch the product demo</span>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -187,38 +173,6 @@ export function CashlessPage() {
               <h3>Existing Solution</h3>
               <p>The feature exists in the acquired company, but it's costly and built on a legacy architecture that's incompatible with our platform.</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Video Section ── */}
-      <section className="cs-design-video-section">
-        <div className="cs-design-video-inner">
-          <div className="cs-section-tag">Product Walkthrough</div>
-          <h2 className="cs-section-title">See it in action</h2>
-          <p className="cs-section-desc">
-            A walkthrough of the Cashless Exercise settlement flow — from request initiation to shares issued.
-          </p>
-          <div className="cs-video-wrap" onClick={handlePlayVideo}>
-            <video
-              ref={videoRef}
-              className="cs-video"
-              playsInline
-              onEnded={() => setVideoPlaying(false)}
-              poster="/images/card1-cover.png"
-            >
-              <source src="/videos/product-tour.mov" type="video/mp4" />
-            </video>
-            {!videoPlaying && (
-              <div className="cs-video-overlay">
-                <button className="cs-play-btn" aria-label="Play video">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
-                <span className="cs-video-hint">Watch the product demo</span>
-              </div>
-            )}
           </div>
         </div>
       </section>
