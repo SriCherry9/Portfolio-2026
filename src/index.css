@@ -3579,16 +3579,20 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-research-label {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 12px;
   background: #D8E0F5;
   padding: 12px 28px;
-  border-radius: 20px;
+  padding-left: calc(28px + ((100vw - 100%) / 2));
+  border-radius: 0 20px 20px 0;
   font-weight: 600;
   font-size: 14px;
   color: #00236F;
   margin-bottom: 40px;
+  margin-left: calc((100vw - 100%) / -2);
+  width: 100vw;
+  max-width: none;
 }
 
 .cs-research-label::before {
