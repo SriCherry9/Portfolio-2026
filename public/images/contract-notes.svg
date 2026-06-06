@@ -1,0 +1,60 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .doc-title { font-size: 14px; font-weight: bold; fill: #000; }
+      .doc-subtitle { font-size: 10px; fill: #333; }
+      .doc-header { font-size: 9px; fill: #555; }
+      .doc-line { stroke: #ccc; stroke-width: 1; }
+      .doc-border { stroke: #333; stroke-width: 1.5; fill: none; }
+      .doc-bg { fill: #ffffff; }
+    </style>
+  </defs>
+
+  <!-- Document background -->
+  <rect x="10" y="10" width="780" height="580" class="doc-bg doc-border"/>
+
+  <!-- Header -->
+  <rect x="15" y="15" width="770" height="80" class="doc-line" fill="#f8f9fa"/>
+  <text x="400" y="35" text-anchor="middle" class="doc-title">CONTRACT NOTE CUM TAX INVOICE</text>
+  <text x="400" y="48" text-anchor="middle" class="doc-subtitle">(Tax Invoice under Section 31 of GST Act)</text>
+
+  <!-- Member Info Section -->
+  <rect x="15" y="100" width="770" height="70" class="doc-line"/>
+  <text x="25" y="115" class="doc-header">NAME OF THE MEMBER, LOGO OF THE MEMBER</text>
+  <text x="25" y="128" class="doc-header">SEBI REGISTRATION NO. ADDRESS, TELEPHONE NO, FAX NO AND WEBSITE</text>
+  <text x="25" y="141" class="doc-header">NAME OF COMPLIANCE OFFICER HIS/HER EMAIL & TELEPHONE NO., EMAIL ID FOR</text>
+  <text x="25" y="154" class="doc-header">INVESTOR COMPLAINT</text>
+
+  <!-- Left Column -->
+  <rect x="15" y="175" width="240" height="380" class="doc-line"/>
+  <text x="25" y="190" class="doc-header" font-weight="bold">CONTRACT NOTE NO.</text>
+  <line x1="15" y1="200" x2="255" y2="200" class="doc-line"/>
+
+  <text x="25" y="215" class="doc-header" font-weight="bold">Invoice Reference Number (IRN)</text>
+  <line x1="15" y1="225" x2="255" y2="225" class="doc-line"/>
+
+  <text x="25" y="240" class="doc-header" font-weight="bold">TRADE DATE</text>
+  <line x1="15" y1="250" x2="255" y2="250" class="doc-line"/>
+
+  <text x="25" y="268" class="doc-header" font-weight="bold">Name of the Client</text>
+  <text x="25" y="282" class="doc-header">Address of the Client</text>
+  <text x="25" y="296" class="doc-header">State/State Code</text>
+  <text x="25" y="310" class="doc-header">PAN of Client</text>
+  <text x="25" y="324" class="doc-header">UCC of Client</text>
+
+  <!-- Right Column -->
+  <rect x="260" y="175" width="525" height="380" class="doc-line"/>
+  <text x="270" y="190" class="doc-header" font-weight="bold">SETTLEMENT NO.</text>
+  <text x="450" y="190" class="doc-header" font-weight="bold">Clearing Corporation & Segment</text>
+  <line x1="260" y1="200" x2="785" y2="200" class="doc-line"/>
+
+  <text x="270" y="215" class="doc-header" font-weight="bold">SETTLEMENT DATE</text>
+  <text x="450" y="215" class="doc-header" font-weight="bold">Clearing Corporation & Segment</text>
+  <line x1="260" y1="225" x2="785" y2="225" class="doc-line"/>
+
+  <text x="270" y="245" class="doc-header">GIVE CLEARING CORPORATION-WISE</text>
+  <text x="270" y="258" class="doc-header">SEGMENTWISE SETTLEMENT NO. & DATES</text>
+
+  <!-- Footer -->
+  <text x="25" y="580" class="doc-subtitle">For official use only - Contract Note Reference</text>
+</svg>
