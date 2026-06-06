@@ -3235,7 +3235,7 @@ html[data-theme="dark"] .pg-page-header {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-  padding: 60px 40px;
+  padding: 120px 40px 180px 40px;
 }
 
 .cs-design-painpoints-top {
