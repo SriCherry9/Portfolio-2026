@@ -2965,25 +2965,26 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Overview Section */
 .cs-design-overview {
-  background: #E8EFFF;
+  background: #E5EBFF;
   padding: 80px 32px;
   position: relative;
   padding-bottom: 100px;
 }
 
 .cs-design-overview::after {
-  content: 'B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech';
+  content: 'B2B  •  FinTech  /  B2B  •  FinTech  /  B2B  •  FinTech  /  B2B  •  FinTech  /  B2B  •  FinTech  /  B2B  •  FinTech';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: #011239;
-  color: rgba(255, 255, 255, 0.4);
-  padding: 16px 32px;
+  background: #000000;
+  color: rgba(11, 18, 57, 0.5);
+  padding: 20px 32px;
   font-size: 12px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   overflow: hidden;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 .cs-design-overview-inner {
