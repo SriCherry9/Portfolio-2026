@@ -4053,8 +4053,8 @@ html[data-theme="dark"] .pg-page-header {
   font-size: 14px;
   font-weight: 600;
   color: #001F5C;
-  margin-top: 16px;
-  text-align: center;
+  margin-bottom: 16px;
+  text-align: left;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }

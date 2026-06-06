@@ -352,38 +352,38 @@ export function CashlessPage() {
 
           <div className="cs-hta-grid">
             <div className="cs-hta-item">
+              <p className="cs-hta-label">Admin - SPV Set-up</p>
               <div className="cs-hta-image-wrapper">
                 <img src="/images/hta-1-spv-setup.png" alt="HTA 1: Admin - SPV Set-up" className="cs-hta-image" />
               </div>
-              <p className="cs-hta-label">Admin - SPV Set-up</p>
             </div>
 
             <div className="cs-hta-item">
+              <p className="cs-hta-label">Admin - Configure Broker & Cashless Charges</p>
               <div className="cs-hta-image-wrapper">
                 <img src="/images/hta-2-broker-charges.png" alt="HTA 2: Admin - Configure Broker & Cashless Charges" className="cs-hta-image" />
               </div>
-              <p className="cs-hta-label">Admin - Configure Broker & Cashless Charges</p>
             </div>
 
             <div className="cs-hta-item">
+              <p className="cs-hta-label">Admin - Cashless Activation</p>
               <div className="cs-hta-image-wrapper">
                 <img src="/images/hta-3-cashless-activation.png" alt="HTA 3: Admin - Cashless Activation" className="cs-hta-image" />
               </div>
-              <p className="cs-hta-label">Admin - Cashless Activation</p>
             </div>
 
             <div className="cs-hta-item">
+              <p className="cs-hta-label">Employee Exercise Flow - Cashless with Calculations</p>
               <div className="cs-hta-image-wrapper">
                 <img src="/images/hta-4-employee-exercise.png" alt="HTA 4: Employee Exercise Flow - Cashless with Calculations" className="cs-hta-image" />
               </div>
-              <p className="cs-hta-label">Employee Exercise Flow - Cashless with Calculations</p>
             </div>
 
             <div className="cs-hta-item">
+              <p className="cs-hta-label">Admin - Cashless Processing</p>
               <div className="cs-hta-image-wrapper">
                 <img src="/images/hta-5-cashless-processing.png" alt="HTA 5: Admin - Cashless Processing" className="cs-hta-image" />
               </div>
-              <p className="cs-hta-label">Admin - Cashless Processing</p>
             </div>
           </div>
         </div>
