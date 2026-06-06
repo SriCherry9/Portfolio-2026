@@ -3703,13 +3703,16 @@ html[data-theme="dark"] .pg-page-header {
   text-align: center;
 }
 
-.cs-artifact-image-placeholder {
+.cs-artifact-image {
   width: 100%;
-  height: 300px;
-  background: #F0F0F0;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
   border: 2px solid #CCCCCC;
   border-radius: 8px;
   margin-bottom: 20px;
+  background: #F0F0F0;
+  display: block;
 }
 
 .cs-artifact-label {
