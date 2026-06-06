@@ -1,143 +1,136 @@
-<svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1400 500" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      .table-header { font-size: 9px; font-weight: bold; fill: white; text-anchor: middle; }
-      .table-cell { font-size: 8px; fill: #333; text-anchor: start; }
-      .table-border { stroke: #999; stroke-width: 0.8; }
-      .header-bg { fill: #6B2E8F; }
-      .row-bg-odd { fill: #ffffff; }
-      .row-bg-even { fill: #f8f8f8; }
-      .title { font-size: 14px; font-weight: bold; fill: #000; text-anchor: middle; }
+      .header { fill: #6B2E8F; color: white; font-family: Arial, sans-serif; font-size: 11px; font-weight: bold; }
+      .cell-text { font-family: Arial, sans-serif; font-size: 10px; fill: #333; }
+      .border { stroke: #999; stroke-width: 0.8; }
     </style>
   </defs>
 
+  <!-- Header Row -->
+  <rect x="0" y="0" width="140" height="35" class="header" fill="#6B2E8F"/>
+  <text x="70" y="20" text-anchor="middle" class="header" fill="white">Stakeholder Name</text>
+
+  <rect x="140" y="0" width="80" height="35" class="header" fill="#6B2E8F"/>
+  <text x="180" y="20" text-anchor="middle" class="header" fill="white">Employee ID</text>
+
+  <rect x="220" y="0" width="100" height="35" class="header" fill="#6B2E8F"/>
+  <text x="270" y="20" text-anchor="middle" class="header" fill="white">Grant Certificate ID</text>
+
+  <rect x="320" y="0" width="70" height="35" class="header" fill="#6B2E8F"/>
+  <text x="355" y="20" text-anchor="middle" class="header" fill="white">Grant ID</text>
+
+  <rect x="390" y="0" width="100" height="35" class="header" fill="#6B2E8F"/>
+  <text x="440" y="20" text-anchor="middle" class="header" fill="white">Exercise Request ID</text>
+
+  <rect x="490" y="0" width="120" height="35" class="header" fill="#6B2E8F"/>
+  <text x="550" y="20" text-anchor="middle" class="header" fill="white">Exercise Request Date</text>
+
+  <rect x="610" y="0" width="100" height="35" class="header" fill="#6B2E8F"/>
+  <text x="660" y="20" text-anchor="middle" class="header" fill="white">Exercise Status</text>
+
+  <rect x="710" y="0" width="110" height="35" class="header" fill="#6B2E8F"/>
+  <text x="765" y="20" text-anchor="middle" class="header" fill="white">Date of Approval</text>
+
+  <rect x="820" y="0" width="130" height="35" class="header" fill="#6B2E8F"/>
+  <text x="885" y="20" text-anchor="middle" class="header" fill="white">Share Issuance Date</text>
+
+  <rect x="950" y="0" width="450" height="35" class="header" fill="#6B2E8F"/>
+  <text x="1175" y="20" text-anchor="middle" class="header" fill="white">Plan Name</text>
+
+  <!-- Data Row 1 -->
+  <rect x="0" y="35" width="140" height="30" class="border" fill="#fafafa"/>
+  <text x="10" y="55" class="cell-text">Beu Make</text>
+
+  <rect x="140" y="35" width="80" height="30" class="border" fill="#fafafa"/>
+  <text x="150" y="55" class="cell-text">TE0001</text>
+
+  <rect x="220" y="35" width="100" height="30" class="border" fill="#fafafa"/>
+  <text x="230" y="55" class="cell-text">-</text>
+
+  <rect x="320" y="35" width="70" height="30" class="border" fill="#fafafa"/>
+  <text x="330" y="55" class="cell-text">EA-050</text>
+
+  <rect x="390" y="35" width="100" height="30" class="border" fill="#fafafa"/>
+  <text x="400" y="55" class="cell-text">Ex-23</text>
+
+  <rect x="490" y="35" width="120" height="30" class="border" fill="#fafafa"/>
+  <text x="500" y="55" class="cell-text">Nov 11, 2025</text>
+
+  <rect x="610" y="35" width="100" height="30" class="border" fill="#fafafa"/>
+  <text x="620" y="55" class="cell-text">Pending</text>
+
+  <rect x="710" y="35" width="110" height="30" class="border" fill="#fafafa"/>
+  <text x="720" y="55" class="cell-text">Nov 11, 2025</text>
+
+  <rect x="820" y="35" width="130" height="30" class="border" fill="#fafafa"/>
+  <text x="830" y="55" class="cell-text">-</text>
+
+  <rect x="950" y="35" width="450" height="30" class="border" fill="#fafafa"/>
+  <text x="960" y="55" class="cell-text">ESOP 2023 Plan</text>
+
+  <!-- Data Row 2 -->
+  <rect x="0" y="65" width="140" height="30" class="border" fill="white"/>
+  <text x="10" y="85" class="cell-text">Era Turn</text>
+
+  <rect x="140" y="65" width="80" height="30" class="border" fill="white"/>
+  <text x="150" y="85" class="cell-text">TE0007</text>
+
+  <rect x="220" y="65" width="100" height="30" class="border" fill="white"/>
+  <text x="230" y="85" class="cell-text">-</text>
+
+  <rect x="320" y="65" width="70" height="30" class="border" fill="white"/>
+  <text x="330" y="85" class="cell-text">EA-003</text>
+
+  <rect x="390" y="65" width="100" height="30" class="border" fill="white"/>
+  <text x="400" y="85" class="cell-text">Ex-5</text>
+
+  <rect x="490" y="65" width="120" height="30" class="border" fill="white"/>
+  <text x="500" y="85" class="cell-text">Jul 12, 2023</text>
+
+  <rect x="610" y="65" width="100" height="30" class="border" fill="white"/>
+  <text x="620" y="85" class="cell-text">Issued</text>
+
+  <rect x="710" y="65" width="110" height="30" class="border" fill="white"/>
+  <text x="720" y="85" class="cell-text">-</text>
+
+  <rect x="820" y="65" width="130" height="30" class="border" fill="white"/>
+  <text x="830" y="85" class="cell-text">Jul 28, 2023</text>
+
+  <rect x="950" y="65" width="450" height="30" class="border" fill="white"/>
+  <text x="960" y="85" class="cell-text">ESOP Common Plan</text>
+
+  <!-- Data Row 3 -->
+  <rect x="0" y="95" width="140" height="30" class="border" fill="#fafafa"/>
+  <text x="10" y="115" class="cell-text">Fillo Till</text>
+
+  <rect x="140" y="95" width="80" height="30" class="border" fill="#fafafa"/>
+  <text x="150" y="115" class="cell-text">TE011</text>
+
+  <rect x="220" y="95" width="100" height="30" class="border" fill="#fafafa"/>
+  <text x="230" y="115" class="cell-text">-</text>
+
+  <rect x="320" y="95" width="70" height="30" class="border" fill="#fafafa"/>
+  <text x="330" y="115" class="cell-text">EA-001</text>
+
+  <rect x="390" y="95" width="100" height="30" class="border" fill="#fafafa"/>
+  <text x="400" y="115" class="cell-text">Ex-2</text>
+
+  <rect x="490" y="95" width="120" height="30" class="border" fill="#fafafa"/>
+  <text x="500" y="115" class="cell-text">Jul 09, 2025</text>
+
+  <rect x="610" y="95" width="100" height="30" class="border" fill="#fafafa"/>
+  <text x="620" y="115" class="cell-text">Pending</text>
+
+  <rect x="710" y="95" width="110" height="30" class="border" fill="#fafafa"/>
+  <text x="720" y="115" class="cell-text">Oct 31, 2025</text>
+
+  <rect x="820" y="95" width="130" height="30" class="border" fill="#fafafa"/>
+  <text x="830" y="115" class="cell-text">-</text>
+
+  <rect x="950" y="95" width="450" height="30" class="border" fill="#fafafa"/>
+  <text x="960" y="115" class="cell-text">ESOP Common Plan</text>
+
   <!-- Title -->
-  <text x="450" y="25" class="title">Cashless Exercise Report</text>
-
-  <!-- Table Header -->
-  <rect x="10" y="35" width="70" height="25" class="header-bg table-border"/>
-  <text x="45" y="52" class="table-header">Stakeholder Name</text>
-
-  <rect x="80" y="35" width="60" height="25" class="header-bg table-border"/>
-  <text x="110" y="52" class="table-header">Employee ID</text>
-
-  <rect x="140" y="35" width="70" height="25" class="header-bg table-border"/>
-  <text x="175" y="52" class="table-header">Grant Certificate ID</text>
-
-  <rect x="210" y="35" width="50" height="25" class="header-bg table-border"/>
-  <text x="235" y="52" class="table-header">Grant ID</text>
-
-  <rect x="260" y="35" width="70" height="25" class="header-bg table-border"/>
-  <text x="295" y="52" class="table-header">Exercise Request ID</text>
-
-  <rect x="330" y="35" width="80" height="25" class="header-bg table-border"/>
-  <text x="370" y="52" class="table-header">Exercise Request Date</text>
-
-  <rect x="410" y="35" width="60" height="25" class="header-bg table-border"/>
-  <text x="440" y="52" class="table-header">Exercise Status</text>
-
-  <rect x="470" y="35" width="65" height="25" class="header-bg table-border"/>
-  <text x="502" y="52" class="table-header">Date of Approval</text>
-
-  <rect x="535" y="35" width="70" height="25" class="header-bg table-border"/>
-  <text x="570" y="52" class="table-header">Share Issuance Date</text>
-
-  <rect x="605" y="35" width="75" height="25" class="header-bg table-border"/>
-  <text x="642" y="52" class="table-header">Plan Name</text>
-
-  <!-- Row 1 -->
-  <rect x="10" y="60" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="15" y="72" class="table-cell">Beu Make</text>
-
-  <rect x="80" y="60" width="60" height="20" class="row-bg-odd table-border"/>
-  <text x="85" y="72" class="table-cell">TE0001</text>
-
-  <rect x="140" y="60" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="145" y="72" class="table-cell">-</text>
-
-  <rect x="210" y="60" width="50" height="20" class="row-bg-odd table-border"/>
-  <text x="215" y="72" class="table-cell">EA-050</text>
-
-  <rect x="260" y="60" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="265" y="72" class="table-cell">Ex-23</text>
-
-  <rect x="330" y="60" width="80" height="20" class="row-bg-odd table-border"/>
-  <text x="335" y="72" class="table-cell">Nov 11, 2025</text>
-
-  <rect x="410" y="60" width="60" height="20" class="row-bg-odd table-border"/>
-  <text x="415" y="72" class="table-cell">Pending</text>
-
-  <rect x="470" y="60" width="65" height="20" class="row-bg-odd table-border"/>
-  <text x="475" y="72" class="table-cell">Nov 11, 2025</text>
-
-  <rect x="535" y="60" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="540" y="72" class="table-cell">-</text>
-
-  <rect x="605" y="60" width="75" height="20" class="row-bg-odd table-border"/>
-  <text x="610" y="72" class="table-cell">ESOP 2023</text>
-
-  <!-- Row 2 -->
-  <rect x="10" y="80" width="70" height="20" class="row-bg-even table-border"/>
-  <text x="15" y="92" class="table-cell">Era Turn</text>
-
-  <rect x="80" y="80" width="60" height="20" class="row-bg-even table-border"/>
-  <text x="85" y="92" class="table-cell">TE0007</text>
-
-  <rect x="140" y="80" width="70" height="20" class="row-bg-even table-border"/>
-  <text x="145" y="92" class="table-cell">-</text>
-
-  <rect x="210" y="80" width="50" height="20" class="row-bg-even table-border"/>
-  <text x="215" y="92" class="table-cell">EA-003</text>
-
-  <rect x="260" y="80" width="70" height="20" class="row-bg-even table-border"/>
-  <text x="265" y="92" class="table-cell">Ex-5</text>
-
-  <rect x="330" y="80" width="80" height="20" class="row-bg-even table-border"/>
-  <text x="335" y="92" class="table-cell">Jul 12, 2023</text>
-
-  <rect x="410" y="80" width="60" height="20" class="row-bg-even table-border"/>
-  <text x="415" y="92" class="table-cell">Issued</text>
-
-  <rect x="470" y="80" width="65" height="20" class="row-bg-even table-border"/>
-  <text x="475" y="92" class="table-cell">-</text>
-
-  <rect x="535" y="80" width="70" height="20" class="row-bg-even table-border"/>
-  <text x="540" y="92" class="table-cell">Jul 28, 2023</text>
-
-  <rect x="605" y="80" width="75" height="20" class="row-bg-even table-border"/>
-  <text x="610" y="92" class="table-cell">ESOP Common</text>
-
-  <!-- Additional rows (abbreviated) -->
-  <rect x="10" y="100" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="15" y="112" class="table-cell">Fillo Till</text>
-
-  <rect x="80" y="100" width="60" height="20" class="row-bg-odd table-border"/>
-  <text x="85" y="112" class="table-cell">TE011</text>
-
-  <rect x="140" y="100" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="145" y="112" class="table-cell">-</text>
-
-  <rect x="210" y="100" width="50" height="20" class="row-bg-odd table-border"/>
-  <text x="215" y="112" class="table-cell">EA-001</text>
-
-  <rect x="260" y="100" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="265" y="112" class="table-cell">Ex-2</text>
-
-  <rect x="330" y="100" width="80" height="20" class="row-bg-odd table-border"/>
-  <text x="335" y="112" class="table-cell">Jul 09, 2025</text>
-
-  <rect x="410" y="100" width="60" height="20" class="row-bg-odd table-border"/>
-  <text x="415" y="112" class="table-cell">Pending</text>
-
-  <rect x="470" y="100" width="65" height="20" class="row-bg-odd table-border"/>
-  <text x="475" y="112" class="table-cell">Oct 31, 2025</text>
-
-  <rect x="535" y="100" width="70" height="20" class="row-bg-odd table-border"/>
-  <text x="540" y="112" class="table-cell">-</text>
-
-  <rect x="605" y="100" width="75" height="20" class="row-bg-odd table-border"/>
-  <text x="610" y="112" class="table-cell">ESOP Common</text>
-
-  <!-- Footer note -->
-  <text x="450" y="570" text-anchor="middle" style="font-size: 9px; fill: #666;">Showing sample data - Cashless Exercise Report</text>
+  <text x="700" y="470" text-anchor="middle" style="font-size: 14px; font-weight: bold; font-family: Arial; fill: #333;">Cashless Exercise Report</text>
 </svg>
