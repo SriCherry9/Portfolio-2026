@@ -926,6 +926,12 @@ html[data-theme="dark"] .about-era-tag {
   box-shadow: 0 0 0 3px var(--accent, rgba(0,0,0,0.08));
 }
 
+/* Remove border from first card (Cashless) */
+.tl-row:first-of-type .tl-cover {
+  box-shadow: none;
+  border: none;
+}
+
 .tl-cover--clickable { cursor: pointer; }
 
 .tl-cover-inner {

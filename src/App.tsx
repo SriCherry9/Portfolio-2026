@@ -3,7 +3,6 @@ import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
-import { CashlessCover } from './components/covers/CashlessCover'
 import { MuseoCover } from './components/covers/MuseoCover'
 
 const PROJECTS = [
@@ -12,7 +11,7 @@ const PROJECTS = [
     dateRange: '2022 – 2024',
     category: 'Fintech · B2B SaaS',
     accentColor: '#B8E4C9',
-    coverComponent: <CashlessCover />,
+    coverImage: '/images/cashless-cover.png',
     videoSrc: '/videos/product-tour.mov',
     caseStudyPath: '/case-study/cashless',
     company: 'QAPITA',
