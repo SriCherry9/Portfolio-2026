@@ -3593,8 +3593,8 @@ html[data-theme="dark"] .pg-page-header {
   background: white;
   color: #333;
   padding: 40px;
-  border-radius: 16px;
-  border: 1px solid #CCCCCC;
+  border-radius: 20px;
+  border: 2px solid #D8E0F5;
   margin-bottom: 40px;
   max-width: 900px;
   margin-left: auto;
@@ -3606,17 +3606,19 @@ html[data-theme="dark"] .pg-page-header {
   display: inline-block;
   background: #00236F;
   color: white;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   padding: 8px 24px;
   border-radius: 20px;
   margin-bottom: 24px;
+  letter-spacing: 0.5px;
 }
 
 .cs-research-goal-text {
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: #333;
+  font-weight: 500;
 }
 
 .cs-research-interview-types {
@@ -3629,49 +3631,54 @@ html[data-theme="dark"] .pg-page-header {
 
 .cs-interview-type {
   background: #E8EFFE;
-  border: 1px solid #9DB3E2;
-  padding: 10px 20px;
-  border-radius: 20px;
+  border: 1px solid #BCC9E8;
+  padding: 12px 24px;
+  border-radius: 25px;
   font-size: 13px;
   color: #4A5B7F;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .cs-research-consideration {
-  background: #E8EFFE;
-  padding: 32px;
-  border-radius: 12px;
-  border-left: none;
+  background: #001F5C;
+  padding: 40px;
+  border-radius: 16px;
+  border: none;
 }
 
 .cs-research-consideration-title {
   display: inline-block;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  background: #4A5B7F;
-  padding: 6px 16px;
-  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
   margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .cs-research-consideration-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #333;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .cs-research-description {
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.8;
   color: #333;
+  font-weight: 500;
 }
 
 /* Artifact Analysis */
 .cs-research-artifact {
   margin-top: 80px;
   padding-top: 80px;
-  border-top: 2px solid #CCCCCC;
+  border-top: 2px solid #D8E0F5;
 }
 
 .cs-research-artifact-title {
@@ -3680,7 +3687,7 @@ html[data-theme="dark"] .pg-page-header {
   font-weight: 400;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #333;
+  color: #001F5C;
   text-align: center;
   margin-bottom: 60px;
   position: relative;
@@ -3693,7 +3700,7 @@ html[data-theme="dark"] .pg-page-header {
   top: 50%;
   width: 40%;
   height: 1px;
-  background: #333;
+  background: #001F5C;
 }
 
 .cs-research-artifact-title::before {
@@ -3720,24 +3727,24 @@ html[data-theme="dark"] .pg-page-header {
   height: auto;
   max-height: 400px;
   object-fit: contain;
-  border: 2px solid #CCCCCC;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  background: #F0F0F0;
+  border: 2px solid #D8E0F5;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  background: #FAFBFF;
   display: block;
 }
 
 .cs-artifact-label {
-  font-size: 15px;
-  font-weight: 500;
-  color: #333;
-  line-height: 1.6;
+  font-size: 14px;
+  font-weight: 600;
+  color: #001F5C;
+  line-height: 1.7;
 }
 
 /* Insights */
 .cs-research-insights {
   padding-top: 80px;
-  border-top: 2px solid #CCCCCC;
+  border-top: 2px solid #D8E0F5;
 }
 
 .cs-research-insights-title {
@@ -3746,7 +3753,7 @@ html[data-theme="dark"] .pg-page-header {
   font-weight: 400;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #333;
+  color: #001F5C;
   text-align: center;
   margin-bottom: 60px;
   position: relative;
@@ -3759,7 +3766,7 @@ html[data-theme="dark"] .pg-page-header {
   top: 50%;
   width: 40%;
   height: 1px;
-  background: #333;
+  background: #001F5C;
 }
 
 .cs-research-insights-title::before {
@@ -3777,16 +3784,17 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-research-insight-box {
-  border: 2px solid #CCCCCC;
-  border-radius: 12px;
-  padding: 32px;
+  border: 2px solid #D8E0F5;
+  border-radius: 16px;
+  padding: 36px;
   background: white;
+  transition: all 0.3s ease;
 }
 
 .cs-research-insight-box h4 {
   font-size: 16px;
   font-weight: 700;
-  color: #011239;
+  color: #001F5C;
   margin-bottom: 16px;
   line-height: 1.5;
 }
@@ -3799,7 +3807,7 @@ html[data-theme="dark"] .pg-page-header {
 
 .cs-research-insight-box li {
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: #333;
   padding-left: 20px;
   position: relative;
@@ -3811,11 +3819,12 @@ html[data-theme="dark"] .pg-page-header {
   position: absolute;
   left: 0;
   color: #4A5B7F;
+  font-weight: bold;
 }
 
 .cs-research-insight-box p {
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: #333;
   margin: 0;
 }
