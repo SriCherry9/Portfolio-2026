@@ -342,6 +342,70 @@ export function CashlessPage() {
         </div>
       </section>
 
+      {/* ── Ideate & Implement Section ── */}
+      <section className="cs-design-ideate">
+        <div className="cs-design-ideate-inner">
+          <h2 className="cs-design-ideate-title">IDEATE & IMPLEMENT</h2>
+
+          <div className="cs-ideate-intro">
+            <div className="cs-ideate-goal">
+              <h3>Goal:</h3>
+              <p>Validate designs, refine micro-interactions, and ship to production.</p>
+            </div>
+            <div className="cs-ideate-methods">
+              <h3>Methods:</h3>
+              <p>Rapid, collaborative iterations via parallel prototypes, speed dating, RITE testing, and critiques refined equity workflows with cross-team input.</p>
+            </div>
+          </div>
+
+          <div className="cs-ideate-grid">
+            <div className="cs-ideate-item">
+              <div className="cs-ideate-image-wrapper">
+                <img src="/images/ideate-1-issuer-creation.png" alt="Issuer Creation - Activating Cashless Modules" className="cs-ideate-image" />
+              </div>
+              <p className="cs-ideate-label">Issuer Creation - Activating Cashless Modules</p>
+            </div>
+
+            <div className="cs-ideate-item">
+              <div className="cs-ideate-image-wrapper">
+                <img src="/images/ideate-2-add-stakeholder.png" alt="Add Stakeholder" className="cs-ideate-image" />
+              </div>
+              <p className="cs-ideate-label">Add Stakeholder</p>
+            </div>
+
+            <div className="cs-ideate-item">
+              <div className="cs-ideate-image-wrapper">
+                <img src="/images/ideate-3-create-plan.png" alt="Create Award Plan with SPV Details" className="cs-ideate-image" />
+              </div>
+              <p className="cs-ideate-label">Create Award Plan with SPV Details</p>
+            </div>
+
+            <div className="cs-ideate-item">
+              <div className="cs-ideate-image-wrapper">
+                <img src="/images/ideate-4-cashless-setup.png" alt="ESOP Direct Cashless Setup" className="cs-ideate-image" />
+              </div>
+              <p className="cs-ideate-label">ESOP Direct Cashless Setup</p>
+            </div>
+
+            <div className="cs-ideate-item">
+              <div className="cs-ideate-image-wrapper">
+                <img src="/images/ideate-5-config-before.png" alt="Configuration Before" className="cs-ideate-image" />
+              </div>
+              <p className="cs-ideate-label">Configuration Before</p>
+            </div>
+
+            <div className="cs-ideate-item">
+              <div className="cs-ideate-image-wrapper">
+                <img src="/images/ideate-6-config-after.png" alt="Configuration After" className="cs-ideate-image" />
+              </div>
+              <p className="cs-ideate-label">Configuration After</p>
+            </div>
+          </div>
+
+          <p className="cs-ideate-caption">Offer cashless features modularly—clients pay only for what they activate.</p>
+        </div>
+      </section>
+
       {/* ── HTA Section ── */}
       <section className="cs-design-hta">
         <div className="cs-design-hta-inner">
