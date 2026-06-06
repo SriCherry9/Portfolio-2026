@@ -3481,6 +3481,76 @@ html[data-theme="dark"] .pg-page-header {
   color: #4A5B7F;
 }
 
+/* Role Based Personas Section */
+.cs-design-personas {
+  background: #00236F;
+  padding: 80px 32px;
+  color: white;
+}
+
+.cs-design-personas-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.cs-design-personas-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cs-personas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+}
+
+.cs-persona-btn {
+  background: #D8E0F5;
+  border: none;
+  border-radius: 50px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #011239;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cs-persona-btn:hover {
+  background: #c9d2ea;
+  transform: translateY(-2px);
+}
+
+.cs-persona-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #00236F;
+  flex-shrink: 0;
+}
+
+.cs-persona-label {
+  font-family: 'AvantGarde', 'ITC Avant Garde Gothic', system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .cs-personas-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* Research Section */
 .cs-design-research {
   background: #E5EBFF;

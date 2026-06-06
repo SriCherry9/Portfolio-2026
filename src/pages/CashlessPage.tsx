@@ -231,6 +231,36 @@ export function CashlessPage() {
         </div>
       </section>
 
+      {/* ── Role Based Personas Section ── */}
+      <section className="cs-design-personas">
+        <div className="cs-design-personas-inner">
+          <h2 className="cs-design-personas-title">ROLE BASED PERSONAS</h2>
+
+          <div className="cs-personas-grid">
+            <button className="cs-persona-btn">
+              <span className="cs-persona-indicator"></span>
+              <span className="cs-persona-label">Employees</span>
+            </button>
+            <button className="cs-persona-btn">
+              <span className="cs-persona-indicator"></span>
+              <span className="cs-persona-label">Investors</span>
+            </button>
+            <button className="cs-persona-btn">
+              <span className="cs-persona-indicator"></span>
+              <span className="cs-persona-label">Board Members</span>
+            </button>
+            <button className="cs-persona-btn">
+              <span className="cs-persona-indicator"></span>
+              <span className="cs-persona-label">Finance Managers</span>
+            </button>
+            <button className="cs-persona-btn">
+              <span className="cs-persona-indicator"></span>
+              <span className="cs-persona-label">Managed Services Team</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* ── Research Section ── */}
       <section className="cs-design-research">
         <div className="cs-design-research-inner">
