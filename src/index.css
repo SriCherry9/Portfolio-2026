@@ -2965,53 +2965,78 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Overview Section */
 .cs-design-overview {
-  background: #F4EADE;
+  background: #E8EFFF;
   padding: 80px 32px;
+  position: relative;
+  padding-bottom: 100px;
+}
+
+.cs-design-overview::after {
+  content: 'B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech  /  B2B  ·  FinTech';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #011239;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 16px 32px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .cs-design-overview-inner {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
 }
 
 .cs-design-overview-main {
-  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .cs-design-overview-badge {
   display: inline-block;
-  background: #E8E0D0;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 13px;
+  background: rgba(93, 127, 218, 0.15);
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #5A6B8C;
-  margin-bottom: 20px;
+  text-transform: capitalize;
+  color: #4B5A9D;
+  margin-bottom: 0;
+  width: fit-content;
 }
 
 .cs-design-overview-title {
-  font-family: 'Golte', Georgia, serif;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: #1A1A1A;
-  max-width: 700px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #2C3E50;
+  margin: 0;
+  max-width: 100%;
 }
 
 .cs-design-overview-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-  padding-top: 40px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  gap: 48px;
+  padding-top: 0;
+  border-top: none;
 }
 
 .cs-design-overview-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .cs-design-overview-item h4 {
