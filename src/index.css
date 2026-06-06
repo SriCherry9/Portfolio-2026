@@ -3727,8 +3727,8 @@ html[data-theme="dark"] .pg-page-header {
 .cs-research-artifact-title {
   padding: 20px 0;
   background: linear-gradient(to right, #001F5C 0%, #001F5C 40%, transparent 40%, transparent 60%, #001F5C 60%, #001F5C 100%) center bottom -8px / 100% 1px no-repeat,
-              radial-gradient(circle, #001F5C 6px, transparent 6px) 0% bottom -14px / 12px 12px no-repeat,
-              radial-gradient(circle, #001F5C 6px, transparent 6px) 100% bottom -14px / 12px 12px no-repeat;
+              radial-gradient(circle, #001F5C 4px, transparent 4px) 0% bottom -11px / 8px 8px no-repeat,
+              radial-gradient(circle, #001F5C 4px, transparent 4px) 100% bottom -11px / 8px 8px no-repeat;
 }
 
 .cs-research-artifact-grid {
@@ -3810,8 +3810,8 @@ html[data-theme="dark"] .pg-page-header {
 .cs-research-insights-title {
   padding: 20px 0;
   background: linear-gradient(to right, #001F5C 0%, #001F5C 40%, transparent 40%, transparent 60%, #001F5C 60%, #001F5C 100%) center bottom -8px / 100% 1px no-repeat,
-              radial-gradient(circle, #001F5C 6px, transparent 6px) 0% bottom -14px / 12px 12px no-repeat,
-              radial-gradient(circle, #001F5C 6px, transparent 6px) 100% bottom -14px / 12px 12px no-repeat;
+              radial-gradient(circle, #001F5C 4px, transparent 4px) 0% bottom -11px / 8px 8px no-repeat,
+              radial-gradient(circle, #001F5C 4px, transparent 4px) 100% bottom -11px / 8px 8px no-repeat;
 }
 
 .cs-research-insights-grid {
