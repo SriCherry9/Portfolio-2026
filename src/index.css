@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 /* ── Custom cherry cursor ── */
 *, *::before, *::after {
@@ -35,6 +36,14 @@
   font-family: 'AvantGarde';
   src: url('/fonts/AVGARDD_2.TTF') format('truetype');
   font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Seliya Gardener';
+  src: url('/fonts/seliya-gardener.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -2753,6 +2762,16 @@ html[data-theme="dark"] .pg-page-header {
 .cs-page.cs-cashless-design {
   background: var(--page-bg);
   color: var(--text-primary);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.cs-page.cs-cashless-design h1,
+.cs-page.cs-cashless-design h2,
+.cs-page.cs-cashless-design h3,
+.cs-page.cs-cashless-design h4,
+.cs-page.cs-cashless-design h5,
+.cs-page.cs-cashless-design h6 {
+  font-family: 'Seliya Gardener', serif;
 }
 
 /* Header Section */
