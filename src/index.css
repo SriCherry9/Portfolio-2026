@@ -3575,72 +3575,84 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-research-subsection {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 
 .cs-research-label {
   display: inline-block;
-  background: rgba(93, 127, 218, 0.15);
-  padding: 12px 24px;
-  border-radius: 24px;
+  background: #D8E0F5;
+  padding: 12px 28px;
+  border-radius: 20px;
   font-weight: 600;
   font-size: 14px;
-  color: #4A5B7F;
+  color: #00236F;
   margin-bottom: 40px;
 }
 
 .cs-research-goal-box {
-  background: rgba(0, 35, 111, 0.9);
-  color: white;
+  background: white;
+  color: #333;
   padding: 40px;
   border-radius: 16px;
+  border: 1px solid #CCCCCC;
   margin-bottom: 40px;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 }
 
 .cs-research-goal-title {
-  font-size: 16px;
+  display: inline-block;
+  background: #00236F;
+  color: white;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 16px;
+  padding: 8px 24px;
+  border-radius: 20px;
+  margin-bottom: 24px;
 }
 
 .cs-research-goal-text {
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.95);
+  color: #333;
 }
 
 .cs-research-interview-types {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
   justify-content: center;
 }
 
 .cs-interview-type {
-  background: rgba(93, 127, 218, 0.2);
-  border: 1px solid rgba(93, 127, 218, 0.5);
-  padding: 12px 24px;
-  border-radius: 24px;
-  font-size: 14px;
+  background: #E8EFFE;
+  border: 1px solid #9DB3E2;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
   color: #4A5B7F;
+  font-weight: 500;
 }
 
 .cs-research-consideration {
-  background: rgba(93, 127, 218, 0.1);
+  background: #E8EFFE;
   padding: 32px;
   border-radius: 12px;
-  border-left: 4px solid rgba(93, 127, 218, 0.5);
+  border-left: none;
 }
 
 .cs-research-consideration-title {
-  font-size: 15px;
+  display: inline-block;
+  font-size: 13px;
   font-weight: 600;
-  color: #4A5B7F;
-  margin-bottom: 12px;
+  color: white;
+  background: #4A5B7F;
+  padding: 6px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
 .cs-research-consideration-text {
