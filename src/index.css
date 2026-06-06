@@ -3273,7 +3273,7 @@ html[data-theme="dark"] .pg-page-header {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
 }
 
 .cs-design-painpoint-items li {
