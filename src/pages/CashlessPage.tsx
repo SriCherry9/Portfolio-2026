@@ -184,6 +184,86 @@ export function CashlessPage() {
         </div>
       </section>
 
+      {/* ── Objectives Section ── */}
+      <section className="cs-design-objectives">
+        <div className="cs-design-objectives-inner">
+          <h2 className="cs-design-objectives-title">OBJECTIVES</h2>
+
+          <div className="cs-design-objectives-tabs">
+            <button className="cs-objectives-tab cs-objectives-tab--active">Product & Business Objectives</button>
+            <button className="cs-objectives-tab">Design Objectives</button>
+          </div>
+
+          <div className="cs-design-objectives-content">
+            <div className="cs-objectives-column cs-objectives-column--left">
+              <ul className="cs-objectives-list">
+                <li>Make the admin workflow efficient</li>
+                <li>Make the process transparent for employees</li>
+                <li>Build a system architecture that supports:
+                  <ul className="cs-objectives-sublist">
+                    <li>Brokers</li>
+                    <li>Trusts / SPVs</li>
+                    <li>Jurisdiction-based restrictions</li>
+                    <li>Large-scale bulk processing</li>
+                  </ul>
+                </li>
+                <li>Create a premium feature that supports revenue growth</li>
+                <li>Ship fast to meet the promise made to the clients</li>
+              </ul>
+            </div>
+
+            <div className="cs-objectives-column cs-objectives-column--right">
+              <ul className="cs-objectives-list">
+                <li>Build a modular workflow that can be turned on/off based on client needs</li>
+                <li>Support configuration at:
+                  <ul className="cs-objectives-sublist">
+                    <li>Issuer level</li>
+                    <li>Instrument level</li>
+                    <li>Grant level</li>
+                    <li>Employee tag / country</li>
+                  </ul>
+                </li>
+                <li>Provide real-time preview of money, taxes, and outcomes</li>
+                <li>Ensure the design can scale to 100k+ exercises across enterprise accounts</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Research Section ── */}
+      <section className="cs-design-research">
+        <div className="cs-design-research-inner">
+          <h2 className="cs-design-research-title">RESEARCH</h2>
+
+          <div className="cs-research-subsection">
+            <div className="cs-research-label">Interviews</div>
+
+            <div className="cs-research-goal-box">
+              <h3 className="cs-research-goal-title">Goal</h3>
+              <p className="cs-research-goal-text">To gain a comprehensive understanding of the reconciliation workflow, role-based permission structures, and settlement timelines, as well as identify current pain points and inefficiencies in Acquired Company</p>
+            </div>
+
+            <div className="cs-research-interview-types">
+              <span className="cs-interview-type">Admins</span>
+              <span className="cs-interview-type">Chartered Accountants</span>
+              <span className="cs-interview-type">Managed Services Team</span>
+              <span className="cs-interview-type">C-suite Leaders</span>
+            </div>
+
+            <div className="cs-research-consideration">
+              <h4 className="cs-research-consideration-title">Technical Consideration</h4>
+              <p className="cs-research-consideration-text">The system architecture is different from Acquired Company, so the team had to build in a way that workflow is configurable and formulas customisable according to clients' need</p>
+            </div>
+          </div>
+
+          <div className="cs-research-subsection">
+            <div className="cs-research-label">Secondary Research</div>
+            <p className="cs-research-description">Analyzed Acquired Company's cashless reports and contract notes to uncover pain points and shape my design approach</p>
+          </div>
+        </div>
+      </section>
+
       {/* ── Footer ── */}
       <footer className="cs-footer cs-footer--cashless">
         <div className="cs-footer-inner">
