@@ -3555,7 +3555,7 @@ html[data-theme="dark"] .pg-page-header {
 /* Research Section */
 .cs-design-research {
   background: #E5EBFF;
-  padding: 80px 32px;
+  padding: 40px 32px 80px 32px;
   color: #011239;
 }
 
