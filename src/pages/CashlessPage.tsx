@@ -31,6 +31,13 @@ export function CashlessPage() {
         </div>
       </section>
 
+      {/* ── Cover Section ── */}
+      <section className="cs-cover-section">
+        <div className="cs-cover-image-wrapper">
+          <img src="/images/cashless-cover.png" alt="Cashless Exercise Dashboard" className="cs-cover-image" />
+        </div>
+      </section>
+
       {/* ── Video Section ── */}
       <section className="cs-design-video-section">
         <div className="cs-design-video-inner">

@@ -3240,6 +3240,29 @@ html[data-theme="dark"] .pg-page-header {
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Cover Section */
+.cs-cover-section {
+  background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
+  padding: 60px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-cover-image-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.cs-cover-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Video Section */
 .cs-design-video-section {
   background: #011239;
