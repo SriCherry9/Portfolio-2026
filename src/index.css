@@ -3380,19 +3380,27 @@ html[data-theme="dark"] .pg-page-header {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   margin-bottom: 60px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 80px 60px 60px 60px;
+  margin-top: 80px;
 }
 
 .cs-objectives-column {
-  padding: 40px;
-  border-radius: 12px;
+  padding: 48px;
+  border-radius: 16px;
+  background: rgba(0, 35, 111, 0.95);
+  color: white;
 }
 
 .cs-objectives-column--left {
-  background: rgba(0, 18, 57, 0.5);
+  background: rgba(0, 35, 111, 0.95);
 }
 
 .cs-objectives-column--right {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 35, 111, 0.85);
 }
 
 .cs-objectives-list {
