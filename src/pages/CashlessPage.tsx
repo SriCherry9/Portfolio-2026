@@ -297,11 +297,11 @@ export function CashlessPage() {
             <h3 className="cs-research-artifact-title">ARTIFACT ANALYSIS</h3>
             <div className="cs-research-artifact-grid">
               <div className="cs-research-artifact-item">
-                <img src="/images/contract-notes.png" alt="Contract Notes" className="cs-artifact-image" />
+                <img src="/images/contract-notes.svg" alt="Contract Notes" className="cs-artifact-image" />
                 <p className="cs-artifact-label">Contract Notes</p>
               </div>
               <div className="cs-research-artifact-item">
-                <img src="/images/cashless-report.png" alt="Cashless Exercise Reports" className="cs-artifact-image" />
+                <img src="/images/cashless-report.svg" alt="Cashless Exercise Reports" className="cs-artifact-image" />
                 <p className="cs-artifact-label">Cashless Exercise Reports - Helps in reconciliation</p>
               </div>
             </div>
