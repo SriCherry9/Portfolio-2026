@@ -2966,9 +2966,18 @@ html[data-theme="dark"] .pg-page-header {
 /* Overview Section */
 .cs-design-overview {
   background: #E5EBFF;
-  padding: 80px 32px;
+  padding: 80px 32px 84px;
   position: relative;
-  padding-bottom: 60px;
+}
+
+.cs-design-overview::before {
+  content: '';
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: #E5EBFF;
 }
 
 .cs-design-overview::after {
