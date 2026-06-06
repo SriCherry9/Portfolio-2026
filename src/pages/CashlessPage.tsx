@@ -70,16 +70,6 @@ export function CashlessPage() {
         </div>
       </section>
 
-      {/* ── Hero Section with Product Screenshot ── */}
-      <section className="cs-design-hero">
-        <div className="cs-design-hero-inner">
-          <h2 className="cs-design-hero-title">CASHLESS EXERCISE</h2>
-          <div className="cs-design-product-screenshot">
-            <img src="/images/card1-cover.png" alt="Cashless Exercise Product" />
-          </div>
-        </div>
-      </section>
-
       {/* ── Overview Section ── */}
       <section className="cs-design-overview">
         <div className="cs-design-overview-inner">
