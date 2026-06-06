@@ -3575,7 +3575,7 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-research-subsection {
-  margin-bottom: 80px;
+  margin-bottom: 48px;
 }
 
 .cs-research-label {
@@ -3607,10 +3607,10 @@ html[data-theme="dark"] .pg-page-header {
 .cs-research-goal-box {
   background: white;
   color: #333;
-  padding: 48px 40px 40px 40px;
+  padding: 40px 40px 32px 40px;
   border-radius: 24px;
   border: 2px solid #BCC9E8;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -3645,9 +3645,9 @@ html[data-theme="dark"] .pg-page-header {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 48px;
+  margin-bottom: 28px;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 
 .cs-interview-type {
@@ -3663,10 +3663,10 @@ html[data-theme="dark"] .pg-page-header {
 
 .cs-research-consideration {
   background: #001F5C;
-  padding: 32px 40px;
+  padding: 28px 40px;
   border-radius: 24px;
   border: none;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 
 .cs-research-consideration-title {
@@ -3698,9 +3698,8 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Artifact Analysis */
 .cs-research-artifact {
-  margin-top: 80px;
-  padding-top: 80px;
-  padding: 60px 40px;
+  margin-top: 48px;
+  padding: 48px 40px;
   border-top: 2px solid #D8E0F5;
   background: white;
   border-radius: 20px;
@@ -3714,7 +3713,7 @@ html[data-theme="dark"] .pg-page-header {
   text-transform: uppercase;
   color: #001F5C;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   position: relative;
 }
 
@@ -3728,7 +3727,7 @@ html[data-theme="dark"] .pg-page-header {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  margin-bottom: 80px;
+  margin-bottom: 48px;
 }
 
 .cs-research-artifact-item {
@@ -3756,7 +3755,7 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Insights */
 .cs-research-insights {
-  padding-top: 80px;
+  padding-top: 48px;
   border-top: 2px solid #D8E0F5;
 }
 
@@ -3768,7 +3767,7 @@ html[data-theme="dark"] .pg-page-header {
   text-transform: uppercase;
   color: #001F5C;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   position: relative;
 }
 
