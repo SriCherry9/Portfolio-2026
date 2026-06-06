@@ -3200,7 +3200,7 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Problem Space Section */
 .cs-design-problem-space {
-  background: #011239;
+  background: linear-gradient(135deg, #00236F 0%, #00184B 100%);
   padding: 80px 32px;
   color: white;
 }
