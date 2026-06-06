@@ -2755,6 +2755,36 @@ html[data-theme="dark"] .pg-page-header {
   color: var(--text-primary);
 }
 
+/* Header Section */
+.cs-header {
+  background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
+  color: white;
+  padding: 40px 32px;
+}
+
+.cs-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 0;
+}
+
+.cs-header-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  color: white;
+}
+
+.cs-header-subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
 /* Premium Landing Hero Section */
 .cs-landing-hero {
   background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);

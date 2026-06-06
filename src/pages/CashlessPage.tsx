@@ -24,6 +24,14 @@ export function CashlessPage() {
 
   return (
     <div className="cs-page cs-cashless-design">
+      {/* ── Header Section ── */}
+      <section className="cs-header">
+        <div className="cs-header-content">
+          <h2 className="cs-header-title">CASHLESS EXERCISE</h2>
+          <p className="cs-header-subtitle">Enterprise Experience Design</p>
+        </div>
+      </section>
+
       {/* ── Premium Hero Landing Section ── */}
       <section className="cs-landing-hero">
         <div className="cs-landing-inner">
