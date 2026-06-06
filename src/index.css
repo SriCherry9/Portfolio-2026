@@ -3790,9 +3790,9 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Insights - Premium Section */
 .cs-research-insights {
-  padding-top: 60px;
+  padding-top: 40px;
   border-top: 1px solid rgba(216, 224, 245, 0.6);
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .cs-research-insights-title {
@@ -3803,7 +3803,7 @@ html[data-theme="dark"] .pg-page-header {
   text-transform: uppercase;
   color: #001F5C;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   position: relative;
 }
 
@@ -3817,13 +3817,13 @@ html[data-theme="dark"] .pg-page-header {
 .cs-research-insights-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  gap: 20px;
 }
 
 .cs-research-insight-box {
   border: 1px solid rgba(216, 224, 245, 0.5);
   border-radius: 24px;
-  padding: 36px;
+  padding: 28px;
   background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
   transition: all 0.6s cubic-bezier(0.32, 0.72, 0, 1);
   cursor: pointer;
@@ -3844,7 +3844,7 @@ html[data-theme="dark"] .pg-page-header {
   font-size: 16px;
   font-weight: 700;
   color: #001F5C;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   line-height: 1.5;
 }
 
@@ -3860,7 +3860,7 @@ html[data-theme="dark"] .pg-page-header {
   color: #333;
   padding-left: 20px;
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .cs-research-insight-box li::before {
