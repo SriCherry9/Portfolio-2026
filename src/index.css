@@ -3579,7 +3579,9 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-research-label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   background: #D8E0F5;
   padding: 12px 28px;
   border-radius: 20px;
@@ -3589,35 +3591,49 @@ html[data-theme="dark"] .pg-page-header {
   margin-bottom: 40px;
 }
 
+.cs-research-label::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: #001F5C;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .cs-research-goal-box {
   background: white;
   color: #333;
-  padding: 40px;
-  border-radius: 20px;
-  border: 2px solid #D8E0F5;
+  padding: 48px 40px 40px 40px;
+  border-radius: 24px;
+  border: 2px solid #BCC9E8;
   margin-bottom: 40px;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  position: relative;
 }
 
 .cs-research-goal-title {
   display: inline-block;
-  background: #00236F;
+  background: #001F5C;
   color: white;
   font-size: 13px;
   font-weight: 700;
-  padding: 8px 24px;
-  border-radius: 20px;
+  padding: 10px 28px;
+  border-radius: 25px;
   margin-bottom: 24px;
   letter-spacing: 0.5px;
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .cs-research-goal-text {
   font-size: 15px;
   line-height: 1.8;
-  color: #333;
+  color: #001F5C;
   font-weight: 500;
 }
 
@@ -3627,42 +3643,44 @@ html[data-theme="dark"] .pg-page-header {
   flex-wrap: wrap;
   margin-bottom: 48px;
   justify-content: center;
+  margin-top: 24px;
 }
 
 .cs-interview-type {
-  background: #E8EFFE;
-  border: 1px solid #BCC9E8;
-  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid #4A5B7F;
+  padding: 10px 24px;
   border-radius: 25px;
   font-size: 13px;
   color: #4A5B7F;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.3px;
 }
 
 .cs-research-consideration {
   background: #001F5C;
-  padding: 40px;
-  border-radius: 16px;
+  padding: 32px 40px;
+  border-radius: 24px;
   border: none;
+  margin-top: 24px;
 }
 
 .cs-research-consideration-title {
   display: inline-block;
   font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-  margin-bottom: 16px;
+  color: #001F5C;
+  background: #D8E0F5;
+  padding: 8px 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
 .cs-research-consideration-text {
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: #ffffff;
   font-weight: 500;
 }
