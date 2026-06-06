@@ -2332,8 +2332,8 @@ html[data-theme="dark"] .pg-page-header {
 .cs-hero-title {
   font-family: 'Golte', Georgia, serif;
   font-weight: normal;
-  font-size: clamp(48px, 7vw, 96px);
-  letter-spacing: -2px;
+  font-size: clamp(36px, 5.5vw, 64px);
+  letter-spacing: -1.5px;
   line-height: 0.95;
   color: #ffffff;
   margin-bottom: 28px;
@@ -2563,8 +2563,8 @@ html[data-theme="dark"] .pg-page-header {
 .cs-section-title {
   font-family: 'Golte', Georgia, serif;
   font-weight: normal;
-  font-size: clamp(32px, 4vw, 52px);
-  letter-spacing: -1px;
+  font-size: clamp(24px, 3.5vw, 40px);
+  letter-spacing: -0.8px;
   line-height: 1.1;
   color: #0B1F4A;
   margin-bottom: 16px;
@@ -2747,3 +2747,394 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-footer-home:hover { color: rgba(255,255,255,0.7); }
+
+/* ===== CASHLESS DESIGN CASE STUDY ===== */
+
+.cs-page.cs-cashless-design {
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+/* Header */
+.cs-design-header {
+  background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
+  color: white;
+  padding: 60px 32px;
+  text-align: left;
+}
+
+.cs-design-header-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cs-design-header-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.cs-design-header-subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1px;
+}
+
+/* Hero Section */
+.cs-design-hero {
+  background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
+  padding: 80px 32px;
+  text-align: center;
+}
+
+.cs-design-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cs-design-hero-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 72px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 4px;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+}
+
+.cs-design-product-screenshot {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.cs-design-product-screenshot img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Overview Section */
+.cs-design-overview {
+  background: #F4EADE;
+  padding: 80px 32px;
+}
+
+.cs-design-overview-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cs-design-overview-main {
+  margin-bottom: 60px;
+}
+
+.cs-design-overview-badge {
+  display: inline-block;
+  background: #E8E0D0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5A6B8C;
+  margin-bottom: 20px;
+}
+
+.cs-design-overview-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #1A1A1A;
+  max-width: 700px;
+}
+
+.cs-design-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cs-design-overview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-design-overview-item h4 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5A6B8C;
+}
+
+.cs-design-overview-item p {
+  font-size: 16px;
+  color: #1A1A1A;
+  line-height: 1.6;
+}
+
+/* Context & Problem Section */
+.cs-design-context {
+  background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
+  padding: 80px 32px;
+  color: white;
+}
+
+.cs-design-context-header {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.cs-design-context-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cs-design-context-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cs-design-context-statement {
+  font-size: 24px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 60px;
+  max-width: 900px;
+}
+
+.cs-design-context-methods {
+  margin-bottom: 60px;
+}
+
+.cs-design-methods-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.cs-design-methods-boxes {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.cs-design-method-box {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.cs-design-friction {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cs-design-priorities {
+  padding-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cs-design-priorities-label {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+  display: block;
+  font-weight: 500;
+}
+
+.cs-design-priorities-boxes {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cs-design-priority-btn {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.cs-design-priority-btn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Problem Space Section */
+.cs-design-problem-space {
+  background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);
+  padding: 80px 32px;
+  color: white;
+}
+
+.cs-design-problem-space-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cs-design-problem-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.cs-design-problem-subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 60px;
+  max-width: 900px;
+}
+
+.cs-design-painpoints-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.cs-design-painpoints-top {
+  display: flex;
+  justify-content: center;
+}
+
+.cs-design-painpoint-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 32px;
+  color: #1A1A1A;
+}
+
+.cs-design-painpoint-card--top {
+  max-width: 600px;
+  width: 100%;
+}
+
+.cs-design-painpoints-bottom {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.cs-design-painpoint-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #011239;
+}
+
+.cs-design-painpoint-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-design-painpoint-items li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  padding-left: 20px;
+  position: relative;
+}
+
+.cs-design-painpoint-items li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #5A6B8C;
+}
+
+.cs-design-existing-solution {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 20px;
+}
+
+.cs-design-existing-solution h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.cs-design-existing-solution p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Video Section */
+.cs-design-video-section {
+  background: #F4EADE;
+  padding: 80px 32px;
+}
+
+.cs-design-video-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cs-design-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-design-painpoints-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-design-hero-title {
+    font-size: 48px;
+  }
+
+  .cs-design-overview-title {
+    font-size: 28px;
+  }
+
+  .cs-design-context-statement {
+    font-size: 18px;
+  }
+
+  .cs-design-methods-boxes {
+    flex-direction: column;
+  }
+
+  .cs-design-priorities-boxes {
+    flex-direction: column;
+  }
+}

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ThemeToggle } from '../components/ThemeToggle'
 
 export function CashlessPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoPlaying, setVideoPlaying] = useState(false)
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -21,48 +23,142 @@ export function CashlessPage() {
   }
 
   return (
-    <div className="cs-page cs-cashless">
-      {/* ── Hero / Cover ── */}
-      <section className="cs-hero cs-hero--cashless">
-        <div className="cs-hero-bg">
-          <div className="cs-hero-bg-grid" />
+    <div className="cs-page cs-cashless-design">
+      {/* ── Header Section ── */}
+      <section className="cs-design-header">
+        <div className="cs-design-header-content">
+          <h2 className="cs-design-header-title">CASHLESS EXERCISE</h2>
+          <p className="cs-design-header-subtitle">Enterprise Experience Design</p>
         </div>
-        <div className="cs-hero-content">
-          <div className="cs-hero-pills">
-            <span className="cs-pill">2022 – 2024</span>
-            <span className="cs-pill">Fintech · B2B SaaS</span>
+      </section>
+
+      {/* ── Hero Section with Product Screenshot ── */}
+      <section className="cs-design-hero">
+        <div className="cs-design-hero-inner">
+          <h1 className="cs-design-hero-title">CASHLESS EXERCISE</h1>
+          <div className="cs-design-product-screenshot">
+            <img src="/images/card1-cover.png" alt="Cashless Exercise Product" />
           </div>
-          <p className="cs-hero-company">QAPITA · Lead Product Designer</p>
-          <h1 className="cs-hero-title">Cashless<br />Exercise</h1>
-          <p className="cs-hero-sub">
-            Designing the end-to-end workflow enabling employees to own equity through cashless methods — scaling a complex fintech platform from India to global markets.
+        </div>
+      </section>
+
+      {/* ── Overview Section ── */}
+      <section className="cs-design-overview">
+        <div className="cs-design-overview-inner">
+          <div className="cs-design-overview-main">
+            <div className="cs-design-overview-badge">Overview</div>
+            <h2 className="cs-design-overview-title">
+              Designing a Global Cashless Exercise System for Equity Holders Across India, US, and International Markets
+            </h2>
+          </div>
+
+          <div className="cs-design-overview-grid">
+            <div className="cs-design-overview-item">
+              <h4>Project Year</h4>
+              <p>2025</p>
+            </div>
+            <div className="cs-design-overview-item">
+              <h4>Team & Role</h4>
+              <p>1 Product Designer, 1 Product Manager, 5 Engineers, 1 QA Tester, 1 Engineering Manager</p>
+            </div>
+            <div className="cs-design-overview-item">
+              <h4>Design Sprint</h4>
+              <p>2 Month</p>
+            </div>
+            <div className="cs-design-overview-item">
+              <h4>Development Sprint</h4>
+              <p>6 Month</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Context & Problem Section ── */}
+      <section className="cs-design-context">
+        <div className="cs-design-context-header">
+          <h2 className="cs-design-context-title">CONTEXT & PROBLEM</h2>
+        </div>
+
+        <div className="cs-design-context-content">
+          <p className="cs-design-context-statement">
+            Equity holders across global markets expect the ability to exercise equity without having to pay cash upfront.
           </p>
-          <div className="cs-hero-meta">
-            <div className="cs-meta-item">
-              <span className="cs-meta-label">Role</span>
-              <span className="cs-meta-value">Lead Product Designer</span>
+
+          <div className="cs-design-context-methods">
+            <p className="cs-design-methods-label">The platform only supported two basic methods</p>
+            <div className="cs-design-methods-boxes">
+              <div className="cs-design-method-box">Pay through Own Funds</div>
+              <div className="cs-design-method-box">Net Exercise</div>
             </div>
-            <div className="cs-meta-item">
-              <span className="cs-meta-label">Platform</span>
-              <span className="cs-meta-value">Web · Enterprise SaaS</span>
-            </div>
-            <div className="cs-meta-item">
-              <span className="cs-meta-label">Duration</span>
-              <span className="cs-meta-value">2 years</span>
+            <p className="cs-design-friction">Creating friction for employees who lacked liquidity</p>
+          </div>
+
+          <div className="cs-design-priorities">
+            <p className="cs-design-priorities-label">So it became a top-priority initiative</p>
+            <div className="cs-design-priorities-boxes">
+              <button className="cs-design-priority-btn">US GTM readiness</button>
+              <button className="cs-design-priority-btn">Enterprise expansion</button>
+              <button className="cs-design-priority-btn">Migrate clients from acquired company</button>
+              <button className="cs-design-priority-btn">Operational efficiency</button>
+              <button className="cs-design-priority-btn">Revenue growth</button>
             </div>
           </div>
         </div>
-        <div className="cs-hero-scroll-hint">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
-          Scroll to read
+      </section>
+
+      {/* ── Problem Space Section ── */}
+      <section className="cs-design-problem-space">
+        <div className="cs-design-problem-space-inner">
+          <h2 className="cs-design-problem-title">PROBLEM SPACE</h2>
+          <p className="cs-design-problem-subtitle">
+            Analyzing the PRD alongside admin, broker, trust manager, and executive input, we identified high-priority challenges
+          </p>
+
+          <div className="cs-design-painpoints-layout">
+            <div className="cs-design-painpoints-top">
+              <div className="cs-design-painpoint-card cs-design-painpoint-card--top">
+                <h3 className="cs-design-painpoint-title">Employee Painpoints</h3>
+                <ul className="cs-design-painpoint-items">
+                  <li>Unable to exercise due to lack of upfront cash</li>
+                  <li>Confusion around calculations, taxes, and expected proceeds</li>
+                  <li>No visibility into sale outcomes or share deliveries</li>
+                  <li>Multi-step offline processes leading to drop-offs</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="cs-design-painpoints-bottom">
+              <div className="cs-design-painpoint-card">
+                <h3 className="cs-design-painpoint-title">Admin Painpoints</h3>
+                <ul className="cs-design-painpoint-items">
+                  <li>Heavy reliance on offline Excel workflows</li>
+                  <li>No standardized way to group or process sale requests</li>
+                  <li>Lack of audit trails exposed them to compliance risks</li>
+                  <li>Markets like India required trust/SPV involvement, unlike the US</li>
+                  <li>Couldn't mix workflows for different employee types or jurisdictions</li>
+                </ul>
+              </div>
+              <div className="cs-design-painpoint-card">
+                <h3 className="cs-design-painpoint-title">Business Painpoints</h3>
+                <ul className="cs-design-painpoint-items">
+                  <li>Could not meet the requirements of large enterprise clients</li>
+                  <li>US clients expected Sell All and Sell to Cover with live broker integrations.</li>
+                  <li>Lack of configurability prevented the company from offering affordable cashless process and migrating customers from the acquired company</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="cs-design-existing-solution">
+              <h3>Existing Solution</h3>
+              <p>The feature exists in the acquired company, but it's costly and built on a legacy architecture that's incompatible with our platform.</p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── Video Section ── */}
-      <section className="cs-video-section cs-video-section--cashless">
-        <div className="cs-section-inner">
+      <section className="cs-design-video-section">
+        <div className="cs-design-video-inner">
           <div className="cs-section-tag">Product Walkthrough</div>
           <h2 className="cs-section-title">See it in action</h2>
           <p className="cs-section-desc">
@@ -90,16 +186,6 @@ export function CashlessPage() {
             )}
           </div>
         </div>
-      </section>
-
-      {/* ── Full SVG Case Study ── */}
-      <section className="cs-svg-section">
-        <img
-          src="/case-studies/cashless.svg"
-          alt="Cashless Exercise — full case study"
-          className="cs-svg-full"
-          loading="lazy"
-        />
       </section>
 
       {/* ── Footer ── */}
