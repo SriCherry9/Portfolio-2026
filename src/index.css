@@ -3033,7 +3033,7 @@ html[data-theme="dark"] .pg-page-header {
 .cs-design-overview-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 48px;
+  gap: 16px;
   padding-top: 0;
   border-top: none;
 }
