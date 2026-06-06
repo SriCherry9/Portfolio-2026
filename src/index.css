@@ -2968,7 +2968,7 @@ html[data-theme="dark"] .pg-page-header {
   background: #E5EBFF;
   padding: 80px 32px;
   position: relative;
-  padding-bottom: 100px;
+  padding-bottom: 60px;
 }
 
 .cs-design-overview::after {
@@ -2979,13 +2979,16 @@ html[data-theme="dark"] .pg-page-header {
   right: 0;
   background: #000000;
   color: rgba(93, 127, 218, 0.6);
-  padding: 24px 32px;
+  height: 40px;
   font-size: 13px;
   letter-spacing: 0.2em;
   overflow: hidden;
   white-space: nowrap;
   font-weight: 500;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cs-design-overview-inner {
@@ -3042,11 +3045,12 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 .cs-design-overview-item h4 {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #5A6B8C;
+  margin-bottom: 4px;
 }
 
 .cs-design-overview-item p {
