@@ -3242,13 +3242,27 @@ html[data-theme="dark"] .pg-page-header {
 
 /* Video Section */
 .cs-design-video-section {
-  background: #F4EADE;
+  background: #011239;
   padding: 80px 32px;
+  color: white;
 }
 
 .cs-design-video-inner {
   max-width: 1000px;
   margin: 0 auto;
+}
+
+.cs-design-video-section .cs-section-tag {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.cs-design-video-section .cs-section-title {
+  color: white;
+  font-family: 'Seliya Gardener', serif;
+}
+
+.cs-design-video-section .cs-section-desc {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Responsive */
