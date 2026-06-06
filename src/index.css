@@ -3280,10 +3280,9 @@ html[data-theme="dark"] .pg-page-header {
   font-size: 15px;
   line-height: 1.7;
   color: #333;
-  padding-left: 24px;
   position: relative;
   background: #E6E9FC;
-  padding: 16px 20px 16px 24px;
+  padding: 16px 20px 16px 36px;
   border-radius: 8px;
 }
 
