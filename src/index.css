@@ -3282,6 +3282,9 @@ html[data-theme="dark"] .pg-page-header {
   color: #333;
   padding-left: 24px;
   position: relative;
+  background: #E6E9FC;
+  padding: 16px 20px 16px 24px;
+  border-radius: 8px;
 }
 
 .cs-design-painpoint-items li::before {
