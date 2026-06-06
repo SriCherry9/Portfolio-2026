@@ -151,7 +151,7 @@ export function Playground() {
   const dragging = useRef(false)
   const lastPos = useRef({ x: 0, y: 0 })
   const velocity = useRef({ x: 0, y: 0 })
-  const animFrame = useRef<number>()
+  const animFrame = useRef<number | undefined>(undefined)
   const [isDragging, setIsDragging] = useState(false)
 
   // Mouse drag handlers
