@@ -3231,6 +3231,11 @@ html[data-theme="dark"] .pg-page-header {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 60px 40px;
 }
 
 .cs-design-painpoints-top {
