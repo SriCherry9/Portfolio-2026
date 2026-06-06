@@ -3655,6 +3655,156 @@ html[data-theme="dark"] .pg-page-header {
   color: #333;
 }
 
+/* Artifact Analysis */
+.cs-research-artifact {
+  margin-top: 80px;
+  padding-top: 80px;
+  border-top: 2px solid #CCCCCC;
+}
+
+.cs-research-artifact-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #333;
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.cs-research-artifact-title::before,
+.cs-research-artifact-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #333;
+}
+
+.cs-research-artifact-title::before {
+  left: 0;
+}
+
+.cs-research-artifact-title::after {
+  right: 0;
+}
+
+.cs-research-artifact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+.cs-research-artifact-item {
+  text-align: center;
+}
+
+.cs-artifact-image-placeholder {
+  width: 100%;
+  height: 300px;
+  background: #F0F0F0;
+  border: 2px solid #CCCCCC;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.cs-artifact-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Insights */
+.cs-research-insights {
+  padding-top: 80px;
+  border-top: 2px solid #CCCCCC;
+}
+
+.cs-research-insights-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #333;
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.cs-research-insights-title::before,
+.cs-research-insights-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #333;
+}
+
+.cs-research-insights-title::before {
+  left: 0;
+}
+
+.cs-research-insights-title::after {
+  right: 0;
+}
+
+.cs-research-insights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.cs-research-insight-box {
+  border: 2px solid #CCCCCC;
+  border-radius: 12px;
+  padding: 32px;
+  background: white;
+}
+
+.cs-research-insight-box h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #011239;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.cs-research-insight-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cs-research-insight-box li {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.cs-research-insight-box li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #4A5B7F;
+}
+
+.cs-research-insight-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+  margin: 0;
+}
+
 /* Cover Section */
 .cs-cover-section {
   background: linear-gradient(135deg, #011239 0%, #0a1a4d 100%);

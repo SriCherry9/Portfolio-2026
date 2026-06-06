@@ -291,6 +291,54 @@ export function CashlessPage() {
             <div className="cs-research-label">Secondary Research</div>
             <p className="cs-research-description">Analyzed Acquired Company's cashless reports and contract notes to uncover pain points and shape my design approach</p>
           </div>
+
+          {/* Artifact Analysis */}
+          <div className="cs-research-artifact">
+            <h3 className="cs-research-artifact-title">ARTIFACT ANALYSIS</h3>
+            <div className="cs-research-artifact-grid">
+              <div className="cs-research-artifact-item">
+                <div className="cs-artifact-image-placeholder"></div>
+                <p className="cs-artifact-label">Contract Notes</p>
+              </div>
+              <div className="cs-research-artifact-item">
+                <div className="cs-artifact-image-placeholder"></div>
+                <p className="cs-artifact-label">Cashless Exercise Reports - Helps in reconciliation</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Insights */}
+          <div className="cs-research-insights">
+            <h3 className="cs-research-insights-title">INSIGHTS</h3>
+            <div className="cs-research-insights-grid">
+              <div className="cs-research-insight-box">
+                <h4>Each market has different rules</h4>
+                <ul>
+                  <li>India: Sell-All often disallowed; issuance must go through trust.</li>
+                  <li>US: Market orders + "Sell to Cover" widely used.</li>
+                  <li>Foreign nationals: Often cannot hold shares; require mandatory Sell All.</li>
+                </ul>
+              </div>
+              <div className="cs-research-insight-box">
+                <h4>Cashless has 4 sub-workflows</h4>
+                <ul>
+                  <li>Exercise request</li>
+                  <li>Lot creation & sale execution</li>
+                  <li>Allocation & confirmation</li>
+                  <li>Share issuance</li>
+                  <li>These subflows needed to be independent yet chainable.</li>
+                </ul>
+              </div>
+              <div className="cs-research-insight-box">
+                <h4>Configurability is the key differentiator</h4>
+                <p>No two enterprises shared processes—a rigid workflow wouldn't scale. Non-configurable cashless flows enforced full sequences despite partial needs. This shaped systems-led design</p>
+              </div>
+              <div className="cs-research-insight-box">
+                <h4>Scale matters</h4>
+                <p>Enterprise clients process 10,000–25,000 exercises at once — so lot management needed strong validations, batching, and error handling.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
