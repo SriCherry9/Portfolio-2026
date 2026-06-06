@@ -3534,8 +3534,9 @@ html[data-theme="dark"] .pg-page-header {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #00236F;
+  background: radial-gradient(circle at 30% 30%, #0a3fbf 0%, #00236F 60%, #001a52 100%);
   flex-shrink: 0;
+  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.4), inset 2px 2px 4px rgba(255, 255, 255, 0.1);
 }
 
 .cs-persona-label {
