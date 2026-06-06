@@ -346,8 +346,8 @@ export function CashlessPage() {
       <section className="cs-design-hta">
         <div className="cs-design-hta-inner">
           <div className="cs-design-hta-header">
-            <h2 className="cs-design-hta-title">PRODUCT REQUIREMENT DOCUMENT</h2>
-            <p className="cs-design-hta-subtitle">Hierarchical Task Analysis</p>
+            <h2 className="cs-design-hta-title">DEFINE</h2>
+            <p className="cs-design-hta-subtitle">Product Requirement Document + Hierarchical Task Analysis clarified critical workflows, scenarios, and edge cases</p>
           </div>
 
           <div className="cs-hta-grid">

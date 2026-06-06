@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_CUvDFobXkAMiFpeTzaCEM1aOWgj1",
+  "orgId": "team_5uTzJJmbvpAerVFr1a63xgUS",
+  "projectName": "portfolio-new",
+  "settings": {
+    "createdAt": 1780078917072,
+    "framework": "vite",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
