@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ThemeToggle } from '../components/ThemeToggle'
 
 export function CashlessPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
