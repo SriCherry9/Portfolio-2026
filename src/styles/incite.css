@@ -638,6 +638,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
+  max-width: 1200px;
 }
 
 .incite-section-9-stage {
@@ -758,8 +759,9 @@
 
 .incite-section-8-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 296px);
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
+  max-width: 1200px;
 }
 
 .incite-section-8-card {
@@ -797,8 +799,9 @@
 
 .incite-section-8-tags-grid {
   display: grid;
-  grid-template-columns: repeat(3, 296px);
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
+  max-width: 1200px;
 }
 
 .incite-section-8-tag {
@@ -865,14 +868,13 @@
   min-height: 353px;
   padding: 0;
   box-sizing: border-box;
-  display: flex;
+  display: grid;
+  grid-template-columns: 461px 1fr;
 }
 
 .incite-section-7-left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 461px;
+  position: relative;
+  width: 100%;
   height: 353px;
   background-color: rgba(132, 15, 241, 0.2);
   padding: 60px 40px;
@@ -902,11 +904,8 @@
 }
 
 .incite-section-7-right {
-  position: absolute;
-  right: 0;
-  top: 0;
-  left: calc(33.33% + 34.33px);
-  width: 819px;
+  position: relative;
+  width: 100%;
   height: 353px;
   background-color: #FFDA01;
   padding: 60px 40px;
