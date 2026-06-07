@@ -8,18 +8,27 @@ export function MuseoPage() {
     window.scrollTo(0, 0)
   }, [])
 
+  const openPrototype = () => {
+    window.open(FIGMA_PROTOTYPE_URL, '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <div className="cs-page cs-museo">
-      {/* Full-screen Figma Prototype */}
+      {/* Figma Prototype Container */}
       <div className="cs-museo-prototype-container">
-        <iframe
-          className="cs-museo-prototype-iframe"
-          src={FIGMA_PROTOTYPE_URL}
-          allowFullScreen
-          allow="fullscreen"
-          style={{ border: 'none', overflow: 'hidden' }}
-          title="Museo Interactive Prototype"
-        />
+        <div className="cs-museo-prototype-placeholder">
+          <h2>Museo Interactive Prototype</h2>
+          <p>Explore the interactive prototype in Figma</p>
+          <button
+            className="cs-museo-prototype-button"
+            onClick={openPrototype}
+          >
+            <span>Open Prototype</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M13 6l6 6m0 0l-6 6m6-6H7" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Footer */}
