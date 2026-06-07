@@ -1,0 +1,986 @@
+/* Incite Case Study Responsive Styles */
+
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap');
+
+/* New Order Font Family - Local Files */
+@font-face {
+  font-family: 'New Order';
+  src: url('/fonts/new-order-light.otf') format('opentype');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Order';
+  src: url('/fonts/new-order-regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Order';
+  src: url('/fonts/new-order-medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Order';
+  src: url('/fonts/new-order-semibold.otf') format('opentype');
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Order';
+  src: url('/fonts/new-order-bold.otf') format('opentype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* Font Stack Configuration */
+:root {
+  --font-new-order: 'New Order', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-montserrat: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.incite-page {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 1: HEADER
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-1 {
+  background-color: #070707;
+  position: relative;
+  width: 100%;
+  min-height: 157px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.incite-section-1-text {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+.incite-section-1-title {
+  font-family: var(--font-montserrat);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  color: #EAEAEA;
+  margin: 0 0 8px 0;
+}
+
+.incite-section-1-subtitle {
+  font-family: var(--font-montserrat);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  color: #BCBCBC;
+  margin: 0;
+}
+
+.incite-section-1-images {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.incite-award-1 {
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 4px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.incite-award-1 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.incite-award-2 {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.incite-award-2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 2: CHALLENGE
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-2 {
+  background-color: #FFFBE6;
+  position: relative;
+  width: 100%;
+  min-height: 488px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 40px;
+  box-sizing: border-box;
+}
+
+.incite-section-2-content {
+  flex: 1;
+  max-width: 650px;
+  margin-right: 40px;
+}
+
+.incite-section-2-headline {
+  font-family: var(--font-new-order);
+  font-size: 37.176px;
+  font-weight: 600;
+  line-height: 39.5px;
+  color: #840FF1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.incite-section-2-badge {
+  width: 205px;
+  height: 205px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incite-section-2-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 3: TIMELINE/COMPETITION
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-3 {
+  background-color: #131313;
+  position: relative;
+  width: 100%;
+  min-height: 195px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.incite-section-3-decorative {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.incite-ellipse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
+}
+
+.incite-ellipse-1 {
+  width: 1084px;
+  height: 1084px;
+}
+
+.incite-ellipse-2 {
+  width: 672px;
+  height: 672px;
+}
+
+.incite-ellipse-3 {
+  width: 289px;
+  height: 289px;
+}
+
+.incite-section-3-text {
+  font-family: var(--font-montserrat);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #F5C95C;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 4: IMAGE GRID & TEXT
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-4 {
+  background-color: #070707;
+  position: relative;
+  width: 100%;
+  min-height: 414px;
+  padding: 60px 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.incite-section-4-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0;
+  flex: 1;
+  width: 100%;
+  max-width: 500px;
+  height: 350px;
+  position: relative;
+  z-index: 1;
+  aspect-ratio: auto;
+  border: 2px solid #2a2a2a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.incite-grid-item {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  border: 1px solid #1a1a1a;
+  position: relative;
+  background-color: #0a0a0a;
+}
+
+.incite-grid-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay pattern - reveal only specific squares */
+.incite-grid-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+}
+
+/* Revealed squares (showing fruit) */
+.incite-grid-item:nth-child(4)::after,    /* Row 1, Col 4 */
+.incite-grid-item:nth-child(5)::after,    /* Row 1, Col 5 */
+.incite-grid-item:nth-child(9)::after,    /* Row 2, Col 4 */
+.incite-grid-item:nth-child(10)::after,   /* Row 2, Col 5 */
+.incite-grid-item:nth-child(14)::after,   /* Row 3, Col 4 */
+.incite-grid-item:nth-child(15)::after {  /* Row 3, Col 5 */
+  display: none;
+}
+
+.incite-section-4-text {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  max-width: 500px;
+}
+
+.incite-section-4-text-1 {
+  font-family: var(--font-montserrat);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28px;
+  color: #EAEAEA;
+  margin: 0 0 40px 0;
+}
+
+.incite-section-4-arrow {
+  width: 80px;
+  height: 60px;
+  margin: 20px 0;
+  display: block;
+}
+
+.incite-section-4-text-2 {
+  font-family: var(--font-montserrat);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 5: CONTEXT & STORY
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-5 {
+  background-color: #070707;
+  position: relative;
+  width: 100%;
+  min-height: 469px;
+  padding: 60px 40px;
+  box-sizing: border-box;
+}
+
+.incite-section-5-left {
+  position: absolute;
+  left: calc(8.33% + 21.33px);
+  top: 47px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 355px;
+}
+
+.incite-section-5-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.incite-section-5-label {
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 22px;
+  color: #737373;
+  margin: 0;
+}
+
+.incite-section-5-text {
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 22px;
+  color: #EAEAEA;
+  margin: 0;
+}
+
+.incite-section-5-paragraph {
+  position: absolute;
+  left: calc(8.33% + 21.33px);
+  top: 228px;
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 22px;
+  color: #EAEAEA;
+  margin: 0;
+  max-width: 355px;
+}
+
+.incite-section-5-center {
+  position: absolute;
+  left: calc(41.67% + 10.67px);
+  top: 0;
+  width: 275px;
+  height: 469px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.incite-section-5-center img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.incite-section-5-right {
+  position: absolute;
+  left: calc(66.67% + 2.67px);
+  top: 0;
+}
+
+.incite-section-5-accent {
+  position: absolute;
+  top: 262px;
+  left: calc(58.33% + 72.33px - 66.67% - 2.67px);
+  width: 461px;
+  height: 152px;
+  background-color: rgba(132, 15, 241, 0.3);
+  z-index: 1;
+}
+
+.incite-section-5-text-right {
+  position: absolute;
+  top: 218px;
+  left: 0;
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 22px;
+  color: #EAEAEA;
+  margin: 0;
+  max-width: 277px;
+  z-index: 2;
+}
+
+.incite-section-5-decorative {
+  position: absolute;
+  left: 100%;
+  top: calc(50% - 170px);
+  width: 300px;
+  height: 300px;
+}
+
+.incite-ellipse-large {
+  position: absolute;
+  width: 184px;
+  height: 184px;
+  opacity: 0.3;
+  left: 100%;
+  top: calc(50% - 170px);
+  transform: translate(-50%, -50%);
+}
+
+.incite-ellipse-medium {
+  position: absolute;
+  width: 114px;
+  height: 114px;
+  opacity: 0.3;
+  left: 100%;
+  top: calc(50% - 170px);
+  transform: translate(-50%, -50%);
+}
+
+.incite-ellipse-small {
+  position: absolute;
+  width: 49px;
+  height: 49px;
+  opacity: 0.3;
+  left: calc(100% - 0.5px);
+  top: calc(50% - 170.5px);
+  transform: translate(-50%, -50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 6: PROJECT OVERVIEW
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-6 {
+  background-color: #070707;
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  padding: 60px 40px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.incite-section-6-left,
+.incite-section-6-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.incite-section-6-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.incite-section-6-label {
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 22px;
+  color: #737373;
+  margin: 0;
+}
+
+.incite-section-6-value {
+  font-family: var(--font-montserrat);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  color: #EAEAEA;
+  margin: 0;
+}
+
+.incite-section-6-team {
+  font-family: var(--font-montserrat);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  color: #EAEAEA;
+  margin: 0;
+}
+
+.incite-section-6-overview {
+  font-family: var(--font-montserrat);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  color: #EAEAEA;
+  margin: 0;
+  max-width: 296px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-footer {
+  padding: 40px;
+  text-align: center;
+  border-top: 1px solid #E0E0E0;
+  background-color: #FDFDFD;
+}
+
+.incite-back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: #0066CC;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: color 0.3s ease;
+}
+
+.incite-back-link:hover {
+  color: #0052A3;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: TABLET (max-width: 1024px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .incite-section-1 {
+    min-height: auto;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .incite-section-1-text {
+    width: 100%;
+  }
+
+  .incite-section-1-images {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .incite-section-2 {
+    min-height: auto;
+    flex-direction: column;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .incite-section-2-content {
+    max-width: 100%;
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .incite-section-2-badge {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    align-self: center;
+  }
+
+  .incite-section-2-headline {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .incite-ellipse-1 {
+    width: 700px;
+    height: 700px;
+  }
+
+  .incite-ellipse-2 {
+    width: 450px;
+    height: 450px;
+  }
+
+  .incite-ellipse-3 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .incite-section-4 {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .incite-section-4-grid {
+    max-width: 100%;
+  }
+
+  .incite-section-5 {
+    position: relative;
+    min-height: 800px;
+  }
+
+  .incite-section-5-left {
+    position: absolute;
+    left: 40px;
+    top: 47px;
+    max-width: 100%;
+    gap: 30px;
+  }
+
+  .incite-section-5-center {
+    position: absolute;
+    left: 50%;
+    top: 280px;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 300px;
+    height: 300px;
+  }
+
+  .incite-section-5-paragraph {
+    position: absolute;
+    left: 40px;
+    top: 620px;
+    max-width: calc(100% - 80px);
+  }
+
+  .incite-section-5-right {
+    position: absolute;
+    left: 40px;
+    top: 750px;
+    width: 100%;
+  }
+
+  .incite-section-5-accent {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
+
+  .incite-section-5-decorative {
+    display: none;
+  }
+
+  .incite-section-6 {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .incite-section-6-right {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: MOBILE (max-width: 768px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .incite-section-1 {
+    padding: 24px 20px;
+    min-height: auto;
+  }
+
+  .incite-section-1-title {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .incite-section-1-subtitle {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .incite-award-1 {
+    width: 64px;
+    height: 64px;
+  }
+
+  .incite-award-2 {
+    width: 52px;
+    height: 52px;
+  }
+
+  .incite-section-2 {
+    padding: 40px 20px;
+    min-height: auto;
+  }
+
+  .incite-section-2-content {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 30px;
+  }
+
+  .incite-section-2-headline {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .incite-section-2-badge {
+    width: 150px;
+    height: 150px;
+    align-self: center;
+  }
+
+  .incite-section-3 {
+    padding: 40px 20px;
+    min-height: 200px;
+  }
+
+  .incite-ellipse-1 {
+    width: 400px;
+    height: 400px;
+  }
+
+  .incite-ellipse-2 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .incite-ellipse-3 {
+    width: 120px;
+    height: 120px;
+  }
+
+  .incite-section-3-text {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .incite-section-4 {
+    padding: 40px 20px;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .incite-section-4-grid {
+    grid-template-columns: repeat(3, 1fr);
+    height: 250px;
+    gap: 0;
+    max-width: 100%;
+  }
+
+  .incite-section-4-text {
+    max-width: 100%;
+  }
+
+  .incite-section-4-text-1 {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .incite-section-4-text-2 {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .incite-section-5 {
+    padding: 40px 20px;
+    position: relative;
+    min-height: 600px;
+  }
+
+  .incite-section-5-left {
+    position: absolute;
+    left: 20px;
+    top: 40px;
+    max-width: calc(100% - 40px);
+    gap: 30px;
+  }
+
+  .incite-section-5-center {
+    position: absolute;
+    left: 50%;
+    top: 240px;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 250px;
+    height: 250px;
+  }
+
+  .incite-section-5-paragraph {
+    position: absolute;
+    left: 20px;
+    top: 520px;
+    font-size: 16px;
+    line-height: 20px;
+    max-width: calc(100% - 40px);
+  }
+
+  .incite-section-5-right {
+    position: absolute;
+    left: 20px;
+    top: 620px;
+    width: calc(100% - 40px);
+  }
+
+  .incite-section-5-accent {
+    position: absolute;
+    left: -100vw;
+    top: 100%;
+    width: 100vw;
+    height: 80px;
+    margin-left: calc(-50vw + 50%);
+  }
+
+  .incite-section-5-text-right {
+    max-width: calc(100% - 40px);
+  }
+
+  .incite-section-6 {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 30px;
+  }
+
+  .incite-section-6-right {
+    grid-column: auto;
+  }
+
+  .incite-footer {
+    padding: 30px 20px;
+  }
+
+  .incite-back-link {
+    font-size: 13px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: SMALL MOBILE (max-width: 480px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .incite-section-1 {
+    padding: 20px 16px;
+  }
+
+  .incite-section-1-title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .incite-section-1-subtitle {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .incite-award-1 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .incite-award-2 {
+    width: 42px;
+    height: 42px;
+  }
+
+  .incite-section-2 {
+    padding: 30px 16px;
+  }
+
+  .incite-section-2-headline {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .incite-section-2-badge {
+    width: 120px;
+    height: 120px;
+  }
+
+  .incite-section-3 {
+    padding: 30px 16px;
+  }
+
+  .incite-ellipse-1 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .incite-ellipse-2 {
+    width: 150px;
+    height: 150px;
+  }
+
+  .incite-ellipse-3 {
+    width: 80px;
+    height: 80px;
+  }
+
+  .incite-section-3-text {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .incite-section-4 {
+    padding: 30px 16px;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .incite-section-4-grid {
+    grid-template-columns: repeat(2, 1fr);
+    height: 180px;
+    gap: 0;
+    max-width: 100%;
+  }
+
+  .incite-section-4-text {
+    max-width: 100%;
+  }
+
+  .incite-section-4-text-1 {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .incite-section-4-text-2 {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .incite-section-4-arrow {
+    width: 60px;
+    height: 50px;
+  }
+
+  .incite-footer {
+    padding: 25px 16px;
+  }
+}

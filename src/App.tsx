@@ -38,6 +38,21 @@ const PROJECTS = [
     url: 'gaian.solutions',
   },
   {
+    id: 6,
+    dateRange: '2022 – 2023',
+    category: 'Consumer · Product Design',
+    accentColor: '#840FF1',
+    coverImage: '/images/incite-cover.png',
+    caseStudyPath: '/case-study/incite',
+    company: 'INDEPENDENT',
+    role: 'Lead UX/UI Designer',
+    title: 'In;cite — Ingredient Intelligence',
+    description:
+      'Designed an intelligent product scanner that empowers consumers to make informed choices about ingredients. A human-centered design approach to make ingredient transparency accessible to everyone.',
+    tags: ['Consumer', 'Product Design', 'User Research', 'UX/UI'],
+    url: 'incite.design',
+  },
+  {
     id: 3,
     dateRange: '2021 – 2022',
     category: 'Mobile · Consumer',
