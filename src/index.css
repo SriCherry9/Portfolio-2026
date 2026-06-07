@@ -2697,6 +2697,20 @@ html[data-theme="dark"] .pg-page-header {
   margin: 0 auto;
 }
 
+/* ===== FIGMA PROTOTYPE ===== */
+
+.cs-museo-prototype-container {
+  width: 100%;
+  height: calc(100vh - 120px);
+  background: #ffffff;
+}
+
+.cs-museo-prototype-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 /* ============================================================
    CASE STUDY FOOTER
    ============================================================ */
@@ -4578,6 +4592,219 @@ html[data-theme="dark"] .pg-page-header {
   color: #001F5C;
   margin: 0;
   letter-spacing: 0.5px;
+}
+
+/* ===== BROKER CONFIGURATION SECTION ===== */
+
+.cs-ideate-broker-section {
+  margin-bottom: 96px;
+  padding-top: 48px;
+}
+
+.cs-broker-config-label {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #00236f;
+  margin: 0;
+  opacity: 0.5;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.cs-broker-line {
+  flex: 1;
+  height: 2px;
+}
+
+/* ===== MENTAL MODELS EXPLORATION SECTION ===== */
+
+.cs-ideate-mental-exploration {
+  margin-bottom: 0;
+}
+
+.cs-mental-exploration-title {
+  font-size: 16px;
+  color: #1f2041;
+  text-align: center;
+  margin: 0 0 64px 0;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+
+.cs-mental-models-comparison {
+  position: relative;
+  width: 100%;
+  height: 650px;
+  margin-bottom: 96px;
+  margin-top: 64px;
+}
+
+.cs-mental-models-backlight {
+  position: absolute;
+  width: 99px;
+  height: 99px;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+  top: 250px;
+  left: calc(16.67% + 56.67px);
+}
+
+.cs-backlight-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: blur(2px);
+  mix-blend-mode: screen;
+}
+
+.cs-mental-model-box {
+  position: absolute;
+  width: 640px;
+  height: 502px;
+  top: 85px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 2;
+}
+
+.cs-model-left {
+  left: 0;
+  background: #00236f;
+}
+
+.cs-model-right {
+  left: 50%;
+  transform: translateX(0);
+  background: #011239;
+}
+
+.cs-mental-model-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  padding: 24px 32px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  height: auto;
+  background: inherit;
+}
+
+.cs-mental-model-visual {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: inherit;
+  position: relative;
+}
+
+.cs-mental-model-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  border-radius: 0;
+}
+
+.cs-mental-model-visual img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  border-radius: 0;
+}
+
+/* ===== REFERENCE FROM ACQUIRED COMPANY ===== */
+
+.cs-reference-from-acquired {
+  margin-bottom: 96px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  border-top: none;
+}
+
+.cs-reference-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cs-reference-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4a5b7f;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.cs-reference-image-wrapper {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #00236f;
+  box-shadow: 0 8px 24px rgba(0, 35, 111, 0.1);
+}
+
+.cs-reference-image-large {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cs-reference-description {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1f2041;
+  text-align: center;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .cs-mental-models-comparison {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  .cs-broker-config-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cs-mental-model-heading {
+    font-size: 14px;
+    padding: 24px 24px 0 24px;
+  }
+
+  .cs-mental-model-visual {
+    min-height: 300px;
+    padding: 24px;
+  }
+
+  .cs-reference-from-acquired {
+    margin-top: 64px;
+    padding-top: 64px;
+  }
 }
 
 /* Reference Block */
