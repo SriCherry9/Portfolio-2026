@@ -17,6 +17,7 @@ export function MuseoPage() {
           src={FIGMA_PROTOTYPE_URL}
           allowFullScreen
           allow="fullscreen"
+          sandbox="allow-same-origin allow-scripts allow-popups allow-presentation"
           title="Museo Interactive Prototype"
         />
       </div>
