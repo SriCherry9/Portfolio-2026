@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-const FIGMA_PROTOTYPE_URL = 'https://www.figma.com/proto/7Fg0788OOdANym3PJbksEf/Portfolio-Content?node-id=1958-30039&viewport=-573%2C534%2C0.03&t=Q4ut7u8klROGl8qx-1&scaling=min-zoom&content-scaling=fixed&page-id=819%3A20077'
+const FIGMA_PROTOTYPE_URL = 'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F7Fg0788OOdANym3PJbksEf%2FPortfolio-Content%3Fnode-id%3D1958-30039%26viewport%3D-573%252C534%252C0.03%26t%3DQ4ut7u8klROGl8qx-1%26scaling%3Dmin-zoom%26content-scaling%3Dfixed%26page-id%3D819%253A20077'
 
 export function MuseoPage() {
   useEffect(() => {
