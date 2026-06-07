@@ -16,6 +16,8 @@ export function MuseoPage() {
           className="cs-museo-prototype-iframe"
           src={FIGMA_PROTOTYPE_URL}
           allowFullScreen
+          allow="fullscreen"
+          style={{ border: 'none', overflow: 'hidden' }}
           title="Museo Interactive Prototype"
         />
       </div>
