@@ -392,7 +392,71 @@ export function CashlessPage() {
       {/* ── Ideate & Implement Section ── */}
       <section className="cs-design-ideate">
         <div className="cs-design-ideate-inner">
-          <img src="/images/ideate-implement-section.svg" alt="Ideate & Implement Section" className="cs-ideate-section-image" />
+          <h2 className="cs-design-ideate-title">IDEATE & IMPLEMENT</h2>
+          <p className="cs-design-ideate-subtitle">
+            <span style={{fontWeight: 600}}>Goal:</span> Validate designs, refine micro-interactions, and ship to production.
+            <br />
+            <span style={{fontWeight: 600}}>Methods:</span> Rapid, collaborative iterations via parallel prototypes, speed dating, RITE testing, and critiques refined equity workflows with cross-team input.
+          </p>
+
+          {/* Issuer Creation Section */}
+          <div className="cs-ideate-section">
+            <div className="cs-ideate-section-header">
+              <h3 className="cs-ideate-section-title">Issuer Creation - Activating Cashless Modules</h3>
+            </div>
+
+            <div className="cs-ideate-image-container">
+              <img
+                src="/images/ideate-issuer-creation.png"
+                alt="Issuer Creation - Activating Cashless Modules"
+                className="cs-ideate-large-image"
+              />
+            </div>
+
+            <p className="cs-ideate-section-description">
+              Offer cashless features modularly—clients pay only for what they activate.
+            </p>
+          </div>
+
+          {/* Create SPV Workflow Section */}
+          <div className="cs-ideate-workflow-section">
+            <h3 className="cs-ideate-workflow-title">Create SPV and link to a Plan</h3>
+
+            <div className="cs-ideate-workflow-content">
+              <div className="cs-workflow-left">
+                <img
+                  src="/images/ideate-create-spv-workflow.png"
+                  alt="Create SPV Workflow"
+                  className="cs-workflow-image"
+                />
+              </div>
+
+              <div className="cs-workflow-center">
+                <img
+                  src="/images/ideate-spv-details-form.png"
+                  alt="Create Award Plan Form"
+                  className="cs-workflow-form-image"
+                />
+              </div>
+
+            </div>
+
+            {/* Bottom Section with Terminology and SPV Details */}
+            <div className="cs-ideate-bottom-section">
+              <div className="cs-terminology-section">
+                <h4 className="cs-terminology-title">Introducing<br />TERMINOLOGY TOOLTIPS TO EXPLAIN JARGONS</h4>
+              </div>
+
+              <div className="cs-spv-details-tooltip">
+                <div className="cs-tooltip-arrow"></div>
+                <h4 className="cs-spv-details-label">SPV Details</h4>
+                <h5 className="cs-spv-details-question">What does SPV mean?</h5>
+                <p className="cs-spv-details-definition">
+                  SPV (Special Purpose Vehicle) is a separate legal entity created by a parent company for specific, often temporary objectives—such as isolating financial risk or facilitating projects—by segregating assets, liabilities, and risks from the parent's balance sheet to enable securitization, fundraising, or project finance without broader exposure
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
