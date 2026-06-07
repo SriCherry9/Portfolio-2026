@@ -29,7 +29,7 @@ const PROJECTS = [
     accentColor: '#C4A96A',
     coverComponent: <MuseoCover />,
     videoSrc: '/videos/product-tour.mov',
-    caseStudyPath: '/case-study/museo',
+    caseStudyPath: 'https://www.figma.com/proto/7Fg0788OOdANym3PJbksEf/Portfolio-Content?node-id=1958-30039&viewport=-573%2C534%2C0.03&t=Q4ut7u8klROGl8qx-1&scaling=min-zoom&content-scaling=fixed&page-id=819%3A20077',
     company: 'GAIAN SOLUTIONS',
     role: 'Lead Product Designer',
     title: 'Museo — Broadcast Auction Platform',

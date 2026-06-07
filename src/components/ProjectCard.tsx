@@ -55,14 +55,24 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
   const isActive = activeId === project.id
 
   const handleCoverClick = () => {
-    if (project.caseStudyPath) navigate(project.caseStudyPath)
-    else if (project.videoSrc) setVideoModalOpen(true)
+    if (project.caseStudyPath) {
+      if (project.caseStudyPath.startsWith('http')) {
+        window.open(project.caseStudyPath, '_blank', 'noopener,noreferrer')
+      } else {
+        navigate(project.caseStudyPath)
+      }
+    } else if (project.videoSrc) setVideoModalOpen(true)
   }
 
   const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    if (project.caseStudyPath) navigate(project.caseStudyPath)
-    else if (project.videoSrc) setVideoModalOpen(true)
+    if (project.caseStudyPath) {
+      if (project.caseStudyPath.startsWith('http')) {
+        window.open(project.caseStudyPath, '_blank', 'noopener,noreferrer')
+      } else {
+        navigate(project.caseStudyPath)
+      }
+    } else if (project.videoSrc) setVideoModalOpen(true)
   }
 
   return (
