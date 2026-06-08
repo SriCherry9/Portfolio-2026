@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/incite.css'
 
-const imgImage287 = "https://www.figma.com/api/mcp/asset/b3da09f7-76ee-9b2d-eb58-d4b45ecd6b81"
-const imgImage351 = "https://www.figma.com/api/mcp/asset/955f2d76-73c7-8307-e458-8f4cbcb74c0d"
-const imgLayer1 = "https://www.figma.com/api/mcp/asset/b0ad763b-8fac-7156-3b2d-a3ab2f70ea4f"
+const imgImage287 = "/images/incite/Screenshot 2026-05-29 at 11.11.51 PM 1.png"
+const imgImage351 = "/images/incite/Screenshot 2026-05-29 at 11.11.51 PM 1.png"
+const imgLayer1 = "/images/incite/Screenshot 2026-05-29 at 11.10.44 PM 1.png"
 const imgEllipse965 = "https://www.figma.com/api/mcp/asset/b74f068a-a815-34af-bfdb-9b27f9235999"
 const imgEllipse964 = "https://www.figma.com/api/mcp/asset/7ee3f285-21d6-edf7-be12-9095dd406240"
 const imgEllipse963 = "https://www.figma.com/api/mcp/asset/ffc851568e0afce8058d5ca21246b9d8"
-const imgRectangle34626181 = "https://www.figma.com/api/mcp/asset/8ab1235a-0be4-de80-beb3-d01a806eaef8"
-const imgVector8763 = "https://www.figma.com/api/mcp/asset/31cff0cd-4de3-7711-a62f-89b5d97996b6"
+const imgRectangle34626181 = "/images/incite/Screenshot 2026-05-29 at 11.09.22 PM 1.png"
+const imgVector8763 = "/images/incite/Screenshot 2026-05-29 at 11.11.51 PM 1.png"
 const imgRectangle34626179 = "https://www.figma.com/api/mcp/asset/759d61cd-3a28-40b4-8f3a-758cd1c34964"
 const imgDecor964 = "https://www.figma.com/api/mcp/asset/95c25c39-6de7-4325-b9d5-034602176ea9"
 const imgDecor965 = "https://www.figma.com/api/mcp/asset/c174a646-2da1-479b-bb0a-e23359b96268"
