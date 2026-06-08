@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/incite.css'
 
-const imgImage287 = "/images/incite/Screenshot 2026-05-29 at 11.11.51 PM 1.png"
-const imgImage351 = "/images/incite/Screenshot 2026-05-29 at 11.11.51 PM 1.png"
-const imgLayer1 = "/images/incite/Screenshot 2026-05-29 at 11.10.44 PM 1.png"
+const imgImage287 = "/images/incite/arrow-icon.png"
+const imgImage351 = "/images/incite/arrow-icon.png"
+const imgLayer1 = "/images/incite/incite-logo-teal.png"
 const imgEllipse965 = "https://www.figma.com/api/mcp/asset/b74f068a-a815-34af-bfdb-9b27f9235999"
 const imgEllipse964 = "https://www.figma.com/api/mcp/asset/7ee3f285-21d6-edf7-be12-9095dd406240"
 const imgEllipse963 = "https://www.figma.com/api/mcp/asset/ffc851568e0afce8058d5ca21246b9d8"
-const imgRectangle34626181 = "/images/incite/Screenshot 2026-05-29 at 11.09.22 PM 1.png"
-const imgVector8763 = "/images/incite/Screenshot 2026-05-29 at 11.11.51 PM 1.png"
+const imgRectangle34626181 = "/images/incite/berries-grid.png"
+const imgVector8763 = "/images/incite/arrow-icon.png"
 const imgRectangle34626179 = "https://www.figma.com/api/mcp/asset/759d61cd-3a28-40b4-8f3a-758cd1c34964"
 const imgDecor964 = "https://www.figma.com/api/mcp/asset/95c25c39-6de7-4325-b9d5-034602176ea9"
 const imgDecor965 = "https://www.figma.com/api/mcp/asset/c174a646-2da1-479b-bb0a-e23359b96268"
