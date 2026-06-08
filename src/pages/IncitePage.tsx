@@ -5,7 +5,7 @@ import '../styles/incite.css'
 const imgImage287 = "/images/incite/image 287.png"
 const imgImage351 = "/images/incite/image 351.png"
 const imgLayer1 = "/images/incite/Layer_1.png"
-const imgRectangle34626181 = "/images/incite/Screenshot 2024-01-15 at 1.51 1.png"
+const imgRectangle34626181 = "/images/incite/Rectangle 34626182.png"
 const imgVector8763 = "/images/incite/image 357.svg"
 const imgRectangle34626179 = "https://www.figma.com/api/mcp/asset/759d61cd-3a28-40b4-8f3a-758cd1c34964"
 const imgDecor964 = "https://www.figma.com/api/mcp/asset/95c25c39-6de7-4325-b9d5-034602176ea9"
