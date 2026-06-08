@@ -640,11 +640,14 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
-  max-width: 1200px;
+  max-width: 1400px;
 }
 
 .incite-section-9-stage {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .incite-section-9-stage-title {
@@ -655,42 +658,144 @@
   color: #9F9F9F;
   margin: 0 0 30px 0;
   text-align: center;
+  width: 100%;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 9: Colored Circles (Concentric)
+   ═══════════════════════════════════════════════════════════════════ */
 
 .incite-section-9-circles {
   position: relative;
   width: 106.5px;
   height: 106.5px;
-  margin: 0 auto 40px;
+  margin: 0 0 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.incite-section-9-circles img {
+.incite-section-9-circle-outer,
+.incite-section-9-circle-middle,
+.incite-section-9-circle-inner {
   position: absolute;
-  opacity: 0.3;
+  border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.incite-section-9-circles img:nth-child(1) {
+.incite-section-9-circle-outer {
   width: 106.5px;
   height: 106.5px;
+  opacity: 0.3;
 }
 
-.incite-section-9-circles img:nth-child(2) {
+.incite-section-9-circle-middle {
   width: 65.984px;
   height: 65.984px;
+  opacity: 0.5;
 }
 
-.incite-section-9-circles img:nth-child(3) {
+.incite-section-9-circle-inner {
   width: 28.361px;
   height: 28.361px;
+  opacity: 0.8;
 }
+
+/* Color Variants for Each Stage */
+.incite-section-9-stage-green .incite-section-9-circle-outer {
+  background: radial-gradient(circle, rgba(192, 215, 68, 0.8) 0%, rgba(160, 190, 50, 0.4) 100%);
+}
+
+.incite-section-9-stage-green .incite-section-9-circle-middle {
+  background: radial-gradient(circle, rgba(172, 200, 58, 0.9) 0%, rgba(140, 160, 40, 0.5) 100%);
+}
+
+.incite-section-9-stage-green .incite-section-9-circle-inner {
+  background: #A8C83A;
+}
+
+.incite-section-9-stage-brown .incite-section-9-circle-outer {
+  background: radial-gradient(circle, rgba(150, 110, 70, 0.8) 0%, rgba(120, 85, 50, 0.4) 100%);
+}
+
+.incite-section-9-stage-brown .incite-section-9-circle-middle {
+  background: radial-gradient(circle, rgba(130, 95, 60, 0.9) 0%, rgba(100, 75, 45, 0.5) 100%);
+}
+
+.incite-section-9-stage-brown .incite-section-9-circle-inner {
+  background: #8A6D52;
+}
+
+.incite-section-9-stage-teal .incite-section-9-circle-outer {
+  background: radial-gradient(circle, rgba(66, 180, 180, 0.8) 0%, rgba(50, 150, 150, 0.4) 100%);
+}
+
+.incite-section-9-stage-teal .incite-section-9-circle-middle {
+  background: radial-gradient(circle, rgba(60, 170, 170, 0.9) 0%, rgba(45, 135, 135, 0.5) 100%);
+}
+
+.incite-section-9-stage-teal .incite-section-9-circle-inner {
+  background: #42B4B4;
+}
+
+.incite-section-9-stage-purple .incite-section-9-circle-outer {
+  background: radial-gradient(circle, rgba(120, 80, 180, 0.8) 0%, rgba(95, 60, 150, 0.4) 100%);
+}
+
+.incite-section-9-stage-purple .incite-section-9-circle-middle {
+  background: radial-gradient(circle, rgba(110, 75, 170, 0.9) 0%, rgba(85, 55, 140, 0.5) 100%);
+}
+
+.incite-section-9-stage-purple .incite-section-9-circle-inner {
+  background: #7850B4;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 9: Dotted Lines
+   ═══════════════════════════════════════════════════════════════════ */
+
+.incite-section-9-line {
+  width: 2px;
+  height: 180px;
+  margin: 20px 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    currentColor 0px,
+    currentColor 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  color: #3A7A7A;
+}
+
+.incite-section-9-stage-green .incite-section-9-line {
+  color: #A8C83A;
+}
+
+.incite-section-9-stage-brown .incite-section-9-line {
+  color: #8A6D52;
+}
+
+.incite-section-9-stage-teal .incite-section-9-line {
+  color: #42B4B4;
+}
+
+.incite-section-9-stage-purple .incite-section-9-line {
+  color: #7850B4;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SECTION 9: Items and Colored Dots
+   ═══════════════════════════════════════════════════════════════════ */
 
 .incite-section-9-items {
   display: flex;
   flex-direction: column;
   gap: 11px;
+  width: 100%;
+  align-items: flex-start;
 }
 
 .incite-section-9-item {
@@ -707,7 +812,25 @@
 .incite-section-9-dot {
   width: 12px;
   height: 12px;
+  border-radius: 50%;
   flex-shrink: 0;
+  background: currentColor;
+}
+
+.incite-section-9-stage-green .incite-section-9-dot {
+  background-color: #A8C83A;
+}
+
+.incite-section-9-stage-brown .incite-section-9-dot {
+  background-color: #8A6D52;
+}
+
+.incite-section-9-stage-teal .incite-section-9-dot {
+  background-color: #42B4B4;
+}
+
+.incite-section-9-stage-purple .incite-section-9-dot {
+  background-color: #7850B4;
 }
 
 /* ═══════════════════════════════════════════════════════════════════

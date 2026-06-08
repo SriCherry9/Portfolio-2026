@@ -17,12 +17,6 @@ const imgCornerEllipse963 = "https://www.figma.com/api/mcp/asset/e8f635a7-0f22-4
 const imgResearch966 = "https://www.figma.com/api/mcp/asset/6bc7d5f6-ee63-45b5-8753-4873125e8b00"
 const imgResearch965 = "https://www.figma.com/api/mcp/asset/709920d6-249c-439d-93c4-a19164d7387f"
 const imgResearch963 = "https://www.figma.com/api/mcp/asset/40bea66c-d127-4277-9da3-f3bd65a44a41"
-const imgProcess965 = "https://www.figma.com/api/mcp/asset/c2ac6055-7ed4-4e44-ab95-a27cddcf8b8c"
-const imgProcess964 = "https://www.figma.com/api/mcp/asset/a007f3c2-53ba-4c32-b8a0-e798765dd232"
-const imgProcess963 = "https://www.figma.com/api/mcp/asset/bfddee79-9729-4478-89f8-39a6eb64d13e"
-const imgDot975 = "https://www.figma.com/api/mcp/asset/c94e606f-776e-4870-b3fb-f977eb22520f"
-const imgDot976 = "https://www.figma.com/api/mcp/asset/a9280a70-3aa8-4597-b716-6b29818b569a"
-const imgDot977 = "https://www.figma.com/api/mcp/asset/f5809597-59cb-4f74-a69d-20da2650cd71"
 
 export function IncitePage() {
   useEffect(() => {
@@ -269,97 +263,105 @@ export function IncitePage() {
         </div>
 
         <div className="incite-section-9-stages">
-          <div className="incite-section-9-stage">
+          {/* User Research Stage - Green */}
+          <div className="incite-section-9-stage incite-section-9-stage-green">
             <h3 className="incite-section-9-stage-title">User Research</h3>
             <div className="incite-section-9-circles">
-              <img alt="" src={imgProcess965} />
-              <img alt="" src={imgProcess964} />
-              <img alt="" src={imgProcess963} />
+              <div className="incite-section-9-circle-outer"></div>
+              <div className="incite-section-9-circle-middle"></div>
+              <div className="incite-section-9-circle-inner"></div>
             </div>
+            <div className="incite-section-9-line"></div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot975} />
+                <div className="incite-section-9-dot"></div>
                 <span>Survey</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot975} />
+                <div className="incite-section-9-dot"></div>
                 <span>Contextual Inquiry</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot975} />
+                <div className="incite-section-9-dot"></div>
                 <span>Shadowing</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot975} />
+                <div className="incite-section-9-dot"></div>
                 <span>Triading</span>
               </div>
             </div>
           </div>
 
-          <div className="incite-section-9-stage">
+          {/* Secondary Study Stage - Brown */}
+          <div className="incite-section-9-stage incite-section-9-stage-brown">
             <h3 className="incite-section-9-stage-title">Secondary Study</h3>
             <div className="incite-section-9-circles">
-              <img alt="" src={imgProcess965} />
-              <img alt="" src={imgProcess964} />
-              <img alt="" src={imgProcess963} />
+              <div className="incite-section-9-circle-outer"></div>
+              <div className="incite-section-9-circle-middle"></div>
+              <div className="incite-section-9-circle-inner"></div>
             </div>
+            <div className="incite-section-9-line"></div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot976} />
+                <div className="incite-section-9-dot"></div>
                 <span>Literature Review</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot976} />
+                <div className="incite-section-9-dot"></div>
                 <span>Stakeholder Map</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot976} />
+                <div className="incite-section-9-dot"></div>
                 <span>Competitive Analysis</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot976} />
+                <div className="incite-section-9-dot"></div>
                 <span>Market Analysis</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot976} />
+                <div className="incite-section-9-dot"></div>
                 <span>Technical Considerations</span>
               </div>
             </div>
           </div>
 
-          <div className="incite-section-9-stage">
+          {/* Analysis Stage - Teal */}
+          <div className="incite-section-9-stage incite-section-9-stage-teal">
             <h3 className="incite-section-9-stage-title">Analysis</h3>
             <div className="incite-section-9-circles">
-              <img alt="" src={imgProcess965} />
-              <img alt="" src={imgProcess964} />
-              <img alt="" src={imgProcess963} />
+              <div className="incite-section-9-circle-outer"></div>
+              <div className="incite-section-9-circle-middle"></div>
+              <div className="incite-section-9-circle-inner"></div>
             </div>
+            <div className="incite-section-9-line"></div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot977} />
+                <div className="incite-section-9-dot"></div>
                 <span>Data Analysis</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot977} />
+                <div className="incite-section-9-dot"></div>
                 <span>Value Opportunity Analysis</span>
               </div>
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot977} />
+                <div className="incite-section-9-dot"></div>
                 <span>Laddering</span>
               </div>
             </div>
           </div>
 
-          <div className="incite-section-9-stage">
+          {/* Insights Stage - Purple */}
+          <div className="incite-section-9-stage incite-section-9-stage-purple">
             <h3 className="incite-section-9-stage-title">Insights</h3>
             <div className="incite-section-9-circles">
-              <img alt="" src={imgProcess965} />
-              <img alt="" src={imgProcess964} />
-              <img alt="" src={imgProcess963} />
+              <div className="incite-section-9-circle-outer"></div>
+              <div className="incite-section-9-circle-middle"></div>
+              <div className="incite-section-9-circle-inner"></div>
             </div>
+            <div className="incite-section-9-line"></div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
-                <img alt="" className="incite-section-9-dot" src={imgDot977} />
+                <div className="incite-section-9-dot"></div>
                 <span>Pain Points</span>
               </div>
             </div>
