@@ -1,8 +1,7 @@
-/* Incite Case Study - Desktop Only */
+/* Incite Case Study - Responsive Design */
 
 .incite-page {
   width: 100%;
-  min-width: 1280px;
 }
 
 .incite-slides-container {
@@ -43,4 +42,48 @@
 
 .incite-back-link:hover {
   color: #0052A3;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: TABLET (max-width: 1024px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .incite-footer {
+    padding: 30px 20px;
+  }
+
+  .incite-back-link {
+    font-size: 13px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: MOBILE (max-width: 768px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .incite-footer {
+    padding: 24px 16px;
+  }
+
+  .incite-back-link {
+    font-size: 12px;
+    margin-top: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: SMALL MOBILE (max-width: 480px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .incite-footer {
+    padding: 20px 12px;
+  }
+
+  .incite-back-link {
+    font-size: 11px;
+    margin-top: 12px;
+  }
 }
