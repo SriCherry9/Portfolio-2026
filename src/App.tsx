@@ -3,7 +3,6 @@ import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
-import { MuseoCover } from './components/covers/MuseoCover'
 
 const PROJECTS = [
   {
