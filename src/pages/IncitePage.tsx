@@ -5,9 +5,6 @@ import '../styles/incite.css'
 const imgImage287 = "/images/incite/image 287.png"
 const imgImage351 = "/images/incite/image 351.png"
 const imgLayer1 = "/images/incite/Layer_1.png"
-const imgEllipse965 = "/images/incite/Ellipse 984.png"
-const imgEllipse964 = "/images/incite/Ellipse 985.png"
-const imgEllipse963 = "/images/incite/Ellipse 985.png"
 const imgRectangle34626181 = "/images/incite/Rectangle 34626220.png"
 const imgVector8763 = "/images/incite/image 357.svg"
 const imgRectangle34626179 = "https://www.figma.com/api/mcp/asset/759d61cd-3a28-40b4-8f3a-758cd1c34964"
@@ -85,9 +82,9 @@ export function IncitePage() {
       {/* Section 3: Timeline/Competition */}
       <section className="incite-section-3">
         <div className="incite-section-3-decorative">
-          <img className="incite-ellipse incite-ellipse-1" alt="" src={imgEllipse965} />
-          <img className="incite-ellipse incite-ellipse-2" alt="" src={imgEllipse964} />
-          <img className="incite-ellipse incite-ellipse-3" alt="" src={imgEllipse963} />
+          <div className="incite-ellipse incite-ellipse-1"></div>
+          <div className="incite-ellipse incite-ellipse-2"></div>
+          <div className="incite-ellipse incite-ellipse-3"></div>
         </div>
         <h3 className="incite-section-3-text">First Design Competition</h3>
       </section>
