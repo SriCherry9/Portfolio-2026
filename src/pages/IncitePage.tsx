@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/incite.css'
 
-const imgImage287 = "http://localhost:3845/assets/b3da09f776ee9b2deb58d4b45ecd6b81aacd8b00.png"
-const imgImage351 = "http://localhost:3845/assets/955f2d7673c78307e4588f4cbcb74c0d45b49042.png"
-const imgLayer1 = "http://localhost:3845/assets/b0ad763b8fac71563b2da3ab2f70ea4f385f954a.svg"
-const imgEllipse965 = "http://localhost:3845/assets/b74f068aa81534afbf3db9b27f923599956e8bd9.svg"
-const imgEllipse964 = "http://localhost:3845/assets/7ee3f28521d6edf7be129095dd4062409cfeacf4.svg"
-const imgEllipse963 = "http://localhost:3845/assets/ffc851568e0afce8058d5ca21246b9d8ef0ff31d.svg"
-const imgRectangle34626181 = "http://localhost:3845/assets/8ab1235a0be4de80beb3d01a806eaef875cafc76.png"
-const imgVector8763 = "http://localhost:3845/assets/31cff0cd4de37711a62f89b5d97996b66bfe5fd2.svg"
+const imgImage287 = "https://www.figma.com/api/mcp/asset/b3da09f7-76ee-9b2d-eb58-d4b45ecd6b81"
+const imgImage351 = "https://www.figma.com/api/mcp/asset/955f2d76-73c7-8307-e458-8f4cbcb74c0d"
+const imgLayer1 = "https://www.figma.com/api/mcp/asset/b0ad763b-8fac-7156-3b2d-a3ab2f70ea4f"
+const imgEllipse965 = "https://www.figma.com/api/mcp/asset/b74f068a-a815-34af-bfdb-9b27f9235999"
+const imgEllipse964 = "https://www.figma.com/api/mcp/asset/7ee3f285-21d6-edf7-be12-9095dd406240"
+const imgEllipse963 = "https://www.figma.com/api/mcp/asset/ffc851568e0afce8058d5ca21246b9d8"
+const imgRectangle34626181 = "https://www.figma.com/api/mcp/asset/8ab1235a-0be4-de80-beb3-d01a806eaef8"
+const imgVector8763 = "https://www.figma.com/api/mcp/asset/31cff0cd-4de3-7711-a62f-89b5d97996b6"
 const imgRectangle34626179 = "https://www.figma.com/api/mcp/asset/759d61cd-3a28-40b4-8f3a-758cd1c34964"
 const imgDecor964 = "https://www.figma.com/api/mcp/asset/95c25c39-6de7-4325-b9d5-034602176ea9"
 const imgDecor965 = "https://www.figma.com/api/mcp/asset/c174a646-2da1-479b-bb0a-e23359b96268"
