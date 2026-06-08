@@ -6,6 +6,21 @@ import { GardenFooter } from './components/GardenFooter'
 
 const PROJECTS = [
   {
+    id: 0,
+    dateRange: '2026',
+    category: 'AI · Product Strategy',
+    accentColor: '#7B68EE',
+    coverImage: '/images/ai-product-strategy-cover.png',
+    caseStudyPath: '/case-study/ai-product-strategy',
+    company: 'INDEPENDENT',
+    role: 'Lead Product Strategist',
+    title: 'AI Product Strategy',
+    description:
+      'Strategic framework and roadmap for AI product development, focusing on user-centric design and market positioning. Comprehensive analysis of AI capabilities, competitive landscape, and product-market fit opportunities.',
+    tags: ['AI', 'Strategy', 'Product Management', 'Research'],
+    url: 'ai-strategy.design',
+  },
+  {
     id: 1,
     dateRange: '2022 – 2024',
     category: 'Fintech · B2B SaaS',

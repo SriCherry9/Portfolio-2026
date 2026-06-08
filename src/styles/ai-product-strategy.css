@@ -1,0 +1,89 @@
+/* AI Product Strategy Case Study - Responsive Design */
+
+.ai-product-strategy-page {
+  width: 100%;
+}
+
+.ai-product-strategy-slides-container {
+  width: 100%;
+}
+
+.ai-product-strategy-slide {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.ai-product-strategy-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+}
+
+.ai-product-strategy-footer {
+  padding: 40px;
+  text-align: center;
+  border-top: 1px solid #E0E0E0;
+  background-color: #FDFDFD;
+}
+
+.ai-product-strategy-back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: #0066CC;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: color 0.3s ease;
+}
+
+.ai-product-strategy-back-link:hover {
+  color: #0052A3;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: TABLET (max-width: 1024px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .ai-product-strategy-footer {
+    padding: 30px 20px;
+  }
+
+  .ai-product-strategy-back-link {
+    font-size: 13px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: MOBILE (max-width: 768px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .ai-product-strategy-footer {
+    padding: 24px 16px;
+  }
+
+  .ai-product-strategy-back-link {
+    font-size: 12px;
+    margin-top: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE: SMALL MOBILE (max-width: 480px)
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .ai-product-strategy-footer {
+    padding: 20px 12px;
+  }
+
+  .ai-product-strategy-back-link {
+    font-size: 11px;
+    margin-top: 12px;
+  }
+}

@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.tsx'
 import { Layout } from './components/Layout.tsx'
 import { PlaygroundPage } from './pages/PlaygroundPage.tsx'
+import { AiProductStrategyPage } from './pages/AiProductStrategyPage.tsx'
 import { CashlessPage } from './pages/CashlessPage.tsx'
 import { IncitePage } from './pages/IncitePage.tsx'
 import { MuseoPage } from './pages/MuseoPage.tsx'
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<App />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/case-study/ai-product-strategy" element={<AiProductStrategyPage />} />
           <Route path="/case-study/cashless" element={<CashlessPage />} />
           <Route path="/case-study/incite" element={<IncitePage />} />
           <Route path="/case-study/museo" element={<MuseoPage />} />
