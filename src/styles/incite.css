@@ -705,51 +705,51 @@
 
 /* Color Variants for Each Stage */
 .incite-section-9-stage-green .incite-section-9-circle-outer {
-  background: radial-gradient(circle, rgba(192, 215, 68, 0.8) 0%, rgba(160, 190, 50, 0.4) 100%);
+  background: radial-gradient(circle, rgba(207, 255, 100, 0.8) 0%, rgba(191, 255, 50, 0.4) 100%);
 }
 
 .incite-section-9-stage-green .incite-section-9-circle-middle {
-  background: radial-gradient(circle, rgba(172, 200, 58, 0.9) 0%, rgba(140, 160, 40, 0.5) 100%);
+  background: radial-gradient(circle, rgba(200, 255, 85, 0.9) 0%, rgba(180, 240, 60, 0.5) 100%);
 }
 
 .incite-section-9-stage-green .incite-section-9-circle-inner {
-  background: #A8C83A;
+  background: #BFFF00;
 }
 
 .incite-section-9-stage-brown .incite-section-9-circle-outer {
-  background: radial-gradient(circle, rgba(150, 110, 70, 0.8) 0%, rgba(120, 85, 50, 0.4) 100%);
+  background: radial-gradient(circle, rgba(255, 200, 128, 0.8) 0%, rgba(255, 180, 80, 0.4) 100%);
 }
 
 .incite-section-9-stage-brown .incite-section-9-circle-middle {
-  background: radial-gradient(circle, rgba(130, 95, 60, 0.9) 0%, rgba(100, 75, 45, 0.5) 100%);
+  background: radial-gradient(circle, rgba(255, 210, 140, 0.9) 0%, rgba(255, 190, 100, 0.5) 100%);
 }
 
 .incite-section-9-stage-brown .incite-section-9-circle-inner {
-  background: #8A6D52;
+  background: #FFD77A;
 }
 
 .incite-section-9-stage-teal .incite-section-9-circle-outer {
-  background: radial-gradient(circle, rgba(66, 180, 180, 0.8) 0%, rgba(50, 150, 150, 0.4) 100%);
+  background: radial-gradient(circle, rgba(100, 255, 255, 0.8) 0%, rgba(50, 240, 240, 0.4) 100%);
 }
 
 .incite-section-9-stage-teal .incite-section-9-circle-middle {
-  background: radial-gradient(circle, rgba(60, 170, 170, 0.9) 0%, rgba(45, 135, 135, 0.5) 100%);
+  background: radial-gradient(circle, rgba(80, 250, 250, 0.9) 0%, rgba(60, 230, 230, 0.5) 100%);
 }
 
 .incite-section-9-stage-teal .incite-section-9-circle-inner {
-  background: #42B4B4;
+  background: #00E5E5;
 }
 
 .incite-section-9-stage-purple .incite-section-9-circle-outer {
-  background: radial-gradient(circle, rgba(120, 80, 180, 0.8) 0%, rgba(95, 60, 150, 0.4) 100%);
+  background: radial-gradient(circle, rgba(200, 180, 255, 0.8) 0%, rgba(180, 140, 255, 0.4) 100%);
 }
 
 .incite-section-9-stage-purple .incite-section-9-circle-middle {
-  background: radial-gradient(circle, rgba(110, 75, 170, 0.9) 0%, rgba(85, 55, 140, 0.5) 100%);
+  background: radial-gradient(circle, rgba(210, 195, 255, 0.9) 0%, rgba(190, 160, 255, 0.5) 100%);
 }
 
 .incite-section-9-stage-purple .incite-section-9-circle-inner {
-  background: #7850B4;
+  background: #D4B5FF;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -771,19 +771,19 @@
 }
 
 .incite-section-9-stage-green .incite-section-9-line {
-  color: #A8C83A;
+  color: #BFFF00;
 }
 
 .incite-section-9-stage-brown .incite-section-9-line {
-  color: #8A6D52;
+  color: #FFD77A;
 }
 
 .incite-section-9-stage-teal .incite-section-9-line {
-  color: #42B4B4;
+  color: #00E5E5;
 }
 
 .incite-section-9-stage-purple .incite-section-9-line {
-  color: #7850B4;
+  color: #D4B5FF;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -820,19 +820,19 @@
 }
 
 .incite-section-9-stage-green .incite-section-9-dot {
-  background-color: #A8C83A;
+  background-color: #BFFF00;
 }
 
 .incite-section-9-stage-brown .incite-section-9-dot {
-  background-color: #8A6D52;
+  background-color: #FFD77A;
 }
 
 .incite-section-9-stage-teal .incite-section-9-dot {
-  background-color: #42B4B4;
+  background-color: #00E5E5;
 }
 
 .incite-section-9-stage-purple .incite-section-9-dot {
-  background-color: #7850B4;
+  background-color: #D4B5FF;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
