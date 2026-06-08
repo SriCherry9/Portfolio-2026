@@ -994,6 +994,12 @@ html[data-theme="dark"] .about-era-tag {
   letter-spacing: 0.03em;
 }
 
+.tl-tag-logo {
+  height: 20px;
+  width: auto;
+  display: inline-block;
+}
+
 .tl-cta {
   display: inline-flex;
   align-items: center;

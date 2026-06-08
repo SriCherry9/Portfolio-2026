@@ -15,6 +15,7 @@ interface Project {
   title: string
   description: string
   tags: string[]
+  cesLogo?: string
   url: string
 }
 
@@ -124,6 +125,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
 
           <div className="tl-footer">
             <div className="tl-tags">
+              {project.cesLogo && <img src={project.cesLogo} alt="CES Logo" className="tl-tag-logo" />}
               {project.tags.map(tag => <span key={tag} className="tl-tag">{tag}</span>)}
             </div>
             {(project.caseStudyPath || project.videoSrc) && (
