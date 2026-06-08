@@ -687,6 +687,21 @@
   height: 28.361px;
 }
 
+.incite-section-9-line-container {
+  position: relative;
+  height: auto;
+  min-height: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.incite-section-9-line {
+  width: 2px;
+  height: 182px;
+  display: block;
+}
+
 .incite-section-9-items {
   display: flex;
   flex-direction: column;

@@ -23,6 +23,10 @@ const imgProcess963 = "https://www.figma.com/api/mcp/asset/bfddee79-9729-4478-89
 const imgDot975 = "https://www.figma.com/api/mcp/asset/c94e606f-776e-4870-b3fb-f977eb22520f"
 const imgDot976 = "https://www.figma.com/api/mcp/asset/a9280a70-3aa8-4597-b716-6b29818b569a"
 const imgDot977 = "https://www.figma.com/api/mcp/asset/f5809597-59cb-4f74-a69d-20da2650cd71"
+const imgLine1 = "https://www.figma.com/api/mcp/asset/53ce22db621ad4c5c6c7495d3445b4afa4169bdb"
+const imgLine2 = "https://www.figma.com/api/mcp/asset/1bea51450ba2dbe2f9793cf2a79f1633f1a5c6c0"
+const imgLine3 = "https://www.figma.com/api/mcp/asset/a96a54afbb8ba9cb55ce3714af23c21e6929ace2"
+const imgLine4 = "https://www.figma.com/api/mcp/asset/d0aa6248737a8255dc875d261cba6f4b89f5f091"
 
 export function IncitePage() {
   useEffect(() => {
@@ -276,6 +280,9 @@ export function IncitePage() {
               <img alt="" src={imgProcess964} />
               <img alt="" src={imgProcess963} />
             </div>
+            <div className="incite-section-9-line-container">
+              <img alt="" className="incite-section-9-line" src={imgLine1} />
+            </div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
                 <img alt="" className="incite-section-9-dot" src={imgDot975} />
@@ -302,6 +309,9 @@ export function IncitePage() {
               <img alt="" src={imgProcess965} />
               <img alt="" src={imgProcess964} />
               <img alt="" src={imgProcess963} />
+            </div>
+            <div className="incite-section-9-line-container">
+              <img alt="" className="incite-section-9-line" src={imgLine2} />
             </div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
@@ -334,6 +344,9 @@ export function IncitePage() {
               <img alt="" src={imgProcess964} />
               <img alt="" src={imgProcess963} />
             </div>
+            <div className="incite-section-9-line-container">
+              <img alt="" className="incite-section-9-line" src={imgLine3} />
+            </div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
                 <img alt="" className="incite-section-9-dot" src={imgDot977} />
@@ -356,6 +369,9 @@ export function IncitePage() {
               <img alt="" src={imgProcess965} />
               <img alt="" src={imgProcess964} />
               <img alt="" src={imgProcess963} />
+            </div>
+            <div className="incite-section-9-line-container">
+              <img alt="" className="incite-section-9-line" src={imgLine4} />
             </div>
             <div className="incite-section-9-items">
               <div className="incite-section-9-item">
