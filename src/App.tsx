@@ -34,7 +34,7 @@ const PROJECTS = [
     title: 'Museo — Broadcast Auction Platform',
     description:
       "Designed the end-to-end product for the US market — a CES'24 Badge-winning auction platform powered by ATSC 3.0. Built a cohesive design system for a B2B2C experience that lets viewers bid on products right from where they watch.",
-    tags: ['B2B2C', 'Design System', 'ATSC 3.0', 'CES 2024'],
+    tags: ['B2B2C', 'Design System', 'ATSC 3.0', 'CES 2024', 'TV Experience Design', 'Lean-back Experience'],
     url: 'gaian.solutions',
   },
   {
