@@ -27,7 +27,7 @@ const PROJECTS = [
     dateRange: '2023 – 2024',
     category: 'B2B2C · Design System',
     accentColor: '#C4A96A',
-    coverImage: '/images/museo-cover.svg',
+    coverImage: '/images/museo-cover.png',
     caseStudyPath: '/case-study/museo',
     company: 'GAIAN SOLUTIONS',
     role: 'Lead Product Designer',
