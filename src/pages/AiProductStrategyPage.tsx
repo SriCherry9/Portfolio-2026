@@ -7,7 +7,7 @@ export function AiProductStrategyPage() {
     window.scrollTo(0, 0)
   }, [])
 
-  const slideNumbers = [1, 2, 4, 5, 6, 7, 14, 15, 16]
+  const slideNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16]
   const slides = slideNumbers.map(num => `/images/ai-product-strategy/${num}.png`)
 
   return (
