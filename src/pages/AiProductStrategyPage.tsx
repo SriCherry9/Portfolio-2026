@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import '../styles/ai-product-strategy.css'
+import { CaseStudyNavigation } from '../components/CaseStudyNavigation'
 
 export function AiProductStrategyPage() {
   useEffect(() => {
@@ -20,11 +20,7 @@ export function AiProductStrategyPage() {
         ))}
       </div>
 
-      <footer className="ai-product-strategy-footer">
-        <Link to="/" className="ai-product-strategy-back-link">
-          ← Back to Portfolio
-        </Link>
-      </footer>
+      <CaseStudyNavigation />
     </div>
   )
 }
