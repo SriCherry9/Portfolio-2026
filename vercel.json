@@ -3,9 +3,11 @@
   "devCommand": "npm run dev",
   "installCommand": "npm ci",
   "framework": "vite",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/(?!.*\\.(?:css|js|json|svg|png|jpg|jpeg|gif|webp|ico)$).*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
