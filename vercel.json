@@ -1,0 +1,12 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(?!.*\\.(?:css|js|json|svg|png|jpg|jpeg|gif|webp|ico)$).*",
+      "destination": "/index.html"
+    }
+  ]
+}
