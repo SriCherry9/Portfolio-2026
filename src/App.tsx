@@ -67,21 +67,6 @@ const PROJECTS = [
     url: 'incite.design',
   },
   {
-    id: 3,
-    dateRange: '2021 – 2022',
-    category: 'Mobile · Consumer',
-    accentColor: '#D3D872',
-    coverImage: '/images/card3-cover.png',
-    videoSrc: '/videos/onboarding.mov',
-    company: 'INDEPENDENT',
-    role: 'UX Researcher & Designer',
-    title: 'Onboarding Experience Redesign',
-    description:
-      'Redesigned onboarding flows using mixed-methods research — contextual inquiry, usability testing, and data analysis. Achieved 40% improvement in 7-day retention and reduced time-to-value from 12 minutes to under 3.',
-    tags: ['Research', 'Mobile', 'Consumer', 'Growth'],
-    url: 'case-study.design',
-  },
-  {
     id: 4,
     dateRange: '2020 – 2021',
     category: 'Accessibility · Gov',
@@ -94,19 +79,6 @@ const PROJECTS = [
       'Redesigned search and filtering systems for a government digital service, achieving WCAG 2.2 AA compliance. Ran inclusive usability sessions with users who have visual, motor, and cognitive disabilities.',
     tags: ['Accessibility', 'Government', 'Research', 'WCAG'],
     url: 'accessible.design',
-  },
-  {
-    id: 5,
-    dateRange: '2019 – 2020',
-    category: 'Product · Strategy',
-    accentColor: '#E7C1E5',
-    company: 'STEALTH',
-    role: 'Product Manager & Designer',
-    title: 'Zero-to-One Health Platform',
-    description:
-      'Wore both PM and design hats to take a health-tech product from concept to beta. Defined the product strategy, led discovery research with clinicians, and shipped the MVP in 16 weeks.',
-    tags: ['Health Tech', 'Strategy', '0→1', 'PM + Design'],
-    url: 'NDA',
   },
 ]
 

@@ -1,5 +1,249 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+type MetricRow = { metric: string; current?: string; target?: string; notes: string }
+type MetricSection = { name: string; rows: MetricRow[] }
+type MetricTable = { caption: string; sections: MetricSection[] }
+
+const METRICS_TABLES: MetricTable[] = [
+  {
+    caption: 'Summary — Measure performance against objectives',
+    sections: [
+      {
+        name: 'Key Performance Indicators',
+        rows: [
+          { metric: 'Overall Adoption Rate', target: '80%', notes: 'Issuers using cashless / total issuers' },
+          { metric: 'Activation Completion Rate', target: '90%', notes: 'Complete setup / started setup' },
+          { metric: 'Average Time to Value', target: '7 days', notes: 'Activation → first exercise request' },
+          { metric: 'Monthly Active Users (MAU)', notes: 'Issuers using feature in last 30 days' },
+          { metric: 'Feature Stickiness (DAU/MAU)', target: '30%', notes: 'Daily / Monthly active users' },
+          { metric: 'Overall Task Success Rate', target: '95%', notes: 'Completed / attempted tasks' },
+          { metric: 'Support Ticket Rate', target: '<5%', notes: 'Tickets / total users per month' },
+          { metric: 'Feature NPS Score', target: '50+', notes: 'Cashless feature Net Promoter Score' },
+          { metric: 'Revenue per Cashless User', notes: 'Average monthly revenue per issuer' },
+        ],
+      },
+      {
+        name: 'Health Indicators',
+        rows: [
+          { metric: 'System Error Rate', target: '<2%', notes: 'System/configuration errors' },
+          { metric: 'Feature Churn Rate', target: '<5%', notes: 'Monthly feature abandonment rate' },
+          { metric: 'Average Time to Resolution', target: '<24 hrs', notes: 'Support ticket resolution time' },
+          { metric: 'System Performance (Page Load)', target: '<3 sec', notes: 'Average page load time' },
+          { metric: 'Formula Configuration Error Rate', target: '<3%', notes: 'Incorrect formula setups' },
+          { metric: 'Approval Bottleneck Rate', target: '<10%', notes: 'Stuck approvals / total approvals' },
+        ],
+      },
+      {
+        name: 'Tracking Frequency Recommendations',
+        rows: [
+          { metric: 'Daily Tracking', notes: 'DAU, system errors, performance' },
+          { metric: 'Weekly Tracking', notes: 'WAU, support tickets, task success' },
+          { metric: 'Monthly Tracking', notes: 'MAU, NPS, revenue, adoption, retention' },
+          { metric: 'Quarterly Tracking', notes: 'UX improvements, A/B tests, feature' },
+        ],
+      },
+    ],
+  },
+  {
+    caption: 'AARRR Pirates Model',
+    sections: [
+      {
+        name: 'Acquisition',
+        rows: [
+          { metric: 'Number of issuers activating cashless modules', notes: 'Track monthly new activations' },
+          { metric: 'Time from account creation to cashless setup', notes: 'Average time in days' },
+          { metric: 'Conversion rate from issuer pause creation to SPV/Plan linking', notes: 'Percentage completing this step' },
+          { metric: 'Source of cashless feature discovery', notes: 'Where users abandon setup' },
+        ],
+      },
+      {
+        name: 'Activation',
+        rows: [
+          { metric: 'Percentage of issuers who complete full cashless setup', notes: 'Formula configuration → method' },
+          { metric: 'Time to first cashless exercise request submitted', notes: 'From activation to first use' },
+          { metric: 'Completion rate of instrument formula configuration', notes: 'Successfully configured formulas' },
+          { metric: 'Number of issuers activating at least one exercise method', notes: 'Sell to cover vs cashless sell' },
+          { metric: 'Drop-off points in the setup flow', notes: 'SPV creation → charge config →' },
+        ],
+      },
+      {
+        name: 'Retention',
+        rows: [
+          { metric: 'Monthly/weekly active issuers using cashless features', notes: 'MAU and WAU metrics' },
+          { metric: 'Repeat usage rate of cashless exercise support', notes: 'Issuers using >1 per period' },
+          { metric: 'Feature stickiness (DAU/MAU for cashless module)', notes: 'Daily active / Monthly active' },
+          { metric: 'Churn rate of cashless feature', notes: 'Issuers who deactivate' },
+          { metric: 'Frequency of lot creation per issuer', notes: 'Average lots per time period' },
+        ],
+      },
+      {
+        name: 'Revenue',
+        rows: [
+          { metric: 'Revenue from cashless-enabled issuers vs non-cashless', notes: 'Comparative revenue analysis' },
+          { metric: 'Average transaction value per cashless exercise', notes: 'Mean transaction size' },
+          { metric: 'Broker charge revenue implemented', notes: 'When broker charges implemented' },
+          { metric: 'Upsell rate to advanced configurations', notes: 'ABAC, multi-level approval adoption' },
+          { metric: 'Revenue impact from basic vs advanced client tiers', notes: 'Tier comparison' },
+        ],
+      },
+      {
+        name: 'Referral',
+        rows: [
+          { metric: 'NPS score specifically for cashless feature', notes: 'Feature-specific Net Promoter Score' },
+          { metric: 'Number of referrals mentioning cashless capabilities', notes: 'Cashless as a decision factor' },
+          { metric: 'Case studies/testimonials generated from cashless users', notes: 'Success stories collected' },
+          { metric: 'Feature requests from non-cashless issuers after seeing it', notes: 'Interest from prospects' },
+        ],
+      },
+    ],
+  },
+  {
+    caption: 'Learning Curve / Efficiency',
+    sections: [
+      {
+        name: 'Time-Based Metrics',
+        rows: [
+          { metric: 'Time to complete initial cashless configuration', notes: 'From start to full activation' },
+          { metric: 'Time to create first lot', notes: 'First lot creation duration' },
+          { metric: 'Time from lot creation to sale initiation', notes: 'Processing efficiency metric' },
+          { metric: 'Time to process multi-level approvals', notes: 'Hierarchical vs simultaneous' },
+          { metric: 'Reduction in time compared to manual/previous processes', notes: 'Efficiency improvement percentage' },
+        ],
+      },
+      {
+        name: 'Error & Confusion Metrics',
+        rows: [
+          { metric: 'Error rate in formula configuration', notes: 'Incorrect formula setups' },
+          { metric: 'Number of support tickets related to cashless setup', notes: 'Monthly ticket count' },
+          { metric: 'Frequency of accessing help documentation/knowledge base', notes: 'KB article views and searches' },
+          { metric: 'Abandonment rate at each configuration step', notes: 'Where users get stuck in flow' },
+          { metric: 'Number of attempts to activate method before formula config', notes: 'Missing prerequisite errors' },
+        ],
+      },
+      {
+        name: 'Complexity Indicators',
+        rows: [
+          { metric: 'Usage rate of advanced configurations vs basic', notes: 'ABAC, RBAC adoption rate' },
+          { metric: 'Number of configurations modified after initial setup', notes: 'Rework frequency indicator' },
+          { metric: 'Frequency of using "Reset" vs "Update" buttons', notes: 'User confidence indicator' },
+          { metric: 'Time spent on approval flow configuration', notes: 'Setup complexity measure' },
+        ],
+      },
+    ],
+  },
+  {
+    caption: 'Task Success Rate',
+    sections: [
+      {
+        name: 'Configuration Tasks',
+        rows: [
+          { metric: 'Success rate of SPV creation and plan linking', notes: 'Completed without errors' },
+          { metric: 'Success rate of instrument formula configuration', notes: 'Correct formula setup first time' },
+          { metric: 'Success rate of activating exercise methods without errors', notes: 'Error-free activation' },
+          { metric: 'Completion rate of multi-level approval setup', notes: 'Successfully configured approvals' },
+          { metric: 'Success rate of lot creation from eligible requests', notes: 'Eligible requests → lots created' },
+        ],
+      },
+      {
+        name: 'Processing Tasks',
+        rows: [
+          { metric: 'Percentage of exercise requests successfully processed', notes: 'End-to-end completion through cashless' },
+          { metric: 'Approval flow completion rate', notes: 'No bottlenecks/rejections' },
+          { metric: 'Success rate of moving lots through stages', notes: 'Pending → sale initiated → shares' },
+          { metric: 'Accuracy of tentative vs actual calculations', notes: 'Calculation precision percentage' },
+          { metric: 'Error rate in payment configuration', notes: 'Payment setup issues' },
+        ],
+      },
+      {
+        name: 'Management Tasks',
+        rows: [
+          { metric: 'Success rate of finding specific requests/lots via search', notes: 'Search effectiveness' },
+          { metric: 'Success rate of filtering by exercise method, status, lot number', notes: 'Filter accuracy' },
+          { metric: 'Efficiency of switching between Requests and Cashless Lots', notes: 'Navigation ease' },
+          { metric: 'Success rate of bulk operations', notes: 'Creating lots from multiple requests' },
+        ],
+      },
+    ],
+  },
+  {
+    caption: 'Engagement Metrics',
+    sections: [
+      {
+        name: 'Feature Usage Depth',
+        rows: [
+          { metric: 'Percentage using basic vs advanced approval configurations', notes: 'Configuration complexity split' },
+          { metric: 'Usage rate of different exercise methods', notes: 'Sell to cover vs cashless sell' },
+          { metric: 'Adoption of simultaneous vs hierarchical approval flows', notes: 'Approval flow preferences' },
+          { metric: 'Usage of filters and search functionality', notes: 'Feature utilization frequency' },
+          { metric: 'Engagement with tentative calculation views', notes: 'View switching frequency' },
+        ],
+      },
+      {
+        name: 'User Actions',
+        rows: [
+          { metric: 'Number of lots created per month/quarter', notes: 'Activity volume by period' },
+          { metric: 'Number of exercise requests processed per lot', notes: 'Average requests per lot' },
+          { metric: 'Frequency of modifying lot composition', notes: 'Add/remove requests from lots' },
+          { metric: 'Usage of "Save view" functionality', notes: 'Custom view creation' },
+          { metric: 'Number of custom columns configured', notes: 'Personalization level' },
+        ],
+      },
+      {
+        name: 'Role-Based Engagement',
+        rows: [
+          { metric: 'Admin vs Finance Admin activity levels', notes: 'Sessions and actions per session' },
+          { metric: 'Employee self-service usage', notes: 'Submitting cashless requests' },
+          { metric: 'Broker interaction rates (if applicable)', notes: 'Broker engagement in Phase 2' },
+          { metric: 'Approver response time and engagement', notes: 'Approval speed and activity' },
+          { metric: 'Managed service team usage activity', notes: 'Internal team efficiency' },
+        ],
+      },
+      {
+        name: 'Navigation & Discoverability',
+        rows: [
+          { metric: 'Click-through rate from Settlement page to Cashless Lots tab', notes: 'Tab discovery rate' },
+          { metric: 'Usage of grouped vs ungrouped views', notes: 'View preference patterns' },
+          { metric: 'Frequency of accessing Insider status information', notes: 'Compliance awareness' },
+          { metric: 'Engagement with document uploads/downloads', notes: 'Document management activity' },
+          { metric: 'Usage of lot number for quick verification', notes: 'Quick lookup frequency' },
+        ],
+      },
+    ],
+  },
+  {
+    caption: 'Other Metrics',
+    sections: [
+      {
+        name: 'Findability',
+        rows: [
+          { metric: 'Time to locate specific exercise request or lot', notes: 'Search/navigation speed in seconds' },
+          { metric: 'Search success rate', notes: 'Query leads to desired result' },
+          { metric: 'Usage of lot number vs other identifiers', notes: 'Preferred lookup method' },
+          { metric: 'Effectiveness of grouping and labeling improvements', notes: 'User satisfaction score' },
+        ],
+      },
+      {
+        name: 'Scalability Indicators',
+        rows: [
+          { metric: 'Performance with high volume (500+ requests)', notes: 'Load time and responsiveness' },
+          { metric: 'User satisfaction when managing multiple lots simultaneously', notes: 'CSAT or satisfaction score' },
+          { metric: 'System response time as data grows', notes: 'Performance degradation tracking' },
+          { metric: 'Pagination usage patterns', notes: 'Page navigation frequency' },
+        ],
+      },
+      {
+        name: 'Cognitive Load',
+        rows: [
+          { metric: 'Number of clicks to complete key workflows', notes: 'Interaction efficiency measure' },
+          { metric: 'Help/tooltip engagement rate', notes: 'Need for guidance indicators' },
+          { metric: 'User satisfaction scores for complexity', notes: 'SUS or CSAT scores' },
+          { metric: 'A/B test results: basic vs advanced interface variations', notes: 'Interface variation testing' },
+        ],
+      },
+    ],
+  },
+]
 
 export function CashlessPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -454,6 +698,135 @@ export function CashlessPage() {
                 <p className="cs-spv-details-definition">
                   SPV (Special Purpose Vehicle) is a separate legal entity created by a parent company for specific, often temporary objectives—such as isolating financial risk or facilitating projects—by segregating assets, liabilities, and risks from the parent's balance sheet to enable securitization, fundraising, or project finance without broader exposure
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Constraints & Metrics Section ── */}
+      <section className="cs-design-constraints">
+        <div className="cs-design-constraints-inner">
+          <div className="cs-section-eyebrow">07 —— CONSTRAINTS &amp; METRICS</div>
+
+          <div className="cs-constraints-header-grid">
+            <div>
+              <h2 className="cs-design-constraints-title">How constraints shaped the design</h2>
+              <p className="cs-design-constraints-subtitle">
+                Engineering constraints, time pressure, and platform architecture differences all became design
+                inputs — yielding pragmatic, production-ready solutions faster.
+              </p>
+            </div>
+
+            <div className="cs-constraints-cards">
+              <div className="cs-constraint-card">
+                <h4>Time constraint simplified Phase 1</h4>
+                <p>Deadlines forced us to descope non-critical paths and focus on the highest-impact workflows first.</p>
+              </div>
+              <div className="cs-constraint-card">
+                <h4>Engineering constraints refined scope</h4>
+                <p>Understanding the data model yielded pragmatic, production-ready designs. Constraints became clarity.</p>
+              </div>
+              <div className="cs-constraint-card">
+                <h4>Platform architecture forced journey mapping</h4>
+                <p>Adapting designs from the acquired company's system required end-to-end flow tracing rather than copy-paste.</p>
+              </div>
+              <div className="cs-constraint-card">
+                <h4>Testing — prototypes sent to clients early</h4>
+                <p>Sent interactive prototypes to clients for early feedback before development began, catching major flow issues.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="cs-metrics-framework">
+            <div className="cs-metrics-framework-label">METRICS FRAMEWORK</div>
+            <p className="cs-metrics-framework-subtitle">
+              Layered approach — AARRR Pirates Model + Design Metrics (Learning Curve / Efficiency + Task Success + Engagement)
+            </p>
+
+            <div className="cs-metrics-grid">
+              {METRICS_TABLES.map((table) => (
+                <div className="cs-metrics-table-wrap" key={table.caption}>
+                  <table className="cs-metrics-table">
+                    <thead>
+                      <tr>
+                        <th>Metric</th>
+                        <th>Current Value</th>
+                        <th>Target Value</th>
+                        <th>Notes/Definition</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {table.sections.map((section) => (
+                        <Fragment key={section.name}>
+                          <tr className="cs-metrics-section-row">
+                            <td colSpan={4}>{section.name}</td>
+                          </tr>
+                          {section.rows.map((row) => (
+                            <tr key={row.metric}>
+                              <td>{row.metric}</td>
+                              <td>{row.current ?? ''}</td>
+                              <td>{row.target ?? ''}</td>
+                              <td>{row.notes}</td>
+                            </tr>
+                          ))}
+                        </Fragment>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="cs-metrics-table-caption">{table.caption}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="cs-release-note-structure">
+              <div className="cs-release-note-label">Release Note Structure</div>
+              <ul>
+                <li>What is it</li>
+                <li>Value Delivered</li>
+                <li>Who benefits</li>
+                <li>What's new</li>
+                <li>Why is it important</li>
+                <li>How does it work</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Results & Next Steps Section ── */}
+      <section className="cs-design-outcomes">
+        <div className="cs-design-outcomes-inner">
+          <div className="cs-section-eyebrow cs-section-eyebrow--light">08 —— RESULTS &amp; NEXT STEPS</div>
+
+          <h2 className="cs-design-outcomes-title">
+            Shipped, measured,
+            <br />
+            and ready to iterate
+          </h2>
+          <p className="cs-design-outcomes-subtitle">
+            Measure performance against the objectives — how well did the design meet the objectives, the impact on
+            users, and benefits to the business.
+          </p>
+
+          <div className="cs-outcomes-grid">
+            <div className="cs-outcomes-column">
+              <div className="cs-outcomes-column-label">Areas of Future Improvement</div>
+              <div className="cs-future-improvement-card">
+                <h4>Sophisticated Roles &amp; Permissions</h4>
+                <p>More granular RBAC and ABAC controls to support complex enterprise hierarchies and jurisdiction-specific rules.</p>
+              </div>
+            </div>
+
+            <div className="cs-outcomes-column">
+              <div className="cs-outcomes-column-label">Lessons Learnt</div>
+              <div className="cs-lessons-grid">
+                <div className="cs-lesson-card">Thinking in systems</div>
+                <div className="cs-lesson-card">Complex RBAC &amp; ABAC issues</div>
+                <div className="cs-lesson-card">New &amp; existing client balance</div>
+                <div className="cs-lesson-card">Preventing regression</div>
+                <div className="cs-lesson-card">Understanding data model</div>
+                <div className="cs-lesson-card">Release Notes</div>
               </div>
             </div>
           </div>
