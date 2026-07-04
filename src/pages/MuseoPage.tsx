@@ -7,7 +7,7 @@ export function MuseoPage() {
     window.scrollTo(0, 0)
   }, [])
 
-  const slides = Array.from({ length: 20 }, (_, i) => `/images/museo/${i + 1}.png`)
+  const slides = Array.from({ length: 21 }, (_, i) => `/images/museo/${i + 1}.png`)
 
   return (
     <div className="museo-page">
