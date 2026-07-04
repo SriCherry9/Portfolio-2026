@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import '../styles/museo.css'
 
 export function MuseoPage() {
@@ -25,11 +25,11 @@ export function MuseoPage() {
         ))}
       </div>
 
-      <footer className="museo-footer">
-        <Link to="/" className="museo-back-link">
-          ← Back to Portfolio
-        </Link>
-      </footer>
+      <CaseStudyFooter
+        nextPath="/case-study/incite"
+        nextTitle="In;cite — Ingredient Intelligence"
+        nextCover="/images/incite-cover.png"
+      />
     </div>
   )
 }

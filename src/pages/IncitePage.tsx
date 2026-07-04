@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import '../styles/incite.css'
 
 export function IncitePage() {
@@ -19,11 +19,11 @@ export function IncitePage() {
         ))}
       </div>
 
-      <footer className="incite-footer">
-        <Link to="/" className="incite-back-link">
-          ← Back to Portfolio
-        </Link>
-      </footer>
+      <CaseStudyFooter
+        nextPath="/case-study/ai-product-strategy"
+        nextTitle="AI Product Strategy"
+        nextCover="/images/ai-product-strategy-cover.png"
+      />
     </div>
   )
 }

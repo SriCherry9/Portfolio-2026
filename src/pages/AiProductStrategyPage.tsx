@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import '../styles/ai-product-strategy.css'
 
 export function AiProductStrategyPage() {
@@ -20,11 +20,11 @@ export function AiProductStrategyPage() {
         ))}
       </div>
 
-      <footer className="ai-product-strategy-footer">
-        <Link to="/" className="ai-product-strategy-back-link">
-          ← Back to Portfolio
-        </Link>
-      </footer>
+      <CaseStudyFooter
+        nextPath="/case-study/cashless"
+        nextTitle="Cashless Equity Ownership"
+        nextCover="/images/cashless-cover.png"
+      />
     </div>
   )
 }

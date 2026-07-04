@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { CaseStudyFooter } from '../components/CaseStudyFooter'
 
 export function CashlessPage() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -74,19 +74,11 @@ export function CashlessPage() {
         />
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="cs-footer cs-footer--cashless">
-        <div className="cs-footer-inner">
-          <p className="cs-footer-label">Next Case Study</p>
-          <Link to="/case-study/museo" className="cs-footer-next">
-            <span>Museo — Broadcast Auction Platform</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-          <Link to="/" className="cs-footer-home">Back to portfolio</Link>
-        </div>
-      </footer>
+      <CaseStudyFooter
+        nextPath="/case-study/museo"
+        nextTitle="Museo — Broadcast Auction Platform"
+        nextCover="/images/museo-cover.png"
+      />
     </div>
   )
 }
