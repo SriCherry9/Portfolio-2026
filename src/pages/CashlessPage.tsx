@@ -57,11 +57,21 @@ export function CashlessPage() {
 
       {/* ── Case Study Slides ── */}
       <section className="cs-slides">
-        <img
-          src="/images/cashless-slide-overview.png"
-          alt="Cashless Exercise Platform case study overview — problem, research, roles, workflow, and system design"
-          className="cs-slide-image"
-        />
+        <img src="/images/cashless-slide-01.png" alt="Cashless Exercise Platform — project overview, role, platform, timeline, and scale" className="cs-slide-image" />
+        <img src="/images/cashless-slide-02.png" alt="Cashless Exercise settlement dashboard product screenshot" className="cs-slide-image" />
+        <img src="/images/cashless-slide-03.png" alt="Context and problem — a broken equity exercise experience, and why it became a top-priority initiative" className="cs-slide-image" />
+        <img src="/images/cashless-slide-04.png" alt="Problem space — pain felt by employees, admins, and the business at every layer" className="cs-slide-image" />
+        <img src="/images/cashless-slide-05.png" alt="Objectives — what success looked like across product, business, and design" className="cs-slide-image" />
+        <img src="/images/cashless-slide-06.png" alt="Role-based personas — designing for five distinct roles" className="cs-slide-image" />
+        <img src="/images/cashless-slide-07.png" alt="Research — understanding the full reconciliation workflow, interviews, artifact analysis, and key insights" className="cs-slide-image" />
+        <img src="/images/cashless-slide-08.png" alt="Define — building the configurable system across eight core flows" className="cs-slide-image" />
+        <img src="/images/cashless-slide-09.png" alt="Ideate and implement — activating cashless for exercise, and creating an SPV linked to a plan with terminology tooltips" className="cs-slide-image" />
+        <img src="/images/cashless-slide-10.png" alt="Ideate and implement — broker creation and charges configuration, exploring two mental models" className="cs-slide-image" />
+        <img src="/images/cashless-slide-11.png" alt="Ideate and implement — enabling cashless payment for exercise, before and after redesign" className="cs-slide-image" />
+        <img src="/images/cashless-slide-12.png" alt="Ideate and implement — employee exercise request flow with tentative cashless calculations" className="cs-slide-image" />
+        <img src="/images/cashless-slide-13.png" alt="Ideate and implement — cashless exercise processing with multi-level, attribute-based approval" className="cs-slide-image" />
+        <img src="/images/cashless-slide-14.png" alt="Ideate and implement — lot creation and management, before and after cashless" className="cs-slide-image" />
+        <img src="/images/cashless-slide-15.png" alt="Design iterations — how the lot creation flow evolved" className="cs-slide-image" />
         <img
           src="/images/cashless-slide-constraints-metrics.png"
           alt="How constraints shaped the design, and the metrics framework used to measure success"
