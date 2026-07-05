@@ -37,7 +37,7 @@ const PROJECTS = [
   },
   {
     id: 1,
-    dateRange: '2022 – 2024',
+    dateRange: '2025',
     category: 'Fintech · B2B SaaS',
     accentColor: '#B8E4C9',
     coverImage: '/images/cashless-cover.png',
@@ -80,20 +80,6 @@ const PROJECTS = [
       'Designed an intelligent product scanner that empowers consumers to make informed choices about ingredients. A human-centered design approach to make ingredient transparency accessible to everyone.',
     tags: ['Consumer', 'Product Design', 'User Research', 'UX/UI'],
     url: 'incite.design',
-  },
-  {
-    id: 4,
-    dateRange: '2020 – 2021',
-    category: 'Accessibility · Gov',
-    accentColor: '#FFFBE6',
-    videoSrc: '/videos/search.mov',
-    company: 'CIVIC TECH',
-    role: 'Accessibility Designer',
-    title: 'Inclusive Search & Discovery',
-    description:
-      'Redesigned search and filtering systems for a government digital service, achieving WCAG 2.2 AA compliance. Ran inclusive usability sessions with users who have visual, motor, and cognitive disabilities.',
-    tags: ['Accessibility', 'Government', 'Research', 'WCAG'],
-    url: 'accessible.design',
   },
 ]
 
