@@ -21,9 +21,9 @@ export function AiProductStrategyPage() {
       </div>
 
       <CaseStudyFooter
-        nextPath="/case-study/cashless"
-        nextTitle="Cashless Equity Ownership"
-        nextCover="/images/cashless-cover.png"
+        nextPath="/case-study/luna"
+        nextTitle="Luna — Human Robot Interaction"
+        nextCover="/images/luna-cover.png"
       />
     </div>
   )

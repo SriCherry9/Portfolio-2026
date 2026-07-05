@@ -21,6 +21,21 @@ const PROJECTS = [
     url: 'ai-strategy.design',
   },
   {
+    id: 7,
+    dateRange: '2025',
+    category: 'HRI · Robot Design',
+    accentColor: '#5B8CFF',
+    coverImage: '/images/luna-cover.png',
+    caseStudyPath: '/case-study/luna',
+    company: 'INDEPENDENT',
+    role: 'HRI & UX Researcher',
+    title: 'Luna — Human Robot Interaction',
+    description:
+      'A research-driven exploration into alleviating loneliness for hospitalized in-patients through social robotics. Combined field studies, personas, and robot design to shape a companion aimed at improving mental wellbeing and recovery.',
+    tags: ['HRI', 'Robot Design', 'UX Research', 'Mental Wellbeing'],
+    url: 'NDA',
+  },
+  {
     id: 1,
     dateRange: '2022 – 2024',
     category: 'Fintech · B2B SaaS',
