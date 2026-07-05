@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { CaseStudyFooter } from '../components/CaseStudyFooter'
+import { CaseStudySideNav } from '../components/CaseStudySideNav'
 import '../styles/luna.css'
 
 const SLIDES: { src: string; alt: string; label: string }[] = [
@@ -23,60 +24,19 @@ const SLIDES: { src: string; alt: string; label: string }[] = [
 ]
 
 export function LunaPage() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const sectionRefs = useRef<(HTMLElement | null)[]>([])
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = sectionRefs.current.findIndex((el) => el === entry.target)
-            if (index !== -1) setActiveIndex(index)
-          }
-        })
-      },
-      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
-    )
-
-    sectionRefs.current.forEach((el) => {
-      if (el) observer.observe(el)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
-  const scrollToSection = (index: number) => {
-    sectionRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   return (
     <div className="luna-page">
-      <nav className="luna-toc" aria-label="Section navigation">
-        {SLIDES.map((slide, index) => (
-          <button
-            key={slide.label}
-            className={`luna-toc-item${index === activeIndex ? ' luna-toc-item--active' : ''}`}
-            onClick={() => scrollToSection(index)}
-          >
-            <span className="luna-toc-dot" />
-            <span className="luna-toc-label">{slide.label}</span>
-          </button>
-        ))}
-      </nav>
+      <CaseStudySideNav
+        sections={SLIDES.map((slide, index) => ({ id: `luna-section-${index + 1}`, label: slide.label }))}
+      />
 
       <div className="luna-slides-container">
         {SLIDES.map((slide, index) => (
-          <section
-            key={index}
-            id={`luna-section-${index + 1}`}
-            className="luna-slide"
-            ref={(el) => { sectionRefs.current[index] = el }}
-          >
+          <section key={index} id={`luna-section-${index + 1}`} className="luna-slide">
             <img src={slide.src} alt={slide.alt} />
           </section>
         ))}

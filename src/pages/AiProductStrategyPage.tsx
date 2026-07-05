@@ -1,6 +1,26 @@
 import { useEffect } from 'react'
 import { CaseStudyFooter } from '../components/CaseStudyFooter'
+import { CaseStudySideNav } from '../components/CaseStudySideNav'
 import '../styles/ai-product-strategy.css'
+
+const SECTION_LABELS: Record<number, string> = {
+  1: 'Cover',
+  2: 'Executive Summary',
+  3: 'Executive Summary',
+  4: 'Context & Problem Space',
+  5: 'Vision & Objectives',
+  6: 'Target Audience',
+  7: 'Research & Competitive Landscape',
+  8: 'Define & Ideate',
+  9: 'AI Design Principles & Guidelines',
+  10: 'AI Design Principles & Guidelines',
+  11: 'Prioritization',
+  12: 'Prioritization',
+  13: 'Stakeholder Alignment',
+  14: 'Stakeholder Alignment',
+  15: 'Lessons Learnt',
+  16: 'Closing Summary',
+}
 
 export function AiProductStrategyPage() {
   useEffect(() => {
@@ -12,9 +32,13 @@ export function AiProductStrategyPage() {
 
   return (
     <div className="ai-product-strategy-page">
+      <CaseStudySideNav
+        sections={slideNumbers.map((num) => ({ id: `ai-product-strategy-section-${num}`, label: SECTION_LABELS[num] }))}
+      />
+
       <div className="ai-product-strategy-slides-container">
         {slides.map((slide, index) => (
-          <section key={index} className="ai-product-strategy-slide">
+          <section key={index} id={`ai-product-strategy-section-${index + 1}`} className="ai-product-strategy-slide">
             <img src={slide} alt={`AI Product Strategy slide ${index + 1}`} />
           </section>
         ))}
