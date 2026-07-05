@@ -23,6 +23,11 @@ export function CashlessPage() {
 
   return (
     <div className="cs-page cs-cashless-design">
+      {/* ── Cashless Exercise Section ── */}
+      <section className="cs-slides">
+        <img src="/images/cashless-slide-01.png" alt="Cashless Exercise Platform — project overview, role, platform, timeline, and scale" className="cs-slide-image" />
+      </section>
+
       {/* ── Video Section ── */}
       <section className="cs-design-video-section">
         <div className="cs-design-video-inner">
@@ -57,7 +62,6 @@ export function CashlessPage() {
 
       {/* ── Case Study Slides ── */}
       <section className="cs-slides">
-        <img src="/images/cashless-slide-01.png" alt="Cashless Exercise Platform — project overview, role, platform, timeline, and scale" className="cs-slide-image" />
         <img src="/images/cashless-slide-02.png" alt="Cashless Exercise settlement dashboard product screenshot" className="cs-slide-image" />
         <img src="/images/cashless-slide-03.png" alt="Context and problem — a broken equity exercise experience, and why it became a top-priority initiative" className="cs-slide-image" />
         <img src="/images/cashless-slide-04.png" alt="Problem space — pain felt by employees, admins, and the business at every layer" className="cs-slide-image" />
