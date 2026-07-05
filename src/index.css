@@ -2947,6 +2947,7 @@ html[data-theme="dark"] .pg-page-header {
   display: block;
   width: 100%;
   height: auto;
+  margin-bottom: -1px;
 }
 
 /* Header Section */
