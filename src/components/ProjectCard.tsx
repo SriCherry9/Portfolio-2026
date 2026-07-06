@@ -17,6 +17,7 @@ interface Project {
   tags: string[]
   cesLogo?: string
   url: string
+  readTime?: string
 }
 
 interface ProjectCardProps {
@@ -97,7 +98,10 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
               <span className="tl-separator">·</span>
               <span className="tl-role">{project.role}</span>
             </div>
-            <span className="tl-category">{project.category}</span>
+            <span className="tl-category">
+              {project.category}
+              {project.readTime && <span className="tl-readtime"> · {project.readTime}</span>}
+            </span>
           </div>
 
           <h2 className="tl-title">{project.title}</h2>

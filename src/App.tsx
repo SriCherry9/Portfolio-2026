@@ -19,6 +19,7 @@ const PROJECTS = [
       'Strategic framework and roadmap for AI product development, focusing on user-centric design and market positioning. Comprehensive analysis of AI capabilities, competitive landscape, and product-market fit opportunities.',
     tags: ['AI', 'Strategy', 'Product Management', 'Research'],
     url: 'ai-strategy.design',
+    readTime: '5 min read',
   },
   {
     id: 7,
@@ -34,6 +35,7 @@ const PROJECTS = [
       'A research-driven exploration into alleviating loneliness for hospitalized in-patients through social robotics. Combined field studies, personas, and robot design to shape a companion aimed at improving mental wellbeing and recovery.',
     tags: ['HRI', 'Robot Design', 'UX Research', 'Mental Wellbeing'],
     url: 'NDA',
+    readTime: '6 min read',
   },
   {
     id: 1,
@@ -50,6 +52,7 @@ const PROJECTS = [
       'Designed the end-to-end workflow enabling employees to own equity through cashless methods. Scaled a complex fintech platform from India to global markets — applying deep systems thinking to simplify equity management for both companies and their people.',
     tags: ['B2B', 'SaaS', 'Fintech', 'Systems Thinking'],
     url: 'qapita.com',
+    readTime: '7 min read',
   },
   {
     id: 2,
@@ -65,6 +68,7 @@ const PROJECTS = [
       "Designed the end-to-end product for the US market — a CES'24 Badge-winning auction platform powered by ATSC 3.0. Built a cohesive design system for a B2B2C experience that lets viewers bid on products right from where they watch.",
     tags: ['B2B2C', 'Design System', 'ATSC 3.0', "CES'24", 'TV Experience Design', 'Lean-back Experience'],
     url: 'gaian.solutions',
+    readTime: '8 min read',
   },
   {
     id: 6,
@@ -80,6 +84,7 @@ const PROJECTS = [
       'Designed an intelligent product scanner that empowers consumers to make informed choices about ingredients. A human-centered design approach to make ingredient transparency accessible to everyone.',
     tags: ['Consumer', 'Product Design', 'User Research', 'UX/UI'],
     url: 'incite.design',
+    readTime: '9 min read',
   },
 ]
 

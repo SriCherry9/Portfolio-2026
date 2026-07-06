@@ -895,6 +895,11 @@ html[data-theme="dark"] .about-era-tag {
   white-space: nowrap;
 }
 
+.tl-readtime {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
 .tl-title {
   font-family: 'Golte', Georgia, serif;
   font-size: clamp(22px, 2.8vw, 36px);
