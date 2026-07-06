@@ -2805,6 +2805,64 @@ html[data-theme="dark"] .pg-page-header {
 }
 
 /* ============================================================
+   CASE STUDY AI NARRATOR
+   ============================================================ */
+
+.case-narrator-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 20px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(8, 12, 28, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.case-narrator-btn:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.case-narrator-btn--active {
+  color: #ffffff;
+  background: rgba(91, 140, 255, 0.25);
+  border-color: rgba(91, 140, 255, 0.5);
+}
+
+.case-narrator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.case-narrator-dot--speaking {
+  opacity: 1;
+  animation: case-narrator-pulse 1s ease-in-out infinite;
+}
+
+@keyframes case-narrator-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.6); opacity: 1; }
+}
+
+/* ============================================================
    CASE STUDY FOOTER
    ============================================================ */
 
