@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 
 interface CaseStudySideNavProps {
   sections: { id: string; label: string }[]
-  onActiveChange?: (index: number) => void
 }
 
-export function CaseStudySideNav({ sections, onActiveChange }: CaseStudySideNavProps) {
+export function CaseStudySideNav({ sections }: CaseStudySideNavProps) {
   const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
@@ -18,10 +17,7 @@ export function CaseStudySideNav({ sections, onActiveChange }: CaseStudySideNavP
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = elements.findIndex((el) => el === entry.target)
-            if (index !== -1) {
-              setActiveIndex(index)
-              onActiveChange?.(index)
-            }
+            if (index !== -1) setActiveIndex(index)
           }
         })
       },
@@ -30,7 +26,7 @@ export function CaseStudySideNav({ sections, onActiveChange }: CaseStudySideNavP
 
     elements.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
-  }, [sections, onActiveChange])
+  }, [sections])
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })

@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import { CaseStudySideNav } from '../components/CaseStudySideNav'
-import { CaseStudyNarrator } from '../components/CaseStudyNarrator'
+import { CaseStudyVoiceNarrator } from '../components/CaseStudyVoiceNarrator'
 import '../styles/luna.css'
 
 const SLIDES: { src: string; alt: string; label: string }[] = [
@@ -25,8 +25,6 @@ const SLIDES: { src: string; alt: string; label: string }[] = [
 ]
 
 export function LunaPage() {
-  const [activeIndex, setActiveIndex] = useState(0)
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -35,9 +33,8 @@ export function LunaPage() {
     <div className="luna-page">
       <CaseStudySideNav
         sections={SLIDES.map((slide, index) => ({ id: `luna-section-${index + 1}`, label: slide.label }))}
-        onActiveChange={setActiveIndex}
       />
-      <CaseStudyNarrator texts={SLIDES.map((slide) => slide.alt)} activeIndex={activeIndex} />
+      <CaseStudyVoiceNarrator src="/audio/luna-walkthrough.mp3" label="Hear from the designer" />
 
       <div className="luna-slides-container">
         {SLIDES.map((slide, index) => (
