@@ -2798,6 +2798,49 @@ html[data-theme="dark"] .pg-page-header {
   opacity: 1;
 }
 
+.case-toc-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  padding: 4px 10px 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s ease;
+}
+
+.case-toc-toggle:hover {
+  color: #ffffff;
+}
+
+.case-toc-toggle svg {
+  transition: transform 0.25s ease;
+}
+
+.case-toc--collapsed {
+  padding: 10px 6px;
+}
+
+.case-toc--collapsed .case-toc-toggle {
+  align-self: center;
+  padding: 4px 6px 8px;
+}
+
+.case-toc--collapsed .case-toc-toggle svg {
+  transform: rotate(180deg);
+}
+
+.case-toc--collapsed .case-toc-label {
+  display: none;
+}
+
+.case-toc--collapsed .case-toc-item {
+  justify-content: center;
+  padding: 5px 8px;
+}
+
 @media (max-width: 1100px) {
   .case-toc {
     display: none;
