@@ -896,8 +896,8 @@ html[data-theme="dark"] .about-era-tag {
 }
 
 .tl-readtime {
-  font-weight: 400;
-  opacity: 0.8;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .tl-title {
