@@ -212,14 +212,6 @@ export function ShredderLanding() {
             ctx.restore()
 
             for (let b = 0; b < NOODLE_BANDS; b++) {
-              ctx.drawImage(
-                img,
-                dstX0 * scaleX, belowSrcY + b * bandSrcH, dstW * scaleX, bandSrcH,
-                dstX0 + shifts[b], barY + b * bandH, dstW, bandH
-              )
-            }
-
-            for (let b = 0; b < NOODLE_BANDS; b++) {
               const x  = dstX0 + shifts[b]
               const y  = barY + b * bandH
               const bh = bandH + 0.5
