@@ -18,6 +18,7 @@ interface Project {
   cesLogo?: string
   url: string
   readTime?: string
+  locked?: boolean
 }
 
 interface ProjectCardProps {
@@ -32,7 +33,14 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
   const videoRef = useRef<HTMLVideoElement>(null)
   const [visible, setVisible] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
+  const [lockCursor, setLockCursor] = useState<{ x: number; y: number } | null>(null)
   const navigate = useNavigate()
+
+  const handleLockMouseMove = (e: React.MouseEvent) => {
+    if (!project.locked) return
+    setLockCursor({ x: e.clientX, y: e.clientY })
+  }
+  const handleLockMouseLeave = () => setLockCursor(null)
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -91,7 +99,11 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
         </div>
 
         {/* Right: content */}
-        <div className="tl-card">
+        <div
+          className={`tl-card${project.locked ? ' tl-card--locked' : ''}`}
+          onMouseMove={handleLockMouseMove}
+          onMouseLeave={handleLockMouseLeave}
+        >
           <div className="tl-card-header">
             <div className="tl-meta">
               <span className="tl-company">{project.company}</span>
@@ -141,6 +153,12 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
           </div>
         </div>
       </div>
+
+      {project.locked && lockCursor && (
+        <div className="tl-lock-cursor" style={{ left: lockCursor.x, top: lockCursor.y }}>
+          password required to read<span className="tl-lock-cursor-caret" />
+        </div>
+      )}
 
       {videoModalOpen && project.videoSrc && (
         <div className="video-modal-backdrop" onClick={() => setVideoModalOpen(false)}>

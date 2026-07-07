@@ -45,6 +45,7 @@ const PROJECTS = [
     coverImage: '/images/cashless-cover.png',
     videoSrc: '/videos/product-tour.mov',
     caseStudyPath: '/case-study/cashless',
+    locked: true,
     company: 'QAPITA',
     role: 'Lead Product Designer',
     title: 'Cashless Equity Ownership',
