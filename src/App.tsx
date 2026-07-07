@@ -3,6 +3,7 @@ import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
+import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY } from './utils/protectedProjects'
 
 const PROJECTS = [
   {
@@ -45,7 +46,7 @@ const PROJECTS = [
     coverImage: '/images/cashless-cover.png',
     videoSrc: '/videos/product-tour.mov',
     caseStudyPath: '/case-study/cashless',
-    locked: true,
+    locked: { password: CASHLESS_PASSWORD, storageKey: CASHLESS_UNLOCK_KEY },
     company: 'QAPITA',
     role: 'Lead Product Designer',
     title: 'Cashless Equity Ownership',

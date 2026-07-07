@@ -18,7 +18,7 @@ interface Project {
   cesLogo?: string
   url: string
   readTime?: string
-  locked?: boolean
+  locked?: { password: string; storageKey: string }
 }
 
 interface ProjectCardProps {
@@ -34,6 +34,10 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
   const [visible, setVisible] = useState(false)
   const [videoModalOpen, setVideoModalOpen] = useState(false)
   const [lockCursor, setLockCursor] = useState<{ x: number; y: number } | null>(null)
+  const [pwPromptOpen, setPwPromptOpen] = useState(false)
+  const [pwValue, setPwValue] = useState('')
+  const [pwError, setPwError] = useState(false)
+  const pwInputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
   const handleLockMouseMove = (e: React.MouseEvent) => {
@@ -41,6 +45,19 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
     setLockCursor({ x: e.clientX, y: e.clientY })
   }
   const handleLockMouseLeave = () => setLockCursor(null)
+
+  const isUnlocked = () => {
+    if (!project.locked) return true
+    try {
+      return localStorage.getItem(project.locked.storageKey) === 'true'
+    } catch {
+      return false
+    }
+  }
+
+  useEffect(() => {
+    if (pwPromptOpen) pwInputRef.current?.focus()
+  }, [pwPromptOpen])
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -64,7 +81,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
   const year = project.dateRange.split('–').pop()?.trim() ?? project.dateRange
   const isActive = activeId === project.id
 
-  const handleCoverClick = () => {
+  const goToCaseStudy = () => {
     if (project.caseStudyPath) {
       if (project.caseStudyPath.startsWith('http')) {
         window.open(project.caseStudyPath, '_blank', 'noopener,noreferrer')
@@ -74,15 +91,38 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
     } else if (project.videoSrc) setVideoModalOpen(true)
   }
 
+  const handleActivate = () => {
+    if (project.locked && !isUnlocked()) {
+      setPwValue('')
+      setPwError(false)
+      setPwPromptOpen(true)
+      return
+    }
+    goToCaseStudy()
+  }
+
+  const handleCoverClick = () => handleActivate()
+
   const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    if (project.caseStudyPath) {
-      if (project.caseStudyPath.startsWith('http')) {
-        window.open(project.caseStudyPath, '_blank', 'noopener,noreferrer')
-      } else {
-        navigate(project.caseStudyPath)
+    handleActivate()
+  }
+
+  const handlePwSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!project.locked) return
+    if (pwValue === project.locked.password) {
+      try {
+        localStorage.setItem(project.locked.storageKey, 'true')
+      } catch {
+        // localStorage unavailable — unlock still holds for this navigation
       }
-    } else if (project.videoSrc) setVideoModalOpen(true)
+      setPwPromptOpen(false)
+      goToCaseStudy()
+    } else {
+      setPwError(true)
+      setPwValue('')
+    }
   }
 
   return (
@@ -157,6 +197,30 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
       {project.locked && lockCursor && (
         <div className="tl-lock-cursor" style={{ left: lockCursor.x, top: lockCursor.y }}>
           password required to read<span className="tl-lock-cursor-caret" />
+        </div>
+      )}
+
+      {pwPromptOpen && project.locked && (
+        <div className="pw-modal-backdrop" onClick={() => setPwPromptOpen(false)}>
+          <div className="pw-gate-card pw-modal-card" onClick={e => e.stopPropagation()}>
+            <button className="pw-modal-close" onClick={() => setPwPromptOpen(false)} aria-label="Close">✕</button>
+            <div className="pw-gate-lock">🔒</div>
+            <h2 className="pw-gate-title">{project.title} is password protected</h2>
+            <p className="pw-gate-desc">Enter the password to view this project.</p>
+            <form className="pw-gate-form" onSubmit={handlePwSubmit}>
+              <input
+                ref={pwInputRef}
+                type="password"
+                className={`pw-gate-input${pwError ? ' pw-gate-input--error' : ''}`}
+                value={pwValue}
+                onChange={e => { setPwValue(e.target.value); setPwError(false) }}
+                placeholder="Password"
+                autoComplete="off"
+              />
+              <button type="submit" className="pw-gate-submit">Unlock</button>
+            </form>
+            {pwError && <p className="pw-gate-error">Incorrect password — try again.</p>}
+          </div>
         </div>
       )}
 

@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import { CaseStudySideNav } from '../components/CaseStudySideNav'
 import { PasswordGate } from '../components/PasswordGate'
-
-// Lightweight client-side gate — not real security (the password ships in
-// the bundle), just a deterrent for casual link-sharing.
-const CASHLESS_PASSWORD = 'qapita2025'
+import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY } from '../utils/protectedProjects'
 
 const SECTIONS = [
   { id: 'cashless-section-1', label: 'Cashless Exercise' },
@@ -49,7 +46,7 @@ export function CashlessPage() {
   }
 
   return (
-    <PasswordGate password={CASHLESS_PASSWORD} storageKey="cashless-unlocked" title="Cashless Equity Ownership is password protected">
+    <PasswordGate password={CASHLESS_PASSWORD} storageKey={CASHLESS_UNLOCK_KEY} title="Cashless Equity Ownership is password protected">
     <div className="cs-page cs-cashless-design">
       <CaseStudySideNav sections={SECTIONS} />
 
