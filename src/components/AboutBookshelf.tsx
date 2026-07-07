@@ -55,7 +55,7 @@ export function AboutBookshelf() {
             style={{
               '--bg': book.bg,
               '--fg': book.fg,
-              height: `${book.thickness}px`,
+              width: `${book.thickness}px`,
               '--tilt': `${((i * 37) % 5 - 2) * 0.4}deg`,
             } as React.CSSProperties}
             draggable
@@ -66,6 +66,7 @@ export function AboutBookshelf() {
             onClick={() => window.open(amazonSearchUrl(book), '_blank', 'noopener,noreferrer')}
             title={`${book.title}${book.author ? ' — ' + book.author : ''}`}
           >
+            <div className="about-spine-edge" />
             <div className="about-spine-text">
               <span className="about-spine-title">{book.title}</span>
               {book.subtitle && <span className="about-spine-subtitle">{book.subtitle}</span>}
@@ -74,11 +75,11 @@ export function AboutBookshelf() {
               {book.author && <span className="about-spine-author">{book.author}</span>}
               <span className="about-spine-mark">{book.mark}</span>
             </div>
-            <div className="about-spine-edge" />
           </div>
         ))}
       </div>
-      <p className="about-shelf-hint">Drag a book to rearrange the stack · Click one to look it up</p>
+      <div className="about-shelf-ledge" />
+      <p className="about-shelf-hint">Drag a book to rearrange the shelf · Click one to look it up</p>
     </div>
   )
 }
