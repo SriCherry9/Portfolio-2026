@@ -5,8 +5,6 @@ const CELL_W = 11
 const CELL_H = 16
 const TOTAL_CELLS = COLS * ROWS
 const CHARS_PER_KEY = Math.ceil(TOTAL_CELLS / 140)
-const WINDOW_H = 300
-const FULL_H = ROWS * CELL_H
 
 const DEMO_PHRASES: Record<string, string> = {
   tennis: 'love all, new balls please, deuce, advantage, championship point... ',
@@ -107,9 +105,10 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
     }
   }, [grid, revealCount, theme.paper])
 
+  // Paper feeds upward out of the roller: the strip grows from the print
+  // point (bottom, pinned to the roller) as more rows get typed.
   const revealedRows = Math.min(ROWS, Math.ceil(revealCount / COLS))
-  const revealedBottomPx = revealedRows * CELL_H
-  const scrollY = -Math.max(0, Math.min(FULL_H - WINDOW_H, revealedBottomPx - WINDOW_H))
+  const paperHeight = Math.max(CELL_H, revealedRows * CELL_H)
 
   const typeChar = (ch: string) => {
     setTyped(t => t + ch)
@@ -119,7 +118,7 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="tw-modal">
-      <div className="tw-modal-header">
+      <div className="tw-toolbar">
         <div className="tw-tabs">
           {THEMES.map((t, i) => (
             <button
@@ -134,20 +133,22 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
         <button className="tw-close" onClick={onClose} aria-label="Close">✕</button>
       </div>
 
-      <div className="tw-machine" onClick={() => inputRef.current?.focus()}>
-        <div className="tw-machine-inner">
+      <div className="tw-object" onClick={() => inputRef.current?.focus()}>
+        <div className="tw-paper-clip" style={{ background: theme.paper }}>
+          <div className="tw-paper-scroll" style={{ height: paperHeight }}>
+            <canvas ref={canvasRef} className="tw-canvas" />
+          </div>
+          {complete && (
+            <div className="tw-complete-badge">{theme.name} — complete</div>
+          )}
+        </div>
+
+        <div className="tw-typewriter-body">
+          <div className="tw-lever" />
           <div className="tw-bail tw-bail-left" />
           <div className="tw-bail tw-bail-right" />
           <div className="tw-ruler">
             {RULER_MARKS.map(m => <span key={m}>{m}</span>)}
-          </div>
-          <div className="tw-paper-window" style={{ background: theme.paper }}>
-            <div className="tw-paper-scroll" style={{ transform: `translateY(${scrollY}px)` }}>
-              <canvas ref={canvasRef} className="tw-canvas" />
-            </div>
-            {complete && (
-              <div className="tw-complete-badge">{theme.name} — complete</div>
-            )}
           </div>
           <div className="tw-roller" />
           <div className="tw-plaque">
@@ -155,30 +156,30 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
             TYPEWRITER STUDIO
             <span className="tw-plaque-progress">{Math.round((revealCount / TOTAL_CELLS) * 100)}% TYPED</span>
           </div>
-        </div>
 
-        <div className="tw-keyboard">
-          {KEY_ROWS.map((row, i) => (
-            <div className="tw-key-row" key={i}>
-              {row.map(k => (
-                <button
-                  key={k}
-                  className={`tw-key${activeKey === k ? ' tw-key-active' : ''}`}
-                  onClick={() => typeChar(k.toLowerCase())}
-                  tabIndex={-1}
-                >
-                  {k}
-                </button>
-              ))}
+          <div className="tw-keyboard">
+            {KEY_ROWS.map((row, i) => (
+              <div className="tw-key-row" key={i}>
+                {row.map(k => (
+                  <button
+                    key={k}
+                    className={`tw-key${activeKey === k ? ' tw-key-active' : ''}`}
+                    onClick={() => typeChar(k.toLowerCase())}
+                    tabIndex={-1}
+                  >
+                    {k}
+                  </button>
+                ))}
+              </div>
+            ))}
+            <div className="tw-key-row">
+              <button
+                className={`tw-key tw-key-space${activeKey === ' ' ? ' tw-key-active' : ''}`}
+                onClick={() => typeChar(' ')}
+                tabIndex={-1}
+                aria-label="Space"
+              />
             </div>
-          ))}
-          <div className="tw-key-row">
-            <button
-              className={`tw-key tw-key-space${activeKey === ' ' ? ' tw-key-active' : ''}`}
-              onClick={() => typeChar(' ')}
-              tabIndex={-1}
-              aria-label="Space"
-            />
           </div>
         </div>
       </div>
