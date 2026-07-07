@@ -14,14 +14,36 @@ const DEMO_PHRASES: Record<string, string> = {
   scuba: 'clear mask, equalise, descend slowly, thirty metres, air check... ',
 }
 
+// Hotspot positions as % of the Hermes Baby photo's own width/height,
+// mapped by hand to where each physical key sits in the image (it's a
+// QWERTZ keyboard, so Y and Z swap rows versus a QWERTY layout).
+const KEY_POSITIONS: Record<string, { x: number; y: number }> = {
+  '1': { x: 32.8, y: 59.8 }, '2': { x: 37.3, y: 59.8 }, '3': { x: 41.8, y: 59.8 },
+  '4': { x: 46.3, y: 59.8 }, '5': { x: 50.8, y: 59.8 }, '6': { x: 55.0, y: 59.8 },
+  '7': { x: 59.5, y: 59.8 }, '8': { x: 64.0, y: 59.8 }, '9': { x: 68.3, y: 59.8 },
+  '0': { x: 72.8, y: 59.8 },
+  Q: { x: 30.5, y: 67.6 }, W: { x: 35.0, y: 67.6 }, E: { x: 39.5, y: 67.6 },
+  R: { x: 44.0, y: 67.6 }, T: { x: 48.25, y: 67.6 }, Z: { x: 52.75, y: 67.6 },
+  U: { x: 57.25, y: 67.6 }, I: { x: 61.5, y: 67.6 }, O: { x: 66.0, y: 67.6 },
+  P: { x: 70.5, y: 67.6 },
+  A: { x: 31.75, y: 74.7 }, S: { x: 36.25, y: 74.7 }, D: { x: 40.75, y: 74.7 },
+  F: { x: 45.25, y: 74.7 }, G: { x: 49.75, y: 74.7 }, H: { x: 54.0, y: 74.7 },
+  J: { x: 58.5, y: 74.7 }, K: { x: 63.0, y: 74.7 }, L: { x: 67.5, y: 74.7 },
+  Y: { x: 32.5, y: 82.1 }, X: { x: 37.0, y: 82.1 }, C: { x: 41.5, y: 82.1 },
+  V: { x: 46.0, y: 82.1 }, B: { x: 50.5, y: 82.1 }, N: { x: 55.0, y: 82.1 },
+  M: { x: 59.5, y: 82.1 },
+  ' ': { x: 52.25, y: 88.1 },
+}
+
+// Rendered in QWERTZ order so clicking a hotspot always types the letter
+// actually printed on the key at that spot in the photo.
 const KEY_ROWS = [
   ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+  ['Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+  ['Y', 'X', 'C', 'V', 'B', 'N', 'M'],
 ]
-
-const RULER_MARKS = Array.from({ length: 9 }, (_, i) => i * 10)
+const ALL_KEYS = [...KEY_ROWS.flat(), ' ']
 
 export function TypewriterArt({ onClose }: { onClose: () => void }) {
   const [themeIndex, setThemeIndex] = useState(0)
@@ -40,7 +62,7 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
   const flashKey = (key: string) => {
     setActiveKey(key)
     clearTimeout(activeKeyTimeout.current)
-    activeKeyTimeout.current = setTimeout(() => setActiveKey(null), 130)
+    activeKeyTimeout.current = setTimeout(() => setActiveKey(null), 150)
   }
 
   useEffect(() => {
@@ -144,43 +166,21 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="tw-typewriter-body">
-          <div className="tw-lever" />
-          <div className="tw-bail tw-bail-left" />
-          <div className="tw-bail tw-bail-right" />
-          <div className="tw-ruler">
-            {RULER_MARKS.map(m => <span key={m}>{m}</span>)}
-          </div>
-          <div className="tw-roller" />
-          <div className="tw-plaque">
-            <span className="tw-plaque-dot" />
-            TYPEWRITER STUDIO
-            <span className="tw-plaque-progress">{Math.round((revealCount / TOTAL_CELLS) * 100)}% TYPED</span>
-          </div>
-
-          <div className="tw-keyboard">
-            {KEY_ROWS.map((row, i) => (
-              <div className="tw-key-row" key={i}>
-                {row.map(k => (
-                  <button
-                    key={k}
-                    className={`tw-key${activeKey === k ? ' tw-key-active' : ''}`}
-                    onClick={() => typeChar(k.toLowerCase())}
-                    tabIndex={-1}
-                  >
-                    {k}
-                  </button>
-                ))}
-              </div>
-            ))}
-            <div className="tw-key-row">
+          <img src="/images/Typewriter.webp" alt="Hermes Baby typewriter" className="tw-photo" draggable={false} />
+          {ALL_KEYS.map(k => {
+            const pos = KEY_POSITIONS[k]
+            const isSpace = k === ' '
+            return (
               <button
-                className={`tw-key tw-key-space${activeKey === ' ' ? ' tw-key-active' : ''}`}
-                onClick={() => typeChar(' ')}
+                key={k}
+                className={`tw-hotspot${isSpace ? ' tw-hotspot-space' : ''}${activeKey === k ? ' tw-hotspot-active' : ''}`}
+                style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+                onClick={() => typeChar(isSpace ? ' ' : k.toLowerCase())}
                 tabIndex={-1}
-                aria-label="Space"
+                aria-label={isSpace ? 'Space' : k}
               />
-            </div>
-          </div>
+            )
+          })}
         </div>
       </div>
 
@@ -200,6 +200,7 @@ export function TypewriterArt({ onClose }: { onClose: () => void }) {
         <span className="tw-statusbar-hint">
           {typed.length === 0 ? 'Click here and start typing to reveal the artwork...' : typed.slice(-60)}
         </span>
+        <span className="tw-statusbar-progress">{Math.round((revealCount / TOTAL_CELLS) * 100)}%</span>
         <button className="tw-statusbar-btn" onClick={() => setAutoPlay(a => !a)}>
           {autoPlay ? 'Stop' : 'Auto-type'}
         </button>
