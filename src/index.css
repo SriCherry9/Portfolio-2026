@@ -1788,14 +1788,22 @@ html[data-theme="dark"] .pg-page-header {
 .pg-canvas-wrap {
   flex: 1;
   overflow: hidden;
-  cursor: grab;
+  cursor: grab !important;
   position: relative;
   user-select: none;
   -webkit-user-select: none;
 }
 
 .pg-canvas-wrap.pg-dragging {
-  cursor: grabbing;
+  cursor: grabbing !important;
+}
+
+.pg-canvas-wrap, .pg-canvas-wrap * {
+  cursor: grab !important;
+}
+
+.pg-canvas-wrap.pg-dragging, .pg-canvas-wrap.pg-dragging * {
+  cursor: grabbing !important;
 }
 
 .pg-canvas {
