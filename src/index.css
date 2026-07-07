@@ -698,6 +698,168 @@
   color: var(--text-primary);
 }
 
+/* ── Beyond the work ── */
+.about-beyond {
+  padding: 56px 0 32px;
+}
+
+.about-beyond-body {
+  max-width: 640px;
+}
+
+/* ── Photo collage ── */
+.about-collage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 12px 0 8px;
+}
+
+.about-photo-card {
+  position: relative;
+  width: 180px;
+  height: 220px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--fallback, rgba(255,255,255,0.1));
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  flex-shrink: 0;
+}
+
+.about-photo-card:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 0 18px 34px rgba(0,0,0,0.45);
+  z-index: 2;
+}
+
+.about-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-photo-trait {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 16px 16px;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #1a0f0a;
+  background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0));
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.about-photo-card:hover .about-photo-trait {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ── Bookshelf ── */
+.about-shelf-section {
+  padding: 56px 0 40px;
+}
+
+.about-shelf-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 4px 0 24px;
+}
+
+.about-shelf-wrap {
+  perspective: 900px;
+}
+
+.about-shelf-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 0 4px 10px;
+  min-height: 210px;
+}
+
+.about-book {
+  --spine: #7B68EE;
+  width: 42px;
+  height: 190px;
+  background: linear-gradient(90deg, var(--spine) 0%, color-mix(in srgb, var(--spine) 65%, black) 100%);
+  border-radius: 3px 3px 1px 1px;
+  box-shadow:
+    inset 2px 0 0 rgba(255,255,255,0.25),
+    inset -2px 0 0 rgba(0,0,0,0.25),
+    2px 4px 10px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 4px;
+  cursor: pointer;
+  transform: rotateY(-4deg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  flex-shrink: 0;
+}
+
+.about-book:hover {
+  transform: rotateY(0deg) translateY(-10px);
+  box-shadow: 2px 10px 20px rgba(0,0,0,0.5);
+}
+
+.about-book--dragging {
+  opacity: 0.35;
+}
+
+.about-book-title {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.94);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 128px;
+}
+
+.about-book-author {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 9px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-height: 48px;
+}
+
+.about-shelf-ledge {
+  height: 18px;
+  background: linear-gradient(180deg, #6b4226 0%, #3f2416 100%);
+  border-radius: 2px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+.about-shelf-hint {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 14px 0 0;
+}
+
 /* ── Dark mode ── */
 html[data-theme="dark"] .about-divider {
   background: rgba(255,255,255,0.1);
@@ -716,6 +878,8 @@ html[data-theme="dark"] .about-era-tag {
   .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
+  .about-photo-card { width: 140px; height: 176px; }
+  .about-book { width: 36px; height: 160px; }
 }
 
 /* ===== PROJECT CARDS ===== */

@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import { AboutCollage } from './AboutCollage'
+import { AboutBookshelf } from './AboutBookshelf'
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -98,6 +100,35 @@ export function AboutSection() {
           </p>
         </div>
 
+      </div>
+
+      {/* ── Divider ─────────────────────────────────────────────────── */}
+      <div className="about-divider about-reveal" />
+
+      {/* ── Beyond the work ─────────────────────────────────────────── */}
+      <div className="about-beyond about-reveal">
+        <p className="about-kicker">Beyond the work</p>
+        <p className="about-body about-beyond-body">
+          Outside of pixels and prototypes, I'm probably chasing something new — a
+          trip I haven't taken, a trail I haven't hiked, or a conversation I didn't
+          expect to have. I laugh easily, ask too many questions, and every so often
+          turn a small moment into a whole production. Hover on a photo below to
+          get to know me a little better.
+        </p>
+      </div>
+
+      <div className="about-reveal">
+        <AboutCollage />
+      </div>
+
+      {/* ── Divider ─────────────────────────────────────────────────── */}
+      <div className="about-divider about-reveal" />
+
+      {/* ── Bookshelf ────────────────────────────────────────────────── */}
+      <div className="about-shelf-section about-reveal">
+        <p className="about-kicker">On my shelf</p>
+        <h3 className="about-shelf-title">UX reads that shaped how I think</h3>
+        <AboutBookshelf />
       </div>
 
     </section>
