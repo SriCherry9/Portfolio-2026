@@ -6,7 +6,8 @@
   cursor: url('/cursor-dot.svg') 9 9, auto !important;
 }
 
-.dh-section, .dh-section *, .dh-section *::before, .dh-section *::after {
+.dh-section, .dh-section *, .dh-section *::before, .dh-section *::after,
+.garden-footer, .garden-footer *, .garden-footer *::before, .garden-footer *::after {
   cursor: url('/cursor-cherry.svg') 8 25, auto !important;
 }
 
@@ -1533,12 +1534,6 @@ html[data-theme="dark"] .sticky-note::before {
   }
 }
 
-.garden-footer *,
-.garden-footer *::before,
-.garden-footer *::after {
-  cursor: auto !important;
-}
-
 .garden-footer {
   width: 100%;
   background: #0d0d0d;
@@ -1613,14 +1608,17 @@ html[data-theme="dark"] .sticky-note::before {
   color: rgba(255,255,255,0.9);
 }
 
-/* Garden interactive area */
+/* Garden interactive area — hides the cursor so the 🌱 emoji can replace it */
 .garden-area {
   width: 100%;
   min-height: 420px;
   position: relative;
   overflow: hidden;
-  cursor: none;
   border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.garden-area, .garden-area * {
+  cursor: none !important;
 }
 
 .garden-cursor {
