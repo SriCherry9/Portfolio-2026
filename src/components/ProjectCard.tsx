@@ -42,6 +42,10 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
 
   const handleLockMouseMove = (e: React.MouseEvent) => {
     if (!project.locked) return
+    if ((e.target as HTMLElement).closest('.tl-cta')) {
+      setLockCursor(null)
+      return
+    }
     setLockCursor({ x: e.clientX, y: e.clientY })
   }
   const handleLockMouseLeave = () => setLockCursor(null)

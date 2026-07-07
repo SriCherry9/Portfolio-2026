@@ -1171,6 +1171,12 @@ html[data-theme="dark"] .about-era-tag {
   cursor: none !important;
 }
 
+/* ...except over the CTA itself, which goes back to the normal cursor */
+.tl-card--locked .tl-cta,
+.tl-card--locked .tl-cta * {
+  cursor: url('/cursor-dot.svg') 9 9, auto !important;
+}
+
 .tl-lock-cursor {
   position: fixed;
   z-index: 999;
