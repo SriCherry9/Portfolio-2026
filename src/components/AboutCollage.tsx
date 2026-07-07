@@ -1,34 +1,38 @@
-interface TraitPhoto {
+interface CollagePhoto {
   src: string
-  trait: string
+  trait?: string
   color: string
 }
 
-const TRAITS: TraitPhoto[] = [
-  { src: '/images/about/trait-adventurous.jpg', trait: 'Adventurous', color: 'var(--card-1)' },
-  { src: '/images/about/trait-funloving.jpg',   trait: 'Fun-loving',  color: 'var(--card-2)' },
-  { src: '/images/about/trait-joyful.jpg',       trait: 'Joyful',     color: 'var(--card-3)' },
-  { src: '/images/about/trait-curious.jpg',      trait: 'Curious',    color: 'var(--card-4)' },
-  { src: '/images/about/trait-dramatic.jpg',     trait: 'A little dramatic', color: 'var(--card-5)' },
+const PHOTOS: CollagePhoto[] = [
+  { src: '/images/about/collage-1.jpg', trait: 'Adventurous',       color: 'var(--card-1)' },
+  { src: '/images/about/collage-2.jpg',                             color: 'var(--card-2)' },
+  { src: '/images/about/collage-3.jpg', trait: 'Fun-loving',        color: 'var(--card-3)' },
+  { src: '/images/about/collage-4.jpg',                             color: 'var(--card-4)' },
+  { src: '/images/about/collage-5.jpg', trait: 'Joyful',            color: 'var(--card-5)' },
+  { src: '/images/about/collage-6.jpg',                             color: 'var(--card-1)' },
+  { src: '/images/about/collage-7.jpg', trait: 'Curious',           color: 'var(--card-2)' },
+  { src: '/images/about/collage-8.jpg',                             color: 'var(--card-3)' },
+  { src: '/images/about/collage-9.jpg', trait: 'A little dramatic', color: 'var(--card-4)' },
 ]
 
 export function AboutCollage() {
   return (
     <div className="about-collage">
-      {TRAITS.map((t, i) => (
+      {PHOTOS.map((p, i) => (
         <div
-          key={t.trait}
+          key={i}
           className="about-photo-card"
-          style={{ '--rot': `${(i % 2 === 0 ? -1 : 1) * (3 + i)}deg`, '--fallback': t.color } as React.CSSProperties}
+          style={{ '--fallback': p.color } as React.CSSProperties}
         >
           <img
-            src={t.src}
-            alt={t.trait}
+            src={p.src}
+            alt={p.trait ?? 'A moment from my life'}
             className="about-photo-img"
             loading="lazy"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
-          <span className="about-photo-trait">{t.trait}</span>
+          {p.trait && <span className="about-photo-trait">{p.trait}</span>}
         </div>
       ))}
     </div>
