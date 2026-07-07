@@ -2,22 +2,27 @@ import { useRef, useState } from 'react'
 
 interface Book {
   title: string
+  subtitle?: string
   author: string
-  isbn: string
-  color: string
+  mark: string
+  bg: string
+  fg: string
+  thickness: number
 }
 
-// Covers served from the Open Library Covers API (covers.openlibrary.org),
-// keyed by each book's real ISBN-13 — actual cover art, not stock art.
+// Real books from my shelf — spines recreated to match their actual covers.
 const INITIAL_BOOKS: Book[] = [
-  { title: 'The Design of Everyday Things', author: 'Don Norman',    isbn: '9780465050659', color: '#C4A96A' },
-  { title: "Don't Make Me Think",           author: 'Steve Krug',    isbn: '9780321965516', color: '#7B68EE' },
-  { title: 'Sprint',                        author: 'Jake Knapp',    isbn: '9781501121746', color: '#5B8CFF' },
-  { title: 'Hooked',                        author: 'Nir Eyal',      isbn: '9781591847786', color: '#B8E4C9' },
-  { title: 'Laws of UX',                    author: 'Jon Yablonski', isbn: '9781492055310', color: '#840FF1' },
+  { title: 'Universal Principles of Design', author: '',                              mark: 'Rockport',    bg: '#1B3A6B', fg: '#ffffff', thickness: 60 },
+  { title: 'Start With Why',                 author: 'Simon Sinek',                   mark: 'Portfolio',   bg: '#6E1423', fg: '#ffffff', thickness: 56 },
+  { title: 'Zero to One',                    author: 'Peter Thiel',                   mark: 'Virgin Books', bg: '#FFD400', fg: '#171717', thickness: 44 },
+  { title: 'Creative Confidence',            author: 'Tom Kelley & David Kelley',     mark: 'William Collins', bg: '#F3EFE2', fg: '#171717', thickness: 50 },
+  { title: 'Hooked', subtitle: 'How to Build Habit-Forming Products', author: 'Nir Eyal', mark: 'Portfolio', bg: '#FFD400', fg: '#171717', thickness: 48 },
+  { title: '100 More Things Every Designer Needs to Know About People', author: 'Susan Weinschenk', mark: 'New Riders', bg: '#C7D62B', fg: '#171717', thickness: 52 },
+  { title: "Don't Make Me Think, Revisited", subtitle: 'A Common Sense Approach to Web Usability', author: 'Steve Krug', mark: 'New Riders', bg: '#F6B26B', fg: '#171717', thickness: 46 },
+  { title: 'A Project Guide to UX Design',   subtitle: 'For User Experience Designers in the Field or in the Making', author: 'Russ Unger & Carolyn Chandler', mark: 'New Riders', bg: '#14213D', fg: '#ffffff', thickness: 54 },
+  { title: 'Smashing UX Design',             author: 'Jesmond Allen & James Chudley', mark: 'Wiley', bg: '#ffffff', fg: '#171717', thickness: 50 },
+  { title: 'The Lean Startup',                author: 'Eric Ries',                     mark: 'Portfolio',   bg: '#1C6EA4', fg: '#ffffff', thickness: 58 },
 ]
-
-const coverUrl = (isbn: string) => `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
 
 const amazonSearchUrl = (book: Book) =>
   `https://www.amazon.com/s?k=${encodeURIComponent(`${book.title} ${book.author}`)}`
@@ -41,38 +46,39 @@ export function AboutBookshelf() {
   }
 
   return (
-    <div className="about-shelf-wrap">
-      <div className="about-shelf-row">
+    <div className="about-stack-wrap">
+      <div className="about-stack">
         {books.map((book, i) => (
           <div
             key={book.title}
-            className={`about-book${dragging === i ? ' about-book--dragging' : ''}`}
-            style={{ '--spine': book.color } as React.CSSProperties}
+            className={`about-spine${dragging === i ? ' about-spine--dragging' : ''}`}
+            style={{
+              '--bg': book.bg,
+              '--fg': book.fg,
+              height: `${book.thickness}px`,
+              '--tilt': `${((i * 37) % 5 - 2) * 0.4}deg`,
+            } as React.CSSProperties}
             draggable
             onDragStart={() => { dragIndex.current = i; setDragging(i) }}
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => handleDrop(i)}
             onDragEnd={() => setDragging(null)}
             onClick={() => window.open(amazonSearchUrl(book), '_blank', 'noopener,noreferrer')}
-            title={`${book.title} — ${book.author}`}
+            title={`${book.title}${book.author ? ' — ' + book.author : ''}`}
           >
-            <img
-              src={coverUrl(book.isbn)}
-              alt={`${book.title} cover`}
-              className="about-book-cover"
-              loading="lazy"
-              draggable={false}
-              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-            />
-            <span className="about-book-caption">
-              <span className="about-book-title">{book.title}</span>
-              <span className="about-book-author">{book.author}</span>
-            </span>
+            <div className="about-spine-text">
+              <span className="about-spine-title">{book.title}</span>
+              {book.subtitle && <span className="about-spine-subtitle">{book.subtitle}</span>}
+            </div>
+            <div className="about-spine-meta">
+              {book.author && <span className="about-spine-author">{book.author}</span>}
+              <span className="about-spine-mark">{book.mark}</span>
+            </div>
+            <div className="about-spine-edge" />
           </div>
         ))}
       </div>
-      <div className="about-shelf-ledge" />
-      <p className="about-shelf-hint">Drag a book to rearrange · Click one to look it up</p>
+      <p className="about-shelf-hint">Drag a book to rearrange the stack · Click one to look it up</p>
     </div>
   )
 }

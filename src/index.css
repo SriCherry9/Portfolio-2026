@@ -779,90 +779,121 @@
   margin: 4px 0 24px;
 }
 
-.about-shelf-wrap {
-  perspective: 900px;
+.about-stack-wrap {
+  perspective: 1200px;
+  max-width: 460px;
 }
 
-.about-shelf-row {
+.about-stack {
   display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  padding: 0 4px 10px;
-  min-height: 190px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 4px 20px;
 }
 
-.about-book {
-  --spine: #7B68EE;
+.about-spine {
+  --bg: #7B68EE;
+  --fg: #ffffff;
+  --tilt: 0deg;
   position: relative;
-  width: 104px;
-  height: 156px;
-  background: var(--spine);
-  border-radius: 4px;
-  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 0 54px 0 16px;
+  gap: 10px;
   box-shadow:
-    inset 0 0 0 1px rgba(0,0,0,0.15),
-    2px 6px 14px rgba(0,0,0,0.4);
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    inset 0 -1px 0 rgba(0,0,0,0.15),
+    0 4px 10px rgba(0,0,0,0.35);
   cursor: pointer;
-  transform: rotateY(-6deg);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  flex-shrink: 0;
+  transform: rotateX(2deg) rotate(var(--tilt));
+  transform-origin: left center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
 }
 
-.about-book:hover {
-  transform: rotateY(0deg) translateY(-10px) scale(1.04);
-  box-shadow: 4px 14px 26px rgba(0,0,0,0.55);
+.about-spine:hover {
+  transform: rotateX(0deg) rotate(0deg) translateX(6px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    inset 0 -1px 0 rgba(0,0,0,0.15),
+    2px 8px 18px rgba(0,0,0,0.45);
   z-index: 2;
 }
 
-.about-book--dragging {
+.about-spine--dragging {
   opacity: 0.35;
 }
 
-.about-book-cover {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.about-book-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 8px 8px 10px;
+.about-spine-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0));
-  opacity: 0;
-  transform: translateY(100%);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  flex: 1;
+  min-width: 0;
 }
 
-.about-book:hover .about-book-caption {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.about-book-title {
+.about-spine-title {
   font-family: 'AvantGarde', sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
-  line-height: 1.25;
-  color: rgba(255,255,255,0.96);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.about-book-author {
+.about-spine-subtitle {
   font-size: 9px;
-  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.about-shelf-ledge {
-  height: 18px;
-  background: linear-gradient(180deg, #6b4226 0%, #3f2416 100%);
-  border-radius: 2px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+.about-spine-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.about-spine-author {
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.about-spine-mark {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+.about-spine-edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 34px;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255,255,255,0.55) 0px,
+    rgba(255,255,255,0.55) 1px,
+    rgba(0,0,0,0.05) 2px,
+    rgba(0,0,0,0.05) 3px
+  );
+  background-color: #efe9d8;
+  box-shadow: inset 2px 0 4px rgba(0,0,0,0.15);
 }
 
 .about-shelf-hint {
@@ -894,7 +925,9 @@ html[data-theme="dark"] .about-era-tag {
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
   .about-collage { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
-  .about-book { width: 80px; height: 120px; }
+  .about-stack-wrap { max-width: 100%; }
+  .about-spine { padding-right: 40px; }
+  .about-spine-edge { width: 26px; }
 }
 
 /* ===== PROJECT CARDS ===== */
