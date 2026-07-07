@@ -1,8 +1,12 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-/* ── Custom cherry cursor ── */
+/* ── Custom cursors: white-gradient dot everywhere, cherry in the landing hero ── */
 *, *::before, *::after {
+  cursor: url('/cursor-dot.svg') 9 9, auto !important;
+}
+
+.dh-section, .dh-section *, .dh-section *::before, .dh-section *::after {
   cursor: url('/cursor-cherry.svg') 8 25, auto !important;
 }
 
