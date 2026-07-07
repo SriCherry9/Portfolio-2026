@@ -172,7 +172,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
                 : project.coverImage ? <img src={project.coverImage} alt={project.title} className="tl-cover-img" />
                 : null}
             </div>
-            {project.caseStudyPath && (
+            {project.caseStudyPath && !project.locked && (
               <div className="tl-cover-overlay">
                 <span>View Case Study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
@@ -186,7 +186,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
             </div>
             {(project.caseStudyPath || project.videoSrc) && (
               <a href="#" className="tl-cta" onClick={handleCtaClick}>
-                {project.caseStudyPath ? 'View Case Study' : 'Watch Demo'}
+                {project.locked ? 'Enter password to View' : project.caseStudyPath ? 'View Case Study' : 'Watch Demo'}
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             )}
