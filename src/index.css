@@ -2136,21 +2136,97 @@ html[data-theme="dark"] .pg-page-header {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.tw-canvas-wrap {
+/* ── the machine chassis ─────────────────────────────────── */
+.tw-machine {
   position: relative;
+  background: linear-gradient(180deg, #d33a30 0%, #c22a22 55%, #a92019 100%);
+  padding: 22px 26px 0;
+  border-radius: 0 0 4px 4px;
+}
+
+.tw-machine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.tw-machine-inner {
+  position: relative;
+  background: #17130f;
+  border-radius: 6px;
+  padding: 16px 16px 0;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.tw-ruler {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.35);
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+  user-select: none;
+}
+
+.tw-bail {
+  position: absolute;
+  top: -14px;
+  width: 34px;
+  height: 34px;
+  border: 3px solid #d8d8d8;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-radius: 50%;
+  transform: rotate(45deg);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.tw-bail-left { left: 8px; }
+.tw-bail-right { right: 8px; transform: rotate(-135deg); }
+
+.tw-paper-window {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  margin-top: 4px;
+  display: flex;
   justify-content: center;
-  padding: 18px;
-  overflow: auto;
+}
+
+.tw-paper-window::before,
+.tw-paper-window::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tw-paper-window::before {
+  top: 0;
+  background: linear-gradient(180deg, #17130f 0%, transparent 100%);
+}
+
+.tw-paper-window::after {
+  bottom: 0;
+  background: linear-gradient(0deg, #17130f 0%, transparent 100%);
+}
+
+.tw-paper-scroll {
+  position: relative;
+  transition: transform 0.18s ease-out;
+  will-change: transform;
 }
 
 .tw-canvas {
   display: block;
-  border-radius: 4px;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.25);
-  max-width: 100%;
-  height: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
 .tw-complete-badge {
@@ -2158,7 +2234,7 @@ html[data-theme="dark"] .pg-page-header {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(28, 26, 23, 0.85);
+  background: rgba(23, 19, 15, 0.9);
   color: #f6f2ea;
   font-family: 'AvantGarde', 'Century Gothic', sans-serif;
   font-size: 12px;
@@ -2167,9 +2243,96 @@ html[data-theme="dark"] .pg-page-header {
   padding: 8px 18px;
   border-radius: 999px;
   animation: fade-up 0.3s ease forwards;
+  z-index: 3;
 }
 
-.tw-typebar {
+.tw-roller {
+  height: 20px;
+  margin: 0 -16px;
+  background: repeating-linear-gradient(
+    90deg,
+    #2a2a2a 0px, #2a2a2a 3px, #111 3px, #111 6px
+  );
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(0,0,0,0.6);
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.tw-plaque {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 0 10px;
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #e8c9a0;
+}
+
+.tw-plaque-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e2571a;
+}
+
+.tw-plaque-progress {
+  margin-left: auto;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(232, 201, 160, 0.6);
+}
+
+/* ── keyboard ─────────────────────────────────── */
+.tw-keyboard {
+  padding: 4px 12px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.tw-key-row {
+  display: flex;
+  gap: 6px;
+}
+
+.tw-key {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(180deg, #fbf8f2 0%, #e7ddc9 100%);
+  color: #2a2016;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.35), 0 4px 5px rgba(0,0,0,0.3);
+  transition: transform 0.07s ease, box-shadow 0.07s ease;
+}
+
+.tw-key:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #efe6d3 100%);
+}
+
+.tw-key-active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.3);
+  background: linear-gradient(180deg, #e2571a 0%, #c94716 100%);
+  color: #fff8ee;
+}
+
+.tw-key-space {
+  width: 220px;
+  height: 26px;
+  border-radius: 14px;
+}
+
+/* ── status bar ─────────────────────────────────── */
+.tw-statusbar {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2178,34 +2341,17 @@ html[data-theme="dark"] .pg-page-header {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.tw-typebar-progress {
-  font-family: 'Courier New', monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.45);
-  min-width: 34px;
-}
-
-.tw-typebar-input {
+.tw-statusbar-hint {
   flex: 1;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  color: #f6f2ea;
   font-family: 'Courier New', monospace;
-  font-size: 13px;
-  padding: 9px 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.tw-typebar-input:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.35);
-}
-
-.tw-typebar-input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.tw-typebar-btn {
+.tw-statusbar-btn {
   font-family: 'AvantGarde', 'Century Gothic', sans-serif;
   font-size: 11px;
   font-weight: 500;
@@ -2220,9 +2366,17 @@ html[data-theme="dark"] .pg-page-header {
   transition: all 0.15s ease;
 }
 
-.tw-typebar-btn:hover {
+.tw-statusbar-btn:hover {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
+}
+
+.tw-hidden-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
 /* ===== RESPONSIVE ===== */
