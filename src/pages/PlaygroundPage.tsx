@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
+import { TypewriterArt } from '../components/TypewriterArt'
 
 interface PlayItem {
   id: number
@@ -11,6 +12,7 @@ interface PlayItem {
   visualStyle: React.CSSProperties
   label?: string
   labelStyle?: React.CSSProperties
+  interactive?: 'typewriter'
 }
 
 const ITEMS: PlayItem[] = [
@@ -172,6 +174,16 @@ const ITEMS: PlayItem[] = [
     x: 410, y: 1070, width: 220, height: 220,
     visualStyle: { background: 'linear-gradient(135deg, #f8f4f0, #c8a882, #8b5e3c)' },
   },
+  {
+    id: 17,
+    title: 'Typewriter Art',
+    desc: 'Type on the typewriter to reveal illustrated scenes — Tennis, Basketball, Swimming, Fashion Show, Scuba Diving',
+    x: 770, y: 1070, width: 340, height: 260,
+    visualStyle: { background: '#2b2621' },
+    label: '⌨',
+    labelStyle: { fontSize: '96px', color: 'rgba(255,255,255,0.18)', lineHeight: '1' },
+    interactive: 'typewriter',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -182,12 +194,15 @@ export function PlaygroundPage() {
   const velocity = useRef({ x: 0, y: 0 })
   const animFrame = useRef<number | undefined>(undefined)
   const [isDragging, setIsDragging] = useState(false)
+  const [typewriterOpen, setTypewriterOpen] = useState(false)
+  const dragMoved = useRef(false)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       if (!dragging.current) return
       const dx = e.clientX - lastPos.current.x
       const dy = e.clientY - lastPos.current.y
+      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) dragMoved.current = true
       velocity.current = { x: dx, y: dy }
       lastPos.current = { x: e.clientX, y: e.clientY }
       setPan(p => ({ x: p.x + dx, y: p.y + dy }))
@@ -238,6 +253,7 @@ export function PlaygroundPage() {
     e.preventDefault()
     cancelAnimationFrame(animFrame.current!)
     dragging.current = true
+    dragMoved.current = false
     velocity.current = { x: 0, y: 0 }
     lastPos.current = { x: e.clientX, y: e.clientY }
     setIsDragging(true)
@@ -259,8 +275,13 @@ export function PlaygroundPage() {
           {ITEMS.map(item => (
             <div
               key={item.id}
-              className="play-item"
+              className={`play-item${item.interactive ? ' play-item-interactive' : ''}`}
               style={{ left: item.x, top: item.y, width: item.width }}
+              onClick={() => {
+                if (item.interactive === 'typewriter' && !dragMoved.current) {
+                  setTypewriterOpen(true)
+                }
+              }}
             >
               <div
                 className="play-item-visual"
@@ -290,6 +311,14 @@ export function PlaygroundPage() {
           SCROLL/DRAG TO MOVE
         </div>
       </div>
+
+      {typewriterOpen && (
+        <div className="tw-modal-backdrop" onClick={() => setTypewriterOpen(false)}>
+          <div onClick={e => e.stopPropagation()}>
+            <TypewriterArt onClose={() => setTypewriterOpen(false)} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
