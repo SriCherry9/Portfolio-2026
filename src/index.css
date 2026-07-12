@@ -8,7 +8,7 @@
 
 .dh-section, .dh-section *, .dh-section *::before, .dh-section *::after,
 .garden-footer, .garden-footer *, .garden-footer *::before, .garden-footer *::after {
-  cursor: url('/Cherry.svg') 38 38, auto !important;
+  cursor: url('/Cherry-cursor.svg') 19 19, auto !important;
 }
 
 /* ===== FONTS ===== */
