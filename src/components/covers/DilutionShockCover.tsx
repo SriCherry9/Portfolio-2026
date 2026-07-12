@@ -2,6 +2,8 @@ import { useRef, useState } from 'react'
 import '../../styles/dilution-shock-cover.css'
 
 interface DilutionShockCoverProps {
+  /** Poster image — the Figma cover frame export (node 2224:12137). Shown at rest and while the video loads. */
+  posterSrc?: string
   /** mp4 source for the prototype walkthrough. Drop the file at this path once available. */
   videoSrc?: string
   /** Optional webm source, preferred by the browser when supported. */
@@ -9,21 +11,24 @@ interface DilutionShockCoverProps {
 }
 
 /**
- * Standalone hover-to-play cover for the "Designing for Dilution Shock" case study.
- * Not wired into App.tsx yet — pass as a project's `coverComponent` when ready
- * (see MuseoCover / CashlessCover for the existing pattern).
+ * Hover-to-play cover for the "Designing for Dilution Shock" case study,
+ * matching the Figma cover frame (node 2224:12135). Pass as a project's
+ * `coverComponent` (see App.tsx PROJECTS).
  *
- * Defaults to a coded mockup of the scenario-builder UI (matching the Figma
- * cover frame) as the resting "poster" state, since no video asset exists yet.
- * On hover/focus it swaps to a looping muted video of the live prototype.
- * If the video fails to load (missing file), it silently stays on the poster.
+ * Resting state is the real exported screenshot — export the frame from
+ * Figma as PNG and drop it at the posterSrc path (default
+ * /images/dilution-shock-scenario-poster.png). On hover/focus it swaps to
+ * a looping muted video of the live prototype. If either asset is missing,
+ * it falls back gracefully instead of showing a broken image/video.
  */
 export function DilutionShockCover({
+  posterSrc = '/images/dilution-shock-scenario-poster.png',
   videoSrc = '/videos/dilution-shock-prototype.mp4',
   videoSrcWebm,
 }: DilutionShockCoverProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [hovering, setHovering] = useState(false)
+  const [posterAvailable, setPosterAvailable] = useState(true)
   const [videoAvailable, setVideoAvailable] = useState(true)
   const [videoPlaying, setVideoPlaying] = useState(false)
 
@@ -59,58 +64,17 @@ export function DilutionShockCover({
       aria-label="Fundraising Scenario Tool — hover to preview the interactive prototype"
     >
       <div className="ds-cover-stage">
-        <div className={`ds-cover-poster${videoPlaying ? ' ds-cover-poster--hidden' : ''}`} aria-hidden={videoPlaying}>
-          <div className="ds-cover-poster-bar">
-            <div className="ds-cover-poster-bar-left">
-              <span className="ds-cover-poster-brand">Fundraising</span>
-              <span className="ds-cover-poster-whatsnew">✦ What's New?</span>
-            </div>
-            <div className="ds-cover-poster-bar-right">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-              </svg>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </div>
-          </div>
-
-          <div className="ds-cover-poster-body">
-            <div className="ds-cover-poster-orb">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 3l1.8 4.9L18.5 9l-4.7 1.9L12 15l-1.8-4.1L5.5 9l4.7-1.1L12 3z" />
-              </svg>
-            </div>
-            <p className="ds-cover-poster-heading">Let's build your first scenario</p>
-            <div className="ds-cover-poster-input">
-              <p className="ds-cover-poster-input-text">
-                Build a scenario with post money valuation of $20M with all SAFEs and CNs converted along with an
-                option pool top up of 15%
-              </p>
-              <div className="ds-cover-poster-input-row">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" />
-                </svg>
-                <div className="ds-cover-poster-input-actions">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
-                    <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4" />
-                  </svg>
-                  <svg className="ds-cover-poster-send" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="12" r="12" opacity="0.12" />
-                    <path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div className="ds-cover-poster-pills">
-              <span className="ds-cover-poster-pill">🧩 Build</span>
-              <span className="ds-cover-poster-pill">🎓 Learn</span>
-              <span className="ds-cover-poster-pill">📋 Ask</span>
-              <span className="ds-cover-poster-pill">📈 Sensitivity Analysis</span>
-            </div>
-          </div>
-        </div>
+        {posterAvailable ? (
+          <img
+            src={posterSrc}
+            alt="Fundraising Scenario Tool — AI-guided scenario builder"
+            className={`ds-cover-poster-img${videoPlaying ? ' ds-cover-poster-img--hidden' : ''}`}
+            aria-hidden={videoPlaying}
+            onError={() => setPosterAvailable(false)}
+          />
+        ) : (
+          <div className={`ds-cover-poster-fallback${videoPlaying ? ' ds-cover-poster-img--hidden' : ''}`} aria-hidden={videoPlaying} />
+        )}
 
         {videoAvailable && (
           <video
