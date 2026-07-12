@@ -3542,6 +3542,51 @@ html[data-theme="dark"] .pg-page-header {
   }
 }
 
+/* ── Dark mode ── */
+html[data-theme="dark"] .case-footer {
+  background: var(--white);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="dark"] .case-footer-cta {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .case-footer-eyebrow,
+html[data-theme="dark"] .case-footer-label,
+html[data-theme="dark"] .case-footer-signature,
+html[data-theme="dark"] .case-footer-home {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .case-footer-message,
+html[data-theme="dark"] .case-footer-next-title {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .case-footer-contact-link {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+html[data-theme="dark"] .case-footer-contact-link:hover {
+  background: var(--text-primary);
+  color: var(--white);
+  border-color: var(--text-primary);
+}
+
+html[data-theme="dark"] .case-footer-next:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme="dark"] .case-footer-next-thumb {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .case-footer-home:hover {
+  color: var(--white);
+}
+
 /* ===== CASHLESS DESIGN CASE STUDY ===== */
 
 .cs-page.cs-cashless-design {
