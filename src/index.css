@@ -8,7 +8,7 @@
 
 .dh-section, .dh-section *, .dh-section *::before, .dh-section *::after,
 .garden-footer, .garden-footer *, .garden-footer *::before, .garden-footer *::after {
-  cursor: url('/cursor-cherry.svg') 8 25, auto !important;
+  cursor: url('/Cherry.svg') 38 38, auto !important;
 }
 
 /* ===== FONTS ===== */
@@ -1771,6 +1771,11 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   border-bottom: none;
   border-left: none;
   cursor: pointer;
+}
+
+.pill-logo img {
+  display: block;
+  object-fit: contain;
 }
 
 .pill-links {
