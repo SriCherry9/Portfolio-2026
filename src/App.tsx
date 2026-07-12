@@ -32,7 +32,7 @@ const PROJECTS = [
     coverImage: '/images/ai-product-strategy-cover.png',
     caseStudyPath: '/case-study/ai-product-strategy',
     company: 'INDEPENDENT',
-    role: 'Lead Product Strategist',
+    role: 'Product Designer - Strategy',
     title: 'AI Product Strategy',
     description:
       'Strategic framework and roadmap for AI product development, focusing on user-centric design and market positioning. Comprehensive analysis of AI capabilities, competitive landscape, and product-market fit opportunities.',
@@ -66,7 +66,7 @@ const PROJECTS = [
     caseStudyPath: '/case-study/cashless',
     locked: { password: CASHLESS_PASSWORD, storageKey: CASHLESS_UNLOCK_KEY },
     company: 'QAPITA',
-    role: 'Lead Product Designer',
+    role: 'Product Designer',
     title: 'Cashless Equity Ownership',
     description:
       'Designed the end-to-end workflow enabling employees to own equity through cashless methods. Scaled a complex fintech platform from India to global markets — applying deep systems thinking to simplify equity management for both companies and their people.',
