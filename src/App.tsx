@@ -4,6 +4,7 @@ import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
 import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY } from './utils/protectedProjects'
+import { DilutionShockCover } from './components/covers/DilutionShockCover'
 
 const PROJECTS = [
   {
@@ -11,7 +12,8 @@ const PROJECTS = [
     dateRange: '2026',
     category: 'Fintech · Fundraising Tool',
     accentColor: '#633ea5',
-    coverImage: '/images/dilution-shock-cover.svg',
+    coverComponent: <DilutionShockCover />,
+    coverHasOwnHover: true,
     caseStudyPath: '/case-study/dilution-shock',
     company: 'QAPITA',
     role: 'Product Designer',

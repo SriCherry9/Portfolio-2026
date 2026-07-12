@@ -8,6 +8,9 @@ interface Project {
   accentColor: string
   coverImage?: string
   coverComponent?: React.ReactNode
+  /** Set when coverComponent already renders its own hover interaction (e.g. hover-to-play video),
+   *  so the card's default "View Case Study" dark overlay doesn't cover it. */
+  coverHasOwnHover?: boolean
   videoSrc?: string
   caseStudyPath?: string
   company: string
@@ -176,7 +179,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
                 : project.coverImage ? <img src={project.coverImage} alt={project.title} className="tl-cover-img" />
                 : null}
             </div>
-            {project.caseStudyPath && !project.locked && (
+            {project.caseStudyPath && !project.locked && !project.coverHasOwnHover && (
               <div className="tl-cover-overlay">
                 <span>View Case Study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
