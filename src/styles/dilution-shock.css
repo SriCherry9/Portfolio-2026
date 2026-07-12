@@ -1,0 +1,285 @@
+/* Dilution Shock Case Study - Fundraising Scenario Tool */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.ds-page {
+  width: 100%;
+  background: #f8f8f8;
+}
+
+.ds-container {
+  max-width: 1263px;
+  margin: 0 auto;
+  padding: 140px 100px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ── Header ── */
+.ds-header {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.ds-title {
+  font-family: 'Golte', Georgia, serif;
+  font-weight: normal;
+  font-size: clamp(28px, 4.2vw, 48px);
+  line-height: 1.235;
+  color: #333;
+  margin: 0;
+}
+
+.ds-meta-grid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.ds-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ds-meta-label {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 0.52px;
+  text-transform: uppercase;
+  color: #633ea5;
+  margin: 0;
+}
+
+.ds-meta-value {
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  color: #888;
+  margin: 0;
+}
+
+.ds-meta-values {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Section ── */
+.ds-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.ds-eyebrow {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0.84px;
+  text-transform: uppercase;
+  color: #633ea5;
+  margin: 0;
+}
+
+.ds-statement {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: clamp(20px, 2.6vw, 32px);
+  line-height: 1.2;
+  color: #333;
+  margin: 0;
+}
+
+.ds-body {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #888;
+  margin: 0;
+  max-width: 900px;
+}
+
+.ds-body strong,
+.ds-body b {
+  font-weight: 700;
+  color: #888;
+}
+
+.ds-body em {
+  font-style: italic;
+}
+
+.ds-body-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ds-body-group--spaced {
+  gap: 24px;
+}
+
+.ds-list {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #888;
+  margin: 0;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Swatch cards (Deeper Problem / Iterations) ──
+   Grid with auto-fit/minmax adapts column count to available width without
+   the uneven 2+1 wrap flexbox's greedy hypothetical-size algorithm produces. */
+.ds-swatch-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.ds-swatch-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ds-swatch-caption {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #888;
+  margin: 0;
+}
+
+.ds-swatch-caption span {
+  font-weight: 400;
+}
+
+.ds-swatch-block {
+  width: 100%;
+  aspect-ratio: 364 / 437;
+  border-radius: 8px;
+}
+
+.ds-swatch-block--cyan   { background: #ddf1f5; }
+.ds-swatch-block--blue   { background: #5460ff; }
+.ds-swatch-block--orange { background: #fe8938; }
+
+/* ── Two-panel image duo (Solution / Research / etc.) ── */
+.ds-image-duo {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ds-image-duo-primary,
+.ds-image-duo-secondary {
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-image-duo-primary {
+  flex: 0 0 47%;
+  background: #633ea5;
+}
+
+.ds-image-duo-secondary {
+  flex: 1;
+  background: #f2edfb;
+}
+
+.ds-image-duo-icon {
+  opacity: 0.5;
+}
+
+.ds-image-duo-primary .ds-image-duo-icon { color: #f2edfb; }
+.ds-image-duo-secondary .ds-image-duo-icon { color: #633ea5; }
+
+/* ── Dark mode ── */
+html[data-theme="dark"] .ds-page {
+  background: #161616;
+}
+
+html[data-theme="dark"] .ds-title,
+html[data-theme="dark"] .ds-statement {
+  color: #f0ede8;
+}
+
+html[data-theme="dark"] .ds-body,
+html[data-theme="dark"] .ds-meta-value,
+html[data-theme="dark"] .ds-list,
+html[data-theme="dark"] .ds-swatch-caption {
+  color: #a0a0a0;
+}
+
+html[data-theme="dark"] .ds-eyebrow,
+html[data-theme="dark"] .ds-meta-label {
+  color: #a887e0;
+}
+
+html[data-theme="dark"] .ds-image-duo-secondary {
+  background: #241a38;
+}
+
+/* ── Responsive ──
+   Tiers: >1100 desktop, 701-1100 tablet (landscape + portrait), <=700 mobile. */
+@media (max-width: 1100px) {
+  .ds-container {
+    padding: 128px 48px 96px;
+    gap: 64px;
+  }
+
+  .ds-meta-grid {
+    gap: 28px 40px;
+  }
+}
+
+@media (max-width: 860px) {
+  .ds-image-duo {
+    flex-direction: column;
+  }
+
+  .ds-image-duo-primary,
+  .ds-image-duo-secondary {
+    flex: 1 1 auto;
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 700px) {
+  .ds-container {
+    padding: 108px 20px 64px;
+    gap: 48px;
+  }
+
+  .ds-header {
+    gap: 32px;
+  }
+
+  .ds-meta-grid {
+    gap: 24px 32px;
+  }
+
+  .ds-section {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ds-meta-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

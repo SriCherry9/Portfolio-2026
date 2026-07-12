@@ -1,0 +1,242 @@
+/* Standalone hover-to-play cover for the Dilution Shock case study.
+   Not wired into the site yet — drop DilutionShockCover into a coverComponent
+   slot (see MuseoCover / CashlessCover in App.tsx's PROJECTS) once ready. */
+
+.ds-cover-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1024 / 700;
+  background: #633ea5;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: clamp(14px, 8%, 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ds-cover-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Poster: coded mockup of the scenario-builder UI ── */
+.ds-cover-poster {
+  position: absolute;
+  inset: 0;
+  background: #fbfaff;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.ds-cover-poster--hidden {
+  opacity: 0;
+  transform: scale(1.02);
+  pointer-events: none;
+}
+
+.ds-cover-poster-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3.5% 4%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.ds-cover-poster-bar-left {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1.2%, 10px);
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(7px, 1.3vw, 13px);
+}
+
+.ds-cover-poster-brand {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.ds-cover-poster-whatsnew {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #633ea5;
+  font-weight: 600;
+}
+
+.ds-cover-poster-bar-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.4%, 12px);
+  color: #999;
+}
+
+.ds-cover-poster-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1.6%, 14px);
+  padding: 4%;
+}
+
+.ds-cover-poster-orb {
+  width: clamp(20px, 6%, 44px);
+  height: clamp(20px, 6%, 44px);
+  border-radius: 10px;
+  background: linear-gradient(145deg, #b9a7ea, #7d5fc4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ds-cover-poster-orb svg {
+  width: 55%;
+  height: 55%;
+  color: #fff;
+}
+
+.ds-cover-poster-heading {
+  font-family: 'AvantGarde', sans-serif;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: clamp(9px, 1.9vw, 17px);
+  text-align: center;
+}
+
+.ds-cover-poster-input {
+  width: 78%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 10px;
+  padding: clamp(6px, 1.6%, 12px) clamp(8px, 2%, 14px);
+  box-shadow: 0 6px 20px rgba(99, 62, 165, 0.08);
+}
+
+.ds-cover-poster-input-text {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(6px, 1.2vw, 10.5px);
+  line-height: 1.5;
+  color: #9a9a9a;
+  margin-bottom: clamp(4px, 1%, 10px);
+}
+
+.ds-cover-poster-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #b4b4b4;
+}
+
+.ds-cover-poster-input-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1%, 10px);
+}
+
+.ds-cover-poster-send {
+  color: #633ea5;
+}
+
+.ds-cover-poster-pills {
+  display: flex;
+  align-items: center;
+  gap: clamp(3px, 0.9%, 8px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ds-cover-poster-pill {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(5.5px, 1.05vw, 9.5px);
+  font-weight: 500;
+  color: #555;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 999px;
+  padding: clamp(2px, 0.6%, 6px) clamp(6px, 1.4%, 12px);
+  white-space: nowrap;
+}
+
+/* ── Video (hover state) ── */
+.ds-cover-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: #1c1330;
+}
+
+.ds-cover-video--active {
+  opacity: 1;
+}
+
+/* ── Hover hint pill ── */
+.ds-cover-hint {
+  position: absolute;
+  bottom: clamp(8px, 3%, 22px);
+  right: clamp(8px, 3%, 22px);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'AvantGarde', sans-serif;
+  font-size: clamp(9px, 1.3vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.ds-cover-hint--hidden {
+  opacity: 0;
+}
+
+.ds-cover-hint svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+/* ── Dark mode ── */
+html[data-theme="dark"] .ds-cover-poster {
+  background: #211a30;
+}
+
+html[data-theme="dark"] .ds-cover-poster-heading,
+html[data-theme="dark"] .ds-cover-poster-brand {
+  color: #f0ede8;
+}
+
+html[data-theme="dark"] .ds-cover-poster-bar {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .ds-cover-poster-input {
+  background: #2a2138;
+  border-color: rgba(255, 255, 255, 0.1);
+}

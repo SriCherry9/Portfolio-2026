@@ -7,6 +7,22 @@ import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY } from './utils/protectedProject
 
 const PROJECTS = [
   {
+    id: 8,
+    dateRange: '2026',
+    category: 'Fintech · Fundraising Tool',
+    accentColor: '#633ea5',
+    coverImage: '/images/dilution-shock-cover.svg',
+    caseStudyPath: '/case-study/dilution-shock',
+    company: 'QAPITA',
+    role: 'Product Designer',
+    title: 'Designing for Dilution Shock: The Fundraising Scenario Tool',
+    description:
+      "Designed the fundraising module that turns SAFE/note conversion math into a number founders and CFOs can see and negotiate against before signing anything — replacing spreadsheets that couldn't correctly model dilution.",
+    tags: ['Fintech', 'SaaS', 'Cap Table', 'AI-Assisted Design'],
+    url: 'qapita.com',
+    readTime: '6 min read',
+  },
+  {
     id: 0,
     dateRange: '2026',
     category: 'AI · Product Strategy',

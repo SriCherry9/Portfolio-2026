@@ -118,9 +118,9 @@ export function CashlessPage() {
       </section>
 
       <CaseStudyFooter
-        nextPath="/case-study/museo"
-        nextTitle="Museo — Broadcast Auction Platform"
-        nextCover="/images/museo-cover.png"
+        nextPath="/case-study/dilution-shock"
+        nextTitle="Designing for Dilution Shock — Fundraising Scenario Tool"
+        nextCover="/images/dilution-shock-cover.svg"
       />
     </div>
     </PasswordGate>
