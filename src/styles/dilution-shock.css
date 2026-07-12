@@ -135,19 +135,20 @@
   gap: 6px;
 }
 
-/* ── Swatch cards (Deeper Problem / Iterations) ── */
+/* ── Swatch cards (Deeper Problem / Iterations) ──
+   Grid with auto-fit/minmax adapts column count to available width without
+   the uneven 2+1 wrap flexbox's greedy hypothetical-size algorithm produces. */
 .ds-swatch-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .ds-swatch-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex: 1 1 300px;
-  min-width: 260px;
+  min-width: 0;
 }
 
 .ds-swatch-caption {
@@ -232,18 +233,20 @@ html[data-theme="dark"] .ds-image-duo-secondary {
   background: #241a38;
 }
 
-/* ── Responsive ── */
-@media (max-width: 900px) {
+/* ── Responsive ──
+   Tiers: >1100 desktop, 701-1100 tablet (landscape + portrait), <=700 mobile. */
+@media (max-width: 1100px) {
   .ds-container {
-    padding: 120px 32px 80px;
-    gap: 56px;
+    padding: 128px 48px 96px;
+    gap: 64px;
   }
 
   .ds-meta-grid {
-    gap: 28px;
+    gap: 28px 40px;
   }
+}
 
-  .ds-swatch-row,
+@media (max-width: 860px) {
   .ds-image-duo {
     flex-direction: column;
   }
@@ -255,13 +258,28 @@ html[data-theme="dark"] .ds-image-duo-secondary {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .ds-container {
-    padding: 110px 20px 64px;
+    padding: 108px 20px 64px;
     gap: 48px;
   }
 
+  .ds-header {
+    gap: 32px;
+  }
+
   .ds-meta-grid {
+    gap: 24px 32px;
+  }
+
+  .ds-section {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ds-meta-grid {
+    flex-direction: column;
     gap: 20px;
   }
 }
