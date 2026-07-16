@@ -2304,15 +2304,98 @@ html[data-theme="dark"] .pg-page-header {
 
 .sound-wave-canvas {
   display: block;
+  pointer-events: none;
 }
 
-.sound-wave-overlay {
+.sound-wave-open-btn {
+  cursor: pointer !important;
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 190, 255, 0.45);
+  background: rgba(10, 10, 10, 0.65);
+  color: #e2f2ff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.sound-wave-open-btn:hover {
+  background: rgba(120, 190, 255, 0.25);
+  transform: translateX(-50%) translateY(-1px);
+}
+
+.bloom-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(6px);
+  animation: bloom-fade-in 0.15s ease;
+}
+
+@keyframes bloom-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.bloom-modal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0a0a;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+}
+
+.bloom-canvas {
+  display: block;
+  border-radius: 16px;
+  background: #0a0a0a;
+}
+
+.bloom-close-btn {
+  cursor: pointer !important;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloom-overlay {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+}
+
+.sound-wave-stop.bloom-stop {
+  position: absolute;
+  top: 14px;
+  right: 56px;
 }
 
 .sound-wave-btn {
