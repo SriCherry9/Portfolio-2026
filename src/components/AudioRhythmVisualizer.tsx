@@ -7,8 +7,17 @@ interface AudioRhythmVisualizerProps {
 
 type Status = 'idle' | 'requesting' | 'listening' | 'denied'
 
+// Concentric meridian rings, inner → outer, tuned to echo a red/blue glowing iris.
+const RINGS = [
+  { pos: 0.14, hue: 8, sat: 88, light: 58 },
+  { pos: 0.36, hue: 198, sat: 92, light: 68 },
+  { pos: 0.6, hue: 218, sat: 85, light: 46 },
+  { pos: 0.88, hue: 190, sat: 95, light: 72 },
+]
+
 export function AudioRhythmVisualizer({ width, height }: AudioRhythmVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const noiseCanvasRef = useRef<HTMLCanvasElement | null>(null)
   const audioCtxRef = useRef<AudioContext | null>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
@@ -23,6 +32,11 @@ export function AudioRhythmVisualizer({ width, height }: AudioRhythmVisualizerPr
     canvas.width = width * dpr
     canvas.height = height * dpr
     canvas.getContext('2d')?.scale(dpr, dpr)
+
+    const noise = document.createElement('canvas')
+    noise.width = Math.ceil(width / 4)
+    noise.height = Math.ceil(height / 4)
+    noiseCanvasRef.current = noise
   }, [width, height])
 
   const stop = () => {
@@ -57,44 +71,77 @@ export function AudioRhythmVisualizer({ width, height }: AudioRhythmVisualizerPr
 
       const freqData = new Uint8Array(analyser.frequencyBinCount)
       const waveData = new Uint8Array(analyser.fftSize)
+      const cx = width / 2
 
       const draw = () => {
         const canvas = canvasRef.current
         const ctx = canvas?.getContext('2d')
-        if (!canvas || !ctx || !analyserRef.current) return
+        const noiseCanvas = noiseCanvasRef.current
+        if (!canvas || !ctx || !noiseCanvas || !analyserRef.current) return
 
         analyserRef.current.getByteFrequencyData(freqData)
         analyserRef.current.getByteTimeDomainData(waveData)
 
-        ctx.fillStyle = '#0b0f14'
+        // Trailing fade instead of a hard clear — gives the rings a glowing, painterly drift.
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
         ctx.fillRect(0, 0, width, height)
 
-        // Rhythm — frequency bars pulsing with volume
-        const barCount = 40
-        const step = Math.floor(freqData.length / barCount)
-        const barWidth = width / barCount
-        for (let i = 0; i < barCount; i++) {
-          const value = freqData[i * step] / 255
-          const barHeight = value * height * 0.85
-          const hue = 190 + value * 100
-          ctx.fillStyle = `hsla(${hue}, 85%, 60%, 0.55)`
-          ctx.fillRect(i * barWidth, height - barHeight, barWidth * 0.7, barHeight)
-        }
+        // Each ring reads its own slice of the spectrum, so the bands pulse independently.
+        const bandSize = Math.floor(freqData.length / (RINGS.length * 2))
+        const steps = 48
 
-        // Ups and downs — live waveform
-        ctx.lineWidth = 2
-        ctx.strokeStyle = '#7cffcb'
-        ctx.beginPath()
-        const slice = width / waveData.length
-        let x = 0
-        for (let i = 0; i < waveData.length; i++) {
-          const v = waveData[i] / 128
-          const y = (v * height) / 2
-          if (i === 0) ctx.moveTo(x, y)
-          else ctx.lineTo(x, y)
-          x += slice
+        RINGS.forEach((ring, ringIndex) => {
+          const bandStart = ringIndex * bandSize
+          let sum = 0
+          for (let i = 0; i < bandSize; i++) sum += freqData[bandStart + i]
+          const energy = sum / bandSize / 255
+
+          for (const side of [-1, 1]) {
+            ctx.beginPath()
+            for (let j = 0; j <= steps; j++) {
+              const t = j / steps
+              const y = t * height
+              const shape = Math.sin(Math.PI * t) // converge to a point at top and bottom
+              const waveIdx = Math.floor(t * (waveData.length - 1))
+              const jitter = (waveData[waveIdx] - 128) / 128 // -1..1, traces the live waveform
+              const amp = ring.pos * side * (0.82 + energy * 0.45) + jitter * 0.05 * side
+              const x = cx + amp * cx * shape
+              if (j === 0) ctx.moveTo(x, y)
+              else ctx.lineTo(x, y)
+            }
+            const lightness = Math.min(ring.light + energy * 22, 88)
+            const color = `hsl(${ring.hue}, ${ring.sat}%, ${lightness}%)`
+            ctx.lineWidth = 2 + energy * 3.5
+            ctx.shadowBlur = 6 + energy * 20
+            ctx.shadowColor = color
+            ctx.strokeStyle = color
+            ctx.globalAlpha = 0.7 + energy * 0.3
+            ctx.stroke()
+          }
+        })
+        ctx.shadowBlur = 0
+        ctx.globalAlpha = 1
+
+        // Film grain — coarse noise scaled up (nearest-neighbour) for a blocky, analog texture.
+        const nctx = noiseCanvas.getContext('2d')
+        if (nctx) {
+          const overallEnergy = freqData.reduce((a, b) => a + b, 0) / freqData.length / 255
+          const imgData = nctx.createImageData(noiseCanvas.width, noiseCanvas.height)
+          const buf = imgData.data
+          for (let i = 0; i < buf.length; i += 4) {
+            const v = Math.random() * 255
+            buf[i] = v
+            buf[i + 1] = v
+            buf[i + 2] = v
+            buf[i + 3] = Math.random() * 90 * (0.5 + overallEnergy)
+          }
+          nctx.putImageData(imgData, 0, 0)
+          ctx.save()
+          ctx.globalCompositeOperation = 'overlay'
+          ctx.imageSmoothingEnabled = false
+          ctx.drawImage(noiseCanvas, 0, 0, width, height)
+          ctx.restore()
         }
-        ctx.stroke()
 
         rafRef.current = requestAnimationFrame(draw)
       }
