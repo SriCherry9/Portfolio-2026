@@ -3,6 +3,7 @@ import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import { CaseStudySideNav } from '../components/CaseStudySideNav'
 
 const SECTIONS = [
+  { id: 'hfe-section-cover', label: 'Cover' },
   { id: 'hfe-section-1', label: 'Overview' },
   { id: 'hfe-section-2', label: 'Brief' },
   { id: 'hfe-section-3', label: 'Task Analysis (HTA)' },
@@ -26,7 +27,8 @@ export function HfeInhalerPage() {
       <CaseStudySideNav sections={SECTIONS} />
 
       <section className="cs-slides">
-        <img id="hfe-section-1" src="/images/hfe-inhaler/hfe-inhaler-slide-01.png" alt="Human Factors & Ergonomics — case study cover" className="cs-slide-image" />
+        <img id="hfe-section-cover" src="/images/hfe-inhaler-cover.png" alt="Human Factors & Ergonomics — case study cover" className="cs-slide-image" />
+        <img id="hfe-section-1" src="/images/hfe-inhaler/hfe-inhaler-slide-01.png" alt="Human Factors & Ergonomics — title slide" className="cs-slide-image" />
         <img id="hfe-section-2" src="/images/hfe-inhaler/hfe-inhaler-slide-02.png" alt="Brief — analysing a Foracort 200 Synchrobreathe inhaler through Hierarchical Task Analysis, ergonomic analysis, cognitive ergonomic principles, and artifact analysis" className="cs-slide-image" />
         <img id="hfe-section-3" src="/images/hfe-inhaler/hfe-inhaler-slide-03.png" alt="Hierarchical Task Analysis of the inhaler — preparation, actuation, and reading steps" className="cs-slide-image" />
         <img id="hfe-section-4" src="/images/hfe-inhaler/hfe-inhaler-slide-04.png" alt="Task performance photos of the inhaler being used, and the six cognitive principles used for evaluation" className="cs-slide-image" />
@@ -42,7 +44,7 @@ export function HfeInhalerPage() {
       <CaseStudyFooter
         nextPath="/case-study/comic-strip"
         nextTitle="Oh No! — A Comic Strip"
-        nextCover="/images/C1.png"
+        nextCover="/images/comic-strip-cover.png"
       />
     </div>
   )

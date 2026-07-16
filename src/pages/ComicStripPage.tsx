@@ -3,6 +3,7 @@ import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import { CaseStudySideNav } from '../components/CaseStudySideNav'
 
 const SECTIONS = [
+  { id: 'comic-section-cover', label: 'Cover' },
   { id: 'comic-section-1', label: 'Oh No!' },
   { id: 'comic-section-2', label: 'Overview' },
   { id: 'comic-section-3', label: 'Challenge & Plan' },
@@ -25,6 +26,7 @@ export function ComicStripPage() {
       <CaseStudySideNav sections={SECTIONS} />
 
       <section className="cs-slides">
+        <img id="comic-section-cover" src="/images/comic-strip-cover.png" alt="Oh No! — Comic Strip cover" className="cs-slide-image" />
         <img id="comic-section-1" src="/images/C1.png" alt="Oh No! — a comic strip where I am the protagonist" className="cs-slide-image" />
         <img id="comic-section-2" src="/images/C2.png" alt="Overview — a story about Indian parents and their reluctance to let their children explore unconventional fields of study" className="cs-slide-image" />
         <img id="comic-section-3" src="/images/C3.png" alt="Challenge and plan of action for sketching the comic under time pressure" className="cs-slide-image" />
@@ -40,7 +42,7 @@ export function ComicStripPage() {
       <CaseStudyFooter
         nextPath="/case-study/hfe-inhaler"
         nextTitle="Human Factors & Ergonomics"
-        nextCover="/images/hfe-inhaler/hfe-inhaler-slide-01.png"
+        nextCover="/images/hfe-inhaler-cover.png"
       />
     </div>
   )
