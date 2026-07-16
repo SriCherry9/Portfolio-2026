@@ -110,14 +110,30 @@ const SHAPES = SHAPE_DEFS.flatMap((def, typeIdx) =>
   }))
 )
 
+const NAME = 'Sri Cherry Kotamreddy'
+
 export function Hero() {
   const [roleIndex, setRoleIndex] = useState(0)
   const [isExiting, setIsExiting] = useState(false)
   const [displayed, setDisplayed] = useState(ROLES[0])
+  const [isSpeaking, setIsSpeaking] = useState(false)
   const timerRef   = useRef<ReturnType<typeof setTimeout> | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const nodeRefs   = useRef<Record<string, HTMLDivElement | null>>({})
   const rafRef     = useRef<number | undefined>(undefined)
+
+  const pronounceName = () => {
+    if (!('speechSynthesis' in window)) return
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(NAME)
+    utterance.rate = 0.9
+    utterance.onstart = () => setIsSpeaking(true)
+    utterance.onend = () => setIsSpeaking(false)
+    utterance.onerror = () => setIsSpeaking(false)
+    window.speechSynthesis.speak(utterance)
+  }
+
+  useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
 
   /* Role ticker */
   useEffect(() => {
@@ -248,7 +264,22 @@ export function Hero() {
         </h1>
         <div className="dh-hero-divider" />
         <div className="dh-hero-lower">
-          <p className="dh-name-blue">Sri Cherry Kotamreddy</p>
+          <div className="dh-name-row">
+            <p className="dh-name-blue">{NAME}</p>
+            <button
+              type="button"
+              className={`dh-pronounce-btn${isSpeaking ? ' speaking' : ''}`}
+              style={{ pointerEvents: 'all' }}
+              onClick={pronounceName}
+              aria-label={`Hear how to pronounce ${NAME}`}
+              title="Hear pronunciation"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 5.5v3h2.2L7 11V2L4.2 5.5H2Z" fill="currentColor"/>
+                <path d="M9.3 4.6a3.2 3.2 0 0 1 0 4.8M10.9 3a5.4 5.4 0 0 1 0 8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
           <div className="dh-role-row">
             <span className="dh-role-label">I wear multiple hats&nbsp;—&nbsp;</span>
             <div className="dh-role-ticker">

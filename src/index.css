@@ -211,13 +211,55 @@
   gap: 0;
 }
 
+/* ── Name row (name + pronunciation button) ── */
+.dh-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
 /* ── Name in blue ── */
 .dh-name-blue {
   font-family: 'Golte', Georgia, serif;
   font-size: clamp(18px, 2vw, 26px);
   font-weight: 700;
   color: #910707;
-  margin: 0 0 12px;
+  margin: 0;
+}
+
+/* ── Pronunciation button ── */
+.dh-pronounce-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: #910707;
+  background: rgba(145, 7, 7, 0.1);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.dh-pronounce-btn:hover {
+  opacity: 1;
+  background: rgba(145, 7, 7, 0.18);
+  transform: scale(1.08);
+}
+
+.dh-pronounce-btn.speaking {
+  opacity: 1;
+  animation: pronounce-pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes pronounce-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
 }
 
 /* ── Role row ── */
