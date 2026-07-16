@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 interface PlayItem {
   id: number
@@ -11,6 +12,7 @@ interface PlayItem {
   visualStyle: React.CSSProperties
   label?: string
   labelStyle?: React.CSSProperties
+  caseStudyPath?: string
 }
 
 const ITEMS: PlayItem[] = [
@@ -172,6 +174,22 @@ const ITEMS: PlayItem[] = [
     x: 410, y: 1070, width: 220, height: 220,
     visualStyle: { background: 'linear-gradient(135deg, #f8f4f0, #c8a882, #8b5e3c)' },
   },
+  {
+    id: 17,
+    title: 'Human Factors & Ergonomics',
+    desc: 'Hierarchical Task Analysis and cognitive ergonomic evaluation of an inhaler',
+    x: 700, y: 1070, width: 320, height: 260,
+    visualStyle: { background: '#0c0c0c' },
+    label: 'HF&E',
+    labelStyle: {
+      fontSize: '46px',
+      color: 'rgba(255,255,255,0.18)',
+      fontFamily: 'Georgia, serif',
+      fontWeight: '700',
+      letterSpacing: '2px',
+    },
+    caseStudyPath: '/case-study/hfe-inhaler',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -256,26 +274,42 @@ export function PlaygroundPage() {
           className="pg-canvas"
           style={{ transform: `translate(${pan.x}px, ${pan.y}px)` }}
         >
-          {ITEMS.map(item => (
-            <div
-              key={item.id}
-              className="play-item"
-              style={{ left: item.x, top: item.y, width: item.width }}
-            >
-              <div
-                className="play-item-visual"
-                style={{ height: item.height, ...item.visualStyle }}
+          {ITEMS.map(item => {
+            const content = (
+              <>
+                <div
+                  className="play-item-visual"
+                  style={{ height: item.height, ...item.visualStyle }}
+                >
+                  {item.label && (
+                    <span className="play-item-label" style={item.labelStyle}>
+                      {item.label}
+                    </span>
+                  )}
+                </div>
+                <p className="play-item-title">{item.title}</p>
+                <p className="play-item-desc">{item.desc}</p>
+              </>
+            )
+            return item.caseStudyPath ? (
+              <Link
+                key={item.id}
+                to={item.caseStudyPath}
+                className="play-item play-item-link"
+                style={{ left: item.x, top: item.y, width: item.width }}
               >
-                {item.label && (
-                  <span className="play-item-label" style={item.labelStyle}>
-                    {item.label}
-                  </span>
-                )}
+                {content}
+              </Link>
+            ) : (
+              <div
+                key={item.id}
+                className="play-item"
+                style={{ left: item.x, top: item.y, width: item.width }}
+              >
+                {content}
               </div>
-              <p className="play-item-title">{item.title}</p>
-              <p className="play-item-desc">{item.desc}</p>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         <div className="playground-hint">

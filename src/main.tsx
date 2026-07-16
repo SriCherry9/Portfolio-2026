@@ -12,6 +12,7 @@ import { IncitePage } from './pages/IncitePage.tsx'
 import { MuseoPage } from './pages/MuseoPage.tsx'
 import { LunaPage } from './pages/LunaPage.tsx'
 import { AboutPage } from './pages/AboutPage.tsx'
+import { HfeInhalerPage } from './pages/HfeInhalerPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/case-study/incite" element={<IncitePage />} />
           <Route path="/case-study/museo" element={<MuseoPage />} />
           <Route path="/case-study/luna" element={<LunaPage />} />
+          <Route path="/case-study/hfe-inhaler" element={<HfeInhalerPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

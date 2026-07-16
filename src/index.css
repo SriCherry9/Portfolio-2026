@@ -2138,6 +2138,24 @@ html[data-theme="dark"] .sticky-note::before {
   gap: 10px;
 }
 
+.play-item-link {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.play-item-link, .play-item-link * {
+  cursor: pointer !important;
+}
+
+.play-item-link:hover {
+  transform: translateY(-3px);
+}
+
+.play-item-link:hover .play-item-visual {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
 .play-item-visual {
   border-radius: 6px;
   overflow: hidden;
