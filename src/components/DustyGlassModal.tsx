@@ -42,8 +42,8 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
     // cold, pale frost base
     ctx.globalCompositeOperation = 'source-over'
     const base = ctx.createLinearGradient(0, 0, width, height)
-    base.addColorStop(0, 'rgba(255, 255, 255, 0.95)')
-    base.addColorStop(1, 'rgba(213, 224, 230, 0.92)')
+    base.addColorStop(0, 'rgba(255, 255, 255, 0.82)')
+    base.addColorStop(1, 'rgba(213, 224, 230, 0.78)')
     ctx.fillStyle = base
     ctx.fillRect(0, 0, width, height)
 
@@ -53,22 +53,9 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
       const y = Math.random() * height
       const r = 50 + Math.random() * 130
       const grad = ctx.createRadialGradient(x, y, 0, x, y, r)
-      grad.addColorStop(0, `rgba(255, 255, 255, ${(0.10 + Math.random() * 0.12).toFixed(2)})`)
+      grad.addColorStop(0, `rgba(255, 255, 255, ${(0.08 + Math.random() * 0.09).toFixed(2)})`)
       grad.addColorStop(1, 'rgba(255, 255, 255, 0)')
       ctx.fillStyle = grad
-      ctx.beginPath()
-      ctx.arc(x, y, r, 0, Math.PI * 2)
-      ctx.fill()
-    }
-
-    // fine ice-crystal grain sitting on the pane
-    const speckles = Math.floor((width * height) / 500)
-    for (let i = 0; i < speckles; i++) {
-      const x = Math.random() * width
-      const y = Math.random() * height
-      const r = Math.random() * 1.5 + 0.2
-      const bright = Math.random() > 0.6
-      ctx.fillStyle = `rgba(${bright ? '255,255,255' : '198,210,216'}, ${(Math.random() * 0.35 + 0.08).toFixed(2)})`
       ctx.beginPath()
       ctx.arc(x, y, r, 0, Math.PI * 2)
       ctx.fill()
