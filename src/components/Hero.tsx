@@ -122,18 +122,43 @@ export function Hero() {
   const nodeRefs   = useRef<Record<string, HTMLDivElement | null>>({})
   const rafRef     = useRef<number | undefined>(undefined)
 
+  const pickNaturalVoice = () => {
+    const voices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'))
+    if (!voices.length) return null
+    const rank = (v: SpeechSynthesisVoice) => {
+      const n = v.name.toLowerCase()
+      if (/natural|neural/.test(n)) return 3
+      if (/google|premium|enhanced/.test(n)) return 2
+      if (/samantha|aria|jenny|ava|zira/.test(n)) return 1
+      return 0
+    }
+    return voices.sort((a, b) => rank(b) - rank(a))[0]
+  }
+
   const pronounceName = () => {
     if (!('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()
     const utterance = new SpeechSynthesisUtterance(NAME)
-    utterance.rate = 0.9
+    const voice = pickNaturalVoice()
+    if (voice) utterance.voice = voice
+    utterance.rate = 0.92
+    utterance.pitch = 1
     utterance.onstart = () => setIsSpeaking(true)
     utterance.onend = () => setIsSpeaking(false)
     utterance.onerror = () => setIsSpeaking(false)
     window.speechSynthesis.speak(utterance)
   }
 
-  useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
+  useEffect(() => {
+    // Voice list loads async in most browsers — warm it up so the first click has options.
+    window.speechSynthesis?.getVoices()
+    const onVoices = () => window.speechSynthesis.getVoices()
+    window.speechSynthesis?.addEventListener('voiceschanged', onVoices)
+    return () => {
+      window.speechSynthesis?.removeEventListener('voiceschanged', onVoices)
+      window.speechSynthesis?.cancel()
+    }
+  }, [])
 
   /* Role ticker */
   useEffect(() => {
