@@ -60,9 +60,9 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, width, height)
-    ctx.filter = 'blur(1.2px)'
-    ctx.fillStyle = '#0a0704'
-    ctx.strokeStyle = '#0a0704'
+    ctx.filter = 'blur(1.6px)'
+    ctx.fillStyle = 'rgba(40, 40, 43, 0.85)'
+    ctx.strokeStyle = 'rgba(40, 40, 43, 0.85)'
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
 
