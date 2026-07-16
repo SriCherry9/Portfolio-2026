@@ -3660,6 +3660,10 @@ html[data-theme="dark"] .case-footer-home:hover {
   font-family: 'Montserrat', sans-serif;
 }
 
+.cs-page.cs-hfe-inhaler {
+  background: #0c0c0c;
+}
+
 .cs-page.cs-cashless-design h1,
 .cs-page.cs-cashless-design h2,
 .cs-page.cs-cashless-design h3,

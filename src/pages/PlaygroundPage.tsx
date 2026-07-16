@@ -179,16 +179,26 @@ const ITEMS: PlayItem[] = [
     title: 'Human Factors & Ergonomics',
     desc: 'Hierarchical Task Analysis and cognitive ergonomic evaluation of an inhaler',
     x: 700, y: 1070, width: 320, height: 260,
-    visualStyle: { background: '#0c0c0c' },
-    label: 'HF&E',
-    labelStyle: {
-      fontSize: '46px',
-      color: 'rgba(255,255,255,0.18)',
-      fontFamily: 'Georgia, serif',
-      fontWeight: '700',
-      letterSpacing: '2px',
+    visualStyle: {
+      background: '#0c0c0c',
+      backgroundImage: 'url(/images/hfe-inhaler/hfe-inhaler-slide-03.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
     caseStudyPath: '/case-study/hfe-inhaler',
+  },
+  {
+    id: 18,
+    title: 'Oh No! — A Comic Strip',
+    desc: 'A comic strip where I am the protagonist',
+    x: 1070, y: 1070, width: 280, height: 260,
+    visualStyle: {
+      background: '#d8c3f0',
+      backgroundImage: 'url(/images/C1.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'right center',
+    },
+    caseStudyPath: '/case-study/comic-strip',
   },
 ]
 
