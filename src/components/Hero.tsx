@@ -128,14 +128,22 @@ export function Hero() {
   const pickNaturalVoice = () => {
     const voices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'))
     if (!voices.length) return null
+    const FEMALE_HINTS = /female|neerja|heera|zira|samantha|aria|jenny|ava|salli|joanna|kendra|raveena/
+    const MALE_HINTS   = /\bmale\b|david|mark|daniel|alex|fred|ravi|prabhat|guy|matthew|george|james/
     const rank = (v: SpeechSynthesisVoice) => {
       const n = v.name.toLowerCase()
-      if (v.lang === 'en-IN' && /natural|neural/.test(n)) return 5
-      if (v.lang === 'en-IN') return 4
-      if (/natural|neural/.test(n)) return 3
-      if (/google|premium|enhanced/.test(n)) return 2
-      if (/samantha|aria|jenny|ava|zira/.test(n)) return 1
-      return 0
+      const isFemale = FEMALE_HINTS.test(n)
+      const isMale   = !isFemale && MALE_HINTS.test(n)
+      const genderScore = isFemale ? 2 : isMale ? 0 : 1
+
+      let qualityScore = 0
+      if (v.lang === 'en-IN' && /natural|neural/.test(n)) qualityScore = 5
+      else if (v.lang === 'en-IN') qualityScore = 4
+      else if (/natural|neural/.test(n)) qualityScore = 3
+      else if (/google|premium|enhanced/.test(n)) qualityScore = 2
+      else if (/samantha|aria|jenny|ava|zira/.test(n)) qualityScore = 1
+
+      return genderScore * 10 + qualityScore
     }
     return voices.sort((a, b) => rank(b) - rank(a))[0]
   }
