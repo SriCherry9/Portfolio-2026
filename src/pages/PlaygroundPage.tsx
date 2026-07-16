@@ -204,7 +204,7 @@ const ITEMS: PlayItem[] = [
   },
   {
     id: 19,
-    title: 'Dusty Glass',
+    title: 'Draw on the Glass',
     desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
     x: 1430, y: 1070, width: 300, height: 260,
     visualStyle: {
