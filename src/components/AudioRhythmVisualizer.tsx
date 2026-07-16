@@ -11,6 +11,7 @@ type Status = 'idle' | 'requesting' | 'listening' | 'denied'
 const PALETTE = ['#ff6a3d', '#ffd23f', '#ff4fd8', '#3ec5ff', '#7ed321', '#ffb199', '#c084fc']
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5))
 const MAX_CLUSTERS = 42
+const WAVE_POINTS = 48
 
 interface Pixel { dx: number; dy: number; size: number; color: string }
 interface Cluster { pixels: Pixel[]; bornAt: number }
@@ -154,6 +155,7 @@ function stepBloom(
   energy: number,
   band: number,
   pitch: number,
+  wave: number[],
 ) {
   const now = performance.now()
   state.avgEnergy = state.avgEnergy * 0.95 + energy * 0.05
@@ -226,9 +228,30 @@ function stepBloom(
   ctx.arc(cx, cy, hubR, 0, Math.PI * 2)
   ctx.fill()
   ctx.restore()
+
+  // A literal trace of the live waveform, wrapped into a ring around the hub — the
+  // raw ups and downs of the sound, animating every frame rather than only on beats.
+  const ringR = hubR + 12
+  const waveAmp = 8 + energy * 22
+  ctx.save()
+  ctx.globalAlpha = 0.6
+  ctx.strokeStyle = hubColor
+  ctx.lineWidth = 1.5
+  ctx.beginPath()
+  wave.forEach((s, i) => {
+    const angle = (i / wave.length) * Math.PI * 2
+    const r = ringR + s * waveAmp
+    const x = cx + Math.cos(angle) * r
+    const y = cy + Math.sin(angle) * r
+    if (i === 0) ctx.moveTo(x, y)
+    else ctx.lineTo(x, y)
+  })
+  ctx.closePath()
+  ctx.stroke()
+  ctx.restore()
 }
 
-interface BloomInput { energy: number; band: number; pitch: number }
+interface BloomInput { energy: number; band: number; pitch: number; wave: number[] }
 
 // A gentle simulated pulse so a bloom canvas never sits dead before real audio takes over.
 function makeAmbientInput(): () => BloomInput {
@@ -239,7 +262,12 @@ function makeAmbientInput(): () => BloomInput {
     const energy = 0.02 + (cycle < 0.18 ? (1 - cycle / 0.18) * 0.35 : 0.015)
     const band = Math.floor(t / 1.3)
     const pitch = 0.3 + 0.5 * Math.abs(Math.sin(t * 0.7))
-    return { energy, band, pitch }
+    const wave = new Array(WAVE_POINTS)
+    for (let i = 0; i < WAVE_POINTS; i++) {
+      const phase = (i / WAVE_POINTS) * Math.PI * 2
+      wave[i] = Math.sin(phase * 3 + t * 2.5) * 0.5 + Math.sin(phase * 7 + t * 1.3) * 0.25
+    }
+    return { energy, band, pitch, wave }
   }
 }
 
@@ -264,8 +292,8 @@ function useBloomLoop(
     const state = createBloomState()
     let raf: number
     const loop = () => {
-      const { energy, band, pitch } = inputRef.current()
-      stepBloom(state, ctx, width, height, energy, band, pitch)
+      const { energy, band, pitch, wave } = inputRef.current()
+      stepBloom(state, ctx, width, height, energy, band, pitch, wave)
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
@@ -372,7 +400,14 @@ function BloomModal({ onClose }: { onClose: () => void }) {
         const centroid = magSum > 0 ? weightedSum / magSum : 0
         const pitch = Math.min(1, centroid / (freqData.length * 0.4))
 
-        return { energy, band: bestBand, pitch }
+        // Downsample the raw waveform so the live "ups and downs" can be traced directly.
+        const wave = new Array(WAVE_POINTS)
+        const waveStride = waveData.length / WAVE_POINTS
+        for (let i = 0; i < WAVE_POINTS; i++) {
+          wave[i] = (waveData[Math.floor(i * waveStride)] - 128) / 128
+        }
+
+        return { energy, band: bestBand, pitch, wave }
       }
 
       setStatus('listening')
