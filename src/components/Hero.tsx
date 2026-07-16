@@ -111,9 +111,10 @@ const SHAPES = SHAPE_DEFS.flatMap((def, typeIdx) =>
 )
 
 const NAME = 'Sri Cherry Kotamreddy'
-// Respelled for the speech engine — "Kotamreddy" as written gets read as
-// "Khotam"/"Cotam" (aspirated/hard K). This nudges an unaspirated "Ko" start.
-const PRONOUNCE_TEXT = 'Sri Cherry Kohtam Reddy'
+// Respelled for the speech engine — "Kotamreddy" as written gets read with
+// an aspirated "Kh" start. Swapping to "C" forces the correct unaspirated
+// "Cotam" sound.
+const PRONOUNCE_TEXT = 'Sri Cherry Cotam Reddy'
 
 export function Hero() {
   const [roleIndex, setRoleIndex] = useState(0)
