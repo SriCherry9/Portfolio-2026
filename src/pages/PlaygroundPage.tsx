@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
 
 interface PlayItem {
   id: number
@@ -13,6 +14,8 @@ interface PlayItem {
   label?: string
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
+  renderVisual?: (width: number, height: number) => React.ReactNode
+  dev?: boolean
 }
 
 const ITEMS: PlayItem[] = [
@@ -200,6 +203,15 @@ const ITEMS: PlayItem[] = [
     },
     caseStudyPath: '/case-study/comic-strip',
   },
+  {
+    id: 19,
+    title: 'Sound Wave — Live Rhythm',
+    desc: 'Speak or play a song near your mic — a live waveform traces its ups, downs, and rhythm in real time. Dev build, still rough around the edges.',
+    x: 1420, y: 1070, width: 320, height: 260,
+    visualStyle: { background: '#0b0f14' },
+    renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
+    dev: true,
+  },
 ]
 
 export function PlaygroundPage() {
@@ -291,11 +303,14 @@ export function PlaygroundPage() {
                   className="play-item-visual"
                   style={{ height: item.height, ...item.visualStyle }}
                 >
-                  {item.label && (
-                    <span className="play-item-label" style={item.labelStyle}>
-                      {item.label}
-                    </span>
-                  )}
+                  {item.dev && <span className="play-item-dev-badge">Dev</span>}
+                  {item.renderVisual
+                    ? item.renderVisual(item.width, item.height)
+                    : item.label && (
+                      <span className="play-item-label" style={item.labelStyle}>
+                        {item.label}
+                      </span>
+                    )}
                 </div>
                 <p className="play-item-title">{item.title}</p>
                 <p className="play-item-desc">{item.desc}</p>
