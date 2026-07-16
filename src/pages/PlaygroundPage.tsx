@@ -207,9 +207,12 @@ const ITEMS: PlayItem[] = [
     title: 'Dusty Glass',
     desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
     x: 1430, y: 1070, width: 300, height: 260,
-    visualStyle: { background: 'linear-gradient(160deg, #d6dbdc 0%, #aeb7ba 55%, #8b969a 100%)' },
-    label: '❄',
-    labelStyle: { fontSize: '80px', color: 'rgba(255,255,255,0.35)', fontWeight: '300', lineHeight: '1' },
+    visualStyle: {
+      background: '#c7ced0',
+      backgroundImage: 'url(/images/dusty-glass-cover.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
     interactive: 'dusty-glass',
   },
 ]
