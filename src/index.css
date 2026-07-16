@@ -1836,29 +1836,63 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
 .dg-scene-sky {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #2b3a67 0%, #4a5a8f 35%, #b98a72 75%, #e8b385 100%);
+  background: linear-gradient(180deg, #dfe7ee 0%, #c3d2dd 45%, #9fb2c0 100%);
   filter: blur(2px);
 }
 
-.dg-scene-light {
+.dg-scene-hill {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(6px);
-  opacity: 0.85;
+  left: -10%;
+  right: -10%;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  filter: blur(3px);
 }
 
-.dg-scene-light--1 { width: 46px; height: 46px; left: 18%; top: 22%; background: #ffe9b0; }
-.dg-scene-light--2 { width: 30px; height: 30px; left: 62%; top: 40%; background: #ffd9a0; }
-.dg-scene-light--3 { width: 60px; height: 60px; left: 78%; top: 15%; background: #fff4d6; }
+.dg-scene-hill--1 {
+  bottom: 14%;
+  height: 26%;
+  background: #eef3f6;
+  opacity: 0.9;
+}
+
+.dg-scene-hill--2 {
+  bottom: 0;
+  height: 20%;
+  background: #d8e2e8;
+}
 
 .dg-scene-ground {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 30%;
-  background: linear-gradient(180deg, #1c2333 0%, #0c0f18 100%);
-  filter: blur(2px);
+  height: 14%;
+  background: linear-gradient(180deg, #f4f8fa 0%, #e3ebee 100%);
+  filter: blur(1px);
+}
+
+.dg-snowfall {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dg-snowflake {
+  position: absolute;
+  top: -6%;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  animation-name: dg-snow-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dg-snow-fall {
+  0% { top: -6%; transform: translateX(0); }
+  50% { transform: translateX(8px); }
+  100% { top: 110%; transform: translateX(-6px); }
 }
 
 .dg-canvas {
@@ -1867,29 +1901,6 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   width: 100%;
   height: 100%;
   touch-action: none;
-}
-
-.dg-frame-mullion {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-.dg-frame-mullion--v {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 8px;
-  transform: translateX(-50%);
-}
-
-.dg-frame-mullion--h {
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 8px;
-  transform: translateY(-50%);
 }
 
 .dg-controls {

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 const BRUSH_RADIUS = 30
 
@@ -11,6 +11,19 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const isDrawing = useRef(false)
   const lastPoint = useRef<{ x: number; y: number } | null>(null)
+
+  const snowflakes = useMemo(
+    () =>
+      Array.from({ length: 28 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        size: Math.random() * 3 + 2,
+        duration: Math.random() * 8 + 7,
+        delay: -Math.random() * 15,
+        opacity: Math.random() * 0.5 + 0.4,
+      })),
+    []
+  )
 
   const fogUp = () => {
     const canvas = canvasRef.current
@@ -26,21 +39,36 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
     canvas.style.height = `${height}px`
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
+    // cold, pale frost base
     ctx.globalCompositeOperation = 'source-over'
     const base = ctx.createLinearGradient(0, 0, width, height)
-    base.addColorStop(0, 'rgba(224, 228, 229, 0.94)')
-    base.addColorStop(1, 'rgba(184, 191, 193, 0.94)')
+    base.addColorStop(0, 'rgba(255, 255, 255, 0.95)')
+    base.addColorStop(1, 'rgba(213, 224, 230, 0.92)')
     ctx.fillStyle = base
     ctx.fillRect(0, 0, width, height)
 
-    // grain — the fine dust sitting on the pane
-    const speckles = Math.floor((width * height) / 700)
+    // soft breath-fog clouds — uneven patches of thicker frost
+    for (let i = 0; i < 14; i++) {
+      const x = Math.random() * width
+      const y = Math.random() * height
+      const r = 50 + Math.random() * 130
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, r)
+      grad.addColorStop(0, `rgba(255, 255, 255, ${(0.10 + Math.random() * 0.12).toFixed(2)})`)
+      grad.addColorStop(1, 'rgba(255, 255, 255, 0)')
+      ctx.fillStyle = grad
+      ctx.beginPath()
+      ctx.arc(x, y, r, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    // fine ice-crystal grain sitting on the pane
+    const speckles = Math.floor((width * height) / 500)
     for (let i = 0; i < speckles; i++) {
       const x = Math.random() * width
       const y = Math.random() * height
-      const r = Math.random() * 1.3 + 0.2
-      const light = Math.random() > 0.5
-      ctx.fillStyle = `rgba(${light ? '255,255,255' : '110,116,118'}, ${(Math.random() * 0.14).toFixed(2)})`
+      const r = Math.random() * 1.5 + 0.2
+      const bright = Math.random() > 0.6
+      ctx.fillStyle = `rgba(${bright ? '255,255,255' : '198,210,216'}, ${(Math.random() * 0.35 + 0.08).toFixed(2)})`
       ctx.beginPath()
       ctx.arc(x, y, r, 0, Math.PI * 2)
       ctx.fill()
@@ -132,10 +160,25 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
         <div className="dg-window" ref={wrapRef}>
           <div className="dg-scene">
             <div className="dg-scene-sky" />
-            <div className="dg-scene-light dg-scene-light--1" />
-            <div className="dg-scene-light dg-scene-light--2" />
-            <div className="dg-scene-light dg-scene-light--3" />
+            <div className="dg-scene-hill dg-scene-hill--1" />
+            <div className="dg-scene-hill dg-scene-hill--2" />
             <div className="dg-scene-ground" />
+            <div className="dg-snowfall">
+              {snowflakes.map(flake => (
+                <span
+                  key={flake.id}
+                  className="dg-snowflake"
+                  style={{
+                    left: `${flake.left}%`,
+                    width: flake.size,
+                    height: flake.size,
+                    opacity: flake.opacity,
+                    animationDuration: `${flake.duration}s`,
+                    animationDelay: `${flake.delay}s`,
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
           <canvas
@@ -146,9 +189,6 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
             onPointerUp={onPointerUp}
             onPointerLeave={onPointerUp}
           />
-
-          <div className="dg-frame-mullion dg-frame-mullion--v" />
-          <div className="dg-frame-mullion dg-frame-mullion--h" />
         </div>
 
         <div className="dg-controls">
