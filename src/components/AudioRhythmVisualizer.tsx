@@ -37,56 +37,84 @@ function pickColors(rand: () => number, n: number) {
   return picked
 }
 
+// Bends a shape's pixels outward unevenly — 0 keeps it clean and symmetric,
+// higher values fray it into a spiky, irregular burst. Driven by pitch + speed.
+function applyJagged(pixels: Pixel[], amt: number, rand: () => number): Pixel[] {
+  if (amt <= 0.02) return pixels
+  return pixels.map(p => {
+    const dist = Math.hypot(p.dx, p.dy)
+    const angle = Math.atan2(p.dy, p.dx)
+    const radialJitter = 1 + (rand() - 0.5) * 2 * amt
+    const sizeJitter = 1 + (rand() - 0.5) * amt * 1.2
+    return {
+      dx: Math.cos(angle) * dist * radialJitter,
+      dy: Math.sin(angle) * dist * radialJitter,
+      size: Math.max(2, p.size * sizeJitter),
+      color: p.color,
+    }
+  })
+}
+
 // Four candy-pixel shape recipes echoing the flower/cross/ring/scatter motifs from the reference.
-function buildCluster(unit: number, seed: number, band: number): Pixel[] {
+// `unit` already carries loudness (bigger burst → bigger cluster); `jaggedAmt` carries
+// pitch + speed (higher/faster voice → spikier, more irregular pixels).
+function buildCluster(unit: number, seed: number, band: number, jaggedAmt: number): Pixel[] {
   const rand = mulberry32(seed)
   const shape = ((band % 4) + 4) % 4
+  let pixels: Pixel[]
 
   if (shape === 0) {
     const [c0, c1, c2] = pickColors(rand, 3)
     const arms = [[0, -2], [0, 2], [-2, 0], [2, 0], [-1, -1], [1, -1], [-1, 1], [1, 1]]
-    return [
+    pixels = [
       { dx: 0, dy: 0, size: unit * 0.9, color: c0 },
       ...arms.map((a, i) => ({ dx: a[0] * unit, dy: a[1] * unit, size: unit * 0.8, color: i % 2 === 0 ? c1 : c2 })),
     ]
-  }
-
-  if (shape === 1) {
+  } else if (shape === 1) {
     const [c0, c1, c2] = pickColors(rand, 3)
-    const pixels: Pixel[] = []
+    pixels = []
     for (const d of [-2, -1, 1, 2]) pixels.push({ dx: 0, dy: d * unit, size: unit, color: c0 })
     pixels.push({ dx: 0, dy: 0, size: unit, color: c2 })
     for (const d of [-2, -1, 1, 2]) pixels.push({ dx: d * unit, dy: 0, size: unit, color: c1 })
     for (const [dx, dy] of [[-2, -2], [2, -2], [-2, 2], [2, 2]]) {
       pixels.push({ dx: dx * unit, dy: dy * unit, size: unit * 0.7, color: c2 })
     }
-    return pixels
-  }
-
-  if (shape === 2) {
+  } else if (shape === 2) {
     const colors = pickColors(rand, 3)
     const n = 9
     const r = unit * 2.3
-    const pixels: Pixel[] = []
+    pixels = []
     for (let i = 0; i < n; i++) {
       const a = (i / n) * Math.PI * 2
       pixels.push({ dx: Math.cos(a) * r, dy: Math.sin(a) * r, size: unit * 0.75, color: colors[i % colors.length] })
     }
-    return pixels
+  } else {
+    const colors = pickColors(rand, 4)
+    const n = 6 + Math.floor(rand() * 4)
+    pixels = []
+    for (let i = 0; i < n; i++) {
+      pixels.push({
+        dx: (rand() - 0.5) * unit * 5,
+        dy: (rand() - 0.5) * unit * 5,
+        size: unit * (0.45 + rand() * 0.55),
+        color: colors[Math.floor(rand() * colors.length)],
+      })
+    }
   }
 
-  const colors = pickColors(rand, 4)
-  const n = 6 + Math.floor(rand() * 4)
-  const pixels: Pixel[] = []
-  for (let i = 0; i < n; i++) {
-    pixels.push({
-      dx: (rand() - 0.5) * unit * 5,
-      dy: (rand() - 0.5) * unit * 5,
-      size: unit * (0.45 + rand() * 0.55),
-      color: colors[Math.floor(rand() * colors.length)],
-    })
-  }
-  return pixels
+  return applyJagged(pixels, jaggedAmt, rand)
+}
+
+function mixHex(c1: string, c2: string, t: number): string {
+  const clampT = Math.max(0, Math.min(1, t))
+  const a = parseInt(c1.slice(1), 16)
+  const b = parseInt(c2.slice(1), 16)
+  const ar = (a >> 16) & 255, ag = (a >> 8) & 255, ab = a & 255
+  const br = (b >> 16) & 255, bg = (b >> 8) & 255, bb = b & 255
+  const r = Math.round(ar + (br - ar) * clampT)
+  const g = Math.round(ag + (bg - ag) * clampT)
+  const bl = Math.round(ab + (bb - ab) * clampT)
+  return `rgb(${r}, ${g}, ${bl})`
 }
 
 function roundPixel(ctx: CanvasRenderingContext2D, x: number, y: number, size: number, color: string) {
@@ -116,6 +144,8 @@ function createBloomState(): BloomState {
 // incoming energy spikes above its own rolling average — a lightweight onset/beat
 // detector — then lays every living cluster out on a sunflower spiral around a
 // pulsing hub, so rhythm literally keeps adding to the artwork rather than redrawing it.
+// Loudness sizes each new cluster up or down; pitch + how fast the hits are coming
+// in fray its pixels into something spikier and more jagged.
 function stepBloom(
   state: BloomState,
   ctx: CanvasRenderingContext2D,
@@ -123,15 +153,24 @@ function stepBloom(
   height: number,
   energy: number,
   band: number,
+  pitch: number,
 ) {
   const now = performance.now()
   state.avgEnergy = state.avgEnergy * 0.95 + energy * 0.05
   const threshold = state.avgEnergy * 1.6 + 0.018
   if (energy > threshold && now - state.lastSpawn > 240) {
+    const interval = now - state.lastSpawn
     state.lastSpawn = now
     state.seedCounter += 1
-    const unit = Math.max(4, Math.min(width, height) * 0.026)
-    state.clusters.push({ pixels: buildCluster(unit, state.seedCounter * 977 + 13, band), bornAt: now })
+
+    const speedNorm = Math.max(0, Math.min(1, 1 - interval / 700))
+    const energyNorm = Math.max(0, Math.min(1, energy))
+    const jaggedAmt = Math.max(0, Math.min(1.1, 0.1 + pitch * 0.55 + speedNorm * 0.5))
+    const sizeScale = 0.55 + energyNorm * 1.5
+
+    const baseUnit = Math.max(4, Math.min(width, height) * 0.026)
+    const unit = baseUnit * sizeScale
+    state.clusters.push({ pixels: buildCluster(unit, state.seedCounter * 977 + 13, band, jaggedAmt), bornAt: now })
     if (state.clusters.length > MAX_CLUSTERS) state.clusters.shift()
   }
 
@@ -178,17 +217,18 @@ function stepBloom(
   ctx.globalAlpha = 1
 
   const hubR = 5 + energy * 26
+  const hubColor = mixHex('#ff4fd8', '#3ec5ff', pitch)
   ctx.save()
   ctx.shadowBlur = 14 + energy * 24
-  ctx.shadowColor = '#ff4fd8'
-  ctx.fillStyle = '#ff4fd8'
+  ctx.shadowColor = hubColor
+  ctx.fillStyle = hubColor
   ctx.beginPath()
   ctx.arc(cx, cy, hubR, 0, Math.PI * 2)
   ctx.fill()
   ctx.restore()
 }
 
-interface BloomInput { energy: number; band: number }
+interface BloomInput { energy: number; band: number; pitch: number }
 
 // A gentle simulated pulse so a bloom canvas never sits dead before real audio takes over.
 function makeAmbientInput(): () => BloomInput {
@@ -198,7 +238,8 @@ function makeAmbientInput(): () => BloomInput {
     const cycle = t % 1.1
     const energy = 0.02 + (cycle < 0.18 ? (1 - cycle / 0.18) * 0.35 : 0.015)
     const band = Math.floor(t / 1.3)
-    return { energy, band }
+    const pitch = 0.3 + 0.5 * Math.abs(Math.sin(t * 0.7))
+    return { energy, band, pitch }
   }
 }
 
@@ -223,8 +264,8 @@ function useBloomLoop(
     const state = createBloomState()
     let raf: number
     const loop = () => {
-      const { energy, band } = inputRef.current()
-      stepBloom(state, ctx, width, height, energy, band)
+      const { energy, band, pitch } = inputRef.current()
+      stepBloom(state, ctx, width, height, energy, band, pitch)
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
@@ -319,7 +360,19 @@ function BloomModal({ onClose }: { onClose: () => void }) {
             bestBand = b
           }
         }
-        return { energy, band: bestBand }
+
+        // Spectral centroid as a cheap pitch/tone proxy — brighter, higher-pitched
+        // sounds skew the weighted average toward the higher frequency bins.
+        let weightedSum = 0
+        let magSum = 0
+        for (let i = 0; i < freqData.length; i++) {
+          weightedSum += i * freqData[i]
+          magSum += freqData[i]
+        }
+        const centroid = magSum > 0 ? weightedSum / magSum : 0
+        const pitch = Math.min(1, centroid / (freqData.length * 0.4))
+
+        return { energy, band: bestBand, pitch }
       }
 
       setStatus('listening')
