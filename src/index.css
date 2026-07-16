@@ -2278,24 +2278,7 @@ html[data-theme="dark"] .pg-page-header {
   will-change: transform;
 }
 
-/* ===== SOUND WAVE VISUALIZER (Dev) ===== */
-.play-item-dev-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: rgba(120, 190, 255, 0.15);
-  border: 1px solid rgba(120, 190, 255, 0.4);
-  color: #a8dcff;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-
+/* ===== SOUND WAVE VISUALIZER ===== */
 .sound-wave-viz {
   position: relative;
   width: 100%;
@@ -2396,6 +2379,8 @@ html[data-theme="dark"] .pg-page-header {
   position: absolute;
   top: 14px;
   right: 56px;
+  height: 32px;
+  box-sizing: border-box;
 }
 
 .sound-wave-btn {

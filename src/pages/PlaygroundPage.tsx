@@ -15,7 +15,6 @@ interface PlayItem {
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  dev?: boolean
 }
 
 const ITEMS: PlayItem[] = [
@@ -206,11 +205,10 @@ const ITEMS: PlayItem[] = [
   {
     id: 19,
     title: 'Sound Wave — Live Rhythm',
-    desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork. Dev build, still rough around the edges.',
+    desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
     x: 1420, y: 1070, width: 320, height: 260,
     visualStyle: { background: '#0a0a0a' },
     renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
-    dev: true,
   },
 ]
 
@@ -303,7 +301,6 @@ export function PlaygroundPage() {
                   className="play-item-visual"
                   style={{ height: item.height, ...item.visualStyle }}
                 >
-                  {item.dev && <span className="play-item-dev-badge">Dev</span>}
                   {item.renderVisual
                     ? item.renderVisual(item.width, item.height)
                     : item.label && (
