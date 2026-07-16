@@ -72,7 +72,7 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
       // mirror for a natural selfie-view shadow
       const pts = hand.map(p => ({ x: (1 - p.x) * width, y: p.y * height }))
       const palmWidth = Math.hypot(pts[5].x - pts[17].x, pts[5].y - pts[17].y)
-      const fingerWidth = Math.max(7, palmWidth * 0.2)
+      const fingerWidth = Math.max(11, palmWidth * 0.34)
       ctx.lineWidth = fingerWidth
 
       ctx.beginPath()
