@@ -111,6 +111,9 @@ const SHAPES = SHAPE_DEFS.flatMap((def, typeIdx) =>
 )
 
 const NAME = 'Sri Cherry Kotamreddy'
+// Respelled for the speech engine — "Kotamreddy" as written gets read as
+// "Khotam"/"Cotam" (aspirated/hard K). This nudges an unaspirated "Ko" start.
+const PRONOUNCE_TEXT = 'Sri Cherry Kohtam Reddy'
 
 export function Hero() {
   const [roleIndex, setRoleIndex] = useState(0)
@@ -127,6 +130,8 @@ export function Hero() {
     if (!voices.length) return null
     const rank = (v: SpeechSynthesisVoice) => {
       const n = v.name.toLowerCase()
+      if (v.lang === 'en-IN' && /natural|neural/.test(n)) return 5
+      if (v.lang === 'en-IN') return 4
       if (/natural|neural/.test(n)) return 3
       if (/google|premium|enhanced/.test(n)) return 2
       if (/samantha|aria|jenny|ava|zira/.test(n)) return 1
@@ -138,9 +143,10 @@ export function Hero() {
   const pronounceName = () => {
     if (!('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()
-    const utterance = new SpeechSynthesisUtterance(NAME)
+    const utterance = new SpeechSynthesisUtterance(PRONOUNCE_TEXT)
     const voice = pickNaturalVoice()
     if (voice) utterance.voice = voice
+    utterance.lang = voice?.lang ?? 'en-IN'
     utterance.rate = 0.92
     utterance.pitch = 1
     utterance.onstart = () => setIsSpeaking(true)
