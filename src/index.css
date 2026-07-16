@@ -2271,7 +2271,7 @@ html[data-theme="dark"] .sticky-note::before {
   position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .play-item-link {
@@ -2300,6 +2300,7 @@ html[data-theme="dark"] .sticky-note::before {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-bottom: 6px;
 }
 
 .play-item-label {
