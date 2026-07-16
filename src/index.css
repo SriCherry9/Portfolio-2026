@@ -1908,6 +1908,153 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   color: white;
 }
 
+/* Hand shadow modal */
+
+.hs-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  animation: fade-up 0.3s ease forwards;
+}
+
+.hs-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.hs-modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.hs-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hs-window {
+  position: relative;
+  width: min(86vw, 820px);
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 10px #2a2118,
+    0 0 0 14px #171009,
+    0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.hs-scene {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #1a0f05 0%, #100a05 100%);
+  overflow: hidden;
+}
+
+.hs-light-shaft {
+  position: absolute;
+  top: -15%;
+  bottom: -15%;
+  left: 18%;
+  width: 64%;
+  background: linear-gradient(180deg, #ffcb70 0%, #ff9a2e 55%, #ff7b1c 100%);
+  filter: blur(22px);
+  opacity: 0.92;
+}
+
+.hs-video {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hs-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hs-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 40px;
+  text-align: center;
+  background: rgba(10, 6, 3, 0.55);
+}
+
+.hs-overlay-icon {
+  font-size: 56px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+}
+
+.hs-overlay-text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 340px;
+}
+
+.hs-start-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 10px 22px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hs-start-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.hs-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hs-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 /* ===== HEADER ===== */
 
 /* ===== PILL NAVIGATION ===== */

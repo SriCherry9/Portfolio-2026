@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { DustyGlassModal } from '../components/DustyGlassModal'
+import { HandShadowModal } from '../components/HandShadowModal'
 
 interface PlayItem {
   id: number
@@ -14,7 +15,7 @@ interface PlayItem {
   label?: string
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
-  interactive?: 'dusty-glass'
+  interactive?: 'dusty-glass' | 'hand-shadow'
 }
 
 const ITEMS: PlayItem[] = [
@@ -212,6 +213,20 @@ const ITEMS: PlayItem[] = [
     labelStyle: { fontSize: '80px', color: 'rgba(255,255,255,0.35)', fontWeight: '300', lineHeight: '1' },
     interactive: 'dusty-glass',
   },
+  {
+    id: 20,
+    title: 'Hand Shadows',
+    desc: 'Camera-tracked shadow puppets — cast your hand on the wall',
+    x: 1780, y: 1070, width: 300, height: 260,
+    visualStyle: {
+      background: [
+        'radial-gradient(ellipse 55% 90% at 50% 40%, #ffb84d 0%, #ff8a1e 40%, #492405 75%, #140a03 100%)',
+      ].join(', '),
+    },
+    label: '🖐',
+    labelStyle: { fontSize: '78px', color: 'rgba(0,0,0,0.5)', lineHeight: '1' },
+    interactive: 'hand-shadow',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -223,6 +238,7 @@ export function PlaygroundPage() {
   const animFrame = useRef<number | undefined>(undefined)
   const [isDragging, setIsDragging] = useState(false)
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
+  const [handShadowOpen, setHandShadowOpen] = useState(false)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -329,6 +345,21 @@ export function PlaygroundPage() {
                 </div>
               )
             }
+            if (item.interactive === 'hand-shadow') {
+              return (
+                <div
+                  key={item.id}
+                  className="play-item play-item-link"
+                  style={{ left: item.x, top: item.y, width: item.width }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setHandShadowOpen(true)}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setHandShadowOpen(true)}
+                >
+                  {content}
+                </div>
+              )
+            }
             return item.caseStudyPath ? (
               <Link
                 key={item.id}
@@ -364,6 +395,7 @@ export function PlaygroundPage() {
       </div>
 
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
+      {handShadowOpen && <HandShadowModal onClose={() => setHandShadowOpen(false)} />}
     </div>
   )
 }
