@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 
-const BRUSH_RADIUS = 30
+const BRUSH_RADIUS = 16
 
 interface DustyGlassModalProps {
   onClose: () => void
