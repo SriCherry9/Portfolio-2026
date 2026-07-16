@@ -1833,42 +1833,13 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   inset: 0;
 }
 
-.dg-scene-sky {
+.dg-scene-photo {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #dfe7ee 0%, #c3d2dd 45%, #9fb2c0 100%);
-  filter: blur(2px);
-}
-
-.dg-scene-hill {
-  position: absolute;
-  left: -10%;
-  right: -10%;
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  filter: blur(3px);
-}
-
-.dg-scene-hill--1 {
-  bottom: 14%;
-  height: 26%;
-  background: #eef3f6;
-  opacity: 0.9;
-}
-
-.dg-scene-hill--2 {
-  bottom: 0;
-  height: 20%;
-  background: #d8e2e8;
-}
-
-.dg-scene-ground {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 14%;
-  background: linear-gradient(180deg, #f4f8fa 0%, #e3ebee 100%);
-  filter: blur(1px);
+  inset: -2%;
+  background-image: url('/images/dusty-glass-snowy-forest.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(1.5px) saturate(0.95);
 }
 
 .dg-snowfall {

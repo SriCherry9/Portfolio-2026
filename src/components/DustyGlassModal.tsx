@@ -159,10 +159,7 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
 
         <div className="dg-window" ref={wrapRef}>
           <div className="dg-scene">
-            <div className="dg-scene-sky" />
-            <div className="dg-scene-hill dg-scene-hill--1" />
-            <div className="dg-scene-hill dg-scene-hill--2" />
-            <div className="dg-scene-ground" />
+            <div className="dg-scene-photo" />
             <div className="dg-snowfall">
               {snowflakes.map(flake => (
                 <span
