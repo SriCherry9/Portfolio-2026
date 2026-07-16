@@ -253,26 +253,15 @@ function stepBloom(
 
 interface BloomInput { energy: number; band: number; pitch: number; wave: number[] }
 
-// A gentle simulated pulse so a bloom canvas never sits dead before real audio takes over.
-function makeAmbientInput(): () => BloomInput {
-  const start = performance.now()
-  return () => {
-    const t = (performance.now() - start) / 1000
-    const cycle = t % 1.1
-    const energy = 0.02 + (cycle < 0.18 ? (1 - cycle / 0.18) * 0.35 : 0.015)
-    const band = Math.floor(t / 1.3)
-    const pitch = 0.3 + 0.5 * Math.abs(Math.sin(t * 0.7))
-    const wave = new Array(WAVE_POINTS)
-    for (let i = 0; i < WAVE_POINTS; i++) {
-      const phase = (i / WAVE_POINTS) * Math.PI * 2
-      wave[i] = Math.sin(phase * 3 + t * 2.5) * 0.5 + Math.sin(phase * 7 + t * 1.3) * 0.25
-    }
-    return { energy, band, pitch, wave }
-  }
+// Deliberately inert — no fabricated energy, so nothing gets added to the bloom
+// until real sound actually arrives. Just a small, still hub until you speak.
+function makeIdleInput(): () => BloomInput {
+  const wave = new Array(WAVE_POINTS).fill(0)
+  return () => ({ energy: 0, band: 0, pitch: 0.4, wave })
 }
 
 // Runs one continuous draw loop against whatever input source is currently referenced,
-// so switching from the ambient idle pulse to live mic data never restarts the canvas.
+// so switching from the idle state to live mic data never restarts the canvas.
 function useBloomLoop(
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
   width: number,
@@ -306,7 +295,7 @@ function BloomModal({ onClose }: { onClose: () => void }) {
   const audioCtxRef = useRef<AudioContext | null>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
-  const inputRef = useRef<() => BloomInput>(makeAmbientInput())
+  const inputRef = useRef<() => BloomInput>(makeIdleInput())
   const [status, setStatus] = useState<Status>('idle')
   const [size, setSize] = useState({ width: 800, height: 520 })
 
@@ -344,7 +333,7 @@ function BloomModal({ onClose }: { onClose: () => void }) {
     }
     audioCtxRef.current = null
     analyserRef.current = null
-    inputRef.current = makeAmbientInput()
+    inputRef.current = makeIdleInput()
     setStatus('idle')
   }
 
@@ -454,8 +443,8 @@ function BloomModal({ onClose }: { onClose: () => void }) {
 export function AudioRhythmVisualizer({ width, height }: AudioRhythmVisualizerProps) {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const [open, setOpen] = useState(false)
-  const ambientInputRef = useRef<() => BloomInput>(makeAmbientInput())
-  useBloomLoop(previewCanvasRef, width, height, ambientInputRef)
+  const idleInputRef = useRef<() => BloomInput>(makeIdleInput())
+  useBloomLoop(previewCanvasRef, width, height, idleInputRef)
 
   return (
     <div className="sound-wave-viz">
