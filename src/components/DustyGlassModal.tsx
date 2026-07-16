@@ -189,7 +189,7 @@ export function DustyGlassModal({ onClose }: DustyGlassModalProps) {
         </div>
 
         <div className="dg-controls">
-          <div className="dg-hint">DRAG TO WIPE THE GLASS</div>
+          <div className="dg-hint">Begin by writing on the glass to clear the fog</div>
           <button className="dg-refog" onClick={fogUp}>fog it up again ↻</button>
         </div>
       </div>
