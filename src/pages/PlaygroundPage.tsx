@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { DustyGlassModal } from '../components/DustyGlassModal'
 
 interface PlayItem {
   id: number
@@ -13,6 +14,7 @@ interface PlayItem {
   label?: string
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
+  interactive?: 'dusty-glass'
 }
 
 const ITEMS: PlayItem[] = [
@@ -200,6 +202,16 @@ const ITEMS: PlayItem[] = [
     },
     caseStudyPath: '/case-study/comic-strip',
   },
+  {
+    id: 19,
+    title: 'Dusty Glass',
+    desc: 'A fogged-up window — drag your cursor to wipe it clear',
+    x: 1430, y: 1070, width: 300, height: 260,
+    visualStyle: { background: 'linear-gradient(160deg, #d6dbdc 0%, #aeb7ba 55%, #8b969a 100%)' },
+    label: '❄',
+    labelStyle: { fontSize: '80px', color: 'rgba(255,255,255,0.35)', fontWeight: '300', lineHeight: '1' },
+    interactive: 'dusty-glass',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -210,6 +222,7 @@ export function PlaygroundPage() {
   const velocity = useRef({ x: 0, y: 0 })
   const animFrame = useRef<number | undefined>(undefined)
   const [isDragging, setIsDragging] = useState(false)
+  const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -301,6 +314,21 @@ export function PlaygroundPage() {
                 <p className="play-item-desc">{item.desc}</p>
               </>
             )
+            if (item.interactive === 'dusty-glass') {
+              return (
+                <div
+                  key={item.id}
+                  className="play-item play-item-link"
+                  style={{ left: item.x, top: item.y, width: item.width }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setDustyGlassOpen(true)}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setDustyGlassOpen(true)}
+                >
+                  {content}
+                </div>
+              )
+            }
             return item.caseStudyPath ? (
               <Link
                 key={item.id}
@@ -334,6 +362,8 @@ export function PlaygroundPage() {
           SCROLL/DRAG TO MOVE
         </div>
       </div>
+
+      {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
     </div>
   )
 }

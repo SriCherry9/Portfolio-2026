@@ -1772,6 +1772,160 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   background: rgba(255,255,255,0.1);
 }
 
+/* Dusty glass modal */
+.dg-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  animation: fade-up 0.3s ease forwards;
+}
+
+.dg-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.dg-modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.dg-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dg-window {
+  position: relative;
+  width: min(86vw, 820px);
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 10px #d8d3c8,
+    0 0 0 14px #b0aa9c,
+    0 30px 80px rgba(0, 0, 0, 0.5);
+  cursor: crosshair;
+}
+
+.dg-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.dg-scene-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #2b3a67 0%, #4a5a8f 35%, #b98a72 75%, #e8b385 100%);
+  filter: blur(2px);
+}
+
+.dg-scene-light {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(6px);
+  opacity: 0.85;
+}
+
+.dg-scene-light--1 { width: 46px; height: 46px; left: 18%; top: 22%; background: #ffe9b0; }
+.dg-scene-light--2 { width: 30px; height: 30px; left: 62%; top: 40%; background: #ffd9a0; }
+.dg-scene-light--3 { width: 60px; height: 60px; left: 78%; top: 15%; background: #fff4d6; }
+
+.dg-scene-ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  background: linear-gradient(180deg, #1c2333 0%, #0c0f18 100%);
+  filter: blur(2px);
+}
+
+.dg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.dg-frame-mullion {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.dg-frame-mullion--v {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  transform: translateX(-50%);
+}
+
+.dg-frame-mullion--h {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 8px;
+  transform: translateY(-50%);
+}
+
+.dg-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dg-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.dg-refog {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dg-refog:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
 /* ===== HEADER ===== */
 
 /* ===== PILL NAVIGATION ===== */
