@@ -7,17 +7,17 @@ interface HandShadowModalProps {
 
 type Stage = 'start' | 'loading' | 'active' | 'denied' | 'unsupported'
 
-// MediaPipe's standard 21-point hand skeleton, wrist(0) → fingertips.
-const HAND_CONNECTIONS: Array<[number, number]> = [
-  [0, 1], [1, 2], [2, 3], [3, 4],
-  [0, 5], [5, 6], [6, 7], [7, 8],
-  [5, 9], [9, 10], [10, 11], [11, 12],
-  [9, 13], [13, 14], [14, 15], [15, 16],
-  [13, 17], [17, 18], [18, 19], [19, 20],
-  [0, 17],
-]
 const FINGERTIPS = [4, 8, 12, 16, 20]
 const PALM = [0, 5, 9, 13, 17]
+// finger bones only — palm-boundary segments are covered by the palm fill instead,
+// so fingers stay thin and separated rather than fusing into one blobby mass
+const FINGER_BONES: Array<[number, number]> = [
+  [0, 1], [1, 2], [2, 3], [3, 4],
+  [5, 6], [6, 7], [7, 8],
+  [9, 10], [10, 11], [11, 12],
+  [13, 14], [14, 15], [15, 16],
+  [17, 18], [18, 19], [19, 20],
+]
 
 export function HandShadowModal({ onClose }: HandShadowModalProps) {
   const [stage, setStage] = useState<Stage>('start')
@@ -60,7 +60,7 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, width, height)
-    ctx.filter = 'blur(3px)'
+    ctx.filter = 'blur(1.2px)'
     ctx.fillStyle = '#0a0704'
     ctx.strokeStyle = '#0a0704'
     ctx.lineCap = 'round'
@@ -71,17 +71,18 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
     for (const hand of results.landmarks) {
       // mirror for a natural selfie-view shadow
       const pts = hand.map(p => ({ x: (1 - p.x) * width, y: p.y * height }))
-      const span = Math.hypot(pts[0].x - pts[9].x, pts[0].y - pts[9].y)
-      const strokeWidth = Math.max(16, span * 0.85)
-      ctx.lineWidth = strokeWidth
+      const palmWidth = Math.hypot(pts[5].x - pts[17].x, pts[5].y - pts[17].y)
+      const fingerWidth = Math.max(7, palmWidth * 0.2)
+      ctx.lineWidth = fingerWidth
 
       ctx.beginPath()
-      for (const [a, b] of HAND_CONNECTIONS) {
+      for (const [a, b] of FINGER_BONES) {
         ctx.moveTo(pts[a].x, pts[a].y)
         ctx.lineTo(pts[b].x, pts[b].y)
       }
       ctx.stroke()
 
+      // palm: filled polygon plus a wrist taper so it reads as a hand, not a mitten
       ctx.beginPath()
       ctx.moveTo(pts[PALM[0]].x, pts[PALM[0]].y)
       for (const i of PALM.slice(1)) ctx.lineTo(pts[i].x, pts[i].y)
@@ -90,7 +91,7 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
 
       for (const i of FINGERTIPS) {
         ctx.beginPath()
-        ctx.arc(pts[i].x, pts[i].y, strokeWidth * 0.55, 0, Math.PI * 2)
+        ctx.arc(pts[i].x, pts[i].y, fingerWidth * 0.52, 0, Math.PI * 2)
         ctx.fill()
       }
     }
