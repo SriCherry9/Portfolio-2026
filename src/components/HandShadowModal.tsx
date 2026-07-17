@@ -88,6 +88,36 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
       for (const i of PALM.slice(1)) ctx.lineTo(pts[i].x, pts[i].y)
       ctx.closePath()
       ctx.fill()
+
+      // the landmark model stops at the wrist — extrapolate a tapered forearm
+      // beyond it so the shadow reads as an arm reaching in, not a floating hand
+      const wrist = pts[0]
+      const midMcp = pts[9]
+      const dx = wrist.x - midMcp.x
+      const dy = wrist.y - midMcp.y
+      const dirLen = Math.hypot(dx, dy) || 1
+      const dirX = dx / dirLen
+      const dirY = dy / dirLen
+      const perpX = -dirY
+      const perpY = dirX
+
+      // start the taper a little inside the palm so it overlaps rather than
+      // butting against it, avoiding a visible "cuff" seam once blurred
+      const nearX = wrist.x - dirX * palmWidth * 0.25
+      const nearY = wrist.y - dirY * palmWidth * 0.25
+      const forearmLen = palmWidth * 3.6
+      const nearHalf = palmWidth * 0.62
+      const farHalf = palmWidth * 0.72
+      const farX = wrist.x + dirX * forearmLen
+      const farY = wrist.y + dirY * forearmLen
+
+      ctx.beginPath()
+      ctx.moveTo(nearX + perpX * nearHalf, nearY + perpY * nearHalf)
+      ctx.lineTo(farX + perpX * farHalf, farY + perpY * farHalf)
+      ctx.lineTo(farX - perpX * farHalf, farY - perpY * farHalf)
+      ctx.lineTo(nearX - perpX * nearHalf, nearY - perpY * nearHalf)
+      ctx.closePath()
+      ctx.fill()
     }
     ctx.filter = 'none'
   }
