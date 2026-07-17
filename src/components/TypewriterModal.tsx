@@ -85,6 +85,81 @@ function resolveKeyId(key: string): string | null {
   return null
 }
 
+const PAPER_WIDTH = 1700
+const PAPER_MARGIN_X = 150
+const PAPER_MARGIN_TOP = 190
+const PAPER_MARGIN_BOTTOM = 150
+const PAPER_FONT_SIZE = 32
+const PAPER_LINE_HEIGHT = Math.round(PAPER_FONT_SIZE * 1.75)
+const PAPER_FONT = `${PAPER_FONT_SIZE}px "Courier New", Courier, monospace`
+
+function wrapLetterText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+  const lines: string[] = []
+  for (const paragraph of text.split('\n')) {
+    if (paragraph === '') {
+      lines.push('')
+      continue
+    }
+    let current = ''
+    for (const word of paragraph.split(' ')) {
+      const candidate = current ? `${current} ${word}` : word
+      if (current && ctx.measureText(candidate).width > maxWidth) {
+        lines.push(current)
+        current = word
+      } else {
+        current = candidate
+      }
+    }
+    lines.push(current)
+  }
+  return lines
+}
+
+function renderLetterToPaper(text: string): Promise<Blob | null> {
+  const measureCtx = document.createElement('canvas').getContext('2d')!
+  measureCtx.font = PAPER_FONT
+  const lines = wrapLetterText(measureCtx, text, PAPER_WIDTH - PAPER_MARGIN_X * 2)
+
+  const contentHeight = lines.length * PAPER_LINE_HEIGHT
+  const height = Math.max(2200, PAPER_MARGIN_TOP + PAPER_MARGIN_BOTTOM + contentHeight)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = PAPER_WIDTH
+  canvas.height = height
+  const ctx = canvas.getContext('2d')!
+
+  ctx.fillStyle = '#fbf6ec'
+  ctx.fillRect(0, 0, PAPER_WIDTH, height)
+
+  const vignette = ctx.createRadialGradient(
+    PAPER_WIDTH / 2, height / 2, height * 0.35,
+    PAPER_WIDTH / 2, height / 2, height * 0.78
+  )
+  vignette.addColorStop(0, 'rgba(0, 0, 0, 0)')
+  vignette.addColorStop(1, 'rgba(110, 90, 60, 0.1)')
+  ctx.fillStyle = vignette
+  ctx.fillRect(0, 0, PAPER_WIDTH, height)
+
+  ctx.strokeStyle = 'rgba(60, 50, 40, 0.12)'
+  ctx.lineWidth = 1
+  lines.forEach((_, i) => {
+    const ruleY = PAPER_MARGIN_TOP + i * PAPER_LINE_HEIGHT + PAPER_FONT_SIZE * 0.3
+    ctx.beginPath()
+    ctx.moveTo(PAPER_MARGIN_X, ruleY)
+    ctx.lineTo(PAPER_WIDTH - PAPER_MARGIN_X, ruleY)
+    ctx.stroke()
+  })
+
+  ctx.fillStyle = '#2c2a25'
+  ctx.font = PAPER_FONT
+  ctx.textBaseline = 'alphabetic'
+  lines.forEach((line, i) => {
+    ctx.fillText(line, PAPER_MARGIN_X, PAPER_MARGIN_TOP + i * PAPER_LINE_HEIGHT)
+  })
+
+  return new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+}
+
 interface TypewriterModalProps {
   onClose: () => void
 }
@@ -130,12 +205,13 @@ export function TypewriterModal({ onClose }: TypewriterModalProps) {
     })
   }
 
-  const handleDownload = () => {
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+  const handleDownload = async () => {
+    const blob = await renderLetterToPaper(text)
+    if (!blob) return
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'letter.txt'
+    a.download = 'letter.png'
     document.body.appendChild(a)
     a.click()
     a.remove()

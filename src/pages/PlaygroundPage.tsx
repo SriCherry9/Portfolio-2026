@@ -27,7 +27,7 @@ const ITEMS: PlayItem[] = [
     id: 20,
     title: 'Sound Wave — Live Rhythm',
     desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
-    x: 60, y: 70, width: 320, height: 260,
+    x: 2480, y: 1070, width: 320, height: 260,
     visualStyle: { background: '#0a0a0a' },
     renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
   },
@@ -260,7 +260,7 @@ const ITEMS: PlayItem[] = [
     id: 24,
     title: 'Write a Letter',
     desc: 'A cherry-red Hermes Baby — type on your keyboard and watch the keys strike home, then take your letter with you',
-    x: 2480, y: 1070, width: 320, height: 260,
+    x: 60, y: 70, width: 320, height: 260,
     visualStyle: {
       background: '#f2ece1',
       backgroundImage: 'url(/images/Typewriter.webp)',
