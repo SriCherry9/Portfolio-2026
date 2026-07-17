@@ -251,6 +251,212 @@ function stepBloom(
   ctx.restore()
 }
 
+const FLOW_HISTORY = 220
+const FLOW_LANES = 4
+const FLOW_COLORS = ['#c084fc', '#7ed321', '#ff6a3d', '#ffd23f']
+
+interface FlowState { lanes: number[][] }
+
+function createFlowState(): FlowState {
+  return { lanes: Array.from({ length: FLOW_LANES }, () => new Array(FLOW_HISTORY).fill(0)) }
+}
+
+// Streamline style (inspired by the inference.NET flow-field reference) — each lane
+// scrolls forward carrying a literal slice of the live waveform, so the flowing,
+// weaving lines are always tracing real sound rather than decoration.
+function stepFlow(
+  state: FlowState,
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  energy: number,
+  band: number,
+  pitch: number,
+  wave: number[],
+) {
+  state.lanes.forEach((lane, i) => {
+    lane.shift()
+    const sampleIdx = Math.floor((i / FLOW_LANES) * wave.length)
+    lane.push(wave[sampleIdx] ?? 0)
+  })
+
+  ctx.fillStyle = '#0a0a0a'
+  ctx.fillRect(0, 0, width, height)
+
+  ctx.globalAlpha = 0.12
+  ctx.fillStyle = '#ffffff'
+  const gap = 26
+  for (let gx = gap / 2; gx < width; gx += gap) {
+    for (let gy = gap / 2; gy < height; gy += gap) {
+      ctx.beginPath()
+      ctx.arc(gx, gy, 1, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }
+  ctx.globalAlpha = 1
+
+  const ampScale = height * (0.2 + energy * 0.24)
+  const step = width / (FLOW_HISTORY - 1)
+
+  state.lanes.forEach((lane, i) => {
+    const baseY = height / 2 + (i - (FLOW_LANES - 1) / 2) * (height * 0.09)
+    const isActive = i === band % FLOW_LANES
+    const color = mixHex(FLOW_COLORS[i % FLOW_COLORS.length], '#ffffff', pitch * 0.25)
+    ctx.strokeStyle = color
+    ctx.lineWidth = isActive ? 2.6 + energy * 2 : 1.4
+    ctx.globalAlpha = isActive ? 0.95 : 0.6
+    ctx.beginPath()
+    lane.forEach((v, j) => {
+      const x = j * step
+      const y = baseY + v * ampScale
+      if (j === 0) ctx.moveTo(x, y)
+      else ctx.lineTo(x, y)
+    })
+    ctx.stroke()
+  })
+  ctx.globalAlpha = 1
+
+  const hubColor = mixHex('#ff4fd8', '#3ec5ff', pitch)
+  const hubR = 4 + energy * 14
+  ctx.save()
+  ctx.shadowBlur = 10 + energy * 18
+  ctx.shadowColor = hubColor
+  ctx.fillStyle = hubColor
+  ctx.beginPath()
+  ctx.arc(width - 22, height - 22, hubR, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.restore()
+}
+
+interface Streak { angle: number; length: number; bornAt: number; color: string; wobble: number }
+interface BurstState { streaks: Streak[]; avgEnergy: number; lastSpawn: number; seedCounter: number }
+
+function createBurstState(): BurstState {
+  return { streaks: [], avgEnergy: 0, lastSpawn: 0, seedCounter: 0 }
+}
+
+const MAX_STREAKS = 90
+
+// Starburst style (inspired by the inference kite/firework reference) — every
+// detected beat fires a new streak outward from the center line. Streaks closer
+// to vertical run longer, giving the kite silhouette; louder hits reach further;
+// pitch + speed add wobble to the streak's path.
+function stepBurst(
+  state: BurstState,
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  energy: number,
+  band: number,
+  pitch: number,
+  wave: number[],
+) {
+  const now = performance.now()
+  state.avgEnergy = state.avgEnergy * 0.95 + energy * 0.05
+  const threshold = state.avgEnergy * 1.6 + 0.018
+  if (energy > threshold && now - state.lastSpawn > 180) {
+    const interval = now - state.lastSpawn
+    state.lastSpawn = now
+    state.seedCounter += 1
+    const rand = mulberry32(state.seedCounter * 733 + 41 + band)
+
+    const speedNorm = Math.max(0, Math.min(1, 1 - interval / 700))
+    const energyNorm = Math.max(0, Math.min(1, energy))
+    const angle = (rand() * 2 - 1) * Math.PI
+    const verticalBias = Math.abs(Math.sin(angle))
+    const length = Math.min(width, height) * (0.15 + verticalBias * 0.55) * (0.5 + energyNorm * 1.1)
+    const wobble = 0.1 + pitch * 0.4 + speedNorm * 0.3
+    const color = PALETTE[Math.floor(rand() * PALETTE.length)]
+
+    state.streaks.push({ angle, length, bornAt: now, color, wobble })
+    if (state.streaks.length > MAX_STREAKS) state.streaks.shift()
+  }
+
+  ctx.fillStyle = '#0a0a0a'
+  ctx.fillRect(0, 0, width, height)
+
+  const cx = width / 2
+  const cy = height / 2
+  const waveEnergy = wave.reduce((a, b) => a + Math.abs(b), 0) / wave.length
+  const hubColor = mixHex('#ff4fd8', '#3ec5ff', pitch)
+
+  ctx.globalAlpha = 0.4
+  ctx.strokeStyle = hubColor
+  ctx.lineWidth = 1.5 + waveEnergy * 5
+  ctx.beginPath()
+  ctx.moveTo(0, cy)
+  ctx.lineTo(width, cy)
+  ctx.stroke()
+  ctx.globalAlpha = 1
+
+  state.streaks.forEach(streak => {
+    const age = now - streak.bornAt
+    const pop = Math.min(1, age / 260)
+    const len = streak.length * pop
+    const segs = 8
+    const perpAngle = streak.angle + Math.PI / 2
+
+    ctx.globalAlpha = 0.5 + pop * 0.4
+    ctx.strokeStyle = streak.color
+    ctx.lineWidth = 1.6
+    ctx.beginPath()
+    for (let s = 0; s <= segs; s++) {
+      const t = s / segs
+      const wob = Math.sin(t * Math.PI * 4 + streak.bornAt * 0.01) * streak.wobble * 10 * t
+      const baseX = cx + Math.cos(streak.angle) * len * t
+      const baseY = cy + Math.sin(streak.angle) * len * t
+      const x = baseX + Math.cos(perpAngle) * wob
+      const y = baseY + Math.sin(perpAngle) * wob
+      if (s === 0) ctx.moveTo(x, y)
+      else ctx.lineTo(x, y)
+    }
+    ctx.stroke()
+  })
+  ctx.globalAlpha = 1
+
+  const hubR = 4 + energy * 16
+  ctx.save()
+  ctx.shadowBlur = 12 + energy * 20
+  ctx.shadowColor = hubColor
+  ctx.fillStyle = hubColor
+  ctx.beginPath()
+  ctx.arc(cx, cy, hubR, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.restore()
+}
+
+type StyleState =
+  | { kind: 'bloom'; s: BloomState }
+  | { kind: 'flow'; s: FlowState }
+  | { kind: 'burst'; s: BurstState }
+
+const STYLE_KINDS: StyleState['kind'][] = ['bloom', 'flow', 'burst']
+
+function pickRandomStyleKind(): StyleState['kind'] {
+  return STYLE_KINDS[Math.floor(Math.random() * STYLE_KINDS.length)]
+}
+
+function createStyleState(kind: StyleState['kind']): StyleState {
+  if (kind === 'flow') return { kind, s: createFlowState() }
+  if (kind === 'burst') return { kind, s: createBurstState() }
+  return { kind: 'bloom', s: createBloomState() }
+}
+
+function stepStyle(
+  style: StyleState,
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  energy: number,
+  band: number,
+  pitch: number,
+  wave: number[],
+) {
+  if (style.kind === 'flow') stepFlow(style.s, ctx, width, height, energy, band, pitch, wave)
+  else if (style.kind === 'burst') stepBurst(style.s, ctx, width, height, energy, band, pitch, wave)
+  else stepBloom(style.s, ctx, width, height, energy, band, pitch, wave)
+}
+
 interface BloomInput { energy: number; band: number; pitch: number; wave: number[] }
 
 // Deliberately inert — no fabricated energy, so nothing gets added to the bloom
@@ -260,13 +466,15 @@ function makeIdleInput(): () => BloomInput {
   return () => ({ energy: 0, band: 0, pitch: 0.4, wave })
 }
 
-// Runs one continuous draw loop against whatever input source is currently referenced,
-// so switching from the idle state to live mic data never restarts the canvas.
-function useBloomLoop(
+// Runs one continuous draw loop against whatever input source and style state are
+// currently referenced, so switching from the idle state to live mic data — or
+// rolling a fresh style for a new listening session — never restarts the canvas.
+function useVisualizerLoop(
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
   width: number,
   height: number,
   inputRef: React.RefObject<() => BloomInput>,
+  styleRef: React.RefObject<StyleState>,
 ) {
   useEffect(() => {
     const canvas = canvasRef.current
@@ -278,16 +486,15 @@ function useBloomLoop(
     if (!ctx) return
     ctx.scale(dpr, dpr)
 
-    const state = createBloomState()
     let raf: number
     const loop = () => {
       const { energy, band, pitch, wave } = inputRef.current()
-      stepBloom(state, ctx, width, height, energy, band, pitch, wave)
+      stepStyle(styleRef.current, ctx, width, height, energy, band, pitch, wave)
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(raf)
-  }, [canvasRef, width, height, inputRef])
+  }, [canvasRef, width, height, inputRef, styleRef])
 }
 
 function BloomModal({ onClose }: { onClose: () => void }) {
@@ -296,6 +503,7 @@ function BloomModal({ onClose }: { onClose: () => void }) {
   const analyserRef = useRef<AnalyserNode | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const inputRef = useRef<() => BloomInput>(makeIdleInput())
+  const styleRef = useRef<StyleState>(createStyleState(pickRandomStyleKind()))
   const [status, setStatus] = useState<Status>('idle')
   const [size, setSize] = useState({ width: 800, height: 520 })
 
@@ -323,7 +531,7 @@ function BloomModal({ onClose }: { onClose: () => void }) {
     }
   }, [onClose])
 
-  useBloomLoop(canvasRef, size.width, size.height, inputRef)
+  useVisualizerLoop(canvasRef, size.width, size.height, inputRef, styleRef)
 
   const stop = () => {
     streamRef.current?.getTracks().forEach(track => track.stop())
@@ -342,6 +550,9 @@ function BloomModal({ onClose }: { onClose: () => void }) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       streamRef.current = stream
+
+      // Fresh artwork for this session — a new random style, blank canvas.
+      styleRef.current = createStyleState(pickRandomStyleKind())
 
       const audioCtx = new AudioContext()
       audioCtxRef.current = audioCtx
@@ -444,7 +655,8 @@ export function AudioRhythmVisualizer({ width, height }: AudioRhythmVisualizerPr
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const [open, setOpen] = useState(false)
   const idleInputRef = useRef<() => BloomInput>(makeIdleInput())
-  useBloomLoop(previewCanvasRef, width, height, idleInputRef)
+  const previewStyleRef = useRef<StyleState>(createStyleState('bloom'))
+  useVisualizerLoop(previewCanvasRef, width, height, idleInputRef, previewStyleRef)
 
   return (
     <div className="sound-wave-viz">
