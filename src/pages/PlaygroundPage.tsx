@@ -5,6 +5,7 @@ import { DustyGlassModal } from '../components/DustyGlassModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 import { TypewriterModal } from '../components/TypewriterModal'
 import { ImageLightboxModal } from '../components/ImageLightboxModal'
+import { BubbleMakerModal } from '../components/BubbleMakerModal'
 
 interface BaseItem {
   id: number
@@ -15,7 +16,7 @@ interface BaseItem {
   visualStyle: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image'
+  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image' | 'bubbles'
   imageSrc?: string
   /** Kept near the top of the cluster instead of scattered anywhere within it */
   pinned?: boolean
@@ -87,6 +88,20 @@ const BASE_ITEMS: BaseItem[] = [
     pinned: true,
   },
   {
+    id: 27,
+    title: 'Blow Bubbles',
+    desc: 'A bubble wand and a mic — blow, and watch iridescent bubbles drift up into the sky',
+    width: 280, height: 280,
+    visualStyle: {
+      background: '#8fcdef',
+      backgroundImage: 'url(/images/bubble-maker-cover.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    interactive: 'bubbles',
+    pinned: true,
+  },
+  {
     id: 20,
     title: 'Sound Wave — Live Rhythm',
     desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
@@ -154,11 +169,11 @@ const CAPTION_ALLOWANCE = 100
  * top band; everything else fills in around them.
  */
 function scatterLayout(items: BaseItem[]): PlayItem[] {
-  const GAP = 56
+  const GAP = 32
   const placed: { x: number; y: number; w: number; h: number }[] = []
-  let xMax = 950
-  let pinnedYMax = 400
-  let restYMax = 780
+  let xMax = 1400
+  let pinnedYMax = 820
+  let restYMax = 1400
 
   const overlaps = (x: number, y: number, w: number, h: number) =>
     placed.some(p =>
@@ -167,9 +182,9 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
     )
 
   const place = (w: number, h: number, growY: () => void, getYMax: () => number) => {
-    for (let round = 0; round < 14; round++) {
+    for (let round = 0; round < 8; round++) {
       const yMax = getYMax()
-      for (let attempt = 0; attempt < 250; attempt++) {
+      for (let attempt = 0; attempt < 1500; attempt++) {
         const x = Math.round(Math.random() * Math.max(0, xMax - w))
         const y = Math.round(40 + Math.random() * Math.max(0, yMax - 40 - h))
         if (!overlaps(x, y, w, h)) {
@@ -177,7 +192,7 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
           return { x, y }
         }
       }
-      xMax *= 1.12
+      xMax *= 1.05
       growY()
     }
     const fallbackX = placed.reduce((max, p) => Math.max(max, p.x + p.w), 0) + GAP
@@ -187,10 +202,10 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
 
   const positions = new Map<number, { x: number; y: number }>()
   for (const item of shuffle(items.filter(i => i.pinned))) {
-    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { pinnedYMax *= 1.12 }, () => pinnedYMax))
+    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { pinnedYMax *= 1.05 }, () => pinnedYMax))
   }
   for (const item of shuffle(items.filter(i => !i.pinned))) {
-    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { restYMax *= 1.12 }, () => restYMax))
+    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { restYMax *= 1.05 }, () => restYMax))
   }
 
   return items.map(item => ({ ...item, ...positions.get(item.id)! }))
@@ -199,7 +214,7 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
 const ITEMS: PlayItem[] = scatterLayout(BASE_ITEMS)
 
 // Bounding box of the packed cluster, padded so repeated copies read as distinct tiles.
-const TILE_GAP = 170
+const TILE_GAP = 80
 const CLUSTER_WIDTH = Math.max(...ITEMS.map(i => i.x + i.width)) + TILE_GAP
 const CLUSTER_HEIGHT = Math.max(...ITEMS.map(i => i.y + i.height + CAPTION_ALLOWANCE)) + TILE_GAP
 
@@ -217,6 +232,7 @@ export function PlaygroundPage() {
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
   const [typewriterOpen, setTypewriterOpen] = useState(false)
+  const [bubbleMakerOpen, setBubbleMakerOpen] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<PlayItem | null>(null)
 
   useEffect(() => {
@@ -365,6 +381,21 @@ export function PlaygroundPage() {
         </div>
       )
     }
+    if (item.interactive === 'bubbles') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setBubbleMakerOpen(true)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setBubbleMakerOpen(true)}
+        >
+          {content}
+        </div>
+      )
+    }
     if (item.interactive === 'image') {
       return (
         <div
@@ -433,6 +464,7 @@ export function PlaygroundPage() {
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
       {typewriterOpen && <TypewriterModal onClose={() => setTypewriterOpen(false)} />}
+      {bubbleMakerOpen && <BubbleMakerModal onClose={() => setBubbleMakerOpen(false)} />}
       {lightboxItem && (
         <ImageLightboxModal
           src={lightboxItem.imageSrc!}
