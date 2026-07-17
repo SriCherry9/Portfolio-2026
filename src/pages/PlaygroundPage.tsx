@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
+import { CandleBlowVisualizer } from '../components/CandleBlowVisualizer'
 import { DustyGlassModal } from '../components/DustyGlassModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 
@@ -22,10 +23,18 @@ interface PlayItem {
 
 const ITEMS: PlayItem[] = [
   {
+    id: 24,
+    title: 'Blow Out the Candle',
+    desc: 'Grant mic access, then blow into your microphone — the flame catches your breath and gutters out',
+    x: 60, y: 70, width: 300, height: 260,
+    visualStyle: { background: 'radial-gradient(ellipse at 50% 30%, #2a1a0d 0%, #150b06 75%)' },
+    renderVisual: (w, h) => <CandleBlowVisualizer width={w} height={h} />,
+  },
+  {
     id: 23,
     title: 'Ball Pit',
     desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
-    x: 60, y: 70, width: 300, height: 260,
+    x: 400, y: 70, width: 300, height: 260,
     visualStyle: {
       background: '#1c2e08',
       backgroundImage: 'url(/images/ball-pit-cover.jpg)',
@@ -38,7 +47,7 @@ const ITEMS: PlayItem[] = [
     id: 20,
     title: 'Sound Wave — Live Rhythm',
     desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
-    x: 400, y: 70, width: 320, height: 260,
+    x: 740, y: 70, width: 320, height: 260,
     visualStyle: { background: '#0a0a0a' },
     renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
   },
@@ -48,7 +57,7 @@ const ITEMS: PlayItem[] = [
     id: 19,
     title: 'Draw on the Glass',
     desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
-    x: 760, y: 70, width: 300, height: 220,
+    x: 1100, y: 70, width: 300, height: 220,
     visualStyle: {
       background: '#c7ced0',
       backgroundImage: 'url(/images/dusty-glass-cover.jpg)',
@@ -61,21 +70,21 @@ const ITEMS: PlayItem[] = [
     id: 1,
     title: 'Gradient Study No. 01',
     desc: 'Exploring warm hue transitions and color theory',
-    x: 1100, y: 70, width: 310, height: 230,
+    x: 1440, y: 70, width: 310, height: 230,
     visualStyle: { background: 'linear-gradient(145deg, #ffecd2 0%, #fcb69f 50%, #f6a09a 100%)' },
   },
   {
     id: 2,
     title: 'Violet Hour',
     desc: 'Portrait study — digital painting series',
-    x: 1460, y: 50, width: 210, height: 310,
+    x: 1800, y: 50, width: 210, height: 310,
     visualStyle: { background: 'linear-gradient(180deg, #5c3d8f 0%, #a855f7 40%, #ec4899 100%)' },
   },
   {
     id: 3,
     title: 'Generative Circles',
     desc: 'Canvas API with Perlin noise displacement',
-    x: 1720, y: 70, width: 390, height: 270,
+    x: 2060, y: 70, width: 390, height: 270,
     visualStyle: {
       background: [
         'radial-gradient(ellipse at 30% 50%, rgba(255,77,77,0.9) 0%, transparent 45%)',
@@ -89,14 +98,14 @@ const ITEMS: PlayItem[] = [
     id: 4,
     title: 'Morning Blue',
     desc: 'Photography — early morning fog series',
-    x: 2160, y: 60, width: 250, height: 240,
+    x: 2500, y: 60, width: 250, height: 240,
     visualStyle: { background: 'linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%)' },
   },
   {
     id: 5,
     title: 'Editorial Layout',
     desc: 'Typographic composition for a magazine feature',
-    x: 2460, y: 50, width: 270, height: 380,
+    x: 2800, y: 50, width: 270, height: 380,
     visualStyle: { background: 'linear-gradient(135deg, #f5e6d3 0%, #e8c9a0 100%)' },
     label: '01',
     labelStyle: {
