@@ -13,118 +13,29 @@ const BLOW_HOLD_MS = 220
 const SMOKE_DURATION_MS = 2200
 
 function FlameGraphic({ gradId }: { gradId: string }) {
-  const coreId = `${gradId}-core`
-  const baseId = `${gradId}-base`
   return (
     <>
       <div className="candle-glow" />
-      <svg className="candle-flame-svg" viewBox="0 0 30 70">
+      <svg className="candle-flame-svg" viewBox="0 0 40 64">
         <defs>
-          <radialGradient id={gradId} cx="50%" cy="88%" r="78%">
-            <stop offset="0%" stopColor="#fffdf2" />
-            <stop offset="26%" stopColor="#ffe27a" />
-            <stop offset="55%" stopColor="#ffa93f" />
-            <stop offset="82%" stopColor="#ff6a1f" />
-            <stop offset="100%" stopColor="#e8431a" stopOpacity="0.8" />
-          </radialGradient>
-          <radialGradient id={coreId} cx="50%" cy="90%" r="48%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="55%" stopColor="#fff6d0" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#fff6d0" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id={baseId} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#cdeaff" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#8fc4ee" stopOpacity="0" />
+          <radialGradient id={gradId} cx="50%" cy="78%" r="70%">
+            <stop offset="0%" stopColor="#fff6d0" />
+            <stop offset="35%" stopColor="#ffd23f" />
+            <stop offset="72%" stopColor="#ff9d2e" />
+            <stop offset="100%" stopColor="#ff5a1f" />
           </radialGradient>
         </defs>
         <path
-          d="M15 2C9 14 5 26 5 37C5 52.5 9.5 65 15 68C20.5 65 25 52.5 25 37C25 26 21 14 15 2Z"
+          d="M20 2C11 16 6 27 6 38C6 51.2548 12.268 60 20 60C27.732 60 34 51.2548 34 38C34 27 29 16 20 2Z"
           fill={`url(#${gradId})`}
         />
-        <ellipse cx="15" cy="58" rx="4" ry="6" fill={`url(#${baseId})`} />
         <path
-          d="M15 30C11 38 9 45 9 51C9 57.5 11.7 62 15 62C18.3 62 21 57.5 21 51C21 45 19 38 15 30Z"
-          fill={`url(#${coreId})`}
+          d="M20 27C15.5 34.5 13.5 40 13.5 45C13.5 50.2 16.4 54 20 54C23.6 54 26.5 50.2 26.5 45C26.5 40 24.5 34.5 20 27Z"
+          fill="#fff8e0"
+          opacity="0.7"
         />
       </svg>
     </>
-  )
-}
-
-function CandleWaxGraphic({ gradId }: { gradId: string }) {
-  const bodyId = `${gradId}-wax-body`
-  const paleId = `${gradId}-wax-pale`
-  const ambId = `${gradId}-wax-amber`
-  return (
-    <svg className="candle-wax-svg" viewBox="0 0 64 136" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id={bodyId} x1="15%" y1="0%" x2="85%" y2="100%">
-          <stop offset="0%" stopColor="#fffaee" />
-          <stop offset="32%" stopColor="#f8dea3" />
-          <stop offset="62%" stopColor="#eda75e" />
-          <stop offset="100%" stopColor="#cf6a37" />
-        </linearGradient>
-        <linearGradient id={paleId} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#fffdf6" stopOpacity="0.92" />
-          <stop offset="100%" stopColor="#ffe6b0" stopOpacity="0.35" />
-        </linearGradient>
-        <linearGradient id={ambId} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#f2ba72" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#c04f27" stopOpacity="0.8" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M15,17 C10,11 14,4 21,6 C23,1 30,-1 33,4 C38,-1 45,2 45,8
-           C51,5 57,10 53,17 C59,24 60,36 53,44 C60,54 58,68 50,76
-           C57,86 55,100 46,108 C52,114 49,121 42,125
-           L19,125 C12,121 10,114 16,108
-           C8,100 6,86 13,76 C5,68 3,54 10,44 C4,36 5,24 11,17
-           C6,10 9,4 15,10 Z"
-        fill={`url(#${bodyId})`}
-      />
-      <path
-        d="M17,9 C14,28 17,48 13,68 C10,88 14,106 18,122 L24,122 C22,104 24,86 22,68 C21,48 24,28 25,9 Z"
-        fill={`url(#${paleId})`}
-      />
-      <path
-        d="M29,6 C26,26 30,46 27,64 C25,84 29,102 31,120 L37,120 C36,102 34,84 37,64 C40,44 38,24 37,6 Z"
-        fill={`url(#${ambId})`}
-      />
-      <path
-        d="M41,13 C39,28 42,42 39,54 C37,68 41,80 42,90 L47,88 C46,76 47,64 48,52 C50,38 48,26 47,12 Z"
-        fill={`url(#${paleId})`}
-        opacity="0.75"
-      />
-      <path
-        d="M18,110 C15,119 14,128 19,133 C24,128 23,119 25,110 Z"
-        fill={`url(#${ambId})`}
-      />
-    </svg>
-  )
-}
-
-function CandleStemGraphic({ gradId }: { gradId: string }) {
-  const metalId = `${gradId}-stem-metal`
-  return (
-    <svg className="candle-stem-svg" viewBox="0 0 90 50" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id={metalId} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#111318" />
-          <stop offset="9%" stopColor="#3a3d42" />
-          <stop offset="20%" stopColor="#8b8f96" />
-          <stop offset="32%" stopColor="#f2f5f8" />
-          <stop offset="42%" stopColor="#b6bac1" />
-          <stop offset="52%" stopColor="#e4e8ec" />
-          <stop offset="66%" stopColor="#6e7178" />
-          <stop offset="84%" stopColor="#34363b" />
-          <stop offset="100%" stopColor="#141518" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M32,0 L58,0 C58,9 65,13 73,21 C82,29 84,39 77,45 C69,49 21,49 13,45 C6,39 8,29 17,21 C25,13 32,9 32,0 Z"
-        fill={`url(#${metalId})`}
-      />
-    </svg>
   )
 }
 
@@ -159,38 +70,7 @@ function CandleBody({ scale, lit, igniting, smoking, gradId, leanRef }: CandleBo
         )}
       </div>
       <div className="candle-wick" />
-      <div className="candle-wax-group">
-        <CandleWaxGraphic gradId={gradId} />
-      </div>
-      <div className="candle-holder-cup" />
-      <CandleStemGraphic gradId={gradId} />
-      <div className="candle-saucer">
-        <span className="candle-saucer-ring-mount" />
-        <span className="candle-saucer-ring" />
-        <span className="candle-drip-saucer" />
-      </div>
-    </div>
-  )
-}
-
-interface CandleRoomProps {
-  children: React.ReactNode
-  dark: boolean
-  fill?: boolean
-}
-
-function CandleRoom({ children, dark, fill }: CandleRoomProps) {
-  return (
-    <div className={`candle-room${fill ? ' candle-room--fill' : ' candle-room--stage'}${dark ? ' candle-room-dark' : ''}`}>
-      <div className="candle-rod" />
-      <div className="candle-sconce candle-sconce-left" />
-      <div className="candle-sconce candle-sconce-right" />
-      <div className="candle-column candle-column-left" />
-      <div className="candle-column candle-column-right" />
-      <div className="candle-curtain candle-curtain-left" />
-      <div className="candle-curtain candle-curtain-right" />
-      <div className="candle-stage-floor" />
-      <div className="candle-room-content">{children}</div>
+      <div className="candle-wax" />
     </div>
   )
 }
@@ -313,9 +193,9 @@ function CandleModal({ onClose }: { onClose: () => void }) {
           ×
         </button>
 
-        <CandleRoom dark={!lit}>
-          <CandleBody scale={1.4} lit={lit} igniting={igniting} smoking={smoking} gradId={gradId} leanRef={leanRef} />
-        </CandleRoom>
+        <div className="candle-window">
+          <CandleBody scale={2.05} lit={lit} igniting={igniting} smoking={smoking} gradId={gradId} leanRef={leanRef} />
+        </div>
 
         {!lit && (
           <button className="dg-refog candle-relight" onClick={relight}>
@@ -346,9 +226,7 @@ export function CandleBlowVisualizer({ width, height }: CandleBlowVisualizerProp
 
   return (
     <div className="candle-viz" style={{ width, height }}>
-      <CandleRoom dark={false} fill>
-        <CandleBody scale={0.62} lit igniting={false} smoking={false} gradId={previewGradId} />
-      </CandleRoom>
+      <CandleBody scale={1.15} lit igniting={false} smoking={false} gradId={previewGradId} />
       <button
         className="sound-wave-open-btn"
         onMouseDown={e => e.stopPropagation()}

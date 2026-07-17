@@ -2686,211 +2686,14 @@ html[data-theme="dark"] .pg-page-header {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  border-radius: inherit;
-}
-
-/* ── Room: red-velvet stage the candle sits on ───────────────── */
-.candle-room {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 8%, rgba(255, 185, 110, 0.1) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 26%, #2c1809 0%, #170d06 55%, #0a0503 100%);
-  transition: filter 1.4s ease;
-  filter: brightness(1) saturate(1);
-}
-
-.candle-room.candle-room-dark {
-  filter: brightness(0.08) saturate(0.4);
-}
-
-.candle-room::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 0 14% rgba(0, 0, 0, 0.8);
-  pointer-events: none;
-  z-index: 6;
-}
-
-.candle-room--fill {
-  width: 100%;
-  height: 100%;
-}
-
-.candle-room--stage {
-  width: min(86vw, 560px);
-  height: min(66vh, 460px);
-  border-radius: 12px;
-}
-
-.candle-room-content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding-bottom: 6%;
-}
-
-.candle-rod {
-  position: absolute;
-  top: 4%;
-  left: 12%;
-  right: 12%;
-  height: 0.9%;
-  z-index: 5;
-  background: linear-gradient(180deg, #f3d896 0%, #b8873a 45%, #6e4f1c 100%);
-  border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-.candle-rod::before,
-.candle-rod::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 1.6vw;
-  max-width: 14px;
-  aspect-ratio: 1;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fdeec2 0%, #d9a943 45%, #6e4f1c 100%);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-.candle-rod::before { left: -0.6vw; }
-.candle-rod::after { right: -0.6vw; }
-
-.candle-sconce {
-  position: absolute;
-  top: 15%;
-  width: 13%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 214, 150, 0.9) 0%, rgba(255, 170, 70, 0.32) 42%, transparent 72%);
-  filter: blur(3px);
-  z-index: 3;
-}
-
-.candle-sconce-left { left: 28%; }
-.candle-sconce-right { right: 28%; }
-
-.candle-column {
-  position: absolute;
-  top: 5%;
-  bottom: 5%;
-  width: 3.2%;
-  z-index: 2;
-  background: repeating-linear-gradient(90deg,
-    #4a3410 0%, #6b4f1e 8%, #a9812f 16%, #e8c463 24%, #f4e0a0 28%,
-    #e8c463 32%, #a9812f 40%, #6b4f1e 48%, #4a3410 56%
-  );
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  border-radius: 2px;
-}
-
-.candle-column::before,
-.candle-column::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 220%;
-  height: 5%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #4a3410, #e8c463 45%, #f4e0a0 50%, #e8c463 55%, #4a3410);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-}
-
-.candle-column::before { top: -2%; }
-.candle-column::after { bottom: -2%; }
-
-.candle-column-left { left: 21%; }
-.candle-column-right { right: 21%; }
-
-.candle-curtain {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 19%;
-  z-index: 4;
-  background:
-    linear-gradient(115deg, rgba(255, 255, 255, 0.1) 0%, transparent 22%, transparent 60%, rgba(255, 255, 255, 0.05) 100%),
-    repeating-linear-gradient(97deg,
-      #37060c 0%, #5c0f18 5%, #8c1a24 11%, #ad2731 16%, #8c1a24 21%,
-      #5c0f18 27%, #37060c 32%
-    ),
-    linear-gradient(180deg, #6b1119 0%, #4a0d14 55%, #24050a 100%);
-  background-blend-mode: overlay, normal, normal;
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.65), inset 6px 0 24px rgba(0, 0, 0, 0.35);
-}
-
-.candle-curtain-left {
-  left: 0;
-  border-radius: 0 0 55% 0 / 0 0 30% 0;
-}
-
-.candle-curtain-right {
-  right: 0;
-  transform: scaleX(-1);
-  border-radius: 0 0 55% 0 / 0 0 30% 0;
-}
-
-.candle-curtain::before {
-  content: '';
-  position: absolute;
-  right: 10%;
-  top: 62%;
-  width: 62%;
-  height: 3.5%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #6e4f1c, #e8c463 40%, #f4e0a0 50%, #e8c463 60%, #6e4f1c);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-  transform: rotate(-4deg);
-}
-
-.candle-curtain::after {
-  content: '';
-  position: absolute;
-  right: 14%;
-  top: 64.5%;
-  width: 10px;
-  height: 16px;
-  background: linear-gradient(180deg, #e8c463, #6e4f1c);
-  border-radius: 0 0 50% 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.candle-stage-floor {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 22%;
-  background: linear-gradient(180deg, rgba(10, 6, 4, 0) 0%, rgba(6, 4, 2, 0.94) 100%);
-  z-index: 3;
-}
-
-.candle-stage-floor::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 12%;
-  width: 34%;
-  max-width: 200px;
-  height: 22%;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(255, 160, 70, 0.4) 0%, rgba(255, 120, 40, 0.14) 55%, transparent 78%);
-  filter: blur(4px);
+  overflow: hidden;
 }
 
 .candle-stage {
   --candle-scale: 1;
-  position: relative;
-  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2975,121 +2778,19 @@ html[data-theme="dark"] .pg-page-header {
 .candle-smoke-wisp.cs-3 { animation-delay: 0.36s; }
 
 .candle-wick {
-  width: calc(2.5px * var(--candle-scale));
-  height: calc(13px * var(--candle-scale));
-  background: linear-gradient(#6b3222, #2a0f08);
-  border-radius: 2px 2px 1px 1px;
-  transform: rotate(4deg);
-}
-
-.candle-wax-group {
-  position: relative;
-}
-
-.candle-wax-svg {
-  display: block;
-  width: calc(58px * var(--candle-scale));
-  height: calc(125px * var(--candle-scale));
-  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.35));
-}
-
-/* ── Metal holder: cup, flared stem, saucer with a mounted ring ── */
-.candle-holder-cup {
-  width: calc(46px * var(--candle-scale));
-  height: calc(30px * var(--candle-scale));
-  margin-top: calc(-3px * var(--candle-scale));
-  background: linear-gradient(100deg,
-    #202226 0%, #4c4f54 9%, #9aa0a6 20%, #dbe0e4 32%, #a3a8ae 42%,
-    #c9cdd2 52%, #6a6e74 66%, #35373b 84%, #1a1c1e 100%
-  );
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5), inset 0 calc(2px * var(--candle-scale)) 0 rgba(255, 255, 255, 0.35),
-    inset 0 calc(-4px * var(--candle-scale)) calc(6px * var(--candle-scale)) rgba(0, 0, 0, 0.4);
-  border-radius: 2px;
-  position: relative;
-  z-index: 1;
-}
-
-.candle-holder-cup::before,
-.candle-holder-cup::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 10%;
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.candle-holder-cup::before { top: 22%; }
-.candle-holder-cup::after { top: 34%; }
-
-.candle-stem-svg {
-  display: block;
-  width: calc(72px * var(--candle-scale));
-  height: calc(40px * var(--candle-scale));
-  margin-top: calc(-2px * var(--candle-scale));
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
-}
-
-.candle-saucer {
-  position: relative;
-  width: calc(160px * var(--candle-scale));
-  height: calc(30px * var(--candle-scale));
-  margin-top: calc(-6px * var(--candle-scale));
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 36% 20%, #f6f8fa 0%, #cdd1d6 18%, #82868d 40%, #3c3e42 72%, #1a1b1d 100%);
-  box-shadow: 0 calc(10px * var(--candle-scale)) calc(20px * var(--candle-scale)) rgba(0, 0, 0, 0.6),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.3);
-  z-index: 1;
-}
-
-.candle-saucer::before {
-  content: '';
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  top: 14%;
-  bottom: 14%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 38% 22%, rgba(255, 255, 255, 0.32) 0%, transparent 58%);
-  box-shadow: inset 0 calc(3px * var(--candle-scale)) calc(6px * var(--candle-scale)) rgba(0, 0, 0, 0.55);
-}
-
-.candle-saucer-ring-mount {
-  position: absolute;
-  right: calc(-4px * var(--candle-scale));
-  top: 40%;
-  width: calc(10px * var(--candle-scale));
-  height: calc(9px * var(--candle-scale));
-  background: linear-gradient(100deg, #dbe0e4 0%, #8b8f96 40%, #34363b 100%);
+  width: calc(3px * var(--candle-scale));
+  height: calc(15px * var(--candle-scale));
+  background: linear-gradient(#3a2c1e, #1a120a);
   border-radius: 2px;
 }
 
-.candle-saucer-ring {
-  position: absolute;
-  right: calc(-19px * var(--candle-scale));
-  top: 40%;
-  transform: translateY(-46%) rotate(-6deg);
-  width: calc(26px * var(--candle-scale));
-  height: calc(26px * var(--candle-scale));
-  border-radius: 50%;
-  background: conic-gradient(from 210deg,
-    #f2f4f7 0deg, #7d8189 60deg, #1a1b1d 120deg, #4a4d52 180deg,
-    #f2f4f7 240deg, #b6bac1 300deg, #f2f4f7 360deg
-  );
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - calc(4.5px * var(--candle-scale))), #000 calc(100% - calc(4.5px * var(--candle-scale)) + 1px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - calc(4.5px * var(--candle-scale))), #000 calc(100% - calc(4.5px * var(--candle-scale)) + 1px));
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
-}
-
-.candle-drip-saucer {
-  position: absolute;
-  left: calc(14px * var(--candle-scale));
-  top: calc(-16px * var(--candle-scale));
-  width: calc(14px * var(--candle-scale));
-  height: calc(20px * var(--candle-scale));
-  background: linear-gradient(200deg, #fdeec7 0%, #eab868 55%, #c9622f 100%);
-  clip-path: polygon(65% 0%, 100% 55%, 78% 100%, 30% 96%, 0% 62%, 18% 18%);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+.candle-wax {
+  width: calc(56px * var(--candle-scale));
+  height: calc(94px * var(--candle-scale));
+  border-radius: calc(10px * var(--candle-scale)) calc(10px * var(--candle-scale)) calc(6px * var(--candle-scale)) calc(6px * var(--candle-scale));
+  background: linear-gradient(180deg, #fff7e6 0%, #f3dcae 55%, #e6c583 100%);
+  box-shadow: inset 0 calc(-10px * var(--candle-scale)) calc(18px * var(--candle-scale)) rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.35);
+  position: relative;
 }
 
 @keyframes candle-flicker {
@@ -3130,10 +2831,18 @@ html[data-theme="dark"] .pg-page-header {
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  padding: 24px 24px 26px;
-  border-radius: 18px;
-  background: #0a0603;
+  padding: 40px 60px 32px;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 20%, #241608 0%, #100a05 75%);
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+}
+
+.candle-window {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 260px;
+  min-height: 320px;
 }
 
 .candle-relight {
