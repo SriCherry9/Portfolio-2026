@@ -70,7 +70,11 @@ function CandleBody({ scale, lit, igniting, smoking, gradId, leanRef }: CandleBo
         )}
       </div>
       <div className="candle-wick" />
-      <div className="candle-wax" />
+      <div className="candle-wax">
+        <span className="candle-drip cd-1" />
+        <span className="candle-drip cd-2" />
+        <span className="candle-drip cd-3" />
+      </div>
     </div>
   )
 }
