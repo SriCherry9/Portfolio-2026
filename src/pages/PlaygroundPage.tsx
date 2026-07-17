@@ -22,24 +22,37 @@ interface PlayItem {
 const ITEMS: PlayItem[] = [
   // ── Row 1 (y ≈ 60) — spans full viewport width ────────────────
   {
+    id: 19,
+    title: 'Draw on the Glass',
+    desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
+    x: 60, y: 70, width: 300, height: 220,
+    visualStyle: {
+      background: '#c7ced0',
+      backgroundImage: 'url(/images/dusty-glass-cover.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    interactive: 'dusty-glass',
+  },
+  {
     id: 1,
     title: 'Gradient Study No. 01',
     desc: 'Exploring warm hue transitions and color theory',
-    x: 60, y: 70, width: 310, height: 230,
+    x: 400, y: 70, width: 310, height: 230,
     visualStyle: { background: 'linear-gradient(145deg, #ffecd2 0%, #fcb69f 50%, #f6a09a 100%)' },
   },
   {
     id: 2,
     title: 'Violet Hour',
     desc: 'Portrait study — digital painting series',
-    x: 420, y: 50, width: 210, height: 310,
+    x: 760, y: 50, width: 210, height: 310,
     visualStyle: { background: 'linear-gradient(180deg, #5c3d8f 0%, #a855f7 40%, #ec4899 100%)' },
   },
   {
     id: 3,
     title: 'Generative Circles',
     desc: 'Canvas API with Perlin noise displacement',
-    x: 680, y: 70, width: 390, height: 270,
+    x: 1020, y: 70, width: 390, height: 270,
     visualStyle: {
       background: [
         'radial-gradient(ellipse at 30% 50%, rgba(255,77,77,0.9) 0%, transparent 45%)',
@@ -53,14 +66,14 @@ const ITEMS: PlayItem[] = [
     id: 4,
     title: 'Morning Blue',
     desc: 'Photography — early morning fog series',
-    x: 1120, y: 60, width: 250, height: 240,
+    x: 1460, y: 60, width: 250, height: 240,
     visualStyle: { background: 'linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%)' },
   },
   {
     id: 5,
     title: 'Editorial Layout',
     desc: 'Typographic composition for a magazine feature',
-    x: 1420, y: 50, width: 270, height: 380,
+    x: 1760, y: 50, width: 270, height: 380,
     visualStyle: { background: 'linear-gradient(135deg, #f5e6d3 0%, #e8c9a0 100%)' },
     label: '01',
     labelStyle: {
@@ -99,14 +112,14 @@ const ITEMS: PlayItem[] = [
     id: 8,
     title: 'Color Field No. 3',
     desc: 'Inspired by Rothko — abstract color study',
-    x: 740, y: 400, width: 230, height: 290,
+    x: 740, y: 425, width: 230, height: 290,
     visualStyle: { background: 'linear-gradient(180deg, #e17055 0%, #d63031 50%, #2d3436 100%)' },
   },
   {
     id: 9,
     title: 'Grid System',
     desc: 'Modular grids for editorial design',
-    x: 1020, y: 370, width: 360, height: 270,
+    x: 1020, y: 410, width: 360, height: 270,
     visualStyle: {
       background: '#f5f5f0',
       backgroundImage: 'radial-gradient(circle, #c0c0bb 1px, transparent 1px)',
@@ -150,7 +163,7 @@ const ITEMS: PlayItem[] = [
     id: 13,
     title: 'Pastels Collection',
     desc: 'Color swatches — pastel tone study',
-    x: 770, y: 760, width: 300, height: 250,
+    x: 770, y: 785, width: 300, height: 250,
     visualStyle: {
       background: 'linear-gradient(90deg, #ffeaa7 25%, #fdcb6e 25% 50%, #fd79a8 50% 75%, #a29bfe 75%)',
     },
@@ -159,7 +172,7 @@ const ITEMS: PlayItem[] = [
     id: 14,
     title: 'Sunset Chromatics',
     desc: 'Analogous color harmony exploration',
-    x: 1120, y: 720, width: 310, height: 260,
+    x: 1120, y: 745, width: 310, height: 260,
     visualStyle: { background: 'linear-gradient(145deg, #ff9a9e 0%, #fad0c4 50%, #ffecd2 100%)' },
   },
   {
@@ -182,7 +195,7 @@ const ITEMS: PlayItem[] = [
     id: 17,
     title: 'Human Factors & Ergonomics',
     desc: 'Hierarchical Task Analysis and cognitive ergonomic evaluation of an inhaler',
-    x: 700, y: 1070, width: 320, height: 260,
+    x: 700, y: 1110, width: 320, height: 260,
     visualStyle: {
       background: '#7a0d0d',
       backgroundImage: 'url(/images/hfe-inhaler-cover.png)',
@@ -195,7 +208,7 @@ const ITEMS: PlayItem[] = [
     id: 18,
     title: 'Oh No! — A Comic Strip',
     desc: 'A comic strip where I am the protagonist',
-    x: 1070, y: 1070, width: 280, height: 260,
+    x: 1070, y: 1095, width: 280, height: 260,
     visualStyle: {
       background: '#ffffff',
       backgroundImage: 'url(/images/comic-strip-cover.png)',
@@ -203,16 +216,6 @@ const ITEMS: PlayItem[] = [
       backgroundPosition: 'center',
     },
     caseStudyPath: '/case-study/comic-strip',
-  },
-  {
-    id: 19,
-    title: 'Dusty Glass',
-    desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
-    x: 1430, y: 1070, width: 300, height: 260,
-    visualStyle: { background: 'linear-gradient(160deg, #d6dbdc 0%, #aeb7ba 55%, #8b969a 100%)' },
-    label: '❄',
-    labelStyle: { fontSize: '80px', color: 'rgba(255,255,255,0.35)', fontWeight: '300', lineHeight: '1' },
-    interactive: 'dusty-glass',
   },
   {
     id: 20,
