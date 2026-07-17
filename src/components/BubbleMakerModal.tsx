@@ -31,6 +31,17 @@ interface Bubble {
 const WAND_X_FRAC = 0.5
 const WAND_Y_FRAC = 0.53
 
+// Little fizz bubbles rising inside the bottle's liquid — varied position,
+// size, speed and start delay so they don't read as a single repeating loop.
+const LIQUID_FIZZ = [
+  { cx: 23, r: 2.1, dur: 2.8, delay: 0 },
+  { cx: 33, r: 1.5, dur: 2.3, delay: 0.5 },
+  { cx: 45, r: 2.4, dur: 3.1, delay: 1 },
+  { cx: 55, r: 1.3, dur: 2.5, delay: 1.4 },
+  { cx: 62, r: 1.8, dur: 2.9, delay: 0.8 },
+  { cx: 28, r: 1.2, dur: 2.4, delay: 1.8 },
+]
+
 export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const bubblesRef = useRef<Bubble[]>([])
@@ -133,6 +144,17 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
 
     let lastTime = performance.now()
 
+    // Two non-harmonic sine terms layered together read as a free, wandering
+    // drift rather than a single mechanical back-and-forth sway. Shared by
+    // drawing and click hit-testing so a bubble pops where it visibly is.
+    const wobbleXFor = (b: Bubble, now: number) => {
+      const age = now - b.born
+      return (
+        Math.sin(age * 0.001 * b.wobbleFreq * Math.PI * 2 + b.wobblePhase) * (8 + b.r * 0.3) +
+        Math.sin(age * 0.001 * b.wobbleFreq2 * Math.PI * 2 + b.wobblePhase2) * (5 + b.r * 0.16)
+      )
+    }
+
     const spawnBubble = () => {
       // Spawn tightly inside the wand's loop so bubbles visibly emerge through it.
       const wandX = width * WAND_X_FRAC + (Math.random() - 0.5) * 22
@@ -174,12 +196,7 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
 
       for (const b of bubblesRef.current) {
         const age = now - b.born
-        // Two non-harmonic sine terms layered together read as a free, wandering
-        // drift rather than a single mechanical back-and-forth sway.
-        const wobbleX =
-          Math.sin(age * 0.001 * b.wobbleFreq * Math.PI * 2 + b.wobblePhase) * (8 + b.r * 0.3) +
-          Math.sin(age * 0.001 * b.wobbleFreq2 * Math.PI * 2 + b.wobblePhase2) * (5 + b.r * 0.16)
-        const drawX = b.x + wobbleX
+        const drawX = b.x + wobbleXFor(b, now)
         const drawY = b.y
         // Grows out of the wand's loop over its first moment instead of popping
         // in at full size.
@@ -260,9 +277,32 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
     }
     rafRef.current = requestAnimationFrame(loop)
 
+    // Clicking/tapping a bubble bursts it early — hit-test from the topmost
+    // (most recently drawn) bubble down, using its actual on-screen position.
+    const handlePointerDown = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect()
+      const px = e.clientX - rect.left
+      const py = e.clientY - rect.top
+      const now = performance.now()
+      for (let i = bubblesRef.current.length - 1; i >= 0; i--) {
+        const b = bubblesRef.current[i]
+        if (b.popping) continue
+        const emerge = Math.min(1, (now - b.born) / 260)
+        const r = b.r * emerge * 1.15
+        const dx = px - (b.x + wobbleXFor(b, now))
+        const dy = py - b.y
+        if (dx * dx + dy * dy <= r * r) {
+          b.popping = true
+          break
+        }
+      }
+    }
+    canvas.addEventListener('pointerdown', handlePointerDown)
+
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       window.removeEventListener('resize', resize)
+      canvas.removeEventListener('pointerdown', handlePointerDown)
       bubblesRef.current = []
     }
   }, [])
@@ -275,10 +315,28 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
 
       <div className="bm-wand" aria-hidden="true">
         <svg viewBox="0 0 86 180" fill="none">
+          <defs>
+            <linearGradient id="bm-liquid-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#a8ecf7" />
+              <stop offset="100%" stopColor="#2fa9cc" />
+            </linearGradient>
+            <clipPath id="bm-liquid-clip">
+              <rect x="15" y="147" width="56" height="28" rx="9" />
+            </clipPath>
+          </defs>
           <ellipse cx="43" cy="30" rx="25" ry="27" stroke="#3fb6d8" strokeWidth="6" fill="rgba(255,255,255,0.06)" />
           <path d="M43 57 C 40 90, 40 100, 36 118" stroke="#3fb6d8" strokeWidth="6" strokeLinecap="round" fill="none" />
           <rect x="14" y="112" width="58" height="64" rx="10" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
-          <rect x="14" y="146" width="58" height="30" rx="10" fill="#ffcf3f" opacity="0.9" />
+          <rect x="14" y="146" width="58" height="30" rx="10" fill="url(#bm-liquid-grad)" opacity="0.92" />
+          <g clipPath="url(#bm-liquid-clip)">
+            {LIQUID_FIZZ.map((f, i) => (
+              <circle key={i} cx={f.cx} cy={176} r={f.r} fill="rgba(255,255,255,0.85)">
+                <animate attributeName="cy" values="176;150;176" dur={`${f.dur}s`} begin={`${f.delay}s`} repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur={`${f.dur}s`} begin={`${f.delay}s`} repeatCount="indefinite" />
+              </circle>
+            ))}
+          </g>
+          <ellipse cx="43" cy="148" rx="26" ry="2.5" fill="rgba(255,255,255,0.4)" />
           <rect x="10" y="102" width="66" height="14" rx="6" fill="#3fb6d8" />
         </svg>
       </div>
@@ -288,7 +346,7 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
           {stage === 'start' && (
             <>
               <span className="bm-overlay-icon">🫧</span>
-              <p className="bm-overlay-text">Turn on your mic and blow —<br />even a light breath sends big bubbles floating up</p>
+              <p className="bm-overlay-text">Turn on your mic and blow —<br />even a light breath sends big bubbles floating up.<br />Click one to pop it.</p>
               <button className="bm-start-btn" onClick={start}>Turn on microphone</button>
             </>
           )}
@@ -308,7 +366,7 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
       )}
 
       <div className="bm-hint">
-        {stage === 'listening' ? 'BLOW INTO YOUR MIC TO MAKE BUBBLES' : 'A BUBBLE MAKER PLAYGROUND'}
+        {stage === 'listening' ? 'BLOW TO MAKE BUBBLES · CLICK ONE TO POP IT' : 'A BUBBLE MAKER PLAYGROUND'}
       </div>
     </div>
   )
