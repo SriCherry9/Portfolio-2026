@@ -41,10 +41,13 @@ const WAND_GROOVES = Array.from({ length: GROOVE_COUNT }, (_, i) => {
   const cos = Math.cos(angle)
   const sin = Math.sin(angle)
   return {
-    x1: LOOP_CENTER.x + cos * LOOP_RADIUS.x * 0.82,
-    y1: LOOP_CENTER.y + sin * LOOP_RADIUS.y * 0.82,
-    x2: LOOP_CENTER.x + cos * LOOP_RADIUS.x * 1.12,
-    y2: LOOP_CENTER.y + sin * LOOP_RADIUS.y * 1.12,
+    // Kept within the ring's 6px-wide stroke band (roughly 0.88-1.11 of the
+    // path radius) so the notches read as carved into the rim, not poking
+    // past its inner or outer edge.
+    x1: LOOP_CENTER.x + cos * LOOP_RADIUS.x * 0.91,
+    y1: LOOP_CENTER.y + sin * LOOP_RADIUS.y * 0.91,
+    x2: LOOP_CENTER.x + cos * LOOP_RADIUS.x * 1.08,
+    y2: LOOP_CENTER.y + sin * LOOP_RADIUS.y * 1.08,
   }
 })
 
