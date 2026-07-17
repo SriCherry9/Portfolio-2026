@@ -2366,6 +2366,60 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   box-shadow: none;
 }
 
+/* Image lightbox modal */
+
+.ib-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.86);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  animation: fade-up 0.3s ease forwards;
+  overflow-y: auto;
+}
+
+.ib-modal-content {
+  position: relative;
+  display: flex;
+  max-width: 94vw;
+  max-height: 90vh;
+}
+
+.ib-modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.ib-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ib-modal-img {
+  max-width: 94vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
 /* ===== HEADER ===== */
 
 /* ===== PILL NAVIGATION ===== */

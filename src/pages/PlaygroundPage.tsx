@@ -5,6 +5,7 @@ import { DustyGlassModal } from '../components/DustyGlassModal'
 import { HandShadowModal } from '../components/HandShadowModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 import { TypewriterModal } from '../components/TypewriterModal'
+import { ImageLightboxModal } from '../components/ImageLightboxModal'
 
 interface PlayItem {
   id: number
@@ -19,7 +20,8 @@ interface PlayItem {
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls' | 'typewriter'
+  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls' | 'typewriter' | 'image'
+  imageSrc?: string
 }
 
 const ITEMS: PlayItem[] = [
@@ -270,6 +272,34 @@ const ITEMS: PlayItem[] = [
     },
     interactive: 'typewriter',
   },
+  {
+    id: 25,
+    title: 'Interior Concept — Living Room',
+    desc: 'A double-height lounge render — staircase, gallery wall, and a warm brass chandelier tying the space together',
+    x: 2830, y: 1070, width: 320, height: 260,
+    visualStyle: {
+      background: '#c9c7c2',
+      backgroundImage: 'url(/images/interior-render.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    interactive: 'image',
+    imageSrc: '/images/interior-render.jpg',
+  },
+  {
+    id: 26,
+    title: 'Modern Villa — Exterior Render',
+    desc: 'A poolside villa concept — board-formed concrete, a glass water feature, and an infinity edge into the garden',
+    x: 3180, y: 1070, width: 320, height: 260,
+    visualStyle: {
+      background: '#7ec8d6',
+      backgroundImage: 'url(/images/villa-render.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    interactive: 'image',
+    imageSrc: '/images/villa-render.jpg',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -284,6 +314,7 @@ export function PlaygroundPage() {
   const [handShadowOpen, setHandShadowOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
   const [typewriterOpen, setTypewriterOpen] = useState(false)
+  const [lightboxItem, setLightboxItem] = useState<PlayItem | null>(null)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -437,6 +468,21 @@ export function PlaygroundPage() {
                 </div>
               )
             }
+            if (item.interactive === 'image') {
+              return (
+                <div
+                  key={item.id}
+                  className="play-item play-item-link"
+                  style={{ left: item.x, top: item.y, width: item.width }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setLightboxItem(item)}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setLightboxItem(item)}
+                >
+                  {content}
+                </div>
+              )
+            }
             return item.caseStudyPath ? (
               <Link
                 key={item.id}
@@ -475,6 +521,13 @@ export function PlaygroundPage() {
       {handShadowOpen && <HandShadowModal onClose={() => setHandShadowOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
       {typewriterOpen && <TypewriterModal onClose={() => setTypewriterOpen(false)} />}
+      {lightboxItem && (
+        <ImageLightboxModal
+          src={lightboxItem.imageSrc!}
+          alt={lightboxItem.title}
+          onClose={() => setLightboxItem(null)}
+        />
+      )}
     </div>
   )
 }
