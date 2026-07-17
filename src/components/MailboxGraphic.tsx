@@ -15,9 +15,8 @@ interface MailboxGraphicProps {
 export function MailboxGraphic({ peeks, onSelect }: MailboxGraphicProps) {
   return (
     <div className="mb-box">
-      <div className="mb-post" />
-      <div className="mb-body">
-        <div className="mb-slot" />
+      <img src="/images/Mailbox.webp" alt="" className="mb-image" draggable={false} />
+      <div className="mb-slot">
         {peeks.map(p => {
           const className = `mb-peek mb-peek-${p.shape}`
           const style = { background: p.color, left: `${p.offset}%`, '--mb-rot': `${p.rotate}deg` } as React.CSSProperties
@@ -42,7 +41,6 @@ export function MailboxGraphic({ peeks, onSelect }: MailboxGraphicProps) {
             <div key={p.id} className={className} style={style}>{inner}</div>
           )
         })}
-        <div className="mb-flag" />
       </div>
     </div>
   )

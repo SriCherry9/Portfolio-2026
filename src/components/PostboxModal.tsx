@@ -24,7 +24,7 @@ interface MailPiece {
 
 const MAIL_PIECES: MailPiece[] = [
   {
-    peek: { id: 'letter-1', color: '#cda86c', rotate: -9, offset: 14, shape: 'envelope', seal: true },
+    peek: { id: 'letter-1', color: '#cda86c', rotate: -9, offset: 22, shape: 'envelope', seal: true },
     content: {
       kind: 'letter',
       title: 'For Whoever Finds This',
@@ -37,7 +37,7 @@ const MAIL_PIECES: MailPiece[] = [
     },
   },
   {
-    peek: { id: 'postcard-1', color: '#f4ede1', rotate: 5, offset: 37, shape: 'postcard' },
+    peek: { id: 'postcard-1', color: '#f4ede1', rotate: 5, offset: 40, shape: 'postcard' },
     content: {
       kind: 'postcard',
       title: 'Postcard from the Playground',
@@ -51,7 +51,7 @@ const MAIL_PIECES: MailPiece[] = [
     },
   },
   {
-    peek: { id: 'letter-2', color: '#eef3f6', rotate: -3, offset: 60, shape: 'envelope' },
+    peek: { id: 'letter-2', color: '#eef3f6', rotate: -3, offset: 56, shape: 'envelope' },
     content: {
       kind: 'letter',
       title: 'A Small Thank-You',
@@ -64,7 +64,7 @@ const MAIL_PIECES: MailPiece[] = [
     },
   },
   {
-    peek: { id: 'postcard-2', color: '#dfeaec', rotate: 9, offset: 82, shape: 'postcard' },
+    peek: { id: 'postcard-2', color: '#dfeaec', rotate: 9, offset: 72, shape: 'postcard' },
     content: {
       kind: 'postcard',
       title: 'Currently Exploring',
