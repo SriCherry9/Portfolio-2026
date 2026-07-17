@@ -521,14 +521,15 @@ function stepRibbon(
   state.lanes.forEach((lane, i) => {
     const family = Math.floor(i / 2)
     const strand = i % 2
+    const isActive = family === band % 3
     const baseY = height * (0.4 + family * 0.15) + strand * 10
     laneBaseYs.push(baseY)
     const color = mixHex(RIBBON_LANE_COLORS[i], '#ffffff', pitch * 0.15)
     const points = lane.map((v, j) => ({ x: j * step, y: baseY + v * ampScale }))
 
-    ctx.globalAlpha = 0.85
+    ctx.globalAlpha = isActive ? 0.95 : 0.7
     ctx.strokeStyle = color
-    ctx.lineWidth = 4.5
+    ctx.lineWidth = isActive ? 5.5 : 4.5
     traceSmoothPath(ctx, points)
     ctx.stroke()
 
