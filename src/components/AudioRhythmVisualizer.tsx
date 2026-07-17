@@ -251,83 +251,6 @@ function stepBloom(
   ctx.restore()
 }
 
-const FLOW_HISTORY = 220
-const FLOW_LANES = 4
-const FLOW_COLORS = ['#c084fc', '#7ed321', '#ff6a3d', '#ffd23f']
-
-interface FlowState { lanes: number[][] }
-
-function createFlowState(): FlowState {
-  return { lanes: Array.from({ length: FLOW_LANES }, () => new Array(FLOW_HISTORY).fill(0)) }
-}
-
-// Streamline style (inspired by the inference.NET flow-field reference) — each lane
-// scrolls forward carrying a literal slice of the live waveform, so the flowing,
-// weaving lines are always tracing real sound rather than decoration.
-function stepFlow(
-  state: FlowState,
-  ctx: CanvasRenderingContext2D,
-  width: number,
-  height: number,
-  energy: number,
-  band: number,
-  pitch: number,
-  wave: number[],
-) {
-  state.lanes.forEach((lane, i) => {
-    lane.shift()
-    const sampleIdx = Math.floor((i / FLOW_LANES) * wave.length)
-    lane.push(wave[sampleIdx] ?? 0)
-  })
-
-  ctx.fillStyle = '#0a0a0a'
-  ctx.fillRect(0, 0, width, height)
-
-  ctx.globalAlpha = 0.12
-  ctx.fillStyle = '#ffffff'
-  const gap = 26
-  for (let gx = gap / 2; gx < width; gx += gap) {
-    for (let gy = gap / 2; gy < height; gy += gap) {
-      ctx.beginPath()
-      ctx.arc(gx, gy, 1, 0, Math.PI * 2)
-      ctx.fill()
-    }
-  }
-  ctx.globalAlpha = 1
-
-  const ampScale = height * (0.2 + energy * 0.24)
-  const step = width / (FLOW_HISTORY - 1)
-
-  state.lanes.forEach((lane, i) => {
-    const baseY = height / 2 + (i - (FLOW_LANES - 1) / 2) * (height * 0.09)
-    const isActive = i === band % FLOW_LANES
-    const color = mixHex(FLOW_COLORS[i % FLOW_COLORS.length], '#ffffff', pitch * 0.25)
-    ctx.strokeStyle = color
-    ctx.lineWidth = isActive ? 2.6 + energy * 2 : 1.4
-    ctx.globalAlpha = isActive ? 0.95 : 0.6
-    ctx.beginPath()
-    lane.forEach((v, j) => {
-      const x = j * step
-      const y = baseY + v * ampScale
-      if (j === 0) ctx.moveTo(x, y)
-      else ctx.lineTo(x, y)
-    })
-    ctx.stroke()
-  })
-  ctx.globalAlpha = 1
-
-  const hubColor = mixHex('#ff4fd8', '#3ec5ff', pitch)
-  const hubR = 4 + energy * 14
-  ctx.save()
-  ctx.shadowBlur = 10 + energy * 18
-  ctx.shadowColor = hubColor
-  ctx.fillStyle = hubColor
-  ctx.beginPath()
-  ctx.arc(width - 22, height - 22, hubR, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.restore()
-}
-
 interface Streak { angle: number; length: number; bornAt: number; color: string; wobble: number }
 interface BurstState { streaks: Streak[]; avgEnergy: number; lastSpawn: number; seedCounter: number }
 
@@ -589,18 +512,16 @@ function stepRibbon(
 
 type StyleState =
   | { kind: 'bloom'; s: BloomState }
-  | { kind: 'flow'; s: FlowState }
   | { kind: 'burst'; s: BurstState }
   | { kind: 'ribbon'; s: RibbonState }
 
-const STYLE_KINDS: StyleState['kind'][] = ['bloom', 'flow', 'burst', 'ribbon']
+const STYLE_KINDS: StyleState['kind'][] = ['bloom', 'burst', 'ribbon']
 
 function pickRandomStyleKind(): StyleState['kind'] {
   return STYLE_KINDS[Math.floor(Math.random() * STYLE_KINDS.length)]
 }
 
 function createStyleState(kind: StyleState['kind']): StyleState {
-  if (kind === 'flow') return { kind, s: createFlowState() }
   if (kind === 'burst') return { kind, s: createBurstState() }
   if (kind === 'ribbon') return { kind, s: createRibbonState() }
   return { kind: 'bloom', s: createBloomState() }
@@ -616,8 +537,7 @@ function stepStyle(
   pitch: number,
   wave: number[],
 ) {
-  if (style.kind === 'flow') stepFlow(style.s, ctx, width, height, energy, band, pitch, wave)
-  else if (style.kind === 'burst') stepBurst(style.s, ctx, width, height, energy, band, pitch, wave)
+  if (style.kind === 'burst') stepBurst(style.s, ctx, width, height, energy, band, pitch, wave)
   else if (style.kind === 'ribbon') stepRibbon(style.s, ctx, width, height, energy, band, pitch, wave)
   else stepBloom(style.s, ctx, width, height, energy, band, pitch, wave)
 }
