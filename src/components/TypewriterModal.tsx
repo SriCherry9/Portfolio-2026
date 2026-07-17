@@ -155,6 +155,18 @@ export function TypewriterModal({ onClose }: TypewriterModalProps) {
       <div className="tw-modal-content" onClick={e => e.stopPropagation()}>
         <button className="tw-modal-close" onClick={onClose} aria-label="Close">✕</button>
 
+        <textarea
+          ref={textareaRef}
+          className="tw-page"
+          value={text}
+          onChange={e => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
+          placeholder="Dear reader,"
+          spellCheck={false}
+          autoFocus
+        />
+
         <div className="tw-machine-wrap" onClick={() => textareaRef.current?.focus()}>
           <div className={`tw-machine${carriageKick ? ' tw-carriage-kick' : ''}`}>
             <img
@@ -173,18 +185,6 @@ export function TypewriterModal({ onClose }: TypewriterModalProps) {
             ))}
           </div>
         </div>
-
-        <textarea
-          ref={textareaRef}
-          className="tw-page"
-          value={text}
-          onChange={e => setText(e.target.value)}
-          onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
-          placeholder="Dear reader,"
-          spellCheck={false}
-          autoFocus
-        />
 
         <div className="tw-toolbar">
           <span className="tw-hint">Type your letter — every key strikes home</span>

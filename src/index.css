@@ -2168,9 +2168,9 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   background: rgba(0, 0, 0, 0.82);
   z-index: 100;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 40px;
+  padding: 110px 40px 40px;
   animation: fade-up 0.3s ease forwards;
   overflow-y: auto;
 }
@@ -2182,7 +2182,7 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   align-items: center;
   gap: 18px;
   width: min(94vw, 860px);
-  margin: auto;
+  margin: 0 auto;
 }
 
 .tw-modal-close {
@@ -2285,8 +2285,8 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
 
 .tw-page {
   width: 100%;
-  min-height: 220px;
-  max-height: 36vh;
+  min-height: 160px;
+  max-height: 26vh;
   resize: vertical;
   background: #fbf6ec;
   color: #2c2a25;
