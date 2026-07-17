@@ -95,6 +95,7 @@ export function GardenFooter() {
             <p className="garden-links-label">SAY HI</p>
             <a href="https://www.linkedin.com/in/sricherrykotamreddy" target="_blank" rel="noopener noreferrer" className="garden-link">LINKEDIN</a>
             <a href="https://medium.com/@sricherry.k" target="_blank" rel="noopener noreferrer" className="garden-link">MEDIUM</a>
+            <a href="https://dribbble.com/Sricherry" target="_blank" rel="noopener noreferrer" className="garden-link">DRIBBBLE</a>
             <a href="/resume" className="garden-link">RESUME</a>
           </div>
           <div className="garden-links-col">
