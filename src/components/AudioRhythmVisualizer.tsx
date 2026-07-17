@@ -439,51 +439,57 @@ function traceSmoothPath(ctx: CanvasRenderingContext2D, points: { x: number; y: 
   ctx.lineTo(last.x, last.y)
 }
 
-// A static tiled backdrop of tiny paired chip/component outlines, cached to an
-// offscreen canvas once per size — echoing the circuit-grid texture in the
-// inference.NET ribbon reference without repainting hundreds of strokes a frame.
-function buildChipBackground(width: number, height: number): HTMLCanvasElement {
-  const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return canvas
+interface ChipPoint { gx: number; gy: number; purple: boolean }
+
+// Fixed tiled layout of tiny paired chip/component outlines, computed once per
+// size — echoes the circuit-grid texture in the inference.NET ribbon reference.
+// Positions are recomputed with a per-frame displacement (see stepRibbon) rather
+// than baked into a static bitmap, so the grid can part around the ribbons.
+function buildChipGrid(width: number, height: number): ChipPoint[] {
+  const points: ChipPoint[] = []
   const gapX = 34
   const gapY = 30
   let row = 0
   for (let gy = 14; gy < height; gy += gapY, row++) {
     for (let gx = 14; gx < width; gx += gapX) {
-      const purple = (row + Math.floor(gx / gapX)) % 3 !== 0
-      ctx.strokeStyle = purple ? 'rgba(200,140,255,0.32)' : 'rgba(180,255,120,0.22)'
-      ctx.lineWidth = 1
-      const w = 9
-      const h = 6
-      ctx.strokeRect(gx - w, gy - h / 2, w * 0.85, h)
-      ctx.strokeRect(gx + w * 0.05, gy - h / 2, w * 0.85, h)
+      points.push({ gx, gy, purple: (row + Math.floor(gx / gapX)) % 3 !== 0 })
     }
   }
-  return canvas
+  return points
+}
+
+function drawChipIcon(ctx: CanvasRenderingContext2D, x: number, y: number, purple: boolean, alpha: number) {
+  ctx.strokeStyle = purple ? `rgba(200,140,255,${0.32 * alpha})` : `rgba(180,255,120,${0.22 * alpha})`
+  ctx.lineWidth = 1
+  const w = 9
+  const h = 6
+  ctx.strokeRect(x - w, y - h / 2, w * 0.85, h)
+  ctx.strokeRect(x + w * 0.05, y - h / 2, w * 0.85, h)
 }
 
 const RIBBON_HISTORY = 200
 const RIBBON_LANE_COLORS = ['#ff4fd8', '#ff4fd8', '#7ed321', '#7ed321', '#ff8a3d', '#ff8a3d']
 const RIBBON_LANES = RIBBON_LANE_COLORS.length
+const CHIP_INFLUENCE = 34
+const CHIP_MAX_PUSH = 30
 
-interface RibbonState { lanes: number[][]; bg: HTMLCanvasElement | null; bgW: number; bgH: number }
+interface RibbonState { lanes: number[][]; grid: ChipPoint[] | null; gridW: number; gridH: number }
 
 function createRibbonState(): RibbonState {
   return {
     lanes: Array.from({ length: RIBBON_LANES }, () => new Array(RIBBON_HISTORY).fill(0)),
-    bg: null,
-    bgW: 0,
-    bgH: 0,
+    grid: null,
+    gridW: 0,
+    gridH: 0,
   }
 }
 
 // Ribbon style (inspired by the inference.NET chip-grid reference) — thicker,
 // glossy double-stroke streams over a tiled circuit-icon backdrop, annotated with
 // scattered "20,20" data-point labels like the reference's chart markers. Each
-// strand still scrolls forward with a literal slice of the live waveform.
+// strand still scrolls forward with a literal slice of the live waveform. As a
+// ribbon emerges near a chip icon, the icon is pushed away from the line rather
+// than simply being drawn over.
 function stepRibbon(
   state: RibbonState,
   ctx: CanvasRenderingContext2D,
@@ -494,10 +500,10 @@ function stepRibbon(
   pitch: number,
   wave: number[],
 ) {
-  if (!state.bg || state.bgW !== width || state.bgH !== height) {
-    state.bg = buildChipBackground(width, height)
-    state.bgW = width
-    state.bgH = height
+  if (!state.grid || state.gridW !== width || state.gridH !== height) {
+    state.grid = buildChipGrid(width, height)
+    state.gridW = width
+    state.gridH = height
   }
 
   state.lanes.forEach((lane, i) => {
@@ -509,21 +515,39 @@ function stepRibbon(
 
   ctx.fillStyle = '#050505'
   ctx.fillRect(0, 0, width, height)
-  ctx.drawImage(state.bg, 0, 0)
 
   const ampScale = height * (0.16 + energy * 0.2)
   const step = width / (RIBBON_HISTORY - 1)
-  const laneBaseYs: number[] = []
+  const laneInfos = state.lanes.map((lane, i) => ({
+    lane,
+    baseY: height * (0.4 + Math.floor(i / 2) * 0.15) + (i % 2) * 10,
+  }))
+
+  // Push every chip icon away from whichever ribbon lines currently pass near it —
+  // the closer a line, the harder it shoves the icon outward, parting the grid
+  // rather than just being drawn over. Icons stay fully visible as they relocate.
+  state.grid.forEach(point => {
+    let pushY = 0
+    for (const { lane, baseY } of laneInfos) {
+      const j = Math.min(lane.length - 1, Math.max(0, Math.round(point.gx / step)))
+      const lineY = baseY + lane[j] * ampScale
+      const dy = point.gy - lineY
+      const dist = Math.abs(dy)
+      if (dist < CHIP_INFLUENCE) {
+        pushY += Math.sign(dy || 1) * (1 - dist / CHIP_INFLUENCE) * CHIP_MAX_PUSH
+      }
+    }
+    const sway = (point.gx * 7 + point.gy * 13) % 5 < 2 ? -1 : 1
+    const pushX = pushY * 0.35 * sway
+    drawChipIcon(ctx, point.gx + pushX, point.gy + pushY, point.purple, 1)
+  })
 
   ctx.lineJoin = 'round'
   ctx.lineCap = 'round'
 
-  state.lanes.forEach((lane, i) => {
+  laneInfos.forEach(({ lane, baseY }, i) => {
     const family = Math.floor(i / 2)
-    const strand = i % 2
     const isActive = family === band % 3
-    const baseY = height * (0.4 + family * 0.15) + strand * 10
-    laneBaseYs.push(baseY)
     const color = mixHex(RIBBON_LANE_COLORS[i], '#ffffff', pitch * 0.15)
     const points = lane.map((v, j) => ({ x: j * step, y: baseY + v * ampScale }))
 
@@ -543,10 +567,10 @@ function stepRibbon(
 
   ctx.font = '11px "Courier New", monospace'
   ctx.fillStyle = 'rgba(255,255,255,0.55)'
-  state.lanes.forEach((lane, i) => {
+  laneInfos.forEach(({ lane, baseY }, i) => {
     for (let x = 30 + i * 22; x < width; x += 150) {
       const j = Math.min(lane.length - 1, Math.round(x / step))
-      const y = laneBaseYs[i] + lane[j] * ampScale
+      const y = baseY + lane[j] * ampScale
       ctx.fillText('20,20', x, y - 10)
     }
   })
