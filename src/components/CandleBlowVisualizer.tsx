@@ -13,26 +13,39 @@ const BLOW_HOLD_MS = 220
 const SMOKE_DURATION_MS = 2200
 
 function FlameGraphic({ gradId }: { gradId: string }) {
+  const coreId = `${gradId}-core`
+  const baseId = `${gradId}-base`
   return (
     <>
       <div className="candle-glow" />
       <svg className="candle-flame-svg" viewBox="0 0 40 64">
         <defs>
-          <radialGradient id={gradId} cx="50%" cy="78%" r="70%">
+          <radialGradient id={gradId} cx="50%" cy="82%" r="72%">
             <stop offset="0%" stopColor="#fff6d0" />
-            <stop offset="35%" stopColor="#ffd23f" />
-            <stop offset="72%" stopColor="#ff9d2e" />
-            <stop offset="100%" stopColor="#ff5a1f" />
+            <stop offset="30%" stopColor="#ffd23f" />
+            <stop offset="62%" stopColor="#ff9d2e" />
+            <stop offset="88%" stopColor="#ff5a1f" />
+            <stop offset="100%" stopColor="#e8431a" stopOpacity="0.75" />
+          </radialGradient>
+          <radialGradient id={coreId} cx="50%" cy="88%" r="55%">
+            <stop offset="0%" stopColor="#fffef6" />
+            <stop offset="45%" stopColor="#fff0b0" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#fff0b0" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id={baseId} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#cdeaff" stopOpacity="0.9" />
+            <stop offset="60%" stopColor="#8fc4ee" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#8fc4ee" stopOpacity="0" />
           </radialGradient>
         </defs>
         <path
           d="M20 2C11 16 6 27 6 38C6 51.2548 12.268 60 20 60C27.732 60 34 51.2548 34 38C34 27 29 16 20 2Z"
           fill={`url(#${gradId})`}
         />
+        <ellipse cx="20" cy="55" rx="6.5" ry="8.5" fill={`url(#${baseId})`} />
         <path
           d="M20 27C15.5 34.5 13.5 40 13.5 45C13.5 50.2 16.4 54 20 54C23.6 54 26.5 50.2 26.5 45C26.5 40 24.5 34.5 20 27Z"
-          fill="#fff8e0"
-          opacity="0.7"
+          fill={`url(#${coreId})`}
         />
       </svg>
     </>
@@ -97,6 +110,7 @@ interface CandleRoomProps {
 function CandleRoom({ children, dark, fill }: CandleRoomProps) {
   return (
     <div className={`candle-room${fill ? ' candle-room--fill' : ' candle-room--stage'}${dark ? ' candle-room-dark' : ''}`}>
+      <div className="candle-rod" />
       <div className="candle-sconce candle-sconce-left" />
       <div className="candle-sconce candle-sconce-right" />
       <div className="candle-column candle-column-left" />
