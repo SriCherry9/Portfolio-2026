@@ -1,38 +1,86 @@
+import { useRef } from 'react'
+
 interface CollagePhoto {
+  type: 'image'
   src: string
   trait?: string
   color: string
 }
 
-const PHOTOS: CollagePhoto[] = [
-  { src: '/images/about/collage-1.jpg', trait: 'Adventurous',       color: 'var(--card-1)' },
-  { src: '/images/about/collage-2.jpg',                             color: 'var(--card-2)' },
-  { src: '/images/about/collage-3.jpg', trait: 'Fun-loving',        color: 'var(--card-3)' },
-  { src: '/images/about/collage-4.jpg',                             color: 'var(--card-4)' },
-  { src: '/images/about/collage-5.jpg', trait: 'Joyful',            color: 'var(--card-5)' },
-  { src: '/images/about/collage-6.jpg',                             color: 'var(--card-1)' },
-  { src: '/images/about/collage-7.jpg', trait: 'Curious',           color: 'var(--card-2)' },
-  { src: '/images/about/collage-8.jpg',                             color: 'var(--card-3)' },
-  { src: '/images/about/collage-9.jpg', trait: 'A little dramatic', color: 'var(--card-4)' },
+interface CollageVideo {
+  type: 'video'
+  src: string
+  trait?: string
+  color: string
+}
+
+type CollageItem = CollagePhoto | CollageVideo
+
+const ITEMS: CollageItem[] = [
+  { type: 'video', src: '/videos/about/skydive',         trait: 'Adventurous',       color: 'var(--card-1)' },
+  { type: 'image', src: '/images/about/casino-night.jpg', trait: 'Fun-loving',       color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/fireworks',       trait: 'Joyful',            color: 'var(--card-3)' },
+  { type: 'image', src: '/images/about/georgia-viewpoint.jpg', trait: 'Curious',     color: 'var(--card-4)' },
+  { type: 'image', src: '/images/about/perfume-shop.jpg', trait: 'A little dramatic', color: 'var(--card-5)' },
+  { type: 'video', src: '/videos/about/sandboarding',                                color: 'var(--card-1)' },
+  { type: 'image', src: '/images/about/cave-hike.jpg',                               color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/immersive-art',                               color: 'var(--card-3)' },
+  { type: 'image', src: '/images/about/ice-cream.jpg',                               color: 'var(--card-4)' },
+  { type: 'video', src: '/videos/about/disco-mirror',                                color: 'var(--card-5)' },
+  { type: 'video', src: '/videos/about/concert',                                     color: 'var(--card-1)' },
+  { type: 'video', src: '/videos/about/aquarium-shark',                              color: 'var(--card-2)' },
 ]
+
+function VideoTile({ item }: { item: CollageVideo }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const play = () => videoRef.current?.play()
+  const reset = () => {
+    const v = videoRef.current
+    if (!v) return
+    v.pause()
+    v.currentTime = 0
+  }
+
+  return (
+    <video
+      ref={videoRef}
+      className="about-photo-img"
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      onMouseEnter={play}
+      onMouseLeave={reset}
+      onTouchStart={play}
+    >
+      <source src={`${item.src}.mp4`} type="video/mp4" />
+      <source src={`${item.src}.webm`} type="video/webm" />
+    </video>
+  )
+}
 
 export function AboutCollage() {
   return (
     <div className="about-collage">
-      {PHOTOS.map((p, i) => (
+      {ITEMS.map((item, i) => (
         <div
           key={i}
           className="about-photo-card"
-          style={{ '--fallback': p.color } as React.CSSProperties}
+          style={{ '--fallback': item.color } as React.CSSProperties}
         >
-          <img
-            src={p.src}
-            alt={p.trait ?? 'A moment from my life'}
-            className="about-photo-img"
-            loading="lazy"
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-          />
-          {p.trait && <span className="about-photo-trait">{p.trait}</span>}
+          {item.type === 'image' ? (
+            <img
+              src={item.src}
+              alt={item.trait ?? 'A moment from my life'}
+              className="about-photo-img"
+              loading="lazy"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+            />
+          ) : (
+            <VideoTile item={item} />
+          )}
+          {item.trait && <span className="about-photo-trait">{item.trait}</span>}
         </div>
       ))}
     </div>
