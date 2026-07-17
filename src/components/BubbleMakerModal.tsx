@@ -142,26 +142,28 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
       const boosted = Math.sqrt(energyRef.current)
       const r = 34 + Math.random() * (26 + boosted * 55)
       const now = performance.now()
+      // Each bubble keeps rising at its own steady pace for its whole life —
+      // fast enough to visibly clear the wand instead of piling up on top of
+      // the bubbles spawned right after it.
+      const floatSpeed = 85 + Math.random() * 95
       bubblesRef.current.push({
         x: wandX,
         y: wandY,
         r,
-        // A gentler initial launch than before — most of the climb comes from
-        // the slow floatSpeed floor below, leaving room and time to roam.
         vx: (Math.random() - 0.5) * 32,
-        vy: -(20 + Math.random() * 30 + boosted * 40),
+        vy: -(floatSpeed + boosted * 40),
         wobblePhase: Math.random() * Math.PI * 2,
         wobbleFreq: 0.5 + Math.random() * 0.7,
         wobblePhase2: Math.random() * Math.PI * 2,
         wobbleFreq2: 0.9 + Math.random() * 1.3,
         driftTargetVx: (Math.random() - 0.5) * 260,
         driftChangeAt: now + 400 + Math.random() * 700,
-        floatSpeed: 6 + Math.random() * 10,
+        floatSpeed,
         hue: Math.random() * 360,
         born: now,
-        // Longer lives give bubbles enough time to actually cross the screen
-        // before they either float off the top or pop.
-        popAt: 5000 + Math.random() * 6000,
+        // Long enough to comfortably rise clear across the screen before
+        // either floating off the top or popping.
+        popAt: 4500 + Math.random() * 4000,
         popping: false,
         popProgress: 0,
       })
