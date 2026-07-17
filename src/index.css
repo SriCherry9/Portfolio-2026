@@ -2705,46 +2705,107 @@ html[data-theme="dark"] .pg-page-header {
 
 .candle-photo-wrap {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .candle-photo-wrap--fill {
-  width: 100%;
   height: 100%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
 }
 
 .candle-photo-wrap--modal {
-  width: min(78vw, 380px);
-  height: min(60vh, 380px);
+  width: min(78vw, 60vh, 380px);
+  aspect-ratio: 1 / 1;
   padding: 16px;
+  box-sizing: content-box;
 }
 
 .candle-photo {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
-  transition: filter 0.15s ease-out;
 }
 
-.candle-photo.candle-igniting {
-  animation: candle-photo-ignite 0.3s ease-out;
+/* ── Flame overlay: anchored over the wick, drawn/animated independently
+   of the static photo so it can actually flicker ─────────────────────── */
+.candle-flame-anchor {
+  position: absolute;
+  left: 41.3%;
+  top: 35.7%;
+  width: 8%;
+  height: 17%;
+  transform: translate(-50%, -100%);
 }
 
-@keyframes candle-photo-ignite {
-  0% { filter: brightness(0.3); }
-  55% { filter: brightness(1.5); }
-  100% { filter: brightness(1); }
+.candle-flame-lean {
+  width: 100%;
+  height: 100%;
+  transform-origin: bottom center;
+}
+
+.candle-flame-flicker {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: bottom center;
+  filter: drop-shadow(0 0 8px rgba(255, 160, 60, 0.55));
+  animation: candle-flicker 2.3s ease-in-out infinite;
+}
+
+.candle-flame-flicker.candle-igniting {
+  animation: candle-ignite 0.3s ease-out;
+}
+
+.candle-flame-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.candle-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  width: 260%;
+  height: 130%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 90, 0.5) 0%, rgba(255, 140, 40, 0.15) 45%, transparent 72%);
+  filter: blur(4px);
+  pointer-events: none;
+  z-index: -1;
+  animation: candle-glow-pulse 1.9s ease-in-out infinite;
+}
+
+@keyframes candle-flicker {
+  0%   { transform: translateX(0) rotate(0deg) scale(1, 1); }
+  15%  { transform: translateX(-6%) rotate(-3deg) scale(0.96, 1.05); }
+  32%  { transform: translateX(6%) rotate(2deg) scale(1.05, 0.94); }
+  50%  { transform: translateX(-4%) rotate(-1deg) scale(0.98, 1.02); }
+  68%  { transform: translateX(8%) rotate(3deg) scale(1.06, 0.95); }
+  85%  { transform: translateX(-3%) rotate(-2deg) scale(0.97, 1.03); }
+  100% { transform: translateX(0) rotate(0deg) scale(1, 1); }
+}
+
+@keyframes candle-ignite {
+  0% { transform: scale(0.2, 0.3); opacity: 0.3; }
+  60% { transform: scale(1.15, 0.9); opacity: 1; }
+  100% { transform: scale(1, 1); opacity: 1; }
+}
+
+@keyframes candle-glow-pulse {
+  0%, 100% { opacity: 0.75; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
 }
 
 .candle-wick-marker {
   position: absolute;
-  left: 44%;
-  top: 30%;
+  left: 41.3%;
+  top: 35.7%;
   width: 0;
   height: 0;
 }

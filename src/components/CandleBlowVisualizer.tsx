@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 interface CandleBlowVisualizerProps {
@@ -11,26 +11,69 @@ type MicStatus = 'idle' | 'requesting' | 'listening' | 'denied'
 const BLOW_THRESHOLD = 0.15
 const BLOW_HOLD_MS = 220
 const SMOKE_DURATION_MS = 2200
-const CANDLE_IMG = '/images/candle-holder.gif'
+const CANDLE_IMG = '/images/candle-holder.png'
+
+function FlameGraphic({ gradId }: { gradId: string }) {
+  const coreId = `${gradId}-core`
+  const baseId = `${gradId}-base`
+  return (
+    <svg className="candle-flame-svg" viewBox="0 0 30 70">
+      <defs>
+        <radialGradient id={gradId} cx="50%" cy="88%" r="78%">
+          <stop offset="0%" stopColor="#fffdf2" />
+          <stop offset="26%" stopColor="#ffe27a" />
+          <stop offset="55%" stopColor="#ffa93f" />
+          <stop offset="82%" stopColor="#ff6a1f" />
+          <stop offset="100%" stopColor="#e8431a" stopOpacity="0.8" />
+        </radialGradient>
+        <radialGradient id={coreId} cx="50%" cy="90%" r="48%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="55%" stopColor="#fff6d0" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#fff6d0" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id={baseId} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#cdeaff" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#8fc4ee" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <path
+        d="M15 2C9 14 5 26 5 37C5 52.5 9.5 65 15 68C20.5 65 25 52.5 25 37C25 26 21 14 15 2Z"
+        fill={`url(#${gradId})`}
+      />
+      <ellipse cx="15" cy="58" rx="4" ry="6" fill={`url(#${baseId})`} />
+      <path
+        d="M15 30C11 38 9 45 9 51C9 57.5 11.7 62 15 62C18.3 62 21 57.5 21 51C21 45 19 38 15 30Z"
+        fill={`url(#${coreId})`}
+      />
+    </svg>
+  )
+}
 
 interface CandleSceneProps {
   lit: boolean
   smoking: boolean
   igniting: boolean
   fill?: boolean
-  photoRef?: React.Ref<HTMLImageElement>
+  gradId: string
+  leanRef?: React.Ref<HTMLDivElement>
 }
 
-function CandleScene({ lit, smoking, igniting, fill, photoRef }: CandleSceneProps) {
+function CandleScene({ lit, smoking, igniting, fill, gradId, leanRef }: CandleSceneProps) {
   return (
     <div className={`candle-photo-wrap${fill ? ' candle-photo-wrap--fill' : ' candle-photo-wrap--modal'}`}>
-      <img
-        ref={photoRef}
-        src={CANDLE_IMG}
-        alt="A lit dripping candle in a ceramic holder"
-        className={`candle-photo${igniting ? ' candle-igniting' : ''}`}
-        draggable={false}
-      />
+      <img src={CANDLE_IMG} alt="A dripping candle in a ceramic holder" className="candle-photo" draggable={false} />
+
+      {lit && (
+        <div className="candle-flame-anchor">
+          <div ref={leanRef} className="candle-flame-lean">
+            <div className={`candle-flame-flicker${igniting ? ' candle-igniting' : ''}`}>
+              <div className="candle-glow" />
+              <FlameGraphic gradId={gradId} />
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="candle-wick-marker">
         {!lit && <div className="candle-ember" />}
         {smoking && (
@@ -46,9 +89,10 @@ function CandleScene({ lit, smoking, igniting, fill, photoRef }: CandleSceneProp
 }
 
 function CandleModal({ onClose }: { onClose: () => void }) {
+  const gradId = useId()
   const audioCtxRef = useRef<AudioContext | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
-  const photoRef = useRef<HTMLImageElement>(null)
+  const leanRef = useRef<HTMLDivElement>(null)
   const litRef = useRef(true)
   const blowStartRef = useRef<number | null>(null)
   const rafRef = useRef<number | undefined>(undefined)
@@ -77,7 +121,6 @@ function CandleModal({ onClose }: { onClose: () => void }) {
     setLit(false)
     setSmoking(true)
     blowStartRef.current = null
-    if (photoRef.current) photoRef.current.style.filter = ''
     window.clearTimeout(smokeTimerRef.current)
     smokeTimerRef.current = window.setTimeout(() => setSmoking(false), SMOKE_DURATION_MS)
   }
@@ -131,8 +174,9 @@ function CandleModal({ onClose }: { onClose: () => void }) {
 
         if (litRef.current) {
           const lean = Math.max(0, Math.min(1, smoothed / (BLOW_THRESHOLD * 2.2)))
-          if (photoRef.current) {
-            photoRef.current.style.filter = `brightness(${1 - lean * 0.3})`
+          if (leanRef.current) {
+            leanRef.current.style.transform =
+              `translateX(${lean * 10}px) rotate(${lean * 24}deg) scale(${1 - lean * 0.35}, ${1 + lean * 0.1})`
           }
           if (smoothed > BLOW_THRESHOLD) {
             const now = performance.now()
@@ -162,7 +206,7 @@ function CandleModal({ onClose }: { onClose: () => void }) {
         </button>
 
         <div className={`candle-room${!lit ? ' candle-room-dark' : ''}`}>
-          <CandleScene lit={lit} smoking={smoking} igniting={igniting} photoRef={photoRef} />
+          <CandleScene lit={lit} smoking={smoking} igniting={igniting} gradId={gradId} leanRef={leanRef} />
         </div>
 
         {!lit && (
@@ -189,11 +233,12 @@ function CandleModal({ onClose }: { onClose: () => void }) {
 }
 
 export function CandleBlowVisualizer({ width, height }: CandleBlowVisualizerProps) {
+  const previewGradId = useId()
   const [open, setOpen] = useState(false)
 
   return (
     <div className="candle-viz" style={{ width, height }}>
-      <CandleScene lit smoking={false} igniting={false} fill />
+      <CandleScene lit smoking={false} igniting={false} gradId={previewGradId} fill />
       <button
         className="sound-wave-open-btn"
         onMouseDown={e => e.stopPropagation()}
