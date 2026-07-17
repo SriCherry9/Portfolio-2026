@@ -2510,6 +2510,14 @@ html[data-theme="dark"] .sticky-note::before {
   font-style: italic;
 }
 
+.garden-made-with {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
 .garden-links-wrap {
   display: flex;
   gap: 64px;

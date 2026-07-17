@@ -89,6 +89,7 @@ export function GardenFooter() {
       <div className="garden-info">
         <div className="garden-quote-block">
           <p className="garden-quote-text">Plant a garden that adds<br />life into your journey on earth.</p>
+          <p className="garden-made-with">MADE WITH CLAUDE AND DEPLOYED WITH VERCEL</p>
         </div>
         <div className="garden-links-wrap">
           <div className="garden-links-col">
