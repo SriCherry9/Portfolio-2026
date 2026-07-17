@@ -237,10 +237,11 @@ const ITEMS: PlayItem[] = [
     desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
     x: 2130, y: 1070, width: 300, height: 260,
     visualStyle: {
-      background: 'radial-gradient(ellipse 70% 90% at 50% 45%, #d9f04a 0%, #a8c62c 55%, #3a4a12 100%)',
+      background: '#1c2e08',
+      backgroundImage: 'url(/images/ball-pit-cover.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
     },
-    label: '🎾',
-    labelStyle: { fontSize: '74px', lineHeight: '1' },
     interactive: 'tennis-balls',
   },
 ]
