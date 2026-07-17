@@ -18,12 +18,21 @@ interface PlayItem {
 }
 
 const ITEMS: PlayItem[] = [
+  {
+    id: 19,
+    title: 'Sound Wave — Live Rhythm',
+    desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
+    x: 60, y: 70, width: 320, height: 260,
+    visualStyle: { background: '#0a0a0a' },
+    renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
+  },
+
   // ── Row 1 (y ≈ 60) — spans full viewport width ────────────────
   {
     id: 1,
     title: 'Gradient Study No. 01',
     desc: 'Exploring warm hue transitions and color theory',
-    x: 60, y: 70, width: 310, height: 230,
+    x: 1420, y: 1070, width: 310, height: 230,
     visualStyle: { background: 'linear-gradient(145deg, #ffecd2 0%, #fcb69f 50%, #f6a09a 100%)' },
   },
   {
@@ -201,14 +210,6 @@ const ITEMS: PlayItem[] = [
       backgroundPosition: 'center',
     },
     caseStudyPath: '/case-study/comic-strip',
-  },
-  {
-    id: 19,
-    title: 'Sound Wave — Live Rhythm',
-    desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
-    x: 1420, y: 1070, width: 320, height: 260,
-    visualStyle: { background: '#0a0a0a' },
-    renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
   },
 ]
 
