@@ -29,7 +29,7 @@ interface Bubble {
 // Roughly where the wand's loop sits above the bottle graphic, as a fraction
 // of the viewport — bubbles spawn from inside that ring.
 const WAND_X_FRAC = 0.5
-const WAND_Y_FRAC = 0.53
+const WAND_Y_FRAC = 0.48
 
 // Short radial notches around the wand's loop, giving its rim a grooved,
 // knurled-grip texture instead of a plain smooth ring.
@@ -356,7 +356,7 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
               />
             ))}
           </g>
-          <path d="M43 57 C 40 90, 40 100, 36 118" stroke="#3fb6d8" strokeWidth="6" strokeLinecap="round" fill="none" />
+          <path d="M43 57 C 40 92, 39 125, 37 155" stroke="#3fb6d8" strokeWidth="6" strokeLinecap="round" fill="none" />
           <rect x="14" y="112" width="58" height="64" rx="10" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
           <rect x="14" y="146" width="58" height="30" rx="10" fill="url(#bm-liquid-grad)" opacity="0.92" />
           <g clipPath="url(#bm-liquid-clip)">

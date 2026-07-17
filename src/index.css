@@ -2055,7 +2055,7 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
 
 .bm-wand {
   position: fixed;
-  bottom: 2%;
+  bottom: 7%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 99;
