@@ -63,6 +63,8 @@ function CandleScene({ lit, smoking, igniting, fill, gradId, leanRef }: CandleSc
     <div className={`candle-photo-wrap${fill ? ' candle-photo-wrap--fill' : ' candle-photo-wrap--modal'}`}>
       <img src={CANDLE_IMG} alt="A dripping candle in a ceramic holder" className="candle-photo" draggable={false} />
 
+      <div className="candle-wick" />
+
       {lit && (
         <div className="candle-flame-anchor">
           <div ref={leanRef} className="candle-flame-lean">

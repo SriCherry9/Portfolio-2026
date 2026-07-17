@@ -2732,6 +2732,18 @@ html[data-theme="dark"] .pg-page-header {
 
 /* ── Flame overlay: anchored over the wick, drawn/animated independently
    of the static photo so it can actually flicker ─────────────────────── */
+.candle-wick {
+  position: absolute;
+  left: 41.3%;
+  top: 33.6%;
+  width: 2px;
+  height: 3.2%;
+  transform: translateX(-50%);
+  background: linear-gradient(#4a3320, #241408);
+  border-radius: 1px;
+  z-index: 1;
+}
+
 .candle-flame-anchor {
   position: absolute;
   left: 41.3%;
@@ -2739,6 +2751,7 @@ html[data-theme="dark"] .pg-page-header {
   width: 8%;
   height: 17%;
   transform: translate(-50%, -100%);
+  z-index: 2;
 }
 
 .candle-flame-lean {
