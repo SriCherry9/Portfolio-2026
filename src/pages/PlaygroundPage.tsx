@@ -154,11 +154,11 @@ const CAPTION_ALLOWANCE = 100
  * top band; everything else fills in around them.
  */
 function scatterLayout(items: BaseItem[]): PlayItem[] {
-  const GAP = 16
+  const GAP = 32
   const placed: { x: number; y: number; w: number; h: number }[] = []
-  let xMax = 1300
-  let pinnedYMax = 750
-  let restYMax = 1300
+  let xMax = 1400
+  let pinnedYMax = 820
+  let restYMax = 1400
 
   const overlaps = (x: number, y: number, w: number, h: number) =>
     placed.some(p =>
@@ -167,7 +167,7 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
     )
 
   const place = (w: number, h: number, growY: () => void, getYMax: () => number) => {
-    for (let round = 0; round < 6; round++) {
+    for (let round = 0; round < 8; round++) {
       const yMax = getYMax()
       for (let attempt = 0; attempt < 1500; attempt++) {
         const x = Math.round(Math.random() * Math.max(0, xMax - w))
@@ -199,7 +199,7 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
 const ITEMS: PlayItem[] = scatterLayout(BASE_ITEMS)
 
 // Bounding box of the packed cluster, padded so repeated copies read as distinct tiles.
-const TILE_GAP = 60
+const TILE_GAP = 80
 const CLUSTER_WIDTH = Math.max(...ITEMS.map(i => i.x + i.width)) + TILE_GAP
 const CLUSTER_HEIGHT = Math.max(...ITEMS.map(i => i.y + i.height + CAPTION_ALLOWANCE)) + TILE_GAP
 
