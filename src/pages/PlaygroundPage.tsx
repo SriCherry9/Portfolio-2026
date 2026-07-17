@@ -216,15 +216,17 @@ const ITEMS: PlayItem[] = [
   {
     id: 20,
     title: 'Portrait Study No. 07',
-    desc: 'A cubist plate in typewriter type — click to bring pigment back into eight measured planes',
+    desc: 'A portrait typed entirely in struck characters — eight measured planes, ink only',
     x: 60, y: 1400, width: 300, height: 280,
     visualStyle: {
-      background: 'radial-gradient(circle at 68% 30%, rgba(214,83,28,0.22), transparent 55%), #17140f',
-    },
+      background: '#f2ecdf',
+      backgroundImage: 'radial-gradient(circle, #1c1812 0.6px, transparent 0.6px)',
+      backgroundSize: '9px 9px',
+    } as React.CSSProperties,
     label: '07',
     labelStyle: {
       fontSize: '110px',
-      color: 'rgba(242,236,223,0.14)',
+      color: 'rgba(28,24,18,0.1)',
       fontFamily: '"Courier New", Courier, monospace',
       fontWeight: '700',
       lineHeight: '1',
