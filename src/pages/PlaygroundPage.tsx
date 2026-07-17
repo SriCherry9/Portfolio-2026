@@ -4,6 +4,7 @@ import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
 import { DustyGlassModal } from '../components/DustyGlassModal'
 import { HandShadowModal } from '../components/HandShadowModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
+import { TypewriterModal } from '../components/TypewriterModal'
 
 interface PlayItem {
   id: number
@@ -18,7 +19,7 @@ interface PlayItem {
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls'
+  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls' | 'typewriter'
 }
 
 const ITEMS: PlayItem[] = [
@@ -255,6 +256,20 @@ const ITEMS: PlayItem[] = [
     },
     interactive: 'tennis-balls',
   },
+  {
+    id: 24,
+    title: 'Write a Letter',
+    desc: 'A cherry-red Hermes Baby — type on your keyboard and watch the keys strike home, then take your letter with you',
+    x: 2480, y: 1070, width: 320, height: 260,
+    visualStyle: {
+      background: '#f2ece1',
+      backgroundImage: 'url(/images/Typewriter.webp)',
+      backgroundSize: '86%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+    },
+    interactive: 'typewriter',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -268,6 +283,7 @@ export function PlaygroundPage() {
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
   const [handShadowOpen, setHandShadowOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
+  const [typewriterOpen, setTypewriterOpen] = useState(false)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -406,6 +422,21 @@ export function PlaygroundPage() {
                 </div>
               )
             }
+            if (item.interactive === 'typewriter') {
+              return (
+                <div
+                  key={item.id}
+                  className="play-item play-item-link"
+                  style={{ left: item.x, top: item.y, width: item.width }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setTypewriterOpen(true)}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setTypewriterOpen(true)}
+                >
+                  {content}
+                </div>
+              )
+            }
             return item.caseStudyPath ? (
               <Link
                 key={item.id}
@@ -443,6 +474,7 @@ export function PlaygroundPage() {
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
       {handShadowOpen && <HandShadowModal onClose={() => setHandShadowOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
+      {typewriterOpen && <TypewriterModal onClose={() => setTypewriterOpen(false)} />}
     </div>
   )
 }
