@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
 import { DustyGlassModal } from '../components/DustyGlassModal'
 import { HandShadowModal } from '../components/HandShadowModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
@@ -16,16 +17,26 @@ interface PlayItem {
   label?: string
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
+  renderVisual?: (width: number, height: number) => React.ReactNode
   interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls'
 }
 
 const ITEMS: PlayItem[] = [
+  {
+    id: 20,
+    title: 'Sound Wave — Live Rhythm',
+    desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
+    x: 60, y: 70, width: 320, height: 260,
+    visualStyle: { background: '#0a0a0a' },
+    renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
+  },
+
   // ── Row 1 (y ≈ 60) — spans full viewport width ────────────────
   {
     id: 19,
     title: 'Draw on the Glass',
     desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
-    x: 60, y: 70, width: 300, height: 220,
+    x: 420, y: 70, width: 300, height: 220,
     visualStyle: {
       background: '#c7ced0',
       backgroundImage: 'url(/images/dusty-glass-cover.jpg)',
@@ -38,21 +49,21 @@ const ITEMS: PlayItem[] = [
     id: 1,
     title: 'Gradient Study No. 01',
     desc: 'Exploring warm hue transitions and color theory',
-    x: 400, y: 70, width: 310, height: 230,
+    x: 760, y: 70, width: 310, height: 230,
     visualStyle: { background: 'linear-gradient(145deg, #ffecd2 0%, #fcb69f 50%, #f6a09a 100%)' },
   },
   {
     id: 2,
     title: 'Violet Hour',
     desc: 'Portrait study — digital painting series',
-    x: 760, y: 50, width: 210, height: 310,
+    x: 1120, y: 50, width: 210, height: 310,
     visualStyle: { background: 'linear-gradient(180deg, #5c3d8f 0%, #a855f7 40%, #ec4899 100%)' },
   },
   {
     id: 3,
     title: 'Generative Circles',
     desc: 'Canvas API with Perlin noise displacement',
-    x: 1020, y: 70, width: 390, height: 270,
+    x: 1380, y: 70, width: 390, height: 270,
     visualStyle: {
       background: [
         'radial-gradient(ellipse at 30% 50%, rgba(255,77,77,0.9) 0%, transparent 45%)',
@@ -66,14 +77,14 @@ const ITEMS: PlayItem[] = [
     id: 4,
     title: 'Morning Blue',
     desc: 'Photography — early morning fog series',
-    x: 1460, y: 60, width: 250, height: 240,
+    x: 1820, y: 60, width: 250, height: 240,
     visualStyle: { background: 'linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%)' },
   },
   {
     id: 5,
     title: 'Editorial Layout',
     desc: 'Typographic composition for a magazine feature',
-    x: 1760, y: 50, width: 270, height: 380,
+    x: 2120, y: 50, width: 270, height: 380,
     visualStyle: { background: 'linear-gradient(135deg, #f5e6d3 0%, #e8c9a0 100%)' },
     label: '01',
     labelStyle: {
@@ -218,7 +229,7 @@ const ITEMS: PlayItem[] = [
     caseStudyPath: '/case-study/comic-strip',
   },
   {
-    id: 20,
+    id: 22,
     title: 'Hand Shadows',
     desc: 'Camera-tracked shadow puppets — cast your hand on the wall',
     x: 1780, y: 1070, width: 300, height: 260,
@@ -232,7 +243,7 @@ const ITEMS: PlayItem[] = [
     interactive: 'hand-shadow',
   },
   {
-    id: 21,
+    id: 23,
     title: 'Ball Pit',
     desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
     x: 2130, y: 1070, width: 300, height: 260,
@@ -338,11 +349,13 @@ export function PlaygroundPage() {
                   className="play-item-visual"
                   style={{ height: item.height, ...item.visualStyle }}
                 >
-                  {item.label && (
-                    <span className="play-item-label" style={item.labelStyle}>
-                      {item.label}
-                    </span>
-                  )}
+                  {item.renderVisual
+                    ? item.renderVisual(item.width, item.height)
+                    : item.label && (
+                      <span className="play-item-label" style={item.labelStyle}>
+                        {item.label}
+                      </span>
+                    )}
                 </div>
                 <p className="play-item-title">{item.title}</p>
                 <p className="play-item-desc">{item.desc}</p>
