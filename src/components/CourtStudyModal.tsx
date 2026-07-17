@@ -74,6 +74,12 @@ function buildGlyphs(): GlyphSpec[] {
     }
   }
 
+  // clear pockets kept free of texture, so hand-placed props (chair,
+  // table, player, seal) stay legible against the dense crowd fill
+  const exclusions: { x: number; y: number; r: number }[] = []
+  const keepClear = (x: number, y: number, r: number) => { exclusions.push({ x, y, r }) }
+  const isClear = (x: number, y: number) => exclusions.every(e => Math.hypot(x - e.x, y - e.y) >= e.r)
+
   const fillRegionUV = (u0: number, u1: number, v0: number, v1: number, ch: string, stepU: number, stepV: number, keepProb: number, size: number, cls: string, jitter: number) => {
     for (let u = u0; u <= u1; u += stepU) {
       for (let v = v0; v <= v1; v += stepV) {
@@ -81,6 +87,7 @@ function buildGlyphs(): GlyphSpec[] {
         const ju = u + (rand() - 0.5) * stepU * 0.7
         const jv = v + (rand() - 0.5) * stepV * 0.7
         const p = project(ju, jv)
+        if (!isClear(p[0], p[1])) continue
         const pAhead = project(ju + 0.01, jv)
         const baseAngle = (Math.atan2(pAhead[1] - p[1], pAhead[0] - p[0]) * 180) / Math.PI
         const rot = baseAngle + (rand() - 0.5) * jitter
@@ -89,14 +96,105 @@ function buildGlyphs(): GlyphSpec[] {
     }
   }
 
-  // surrounds / apron, framing the court on all four sides
-  fillRegionUV(-0.1, 1.14, -1.3, -1.04, '+', 0.05, 0.1, 0.65, 8, 'tone2', 16)
-  fillRegionUV(-0.1, 1.14, 1.04, 1.3, '+', 0.05, 0.1, 0.65, 8, 'tone2', 16)
-  fillRegionUV(-0.1, -0.01, -1.3, 1.3, '+', 0.045, 0.1, 0.6, 8, 'tone2', 16)
-  fillRegionUV(1.01, 1.14, -1.3, 1.3, '+', 0.04, 0.1, 0.65, 8, 'tone2', 16)
+  // sparse cluster of "little spectator" glyph pairs (head + shoulders)
+  // scattered over a region, so the crowd mass reads as individuals up close
+  const fillFiguresUV = (u0: number, u1: number, v0: number, v1: number, stepU: number, stepV: number, keepProb: number, size: number, cls: string) => {
+    for (let u = u0; u <= u1; u += stepU) {
+      for (let v = v0; v <= v1; v += stepV) {
+        if (rand() > keepProb) continue
+        const ju = u + (rand() - 0.5) * stepU * 0.6
+        const jv = v + (rand() - 0.5) * stepV * 0.6
+        const p = project(ju, jv)
+        if (!isClear(p[0], p[1])) continue
+        const pAhead = project(ju + 0.01, jv)
+        const angle = (Math.atan2(pAhead[1] - p[1], pAhead[0] - p[0]) * 180) / Math.PI
+        push(p[0], p[1], angle + (rand() - 0.5) * 10, 'o', size, cls)
+        const p2 = project(ju + stepU * 0.55, jv)
+        push(p2[0], p2[1], angle, rand() < 0.5 ? 'n' : 'u', size * 0.92, cls)
+      }
+    }
+  }
 
-  // gallery band, tiered beyond the far baseline
-  fillRegionUV(1.16, 1.44, -1.4, 1.4, '=', 0.038, 0.09, 0.76, 8.5, 'tone3', 13)
+  // a word typed along the local tangent of the (u,v) surface, so labels
+  // sit flush with whatever texture band they're embedded in
+  const wordUV = (u0: number, v0: number, str: string, size: number, gapPx: number, cls: string) => {
+    const u = u0
+    let v = v0
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] !== ' ') {
+        const p = project(u, v)
+        const pAheadV = project(u, v + 0.001)
+        const angle = (Math.atan2(pAheadV[1] - p[1], pAheadV[0] - p[0]) * 180) / Math.PI
+        push(p[0], p[1], angle, str[i], size, cls)
+      }
+      const pNow = project(u, v)
+      const pStep = project(u, v + 0.01)
+      const localScale = Math.hypot(pStep[0] - pNow[0], pStep[1] - pNow[1]) / 0.01
+      v += gapPx / Math.max(localScale, 1)
+    }
+  }
+
+  // a word set in a ring around a centre point, in plain canvas pixels
+  const ringXY = (cx: number, cy: number, r: number, str: string, size: number, cls: string, startDeg: number) => {
+    const circumference = 2 * Math.PI * r
+    const slot = size * 1.05
+    const count = Math.max(str.length, Math.floor(circumference / slot))
+    for (let i = 0; i < count; i++) {
+      const ch = str[i % str.length]
+      if (ch === ' ') continue
+      const ang = startDeg + (360 * i) / count
+      const rad = (ang * Math.PI) / 180
+      const x = cx + r * Math.cos(rad)
+      const y = cy + r * Math.sin(rad)
+      push(x, y, ang + 90, ch, size, cls)
+    }
+  }
+
+  // anchors for every hand-placed prop, computed first so the crowd
+  // texture can leave a clean pocket around each one
+  const chairBase = project(0.5, 1.13)
+  const cx = chairBase[0], cy = chairBase[1]
+  const tableBase: [number, number] = [cx + 46, cy + 6]
+  const pj = project(0.34, 0.05)
+  const px = pj[0], py = pj[1]
+  const seal = project(0.06, 1.72)
+
+  keepClear(cx, cy - 10, 52)
+  keepClear(tableBase[0], tableBase[1], 30)
+  keepClear(px, py, 46)
+  keepClear(seal[0], seal[1], 80)
+
+  // dotted hedge line, just outside the doubles court — separates the
+  // playing surface from the surrounding crowd and apron
+  lineCharsUV(-0.03, -1.05, 1.03, -1.05, '·', 9, 6.5, 'tone1')
+  lineCharsUV(-0.03, 1.05, 1.03, 1.05, '·', 9, 6.5, 'tone1')
+  lineCharsUV(-0.05, -1.05, -0.05, 1.05, '·', 9, 6.5, 'tone1')
+  lineCharsUV(1.05, -1.05, 1.05, 1.05, '·', 9, 6.5, 'tone1')
+
+  // open apron on the near/left side — light, mostly bare
+  fillRegionUV(-0.12, 1.02, -1.34, -1.07, '+', 0.06, 0.13, 0.35, 7.5, 'tone1', 14)
+  fillRegionUV(-0.12, -0.06, -1.34, 1.34, '+', 0.055, 0.12, 0.32, 7.5, 'tone1', 14)
+
+  // the crowd — one dense mass wrapping the far baseline and the right
+  // sideline, layered with several characters for a hand-hatched depth
+  const crowdArms: [number, number, number, number][] = [
+    [-0.06, 1.34, 1.03, 1.4],   // right-side tier (foreground -> back)
+    [1.03, 1.4, -1.34, 1.4],    // far tier, wrapping across the top
+  ]
+  crowdArms.forEach(([u0, u1, v0, v1]) => {
+    fillRegionUV(u0, u1, v0, v1, '=', 0.032, 0.062, 0.88, 8, 'tone3', 12)
+    fillRegionUV(u0, u1, v0, v1, '%', 0.045, 0.085, 0.55, 8.5, 'tone4', 16)
+    fillRegionUV(u0, u1, v0, v1, '@', 0.075, 0.13, 0.28, 9, 'tone5', 18)
+    fillFiguresUV(u0, u1, v0, v1, 0.085, 0.155, 0.5, 9.5, 'tone5')
+  })
+
+  // a few readable words typed into the gallery wall, tennis vocabulary
+  // standing in for a scoreboard rather than plain texture
+  wordUV(1.1, -0.95, 'DEUCE', 12, 15, 'ink-line')
+  wordUV(1.16, -0.15, 'LOVE', 13, 15, 'ink-line')
+  wordUV(1.08, 0.55, 'AD-IN', 12, 15, 'ink-line')
+  wordUV(0.08, 1.2, 'GAME', 12, 15, 'ink-line')
+  wordUV(0.4, 1.24, 'SET', 12, 15, 'ink-line')
 
   // court surface, inside the lines — light turf texture
   fillRegionUV(0.02, 0.98, -0.98, 0.98, '.', 0.05, 0.1, 0.5, 7, 'tone1', 12)
@@ -123,19 +221,46 @@ function buildGlyphs(): GlyphSpec[] {
   lineCharsXY(netL[0], netL[1] - 24, netL[0], netL[1] + 24, '|', 9, 11, 'ink-line')
   lineCharsXY(netR[0], netR[1] - 24, netR[0], netR[1] + 24, '|', 9, 11, 'ink-line')
 
-  // umpire's chair, hand-placed just off the doubles line
-  const chairBase = project(0.5, 1.32)
-  const cx = chairBase[0], cy = chairBase[1]
-  lineCharsXY(cx - 14, cy + 34, cx - 6, cy - 30, '|', 9, 9, 'ink-line')
-  lineCharsXY(cx + 14, cy + 34, cx + 6, cy - 30, '|', 9, 9, 'ink-line')
-  lineCharsXY(cx - 13, cy + 20, cx + 13, cy + 20, '-', 8, 9, 'ink-line')
-  lineCharsXY(cx - 10, cy + 4, cx + 10, cy + 4, '-', 8, 9, 'ink-line')
-  lineCharsXY(cx - 8, cy - 10, cx + 8, cy - 10, '-', 8, 9, 'ink-line')
-  lineCharsXY(cx - 9, cy - 24, cx + 9, cy - 24, '=', 8, 10, 'ink-line')
+  // umpire's chair — tall ladder-back stand right beside the net, with
+  // crossed legs for stability, clear of the crowd behind it
+  lineCharsXY(cx - 16, cy + 40, cx - 7, cy - 40, '|', 8.5, 9, 'ink-line')
+  lineCharsXY(cx + 16, cy + 40, cx + 7, cy - 40, '|', 8.5, 9, 'ink-line')
+  lineCharsXY(cx - 16, cy + 40, cx + 7, cy - 40, '/', 9, 8, 'tone2')
+  lineCharsXY(cx + 16, cy + 40, cx - 7, cy - 40, '\\', 9, 8, 'tone2')
+  lineCharsXY(cx - 14, cy + 26, cx + 14, cy + 26, '-', 8, 9, 'ink-line')
+  lineCharsXY(cx - 11, cy + 10, cx + 11, cy + 10, '-', 8, 9, 'ink-line')
+  lineCharsXY(cx - 9, cy - 6, cx + 9, cy - 6, '-', 8, 9, 'ink-line')
+  lineCharsXY(cx - 7, cy - 20, cx + 7, cy - 20, '-', 8, 9, 'ink-line')
+  lineCharsXY(cx - 10, cy - 34, cx + 10, cy - 34, '=', 8, 10, 'ink-line')
+  push(cx, cy - 44, 0, 'A', 9, 'ink-line')
 
-  // the ball — a single struck zero
-  const ballP = project(0.4, -0.18)
-  push(ballP[0], ballP[1], -14, '0', 24, 'ball-char')
+  // scorer's table beside the chair
+  lineCharsXY(tableBase[0] - 12, tableBase[1] + 6, tableBase[0] + 12, tableBase[1] + 6, '-', 6, 8, 'ink-line')
+  lineCharsXY(tableBase[0] - 10, tableBase[1] + 6, tableBase[0] - 10, tableBase[1] + 16, '|', 6, 7, 'ink-line')
+  lineCharsXY(tableBase[0] + 10, tableBase[1] + 6, tableBase[0] + 10, tableBase[1] + 16, '|', 6, 7, 'ink-line')
+  lineCharsXY(tableBase[0] - 12, tableBase[1] - 2, tableBase[0] + 12, tableBase[1] - 2, '=', 6, 8, 'ink-line')
+  push(tableBase[0], tableBase[1] - 10, 0, 'B', 8, 'ink-line')
+
+  // the player, mid-stride at the net, typed as a chain of struck limbs
+  push(px, py - 38, -6, '@', 12, 'ink-line')
+  lineCharsXY(px, py - 29, px - 2, py + 6, '|', 6, 11, 'ink-line')
+  lineCharsXY(px - 2, py + 6, px - 20, py + 38, '|', 6, 10, 'ink-line')
+  lineCharsXY(px - 2, py + 6, px + 16, py + 36, '|', 6, 10, 'ink-line')
+  lineCharsXY(px - 1, py - 20, px + 32, py - 36, '|', 6, 10, 'ink-line')
+  lineCharsXY(px - 3, py - 18, px - 24, py - 4, '|', 6, 10, 'ink-line')
+  lineCharsXY(px + 32, py - 36, px + 32, py - 58, '|', 5, 10, 'ink-line')
+  ringXY(px + 32, py - 68, 11, "''''''''''", 6, 'ink-line', 0)
+  push(px + 14, py + 40, -20, '0', 13, 'ball-char')
+
+  // an original field mark, bottom right — not a real emblem, just the
+  // series' own device
+  ringXY(seal[0], seal[1], 66, 'FIELD PLATES · COURT STUDY 12 · TYPED COURTSIDE · ', 8, 'tone3', -90)
+  ringXY(seal[0], seal[1], 46, '· · · · · · · · · · · · · · · · ', 6, 'tone1', 0)
+  lineCharsXY(seal[0] - 22, seal[1] - 16, seal[0] + 16, seal[1] + 20, '|', 5, 12, 'ink-line')
+  ringXY(seal[0] - 22, seal[1] - 16, 10, "''''''''", 5, 'ink-line', 0)
+  lineCharsXY(seal[0] + 22, seal[1] - 16, seal[0] - 16, seal[1] + 20, '|', 5, 12, 'ink-line')
+  ringXY(seal[0] + 22, seal[1] - 16, 10, "''''''''", 5, 'ink-line', 0)
+  push(seal[0], seal[1] + 20, 0, '0', 11, 'ball-char')
 
   return glyphs
 }
