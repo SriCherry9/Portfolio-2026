@@ -18,6 +18,7 @@ interface Bubble {
   wobbleFreq2: number
   driftTargetVx: number
   driftChangeAt: number
+  floatSpeed: number
   hue: number
   born: number
   popAt: number
@@ -145,17 +146,22 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
         x: wandX,
         y: wandY,
         r,
+        // A gentler initial launch than before — most of the climb comes from
+        // the slow floatSpeed floor below, leaving room and time to roam.
         vx: (Math.random() - 0.5) * 32,
-        vy: -(40 + Math.random() * 50 + boosted * 60),
+        vy: -(20 + Math.random() * 30 + boosted * 40),
         wobblePhase: Math.random() * Math.PI * 2,
         wobbleFreq: 0.5 + Math.random() * 0.7,
         wobblePhase2: Math.random() * Math.PI * 2,
         wobbleFreq2: 0.9 + Math.random() * 1.3,
-        driftTargetVx: (Math.random() - 0.5) * 200,
-        driftChangeAt: now + 350 + Math.random() * 550,
+        driftTargetVx: (Math.random() - 0.5) * 260,
+        driftChangeAt: now + 400 + Math.random() * 700,
+        floatSpeed: 6 + Math.random() * 10,
         hue: Math.random() * 360,
         born: now,
-        popAt: 3200 + Math.random() * 3800,
+        // Longer lives give bubbles enough time to actually cross the screen
+        // before they either float off the top or pop.
+        popAt: 5000 + Math.random() * 6000,
         popping: false,
         popProgress: 0,
       })
@@ -230,14 +236,14 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
           // a slow random walk, like a bubble catching little gusts, so it
           // actually wanders across the screen instead of oscillating in place.
           if (now > b.driftChangeAt) {
-            b.driftTargetVx = (Math.random() - 0.5) * 200
-            b.driftChangeAt = now + 350 + Math.random() * 550
+            b.driftTargetVx = (Math.random() - 0.5) * 260
+            b.driftChangeAt = now + 400 + Math.random() * 700
           }
-          b.vx += (b.driftTargetVx - b.vx) * Math.min(1, dt * 1.6)
+          b.vx += (b.driftTargetVx - b.vx) * Math.min(1, dt * 1.3)
           b.vy += Math.sin(age * 0.0009 + b.wobblePhase2) * 5 * dt
           b.x += b.vx * dt
           b.y += b.vy * dt
-          b.vy = Math.min(b.vy, -10) * 0.994
+          b.vy = Math.min(b.vy, -b.floatSpeed) * 0.994
           if (age > b.popAt || b.y < -b.r * 2) b.popping = true
         } else {
           b.popProgress += dt * 4.2
