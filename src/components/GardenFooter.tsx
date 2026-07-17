@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 
 interface PlantInstance {
   id: number
@@ -87,21 +88,20 @@ export function GardenFooter() {
       {/* Info bar */}
       <div className="garden-info">
         <div className="garden-quote-block">
-          <p className="garden-quote-text">To plant a garden, is to<br />believe in the future.</p>
-          <p className="garden-made-with">MADE WITH &lt;3 AND LOTS OF COFFEE</p>
+          <p className="garden-quote-text">Plant a garden that adds<br />life into your journey on earth.</p>
         </div>
         <div className="garden-links-wrap">
           <div className="garden-links-col">
             <p className="garden-links-label">SAY HI</p>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="garden-link">LINKEDIN</a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="garden-link">TWITTER</a>
+            <a href="https://www.linkedin.com/in/sricherrykotamreddy" target="_blank" rel="noopener noreferrer" className="garden-link">LINKEDIN</a>
+            <a href="https://medium.com/@sricherry.k" target="_blank" rel="noopener noreferrer" className="garden-link">MEDIUM</a>
             <a href="/resume" className="garden-link">RESUME</a>
           </div>
           <div className="garden-links-col">
             <p className="garden-links-label">PAGE</p>
             <a href="/" className="garden-link">HOME</a>
-            <a href="#playground" className="garden-link">PLAYGROUND</a>
-            <a href="#about" className="garden-link">ABOUT</a>
+            <Link to="/playground" className="garden-link">PLAYGROUND</Link>
+            <Link to="/about" className="garden-link">ABOUT</Link>
           </div>
         </div>
       </div>
