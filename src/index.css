@@ -10083,3 +10083,245 @@ html[data-theme="dark"] .case-footer-home:hover {
   color: var(--ps-ink-faint);
   font-variant-numeric: tabular-nums;
 }
+
+/* Court study modal */
+.ct-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 14, 0.78);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+  animation: fade-up 0.3s ease forwards;
+}
+
+.ct-modal-content {
+  --ct-paper: #f2ecdf;
+  --ct-paper-alt: #e8e0cc;
+  --ct-ink: #1c1812;
+  --ct-ink-soft: #4a453a;
+  --ct-ink-faint: #8b8474;
+  --ct-rule: #cdc4ae;
+
+  position: relative;
+  width: min(94vw, 900px);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--ct-paper);
+  color: var(--ct-ink);
+  font-family: "Courier New", Courier, ui-monospace, "Cascadia Mono", "SFMono-Regular", monospace;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.ct-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--ct-ink);
+  font-size: 18px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+  z-index: 1;
+}
+
+.ct-modal-close:hover {
+  background: rgba(28, 24, 18, 0.08);
+}
+
+.ct-sheet * {
+  box-sizing: border-box;
+}
+
+.ct-masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--ct-rule);
+}
+
+.ct-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ct-glyph-mark {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--ct-ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.ct-word {
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ct-ink-soft);
+}
+
+.ct-index {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ct-ink-faint);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.ct-h1 {
+  font-size: clamp(20px, 3.6vw, 28px);
+  line-height: 1.22;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+
+.ct-dek {
+  font-size: 13px;
+  color: var(--ct-ink-soft);
+  line-height: 1.55;
+  max-width: 64ch;
+  margin: 0 0 26px;
+}
+
+.ct-plate {
+  margin: 0;
+  width: 100%;
+  background: var(--ct-paper-alt);
+  padding: 16px;
+  border: 1px solid var(--ct-rule);
+}
+
+.ct-plate-inner {
+  position: relative;
+  background: var(--ct-paper);
+  border: 1px solid var(--ct-rule);
+  overflow: hidden;
+}
+
+.ct-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><circle cx="15" cy="15" r="12" fill="%23cfe94a" stroke="%231c1812" stroke-width="1.4"/><path d="M4 8 Q15 15 4 22" stroke="%23f2ecdf" stroke-width="1.6" fill="none"/><path d="M26 8 Q15 15 26 22" stroke="%23f2ecdf" stroke-width="1.6" fill="none"/></svg>') 15 15,
+    pointer;
+}
+
+.ct-glyph {
+  font-family: inherit;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 820ms cubic-bezier(.6,0,.85,.35), opacity 680ms ease;
+}
+.ct-tone1 { fill: var(--ct-ink-faint); }
+.ct-tone2 { fill: var(--ct-ink-soft); }
+.ct-tone3 { fill: var(--ct-ink-soft); }
+.ct-tone4 { fill: var(--ct-ink); }
+.ct-tone5 { fill: var(--ct-ink); }
+.ct-ink-line { fill: var(--ct-ink); font-weight: 700; }
+.ct-ball-char { fill: var(--ct-ink); font-weight: 700; }
+
+.ct-guide {
+  stroke: var(--ct-ink-faint);
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+  opacity: 0.55;
+  fill: none;
+}
+
+.ct-coord {
+  font-family: inherit;
+  font-size: 9px;
+  fill: var(--ct-ink-faint);
+  letter-spacing: 0.02em;
+}
+
+.ct-dot { fill: var(--ct-ink); }
+
+.ct-readout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 4px 2px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ct-ink-soft);
+}
+
+.ct-state { color: var(--ct-ink); }
+
+.ct-caption {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ct-ink-soft);
+  margin: 18px 0 0;
+  max-width: 64ch;
+}
+
+.ct-caption b {
+  color: var(--ct-ink);
+  font-weight: 700;
+}
+
+.ct-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 22px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ct-rule);
+}
+
+.ct-footer-meta {
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ct-ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.ct-retype {
+  background: none;
+  border: 1px solid var(--ct-ink-soft);
+  color: var(--ct-ink-soft);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ct-retype:hover { background: var(--ct-ink); color: var(--ct-paper); }
+.ct-retype:disabled { opacity: 0.4; cursor: default; }
+.ct-retype:disabled:hover { background: none; color: var(--ct-ink-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-glyph { transition-duration: 1ms !important; }
+}

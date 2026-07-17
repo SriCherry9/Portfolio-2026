@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { DustyGlassModal } from '../components/DustyGlassModal'
 import { PortraitStudyModal } from '../components/PortraitStudyModal'
+import { CourtStudyModal } from '../components/CourtStudyModal'
 
 interface PlayItem {
   id: number
@@ -15,7 +16,7 @@ interface PlayItem {
   label?: string
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
-  interactive?: 'dusty-glass' | 'portrait-study'
+  interactive?: 'dusty-glass' | 'portrait-study' | 'court-study'
 }
 
 const ITEMS: PlayItem[] = [
@@ -233,6 +234,26 @@ const ITEMS: PlayItem[] = [
     },
     interactive: 'portrait-study',
   },
+  {
+    id: 21,
+    title: 'Court Study No. 12',
+    desc: 'A tennis court typed entirely in characters — strike it with the ball and watch it dismantle',
+    x: 410, y: 1400, width: 340, height: 260,
+    visualStyle: {
+      background: '#f2ecdf',
+      backgroundImage: 'radial-gradient(circle, #1c1812 0.6px, transparent 0.6px)',
+      backgroundSize: '9px 9px',
+    } as React.CSSProperties,
+    label: '12',
+    labelStyle: {
+      fontSize: '100px',
+      color: 'rgba(28,24,18,0.1)',
+      fontFamily: '"Courier New", Courier, monospace',
+      fontWeight: '700',
+      lineHeight: '1',
+    },
+    interactive: 'court-study',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -245,6 +266,7 @@ export function PlaygroundPage() {
   const [isDragging, setIsDragging] = useState(false)
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
   const [portraitStudyOpen, setPortraitStudyOpen] = useState(false)
+  const [courtStudyOpen, setCourtStudyOpen] = useState(false)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -366,6 +388,21 @@ export function PlaygroundPage() {
                 </div>
               )
             }
+            if (item.interactive === 'court-study') {
+              return (
+                <div
+                  key={item.id}
+                  className="play-item play-item-link"
+                  style={{ left: item.x, top: item.y, width: item.width }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setCourtStudyOpen(true)}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setCourtStudyOpen(true)}
+                >
+                  {content}
+                </div>
+              )
+            }
             return item.caseStudyPath ? (
               <Link
                 key={item.id}
@@ -402,6 +439,7 @@ export function PlaygroundPage() {
 
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
       {portraitStudyOpen && <PortraitStudyModal onClose={() => setPortraitStudyOpen(false)} />}
+      {courtStudyOpen && <CourtStudyModal onClose={() => setCourtStudyOpen(false)} />}
     </div>
   )
 }
