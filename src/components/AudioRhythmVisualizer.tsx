@@ -425,12 +425,150 @@ function stepBurst(
   ctx.restore()
 }
 
+// Draws a smoothed curve through evenly-spaced points using quadratic segments,
+// giving the ribbon lanes a flowing look instead of a jagged polyline.
+function traceSmoothPath(ctx: CanvasRenderingContext2D, points: { x: number; y: number }[]) {
+  ctx.beginPath()
+  ctx.moveTo(points[0].x, points[0].y)
+  for (let i = 1; i < points.length - 1; i++) {
+    const mx = (points[i].x + points[i + 1].x) / 2
+    const my = (points[i].y + points[i + 1].y) / 2
+    ctx.quadraticCurveTo(points[i].x, points[i].y, mx, my)
+  }
+  const last = points[points.length - 1]
+  ctx.lineTo(last.x, last.y)
+}
+
+// A static tiled backdrop of tiny paired chip/component outlines, cached to an
+// offscreen canvas once per size — echoing the circuit-grid texture in the
+// inference.NET ribbon reference without repainting hundreds of strokes a frame.
+function buildChipBackground(width: number, height: number): HTMLCanvasElement {
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return canvas
+  const gapX = 34
+  const gapY = 30
+  let row = 0
+  for (let gy = 14; gy < height; gy += gapY, row++) {
+    for (let gx = 14; gx < width; gx += gapX) {
+      const purple = (row + Math.floor(gx / gapX)) % 3 !== 0
+      ctx.strokeStyle = purple ? 'rgba(200,140,255,0.32)' : 'rgba(180,255,120,0.22)'
+      ctx.lineWidth = 1
+      const w = 9
+      const h = 6
+      ctx.strokeRect(gx - w, gy - h / 2, w * 0.85, h)
+      ctx.strokeRect(gx + w * 0.05, gy - h / 2, w * 0.85, h)
+    }
+  }
+  return canvas
+}
+
+const RIBBON_HISTORY = 200
+const RIBBON_LANE_COLORS = ['#ff4fd8', '#ff4fd8', '#7ed321', '#7ed321', '#ff8a3d', '#ff8a3d']
+const RIBBON_LANES = RIBBON_LANE_COLORS.length
+
+interface RibbonState { lanes: number[][]; bg: HTMLCanvasElement | null; bgW: number; bgH: number }
+
+function createRibbonState(): RibbonState {
+  return {
+    lanes: Array.from({ length: RIBBON_LANES }, () => new Array(RIBBON_HISTORY).fill(0)),
+    bg: null,
+    bgW: 0,
+    bgH: 0,
+  }
+}
+
+// Ribbon style (inspired by the inference.NET chip-grid reference) — thicker,
+// glossy double-stroke streams over a tiled circuit-icon backdrop, annotated with
+// scattered "20,20" data-point labels like the reference's chart markers. Each
+// strand still scrolls forward with a literal slice of the live waveform.
+function stepRibbon(
+  state: RibbonState,
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  energy: number,
+  band: number,
+  pitch: number,
+  wave: number[],
+) {
+  if (!state.bg || state.bgW !== width || state.bgH !== height) {
+    state.bg = buildChipBackground(width, height)
+    state.bgW = width
+    state.bgH = height
+  }
+
+  state.lanes.forEach((lane, i) => {
+    lane.shift()
+    const offset = (i % 2) * (wave.length / 6)
+    const sampleIdx = Math.floor((Math.floor(i / 2) / 3) * wave.length + offset) % wave.length
+    lane.push(wave[sampleIdx] ?? 0)
+  })
+
+  ctx.fillStyle = '#050505'
+  ctx.fillRect(0, 0, width, height)
+  ctx.drawImage(state.bg, 0, 0)
+
+  const ampScale = height * (0.16 + energy * 0.2)
+  const step = width / (RIBBON_HISTORY - 1)
+  const laneBaseYs: number[] = []
+
+  ctx.lineJoin = 'round'
+  ctx.lineCap = 'round'
+
+  state.lanes.forEach((lane, i) => {
+    const family = Math.floor(i / 2)
+    const strand = i % 2
+    const baseY = height * (0.4 + family * 0.15) + strand * 10
+    laneBaseYs.push(baseY)
+    const color = mixHex(RIBBON_LANE_COLORS[i], '#ffffff', pitch * 0.15)
+    const points = lane.map((v, j) => ({ x: j * step, y: baseY + v * ampScale }))
+
+    ctx.globalAlpha = 0.85
+    ctx.strokeStyle = color
+    ctx.lineWidth = 4.5
+    traceSmoothPath(ctx, points)
+    ctx.stroke()
+
+    ctx.globalAlpha = 0.85
+    ctx.strokeStyle = 'rgba(255,255,255,0.5)'
+    ctx.lineWidth = 1.2
+    traceSmoothPath(ctx, points)
+    ctx.stroke()
+  })
+  ctx.globalAlpha = 1
+
+  ctx.font = '11px "Courier New", monospace'
+  ctx.fillStyle = 'rgba(255,255,255,0.55)'
+  state.lanes.forEach((lane, i) => {
+    for (let x = 30 + i * 22; x < width; x += 150) {
+      const j = Math.min(lane.length - 1, Math.round(x / step))
+      const y = laneBaseYs[i] + lane[j] * ampScale
+      ctx.fillText('20,20', x, y - 10)
+    }
+  })
+
+  const hubColor = mixHex('#ff4fd8', '#3ec5ff', pitch)
+  const hubR = 4 + energy * 14
+  ctx.save()
+  ctx.shadowBlur = 10 + energy * 18
+  ctx.shadowColor = hubColor
+  ctx.fillStyle = hubColor
+  ctx.beginPath()
+  ctx.arc(width - 22, height - 22, hubR, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.restore()
+}
+
 type StyleState =
   | { kind: 'bloom'; s: BloomState }
   | { kind: 'flow'; s: FlowState }
   | { kind: 'burst'; s: BurstState }
+  | { kind: 'ribbon'; s: RibbonState }
 
-const STYLE_KINDS: StyleState['kind'][] = ['bloom', 'flow', 'burst']
+const STYLE_KINDS: StyleState['kind'][] = ['bloom', 'flow', 'burst', 'ribbon']
 
 function pickRandomStyleKind(): StyleState['kind'] {
   return STYLE_KINDS[Math.floor(Math.random() * STYLE_KINDS.length)]
@@ -439,6 +577,7 @@ function pickRandomStyleKind(): StyleState['kind'] {
 function createStyleState(kind: StyleState['kind']): StyleState {
   if (kind === 'flow') return { kind, s: createFlowState() }
   if (kind === 'burst') return { kind, s: createBurstState() }
+  if (kind === 'ribbon') return { kind, s: createRibbonState() }
   return { kind: 'bloom', s: createBloomState() }
 }
 
@@ -454,6 +593,7 @@ function stepStyle(
 ) {
   if (style.kind === 'flow') stepFlow(style.s, ctx, width, height, energy, band, pitch, wave)
   else if (style.kind === 'burst') stepBurst(style.s, ctx, width, height, energy, band, pitch, wave)
+  else if (style.kind === 'ribbon') stepRibbon(style.s, ctx, width, height, energy, band, pitch, wave)
   else stepBloom(style.s, ctx, width, height, energy, band, pitch, wave)
 }
 
