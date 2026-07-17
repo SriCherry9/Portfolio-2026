@@ -748,7 +748,7 @@ export function AudioRhythmVisualizer({ width, height }: AudioRhythmVisualizerPr
       <canvas ref={previewCanvasRef} className="sound-wave-canvas" style={{ width, height }} />
       <button
         className="sound-wave-open-btn"
-        onMouseDown={e => e.stopPropagation()}
+        onPointerDown={e => e.stopPropagation()}
         onClick={e => {
           e.stopPropagation()
           setOpen(true)

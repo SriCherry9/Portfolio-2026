@@ -1797,6 +1797,7 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   position: absolute;
   top: -44px;
   right: 0;
+  z-index: 5;
   background: none;
   border: none;
   color: white;
@@ -1906,6 +1907,32 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
 .dg-refog:hover {
   background: rgba(255, 255, 255, 0.1);
   color: white;
+}
+
+@media (max-width: 640px) {
+  .dg-modal-backdrop {
+    padding: 20px;
+  }
+
+  .dg-modal-close {
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .dg-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dg-hint {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .dg-refog {
+    white-space: nowrap;
+  }
 }
 
 /* ===== HEADER ===== */
@@ -2392,6 +2419,7 @@ html[data-theme="dark"] .pg-page-header {
   position: relative;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;
 }
 
 .pg-canvas-wrap.pg-dragging {
