@@ -24,7 +24,7 @@ interface Bubble {
 // Roughly where the wand's loop sits above the bottle graphic, as a fraction
 // of the viewport — bubbles spawn from this point.
 const WAND_X_FRAC = 0.5
-const WAND_Y_FRAC = 0.78
+const WAND_Y_FRAC = 0.7
 
 export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -86,9 +86,11 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
           sumSq += v * v
         }
         const rms = Math.sqrt(sumSq / waveData.length)
-        const level = Math.max(0, Math.min(1, (rms - 0.035) * 5.5))
+        // Low threshold and a steep ramp — even a light breath should read as a strong blow,
+        // while staying above typical room-noise / mic self-noise levels.
+        const level = Math.max(0, Math.min(1, (rms - 0.012) * 20))
         // smooth toward the new reading so it feels like a breath, not a spike meter
-        energyRef.current += (level - energyRef.current) * 0.35
+        energyRef.current += (level - energyRef.current) * 0.4
         requestAnimationFrame(sample)
       }
       sample()
@@ -127,16 +129,18 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
     let lastTime = performance.now()
 
     const spawnBubble = () => {
-      const wandX = width * WAND_X_FRAC + (Math.random() - 0.5) * 30
+      const wandX = width * WAND_X_FRAC + (Math.random() - 0.5) * 40
       const wandY = height * WAND_Y_FRAC
-      const energy = energyRef.current
-      const r = 6 + Math.random() * (14 + energy * 22)
+      // Square-root the energy so even a light blow is treated as nearly full
+      // strength — bubbles come out big from the very first breath.
+      const boosted = Math.sqrt(energyRef.current)
+      const r = 34 + Math.random() * (26 + boosted * 55)
       bubblesRef.current.push({
         x: wandX,
         y: wandY,
         r,
         vx: (Math.random() - 0.5) * 18,
-        vy: -(40 + Math.random() * 50 + energy * 60),
+        vy: -(40 + Math.random() * 50 + boosted * 60),
         wobblePhase: Math.random() * Math.PI * 2,
         wobbleFreq: 0.6 + Math.random() * 0.9,
         hue: Math.random() * 360,
@@ -192,8 +196,9 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
       lastTime = now
 
       const energy = energyRef.current
-      if (energy > 0.05) {
-        spawnDebtRef.current += energy * dt * 26
+      if (energy > 0.015) {
+        const boosted = Math.sqrt(energy)
+        spawnDebtRef.current += (8 + boosted * 30) * dt
         while (spawnDebtRef.current >= 1) {
           spawnBubble()
           spawnDebtRef.current -= 1
@@ -236,7 +241,7 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
       <canvas ref={canvasRef} className="bm-canvas" />
 
       <div className="bm-wand" aria-hidden="true">
-        <svg width="86" height="180" viewBox="0 0 86 180" fill="none">
+        <svg viewBox="0 0 86 180" fill="none">
           <ellipse cx="43" cy="30" rx="25" ry="27" stroke="#3fb6d8" strokeWidth="6" fill="rgba(255,255,255,0.06)" />
           <path d="M43 57 C 40 90, 40 100, 36 118" stroke="#3fb6d8" strokeWidth="6" strokeLinecap="round" fill="none" />
           <rect x="14" y="112" width="58" height="64" rx="10" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
@@ -250,7 +255,7 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
           {stage === 'start' && (
             <>
               <span className="bm-overlay-icon">🫧</span>
-              <p className="bm-overlay-text">Turn on your mic and blow —<br />the harder you blow, the more bubbles float up</p>
+              <p className="bm-overlay-text">Turn on your mic and blow —<br />even a light breath sends big bubbles floating up</p>
               <button className="bm-start-btn" onClick={start}>Turn on microphone</button>
             </>
           )}
