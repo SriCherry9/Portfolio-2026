@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { DustyGlassModal } from '../components/DustyGlassModal'
 import { HandShadowModal } from '../components/HandShadowModal'
+import { TennisBallsModal } from '../components/TennisBallsModal'
 
 interface PlayItem {
   id: number
@@ -15,7 +16,7 @@ interface PlayItem {
   label?: string
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
-  interactive?: 'dusty-glass' | 'hand-shadow'
+  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls'
 }
 
 const ITEMS: PlayItem[] = [
@@ -227,6 +228,18 @@ const ITEMS: PlayItem[] = [
     labelStyle: { fontSize: '78px', color: 'rgba(0,0,0,0.5)', lineHeight: '1' },
     interactive: 'hand-shadow',
   },
+  {
+    id: 21,
+    title: 'Ball Pit',
+    desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
+    x: 2130, y: 1070, width: 300, height: 260,
+    visualStyle: {
+      background: 'radial-gradient(ellipse 70% 90% at 50% 45%, #d9f04a 0%, #a8c62c 55%, #3a4a12 100%)',
+    },
+    label: '🎾',
+    labelStyle: { fontSize: '74px', lineHeight: '1' },
+    interactive: 'tennis-balls',
+  },
 ]
 
 export function PlaygroundPage() {
@@ -239,6 +252,7 @@ export function PlaygroundPage() {
   const [isDragging, setIsDragging] = useState(false)
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
   const [handShadowOpen, setHandShadowOpen] = useState(false)
+  const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -360,6 +374,21 @@ export function PlaygroundPage() {
                 </div>
               )
             }
+            if (item.interactive === 'tennis-balls') {
+              return (
+                <div
+                  key={item.id}
+                  className="play-item play-item-link"
+                  style={{ left: item.x, top: item.y, width: item.width }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setTennisBallsOpen(true)}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setTennisBallsOpen(true)}
+                >
+                  {content}
+                </div>
+              )
+            }
             return item.caseStudyPath ? (
               <Link
                 key={item.id}
@@ -396,6 +425,7 @@ export function PlaygroundPage() {
 
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
       {handShadowOpen && <HandShadowModal onClose={() => setHandShadowOpen(false)} />}
+      {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
     </div>
   )
 }

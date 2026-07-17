@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import type { HandLandmarker as HandLandmarkerType } from '@mediapipe/tasks-vision'
+import type { HandLandmarkerResult } from '@mediapipe/tasks-vision'
+import { useHandTracking } from '../hooks/useHandTracking'
 
 interface HandShadowModalProps {
   onClose: () => void
 }
-
-type Stage = 'start' | 'loading' | 'active' | 'denied' | 'unsupported'
 
 const PALM = [0, 5, 9, 13, 17]
 // each finger as one continuous joint chain — a single stroked path per
@@ -20,15 +19,9 @@ const FINGER_CHAINS = [
 ]
 
 export function HandShadowModal({ onClose }: HandShadowModalProps) {
-  const [stage, setStage] = useState<Stage>('start')
   const [handsVisible, setHandsVisible] = useState(0)
-
-  const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
-  const streamRef = useRef<MediaStream | null>(null)
-  const landmarkerRef = useRef<HandLandmarkerType | null>(null)
-  const rafRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -36,15 +29,7 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [onClose])
 
-  useEffect(() => {
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-      streamRef.current?.getTracks().forEach(track => track.stop())
-      landmarkerRef.current?.close()
-    }
-  }, [])
-
-  const draw = (results: { landmarks: Array<Array<{ x: number; y: number }>> }) => {
+  const draw = (results: HandLandmarkerResult) => {
     const canvas = canvasRef.current
     const wrap = wrapRef.current
     const ctx = canvas?.getContext('2d')
@@ -122,63 +107,7 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
     ctx.filter = 'none'
   }
 
-  useEffect(() => {
-    if (stage !== 'active') return
-
-    const loop = () => {
-      const video = videoRef.current
-      const landmarker = landmarkerRef.current
-      if (video && landmarker && video.readyState >= 2) {
-        const results = landmarker.detectForVideo(video, performance.now())
-        draw(results)
-      }
-      rafRef.current = requestAnimationFrame(loop)
-    }
-    rafRef.current = requestAnimationFrame(loop)
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [stage])
-
-  const start = async () => {
-    if (!navigator.mediaDevices?.getUserMedia) {
-      setStage('unsupported')
-      return
-    }
-    setStage('loading')
-    try {
-      const [{ HandLandmarker, FilesetResolver }, stream] = await Promise.all([
-        import('@mediapipe/tasks-vision'),
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false }),
-      ])
-
-      const vision = await FilesetResolver.forVisionTasks(
-        'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm'
-      )
-      const landmarker = await HandLandmarker.createFromOptions(vision, {
-        baseOptions: {
-          modelAssetPath:
-            'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
-          delegate: 'GPU',
-        },
-        runningMode: 'VIDEO',
-        numHands: 2,
-      })
-      landmarkerRef.current = landmarker
-
-      streamRef.current = stream
-      const video = videoRef.current
-      if (!video) return
-      video.srcObject = stream
-      await video.play()
-
-      setStage('active')
-    } catch (err) {
-      console.error('Hand shadow setup failed:', err)
-      setStage('denied')
-    }
-  }
+  const { stage, start, videoRef } = useHandTracking({ onResults: draw })
 
   return (
     <div className="hs-modal-backdrop" onClick={onClose}>
