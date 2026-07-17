@@ -7,16 +7,16 @@ interface HandShadowModalProps {
 
 type Stage = 'start' | 'loading' | 'active' | 'denied' | 'unsupported'
 
-const FINGERTIPS = [4, 8, 12, 16, 20]
 const PALM = [0, 5, 9, 13, 17]
-// finger bones only — palm-boundary segments are covered by the palm fill instead,
-// so fingers stay thin and separated rather than fusing into one blobby mass
-const FINGER_BONES: Array<[number, number]> = [
-  [0, 1], [1, 2], [2, 3], [3, 4],
-  [5, 6], [6, 7], [7, 8],
-  [9, 10], [10, 11], [11, 12],
-  [13, 14], [14, 15], [15, 16],
-  [17, 18], [18, 19], [19, 20],
+// each finger as one continuous joint chain — a single stroked path per
+// finger keeps the knuckles smooth instead of stacking round-capped
+// segments into lumpy "sausage link" bulges
+const FINGER_CHAINS = [
+  [0, 1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9, 10, 11, 12],
+  [13, 14, 15, 16],
+  [17, 18, 19, 20],
 ]
 
 export function HandShadowModal({ onClose }: HandShadowModalProps) {
@@ -60,9 +60,9 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.clearRect(0, 0, width, height)
-    ctx.filter = 'blur(1.6px)'
-    ctx.fillStyle = 'rgba(40, 40, 43, 0.85)'
-    ctx.strokeStyle = 'rgba(40, 40, 43, 0.85)'
+    ctx.filter = 'blur(3px)'
+    ctx.fillStyle = 'rgba(35, 35, 38, 0.82)'
+    ctx.strokeStyle = 'rgba(35, 35, 38, 0.82)'
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
 
@@ -75,25 +75,19 @@ export function HandShadowModal({ onClose }: HandShadowModalProps) {
       const fingerWidth = Math.max(11, palmWidth * 0.34)
       ctx.lineWidth = fingerWidth
 
-      ctx.beginPath()
-      for (const [a, b] of FINGER_BONES) {
-        ctx.moveTo(pts[a].x, pts[a].y)
-        ctx.lineTo(pts[b].x, pts[b].y)
+      for (const chain of FINGER_CHAINS) {
+        ctx.beginPath()
+        ctx.moveTo(pts[chain[0]].x, pts[chain[0]].y)
+        for (const i of chain.slice(1)) ctx.lineTo(pts[i].x, pts[i].y)
+        ctx.stroke()
       }
-      ctx.stroke()
 
-      // palm: filled polygon plus a wrist taper so it reads as a hand, not a mitten
+      // palm: filled polygon so it reads as a hand, not a set of loose fingers
       ctx.beginPath()
       ctx.moveTo(pts[PALM[0]].x, pts[PALM[0]].y)
       for (const i of PALM.slice(1)) ctx.lineTo(pts[i].x, pts[i].y)
       ctx.closePath()
       ctx.fill()
-
-      for (const i of FINGERTIPS) {
-        ctx.beginPath()
-        ctx.arc(pts[i].x, pts[i].y, fingerWidth * 0.52, 0, Math.PI * 2)
-        ctx.fill()
-      }
     }
     ctx.filter = 'none'
   }
