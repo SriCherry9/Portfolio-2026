@@ -169,11 +169,11 @@ const CAPTION_ALLOWANCE = 100
  * top band; everything else fills in around them.
  */
 function scatterLayout(items: BaseItem[]): PlayItem[] {
-  const GAP = 56
+  const GAP = 32
   const placed: { x: number; y: number; w: number; h: number }[] = []
-  let xMax = 950
-  let pinnedYMax = 400
-  let restYMax = 780
+  let xMax = 1400
+  let pinnedYMax = 820
+  let restYMax = 1400
 
   const overlaps = (x: number, y: number, w: number, h: number) =>
     placed.some(p =>
@@ -182,9 +182,9 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
     )
 
   const place = (w: number, h: number, growY: () => void, getYMax: () => number) => {
-    for (let round = 0; round < 14; round++) {
+    for (let round = 0; round < 8; round++) {
       const yMax = getYMax()
-      for (let attempt = 0; attempt < 250; attempt++) {
+      for (let attempt = 0; attempt < 1500; attempt++) {
         const x = Math.round(Math.random() * Math.max(0, xMax - w))
         const y = Math.round(40 + Math.random() * Math.max(0, yMax - 40 - h))
         if (!overlaps(x, y, w, h)) {
@@ -192,7 +192,7 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
           return { x, y }
         }
       }
-      xMax *= 1.12
+      xMax *= 1.05
       growY()
     }
     const fallbackX = placed.reduce((max, p) => Math.max(max, p.x + p.w), 0) + GAP
@@ -202,10 +202,10 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
 
   const positions = new Map<number, { x: number; y: number }>()
   for (const item of shuffle(items.filter(i => i.pinned))) {
-    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { pinnedYMax *= 1.12 }, () => pinnedYMax))
+    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { pinnedYMax *= 1.05 }, () => pinnedYMax))
   }
   for (const item of shuffle(items.filter(i => !i.pinned))) {
-    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { restYMax *= 1.12 }, () => restYMax))
+    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { restYMax *= 1.05 }, () => restYMax))
   }
 
   return items.map(item => ({ ...item, ...positions.get(item.id)! }))
@@ -214,7 +214,7 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
 const ITEMS: PlayItem[] = scatterLayout(BASE_ITEMS)
 
 // Bounding box of the packed cluster, padded so repeated copies read as distinct tiles.
-const TILE_GAP = 170
+const TILE_GAP = 80
 const CLUSTER_WIDTH = Math.max(...ITEMS.map(i => i.x + i.width)) + TILE_GAP
 const CLUSTER_HEIGHT = Math.max(...ITEMS.map(i => i.y + i.height + CAPTION_ALLOWANCE)) + TILE_GAP
 
