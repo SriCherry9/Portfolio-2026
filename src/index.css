@@ -1772,6 +1772,142 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   background: rgba(255,255,255,0.1);
 }
 
+/* Dusty glass modal */
+.dg-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  animation: fade-up 0.3s ease forwards;
+}
+
+.dg-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.dg-modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.dg-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dg-window {
+  position: relative;
+  width: min(86vw, 820px);
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 10px #d8d3c8,
+    0 0 0 14px #b0aa9c,
+    0 30px 80px rgba(0, 0, 0, 0.5);
+  cursor: crosshair;
+}
+
+.dg-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.dg-scene-photo {
+  position: absolute;
+  inset: -2%;
+  background-image: url('/images/dusty-glass-snowy-forest.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(1.5px) saturate(0.95);
+}
+
+.dg-snowfall {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dg-snowflake {
+  position: absolute;
+  top: -6%;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  animation-name: dg-snow-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dg-snow-fall {
+  0% { top: -6%; transform: translateX(0); }
+  50% { transform: translateX(8px); }
+  100% { top: 110%; transform: translateX(-6px); }
+}
+
+.dg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.dg-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dg-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.dg-refog {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dg-refog:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
 /* ===== HEADER ===== */
 
 /* ===== PILL NAVIGATION ===== */
@@ -2135,7 +2271,7 @@ html[data-theme="dark"] .sticky-note::before {
   position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .play-item-link {
@@ -2164,6 +2300,7 @@ html[data-theme="dark"] .sticky-note::before {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-bottom: 6px;
 }
 
 .play-item-label {
