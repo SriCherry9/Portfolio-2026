@@ -70,11 +70,41 @@ function CandleBody({ scale, lit, igniting, smoking, gradId, leanRef }: CandleBo
         )}
       </div>
       <div className="candle-wick" />
-      <div className="candle-wax">
-        <span className="candle-drip cd-1" />
-        <span className="candle-drip cd-2" />
-        <span className="candle-drip cd-3" />
+      <div className="candle-wax-group">
+        <div className="candle-wax">
+          <span className="candle-drip cd-1" />
+          <span className="candle-drip cd-2" />
+          <span className="candle-drip cd-3" />
+        </div>
+        <span className="candle-drip-holder" />
       </div>
+      <div className="candle-holder-cup" />
+      <div className="candle-holder-stem" />
+      <div className="candle-saucer">
+        <span className="candle-saucer-ring" />
+        <span className="candle-drip-saucer" />
+      </div>
+    </div>
+  )
+}
+
+interface CandleRoomProps {
+  children: React.ReactNode
+  dark: boolean
+  fill?: boolean
+}
+
+function CandleRoom({ children, dark, fill }: CandleRoomProps) {
+  return (
+    <div className={`candle-room${fill ? ' candle-room--fill' : ' candle-room--stage'}${dark ? ' candle-room-dark' : ''}`}>
+      <div className="candle-sconce candle-sconce-left" />
+      <div className="candle-sconce candle-sconce-right" />
+      <div className="candle-column candle-column-left" />
+      <div className="candle-column candle-column-right" />
+      <div className="candle-curtain candle-curtain-left" />
+      <div className="candle-curtain candle-curtain-right" />
+      <div className="candle-stage-floor" />
+      <div className="candle-room-content">{children}</div>
     </div>
   )
 }
@@ -197,9 +227,9 @@ function CandleModal({ onClose }: { onClose: () => void }) {
           ×
         </button>
 
-        <div className="candle-window">
-          <CandleBody scale={2.05} lit={lit} igniting={igniting} smoking={smoking} gradId={gradId} leanRef={leanRef} />
-        </div>
+        <CandleRoom dark={!lit}>
+          <CandleBody scale={1.4} lit={lit} igniting={igniting} smoking={smoking} gradId={gradId} leanRef={leanRef} />
+        </CandleRoom>
 
         {!lit && (
           <button className="dg-refog candle-relight" onClick={relight}>
@@ -230,7 +260,9 @@ export function CandleBlowVisualizer({ width, height }: CandleBlowVisualizerProp
 
   return (
     <div className="candle-viz" style={{ width, height }}>
-      <CandleBody scale={1.15} lit igniting={false} smoking={false} gradId={previewGradId} />
+      <CandleRoom dark={false} fill>
+        <CandleBody scale={0.62} lit igniting={false} smoking={false} gradId={previewGradId} />
+      </CandleRoom>
       <button
         className="sound-wave-open-btn"
         onMouseDown={e => e.stopPropagation()}
