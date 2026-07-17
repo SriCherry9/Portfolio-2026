@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
 import { DustyGlassModal } from '../components/DustyGlassModal'
-import { HandShadowModal } from '../components/HandShadowModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 
 interface PlayItem {
@@ -18,7 +17,7 @@ interface PlayItem {
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls'
+  interactive?: 'dusty-glass' | 'tennis-balls'
 }
 
 const ITEMS: PlayItem[] = [
@@ -229,24 +228,10 @@ const ITEMS: PlayItem[] = [
     caseStudyPath: '/case-study/comic-strip',
   },
   {
-    id: 22,
-    title: 'Hand Shadows',
-    desc: 'Camera-tracked shadow puppets — cast your hand on the wall',
-    x: 1780, y: 1070, width: 300, height: 260,
-    visualStyle: {
-      background: [
-        'radial-gradient(ellipse 55% 90% at 50% 40%, #ffb84d 0%, #ff8a1e 40%, #492405 75%, #140a03 100%)',
-      ].join(', '),
-    },
-    label: '🖐',
-    labelStyle: { fontSize: '78px', color: 'rgba(0,0,0,0.5)', lineHeight: '1' },
-    interactive: 'hand-shadow',
-  },
-  {
     id: 23,
     title: 'Ball Pit',
     desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
-    x: 2130, y: 1070, width: 300, height: 260,
+    x: 1780, y: 1070, width: 300, height: 260,
     visualStyle: {
       background: '#1c2e08',
       backgroundImage: 'url(/images/ball-pit-cover.jpg)',
@@ -266,7 +251,6 @@ export function PlaygroundPage() {
   const animFrame = useRef<number | undefined>(undefined)
   const [isDragging, setIsDragging] = useState(false)
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
-  const [handShadowOpen, setHandShadowOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
 
   useEffect(() => {
@@ -376,21 +360,6 @@ export function PlaygroundPage() {
                 </div>
               )
             }
-            if (item.interactive === 'hand-shadow') {
-              return (
-                <div
-                  key={item.id}
-                  className="play-item play-item-link"
-                  style={{ left: item.x, top: item.y, width: item.width }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setHandShadowOpen(true)}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setHandShadowOpen(true)}
-                >
-                  {content}
-                </div>
-              )
-            }
             if (item.interactive === 'tennis-balls') {
               return (
                 <div
@@ -441,7 +410,6 @@ export function PlaygroundPage() {
       </div>
 
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
-      {handShadowOpen && <HandShadowModal onClose={() => setHandShadowOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
     </div>
   )
