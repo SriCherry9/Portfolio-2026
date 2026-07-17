@@ -5,6 +5,7 @@ import { DustyGlassModal } from '../components/DustyGlassModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 import { TypewriterModal } from '../components/TypewriterModal'
 import { ImageLightboxModal } from '../components/ImageLightboxModal'
+import { BubbleMakerModal } from '../components/BubbleMakerModal'
 
 interface BaseItem {
   id: number
@@ -15,7 +16,7 @@ interface BaseItem {
   visualStyle: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image'
+  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image' | 'bubbles'
   imageSrc?: string
   /** Kept near the top of the cluster instead of scattered anywhere within it */
   pinned?: boolean
@@ -84,6 +85,25 @@ const BASE_ITEMS: BaseItem[] = [
     },
     interactive: 'image',
     imageSrc: '/images/Exterior.webp',
+    pinned: true,
+  },
+  {
+    id: 27,
+    title: 'Blow Bubbles',
+    desc: 'A bubble wand and a mic — blow, and watch iridescent bubbles drift up into the sky',
+    width: 280, height: 280,
+    visualStyle: {
+      background: [
+        'radial-gradient(circle at 22% 30%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.15) 9%, transparent 11%)',
+        'radial-gradient(circle at 60% 18%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.1) 13%, transparent 15%)',
+        'radial-gradient(circle at 78% 52%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.12) 11%, transparent 13%)',
+        'radial-gradient(circle at 38% 62%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.1) 8%, transparent 10%)',
+        'radial-gradient(circle at 15% 78%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.08) 7%, transparent 9%)',
+        'radial-gradient(circle at 85% 85%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.08) 6%, transparent 8%)',
+        'linear-gradient(180deg, #bfe3f7 0%, #8fcdef 55%, #6fb8e6 100%)',
+      ].join(', '),
+    },
+    interactive: 'bubbles',
     pinned: true,
   },
   {
@@ -217,6 +237,7 @@ export function PlaygroundPage() {
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
   const [typewriterOpen, setTypewriterOpen] = useState(false)
+  const [bubbleMakerOpen, setBubbleMakerOpen] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<PlayItem | null>(null)
 
   useEffect(() => {
@@ -365,6 +386,21 @@ export function PlaygroundPage() {
         </div>
       )
     }
+    if (item.interactive === 'bubbles') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setBubbleMakerOpen(true)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setBubbleMakerOpen(true)}
+        >
+          {content}
+        </div>
+      )
+    }
     if (item.interactive === 'image') {
       return (
         <div
@@ -433,6 +469,7 @@ export function PlaygroundPage() {
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
       {typewriterOpen && <TypewriterModal onClose={() => setTypewriterOpen(false)} />}
+      {bubbleMakerOpen && <BubbleMakerModal onClose={() => setBubbleMakerOpen(false)} />}
       {lightboxItem && (
         <ImageLightboxModal
           src={lightboxItem.imageSrc!}
