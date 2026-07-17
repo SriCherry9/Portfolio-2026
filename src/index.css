@@ -2756,6 +2756,12 @@ html[data-theme="dark"] .pg-page-header {
   position: relative;
   user-select: none;
   -webkit-user-select: none;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.14) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+html[data-theme="dark"] .pg-canvas-wrap {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px);
 }
 
 .pg-canvas-wrap.pg-dragging {
@@ -2774,16 +2780,7 @@ html[data-theme="dark"] .pg-page-header {
   position: absolute;
   top: 0;
   left: 0;
-  width: 5000px;
-  height: 3500px;
   will-change: transform;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.14) 1.5px, transparent 1.5px);
-  background-size: 28px 28px;
-  background-position: 0 0;
-}
-
-html[data-theme="dark"] .pg-canvas {
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px);
 }
 
 /* ===== SOUND WAVE VISUALIZER ===== */

@@ -17,7 +17,7 @@ interface BaseItem {
   renderVisual?: (width: number, height: number) => React.ReactNode
   interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image'
   imageSrc?: string
-  /** Kept near the top of the canvas instead of scattered across the whole board */
+  /** Kept near the top of the cluster instead of scattered anywhere within it */
   pinned?: boolean
 }
 
@@ -31,7 +31,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 23,
     title: 'Ball Pit',
     desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
-    width: 300, height: 260,
+    width: 280, height: 280,
     visualStyle: {
       background: '#1c2e08',
       backgroundImage: 'url(/images/ball-pit-cover.jpg)',
@@ -45,7 +45,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 24,
     title: 'Write a Letter',
     desc: 'A cherry-red Hermes Baby — type on your keyboard and watch the keys strike home, then take your letter with you',
-    width: 320, height: 260,
+    width: 300, height: 380,
     visualStyle: {
       background: '#f2ece1',
       backgroundImage: 'url(/images/Typewriter.webp)',
@@ -60,7 +60,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 25,
     title: 'Interior Concept — Living Room',
     desc: 'A double-height lounge render — staircase, gallery wall, and a warm brass chandelier tying the space together',
-    width: 320, height: 260,
+    width: 380, height: 260,
     visualStyle: {
       background: '#c9c7c2',
       backgroundImage: 'url(/images/Interior.webp)',
@@ -75,7 +75,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 26,
     title: 'Modern Villa — Exterior Render',
     desc: 'A poolside villa concept — board-formed concrete, a glass water feature, and an infinity edge into the garden',
-    width: 320, height: 260,
+    width: 320, height: 320,
     visualStyle: {
       background: '#7ec8d6',
       backgroundImage: 'url(/images/Exterior.webp)',
@@ -90,7 +90,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 20,
     title: 'Sound Wave — Live Rhythm',
     desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
-    width: 320, height: 260,
+    width: 280, height: 360,
     visualStyle: { background: '#0a0a0a' },
     renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
   },
@@ -98,7 +98,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 19,
     title: 'Draw on the Glass',
     desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
-    width: 300, height: 220,
+    width: 340, height: 230,
     visualStyle: {
       background: '#c7ced0',
       backgroundImage: 'url(/images/dusty-glass-cover.jpg)',
@@ -111,7 +111,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 17,
     title: 'Human Factors & Ergonomics',
     desc: 'Hierarchical Task Analysis and cognitive ergonomic evaluation of an inhaler',
-    width: 320, height: 260,
+    width: 300, height: 300,
     visualStyle: {
       background: '#7a0d0d',
       backgroundImage: 'url(/images/hfe-inhaler-cover.png)',
@@ -124,7 +124,7 @@ const BASE_ITEMS: BaseItem[] = [
     id: 18,
     title: 'Oh No! — A Comic Strip',
     desc: 'A comic strip where I am the protagonist',
-    width: 280, height: 260,
+    width: 260, height: 340,
     visualStyle: {
       background: '#ffffff',
       backgroundImage: 'url(/images/comic-strip-cover.png)',
@@ -144,10 +144,21 @@ function shuffle<T>(input: T[]): T[] {
   return arr
 }
 
-/** Randomly scatters items with a guaranteed minimum gap, keeping "pinned" items near the top. */
+// The rendered tile is taller than its cover image alone — title + description
+// sit below it — so placement and cluster bounds both need this reserved for it.
+const CAPTION_ALLOWANCE = 100
+
+/**
+ * Packs items into a compact cluster with a guaranteed minimum gap, growing the
+ * bounds only as much as needed. "Pinned" items are confined to the cluster's
+ * top band; everything else fills in around them.
+ */
 function scatterLayout(items: BaseItem[]): PlayItem[] {
-  const GAP = 90
+  const GAP = 56
   const placed: { x: number; y: number; w: number; h: number }[] = []
+  let xMax = 950
+  let pinnedYMax = 400
+  let restYMax = 780
 
   const overlaps = (x: number, y: number, w: number, h: number) =>
     placed.some(p =>
@@ -155,26 +166,31 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
       y < p.y + p.h + GAP && y + h + GAP > p.y
     )
 
-  const place = (w: number, h: number, xMax: number, yMin: number, yMax: number) => {
-    for (let attempt = 0; attempt < 600; attempt++) {
-      const x = Math.round(Math.random() * (xMax - w))
-      const y = Math.round(yMin + Math.random() * (yMax - yMin - h))
-      if (!overlaps(x, y, w, h)) {
-        placed.push({ x, y, w, h })
-        return { x, y }
+  const place = (w: number, h: number, growY: () => void, getYMax: () => number) => {
+    for (let round = 0; round < 14; round++) {
+      const yMax = getYMax()
+      for (let attempt = 0; attempt < 250; attempt++) {
+        const x = Math.round(Math.random() * Math.max(0, xMax - w))
+        const y = Math.round(40 + Math.random() * Math.max(0, yMax - 40 - h))
+        if (!overlaps(x, y, w, h)) {
+          placed.push({ x, y, w, h })
+          return { x, y }
+        }
       }
+      xMax *= 1.12
+      growY()
     }
     const fallbackX = placed.reduce((max, p) => Math.max(max, p.x + p.w), 0) + GAP
-    placed.push({ x: fallbackX, y: yMin, w, h })
-    return { x: fallbackX, y: yMin }
+    placed.push({ x: fallbackX, y: 40, w, h })
+    return { x: fallbackX, y: 40 }
   }
 
   const positions = new Map<number, { x: number; y: number }>()
   for (const item of shuffle(items.filter(i => i.pinned))) {
-    positions.set(item.id, place(item.width, item.height, 2300, 40, 380))
+    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { pinnedYMax *= 1.12 }, () => pinnedYMax))
   }
   for (const item of shuffle(items.filter(i => !i.pinned))) {
-    positions.set(item.id, place(item.width, item.height, 2700, 40, 1300))
+    positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { restYMax *= 1.12 }, () => restYMax))
   }
 
   return items.map(item => ({ ...item, ...positions.get(item.id)! }))
@@ -182,9 +198,17 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
 
 const ITEMS: PlayItem[] = scatterLayout(BASE_ITEMS)
 
+// Bounding box of the packed cluster, padded so repeated copies read as distinct tiles.
+const TILE_GAP = 170
+const CLUSTER_WIDTH = Math.max(...ITEMS.map(i => i.x + i.width)) + TILE_GAP
+const CLUSTER_HEIGHT = Math.max(...ITEMS.map(i => i.y + i.height + CAPTION_ALLOWANCE)) + TILE_GAP
+
+const mod = (n: number, m: number) => ((n % m) + m) % m
+
 export function PlaygroundPage() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [pan, setPan] = useState({ x: 0, y: 0 })
+  const [viewport, setViewport] = useState({ width: 1200, height: 800 })
   const dragging = useRef(false)
   const lastPos = useRef({ x: 0, y: 0 })
   const velocity = useRef({ x: 0, y: 0 })
@@ -194,6 +218,16 @@ export function PlaygroundPage() {
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
   const [typewriterOpen, setTypewriterOpen] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<PlayItem | null>(null)
+
+  useEffect(() => {
+    const updateViewport = () => {
+      const rect = containerRef.current?.getBoundingClientRect()
+      if (rect) setViewport({ width: rect.width, height: rect.height })
+    }
+    updateViewport()
+    window.addEventListener('resize', updateViewport)
+    return () => window.removeEventListener('resize', updateViewport)
+  }, [])
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
@@ -255,6 +289,117 @@ export function PlaygroundPage() {
     setIsDragging(true)
   }
 
+  // Which cluster copies are currently in (or near) view, so panning any distance
+  // keeps surfacing accessible copies of every item.
+  const buffer = 1
+  const minTileX = Math.floor(-pan.x / CLUSTER_WIDTH) - buffer
+  const maxTileX = Math.ceil((-pan.x + viewport.width) / CLUSTER_WIDTH) + buffer
+  const minTileY = Math.floor(-pan.y / CLUSTER_HEIGHT) - buffer
+  const maxTileY = Math.ceil((-pan.y + viewport.height) / CLUSTER_HEIGHT) + buffer
+
+  const tiles: { tx: number; ty: number }[] = []
+  for (let tx = minTileX; tx <= maxTileX; tx++) {
+    for (let ty = minTileY; ty <= maxTileY; ty++) {
+      tiles.push({ tx, ty })
+    }
+  }
+
+  const renderItem = (item: PlayItem, tx: number, ty: number) => {
+    const x = item.x + tx * CLUSTER_WIDTH
+    const y = item.y + ty * CLUSTER_HEIGHT
+    const key = `${item.id}-${tx}-${ty}`
+    const content = (
+      <>
+        <div
+          className="play-item-visual"
+          style={{ height: item.height, ...item.visualStyle }}
+        >
+          {item.renderVisual && item.renderVisual(item.width, item.height)}
+        </div>
+        <p className="play-item-title">{item.title}</p>
+        <p className="play-item-desc">{item.desc}</p>
+      </>
+    )
+    if (item.interactive === 'dusty-glass') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setDustyGlassOpen(true)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setDustyGlassOpen(true)}
+        >
+          {content}
+        </div>
+      )
+    }
+    if (item.interactive === 'tennis-balls') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setTennisBallsOpen(true)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setTennisBallsOpen(true)}
+        >
+          {content}
+        </div>
+      )
+    }
+    if (item.interactive === 'typewriter') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setTypewriterOpen(true)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setTypewriterOpen(true)}
+        >
+          {content}
+        </div>
+      )
+    }
+    if (item.interactive === 'image') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setLightboxItem(item)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setLightboxItem(item)}
+        >
+          {content}
+        </div>
+      )
+    }
+    return item.caseStudyPath ? (
+      <Link
+        key={key}
+        to={item.caseStudyPath}
+        className="play-item play-item-link"
+        style={{ left: x, top: y, width: item.width }}
+      >
+        {content}
+      </Link>
+    ) : (
+      <div
+        key={key}
+        className="play-item"
+        style={{ left: x, top: y, width: item.width }}
+      >
+        {content}
+      </div>
+    )
+  }
+
   return (
     <div className="pg-page">
 
@@ -262,104 +407,14 @@ export function PlaygroundPage() {
       <div
         ref={containerRef}
         className={`pg-canvas-wrap${isDragging ? ' pg-dragging' : ''}`}
+        style={{ backgroundPosition: `${mod(pan.x, 28)}px ${mod(pan.y, 28)}px` }}
         onMouseDown={onMouseDown}
       >
         <div
           className="pg-canvas"
           style={{ transform: `translate(${pan.x}px, ${pan.y}px)` }}
         >
-          {ITEMS.map(item => {
-            const content = (
-              <>
-                <div
-                  className="play-item-visual"
-                  style={{ height: item.height, ...item.visualStyle }}
-                >
-                  {item.renderVisual && item.renderVisual(item.width, item.height)}
-                </div>
-                <p className="play-item-title">{item.title}</p>
-                <p className="play-item-desc">{item.desc}</p>
-              </>
-            )
-            if (item.interactive === 'dusty-glass') {
-              return (
-                <div
-                  key={item.id}
-                  className="play-item play-item-link"
-                  style={{ left: item.x, top: item.y, width: item.width }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setDustyGlassOpen(true)}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setDustyGlassOpen(true)}
-                >
-                  {content}
-                </div>
-              )
-            }
-            if (item.interactive === 'tennis-balls') {
-              return (
-                <div
-                  key={item.id}
-                  className="play-item play-item-link"
-                  style={{ left: item.x, top: item.y, width: item.width }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setTennisBallsOpen(true)}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setTennisBallsOpen(true)}
-                >
-                  {content}
-                </div>
-              )
-            }
-            if (item.interactive === 'typewriter') {
-              return (
-                <div
-                  key={item.id}
-                  className="play-item play-item-link"
-                  style={{ left: item.x, top: item.y, width: item.width }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setTypewriterOpen(true)}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setTypewriterOpen(true)}
-                >
-                  {content}
-                </div>
-              )
-            }
-            if (item.interactive === 'image') {
-              return (
-                <div
-                  key={item.id}
-                  className="play-item play-item-link"
-                  style={{ left: item.x, top: item.y, width: item.width }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setLightboxItem(item)}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setLightboxItem(item)}
-                >
-                  {content}
-                </div>
-              )
-            }
-            return item.caseStudyPath ? (
-              <Link
-                key={item.id}
-                to={item.caseStudyPath}
-                className="play-item play-item-link"
-                style={{ left: item.x, top: item.y, width: item.width }}
-              >
-                {content}
-              </Link>
-            ) : (
-              <div
-                key={item.id}
-                className="play-item"
-                style={{ left: item.x, top: item.y, width: item.width }}
-              >
-                {content}
-              </div>
-            )
-          })}
+          {tiles.flatMap(({ tx, ty }) => ITEMS.map(item => renderItem(item, tx, ty)))}
         </div>
 
         <div className="playground-hint">
