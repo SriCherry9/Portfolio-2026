@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
 import { DustyGlassModal } from '../components/DustyGlassModal'
-import { HandShadowModal } from '../components/HandShadowModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 import { TypewriterModal } from '../components/TypewriterModal'
 import { ImageLightboxModal } from '../components/ImageLightboxModal'
@@ -20,16 +19,43 @@ interface PlayItem {
   labelStyle?: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'hand-shadow' | 'tennis-balls' | 'typewriter' | 'image'
+  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image'
   imageSrc?: string
 }
 
 const ITEMS: PlayItem[] = [
   {
+    id: 23,
+    title: 'Ball Pit',
+    desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
+    x: 60, y: 70, width: 300, height: 260,
+    visualStyle: {
+      background: '#1c2e08',
+      backgroundImage: 'url(/images/ball-pit-cover.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    interactive: 'tennis-balls',
+  },
+  {
+    id: 24,
+    title: 'Write a Letter',
+    desc: 'A cherry-red Hermes Baby — type on your keyboard and watch the keys strike home, then take your letter with you',
+    x: 400, y: 70, width: 320, height: 260,
+    visualStyle: {
+      background: '#f2ece1',
+      backgroundImage: 'url(/images/Typewriter.webp)',
+      backgroundSize: '86%',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+    },
+    interactive: 'typewriter',
+  },
+  {
     id: 20,
     title: 'Sound Wave — Live Rhythm',
     desc: 'Open it up and speak, sing, or play a song — every beat blooms a new pixel-cluster onto a growing generative artwork.',
-    x: 2480, y: 1070, width: 320, height: 260,
+    x: 760, y: 70, width: 320, height: 260,
     visualStyle: { background: '#0a0a0a' },
     renderVisual: (w, h) => <AudioRhythmVisualizer width={w} height={h} />,
   },
@@ -39,7 +65,7 @@ const ITEMS: PlayItem[] = [
     id: 19,
     title: 'Draw on the Glass',
     desc: 'A frosted, snow-fogged window — drag your cursor to wipe it clear',
-    x: 420, y: 70, width: 300, height: 220,
+    x: 1120, y: 70, width: 300, height: 220,
     visualStyle: {
       background: '#c7ced0',
       backgroundImage: 'url(/images/dusty-glass-cover.jpg)',
@@ -52,21 +78,21 @@ const ITEMS: PlayItem[] = [
     id: 1,
     title: 'Gradient Study No. 01',
     desc: 'Exploring warm hue transitions and color theory',
-    x: 760, y: 70, width: 310, height: 230,
+    x: 1460, y: 70, width: 310, height: 230,
     visualStyle: { background: 'linear-gradient(145deg, #ffecd2 0%, #fcb69f 50%, #f6a09a 100%)' },
   },
   {
     id: 2,
     title: 'Violet Hour',
     desc: 'Portrait study — digital painting series',
-    x: 1120, y: 50, width: 210, height: 310,
+    x: 1820, y: 50, width: 210, height: 310,
     visualStyle: { background: 'linear-gradient(180deg, #5c3d8f 0%, #a855f7 40%, #ec4899 100%)' },
   },
   {
     id: 3,
     title: 'Generative Circles',
     desc: 'Canvas API with Perlin noise displacement',
-    x: 1380, y: 70, width: 390, height: 270,
+    x: 2080, y: 70, width: 390, height: 270,
     visualStyle: {
       background: [
         'radial-gradient(ellipse at 30% 50%, rgba(255,77,77,0.9) 0%, transparent 45%)',
@@ -80,14 +106,14 @@ const ITEMS: PlayItem[] = [
     id: 4,
     title: 'Morning Blue',
     desc: 'Photography — early morning fog series',
-    x: 1820, y: 60, width: 250, height: 240,
+    x: 2520, y: 60, width: 250, height: 240,
     visualStyle: { background: 'linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%)' },
   },
   {
     id: 5,
     title: 'Editorial Layout',
     desc: 'Typographic composition for a magazine feature',
-    x: 2120, y: 50, width: 270, height: 380,
+    x: 2820, y: 50, width: 270, height: 380,
     visualStyle: { background: 'linear-gradient(135deg, #f5e6d3 0%, #e8c9a0 100%)' },
     label: '01',
     labelStyle: {
@@ -232,73 +258,32 @@ const ITEMS: PlayItem[] = [
     caseStudyPath: '/case-study/comic-strip',
   },
   {
-    id: 22,
-    title: 'Hand Shadows',
-    desc: 'Camera-tracked shadow puppets — cast your hand on the wall',
-    x: 1780, y: 1070, width: 300, height: 260,
-    visualStyle: {
-      background: [
-        'radial-gradient(ellipse 55% 90% at 50% 40%, #ffb84d 0%, #ff8a1e 40%, #492405 75%, #140a03 100%)',
-      ].join(', '),
-    },
-    label: '🖐',
-    labelStyle: { fontSize: '78px', color: 'rgba(0,0,0,0.5)', lineHeight: '1' },
-    interactive: 'hand-shadow',
-  },
-  {
-    id: 23,
-    title: 'Ball Pit',
-    desc: 'Camera-tracked ball pit — reach in and scatter the tennis balls',
-    x: 2130, y: 1070, width: 300, height: 260,
-    visualStyle: {
-      background: '#1c2e08',
-      backgroundImage: 'url(/images/ball-pit-cover.jpg)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    interactive: 'tennis-balls',
-  },
-  {
-    id: 24,
-    title: 'Write a Letter',
-    desc: 'A cherry-red Hermes Baby — type on your keyboard and watch the keys strike home, then take your letter with you',
-    x: 60, y: 70, width: 320, height: 260,
-    visualStyle: {
-      background: '#f2ece1',
-      backgroundImage: 'url(/images/Typewriter.webp)',
-      backgroundSize: '86%',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-    },
-    interactive: 'typewriter',
-  },
-  {
     id: 25,
     title: 'Interior Concept — Living Room',
     desc: 'A double-height lounge render — staircase, gallery wall, and a warm brass chandelier tying the space together',
-    x: 2830, y: 1070, width: 320, height: 260,
+    x: 1780, y: 1070, width: 320, height: 260,
     visualStyle: {
       background: '#c9c7c2',
-      backgroundImage: 'url(/images/interior-render.jpg)',
+      backgroundImage: 'url(/images/Interior.webp)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
     interactive: 'image',
-    imageSrc: '/images/interior-render.jpg',
+    imageSrc: '/images/Interior.webp',
   },
   {
     id: 26,
     title: 'Modern Villa — Exterior Render',
     desc: 'A poolside villa concept — board-formed concrete, a glass water feature, and an infinity edge into the garden',
-    x: 3180, y: 1070, width: 320, height: 260,
+    x: 2130, y: 1070, width: 320, height: 260,
     visualStyle: {
       background: '#7ec8d6',
-      backgroundImage: 'url(/images/villa-render.jpg)',
+      backgroundImage: 'url(/images/Exterior.webp)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     },
     interactive: 'image',
-    imageSrc: '/images/villa-render.jpg',
+    imageSrc: '/images/Exterior.webp',
   },
 ]
 
@@ -311,7 +296,6 @@ export function PlaygroundPage() {
   const animFrame = useRef<number | undefined>(undefined)
   const [isDragging, setIsDragging] = useState(false)
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
-  const [handShadowOpen, setHandShadowOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
   const [typewriterOpen, setTypewriterOpen] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<PlayItem | null>(null)
@@ -423,21 +407,6 @@ export function PlaygroundPage() {
                 </div>
               )
             }
-            if (item.interactive === 'hand-shadow') {
-              return (
-                <div
-                  key={item.id}
-                  className="play-item play-item-link"
-                  style={{ left: item.x, top: item.y, width: item.width }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setHandShadowOpen(true)}
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setHandShadowOpen(true)}
-                >
-                  {content}
-                </div>
-              )
-            }
             if (item.interactive === 'tennis-balls') {
               return (
                 <div
@@ -518,7 +487,6 @@ export function PlaygroundPage() {
       </div>
 
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
-      {handShadowOpen && <HandShadowModal onClose={() => setHandShadowOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
       {typewriterOpen && <TypewriterModal onClose={() => setTypewriterOpen(false)} />}
       {lightboxItem && (
