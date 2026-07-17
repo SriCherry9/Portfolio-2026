@@ -752,10 +752,10 @@
 /* ── Photo collage ── */
 .about-collage {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 14px;
   padding: 12px 0 8px;
-  max-width: 640px;
+  width: 100%;
 }
 
 .about-photo-card {
@@ -987,7 +987,7 @@ html[data-theme="dark"] .about-era-tag {
   .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
-  .about-collage { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+  .about-collage { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   .about-spine { height: 170px; }
 }
 

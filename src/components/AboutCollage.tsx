@@ -46,6 +46,7 @@ function VideoTile({ item }: { item: CollageVideo }) {
     <video
       ref={videoRef}
       className="about-photo-img"
+      poster={`${item.src}-poster.jpg`}
       muted
       loop
       playsInline
