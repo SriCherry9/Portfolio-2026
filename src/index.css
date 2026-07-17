@@ -2066,7 +2066,7 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
 
 .bm-wand svg {
   display: block;
-  width: clamp(190px, 24vw, 340px);
+  width: clamp(150px, 18vw, 250px);
   height: auto;
 }
 

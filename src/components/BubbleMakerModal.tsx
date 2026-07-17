@@ -14,6 +14,10 @@ interface Bubble {
   vy: number
   wobblePhase: number
   wobbleFreq: number
+  wobblePhase2: number
+  wobbleFreq2: number
+  driftTargetVx: number
+  driftChangeAt: number
   hue: number
   born: number
   popAt: number
@@ -22,9 +26,9 @@ interface Bubble {
 }
 
 // Roughly where the wand's loop sits above the bottle graphic, as a fraction
-// of the viewport — bubbles spawn from this point.
+// of the viewport — bubbles spawn from inside that ring.
 const WAND_X_FRAC = 0.5
-const WAND_Y_FRAC = 0.7
+const WAND_Y_FRAC = 0.53
 
 export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -129,22 +133,28 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
     let lastTime = performance.now()
 
     const spawnBubble = () => {
-      const wandX = width * WAND_X_FRAC + (Math.random() - 0.5) * 40
-      const wandY = height * WAND_Y_FRAC
+      // Spawn tightly inside the wand's loop so bubbles visibly emerge through it.
+      const wandX = width * WAND_X_FRAC + (Math.random() - 0.5) * 22
+      const wandY = height * WAND_Y_FRAC + (Math.random() - 0.5) * 14
       // Square-root the energy so even a light blow is treated as nearly full
       // strength — bubbles come out big from the very first breath.
       const boosted = Math.sqrt(energyRef.current)
       const r = 34 + Math.random() * (26 + boosted * 55)
+      const now = performance.now()
       bubblesRef.current.push({
         x: wandX,
         y: wandY,
         r,
-        vx: (Math.random() - 0.5) * 18,
+        vx: (Math.random() - 0.5) * 32,
         vy: -(40 + Math.random() * 50 + boosted * 60),
         wobblePhase: Math.random() * Math.PI * 2,
-        wobbleFreq: 0.6 + Math.random() * 0.9,
+        wobbleFreq: 0.5 + Math.random() * 0.7,
+        wobblePhase2: Math.random() * Math.PI * 2,
+        wobbleFreq2: 0.9 + Math.random() * 1.3,
+        driftTargetVx: (Math.random() - 0.5) * 200,
+        driftChangeAt: now + 350 + Math.random() * 550,
         hue: Math.random() * 360,
-        born: performance.now(),
+        born: now,
         popAt: 3200 + Math.random() * 3800,
         popping: false,
         popProgress: 0,
@@ -156,10 +166,17 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
 
       for (const b of bubblesRef.current) {
         const age = now - b.born
-        const wobbleX = Math.sin(age * 0.001 * b.wobbleFreq * Math.PI * 2 + b.wobblePhase) * (10 + b.r * 0.4)
+        // Two non-harmonic sine terms layered together read as a free, wandering
+        // drift rather than a single mechanical back-and-forth sway.
+        const wobbleX =
+          Math.sin(age * 0.001 * b.wobbleFreq * Math.PI * 2 + b.wobblePhase) * (8 + b.r * 0.3) +
+          Math.sin(age * 0.001 * b.wobbleFreq2 * Math.PI * 2 + b.wobblePhase2) * (5 + b.r * 0.16)
         const drawX = b.x + wobbleX
         const drawY = b.y
-        const scale = b.popping ? Math.max(0, 1 - b.popProgress * 1.4) : 1
+        // Grows out of the wand's loop over its first moment instead of popping
+        // in at full size.
+        const emerge = b.popping ? 1 : Math.min(1, age / 260)
+        const scale = b.popping ? Math.max(0, 1 - b.popProgress * 1.4) : emerge
         if (scale <= 0.02) continue
         const r = b.r * (b.popping ? 1 + b.popProgress * 0.6 : 1) * scale
         const alpha = b.popping ? Math.max(0, 1 - b.popProgress) : Math.min(1, age / 220)
@@ -208,11 +225,19 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
       const next: Bubble[] = []
       for (const b of bubblesRef.current) {
         if (!b.popping) {
+          const age = now - b.born
+          // Periodically re-roll a target sideways speed and ease toward it —
+          // a slow random walk, like a bubble catching little gusts, so it
+          // actually wanders across the screen instead of oscillating in place.
+          if (now > b.driftChangeAt) {
+            b.driftTargetVx = (Math.random() - 0.5) * 200
+            b.driftChangeAt = now + 350 + Math.random() * 550
+          }
+          b.vx += (b.driftTargetVx - b.vx) * Math.min(1, dt * 1.6)
+          b.vy += Math.sin(age * 0.0009 + b.wobblePhase2) * 5 * dt
           b.x += b.vx * dt
           b.y += b.vy * dt
-          b.vy *= 0.985
-          b.vx *= 0.99
-          const age = now - b.born
+          b.vy = Math.min(b.vy, -10) * 0.994
           if (age > b.popAt || b.y < -b.r * 2) b.popping = true
         } else {
           b.popProgress += dt * 4.2
