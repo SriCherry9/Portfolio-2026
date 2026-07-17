@@ -2272,6 +2272,323 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
 }
 
+/* ===== Mailbox graphic ===== */
+
+.mb-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+.mb-post {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 9%;
+  height: 32%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #a3a3a3, #5f5f5f);
+  border-radius: 3px 3px 0 0;
+}
+
+.mb-body {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 8%;
+  height: 56%;
+  background: linear-gradient(160deg, #e2493d, #b8281f);
+  border-radius: 46% 46% 8% 8% / 58% 58% 10% 10%;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28), inset 0 -10px 18px rgba(0, 0, 0, 0.12);
+}
+
+.mb-slot {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 44%;
+  height: 12%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.28));
+  border-radius: 5px;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.mb-flag {
+  position: absolute;
+  right: 9%;
+  top: -10%;
+  width: 3.5%;
+  height: 28%;
+  background: #6b6b6b;
+  border-radius: 1px;
+  z-index: 4;
+}
+
+.mb-flag::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 260%;
+  height: 42%;
+  background: #c0392b;
+  clip-path: polygon(0 0, 100% 22%, 0 44%);
+}
+
+.mb-peek {
+  position: absolute;
+  bottom: 38%;
+  width: 15%;
+  height: 62%;
+  border: none;
+  padding: 0;
+  transform: translateX(-50%) rotate(var(--mb-rot));
+  transform-origin: bottom center;
+  z-index: 3;
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+button.mb-peek {
+  cursor: pointer !important;
+}
+
+button.mb-peek:hover {
+  transform: translateX(-50%) rotate(var(--mb-rot)) translateY(-8%);
+  filter: brightness(1.06);
+}
+
+.mb-peek-envelope {
+  clip-path: polygon(50% 0%, 100% 28%, 100% 100%, 0% 100%, 0% 28%);
+}
+
+.mb-peek-seal {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d3453a, #7a1f18);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.mb-peek-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12%;
+  background: repeating-linear-gradient(-45deg, #b8281f 0 10%, #fff 10% 20%, #2c5aa0 20% 30%, #fff 30% 40%);
+}
+
+/* ===== Postbox modal ===== */
+
+.pb-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 110px 40px 40px;
+  animation: fade-up 0.3s ease forwards;
+  overflow-y: auto;
+}
+
+.pb-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: min(94vw, 480px);
+  margin: 0 auto;
+}
+
+.pb-modal-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.pb-modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pb-mailbox-wrap {
+  width: min(70vw, 260px);
+}
+
+.pb-hint {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pb-opened {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.pb-back-btn {
+  align-self: flex-start;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pb-back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.pb-letter-paper {
+  width: 100%;
+  background: #fbf6ec;
+  color: #2c2a25;
+  padding: 34px 30px;
+  border-radius: 2px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15), 0 16px 36px rgba(0, 0, 0, 0.4);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 38px,
+    rgba(60, 50, 40, 0.1) 39px
+  );
+  background-position-y: 6px;
+}
+
+.pb-letter-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.pb-letter-line {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 38px;
+  margin-bottom: 2px;
+}
+
+.pb-letter-sign {
+  font-family: 'Seliya Gardener', Georgia, serif;
+  font-size: 20px;
+  line-height: 38px;
+  margin-top: 8px;
+}
+
+.pb-postcard {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  perspective: 1400px;
+  cursor: pointer;
+}
+
+.pb-postcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.pb-postcard-flipped .pb-postcard-inner {
+  transform: rotateY(180deg);
+}
+
+.pb-postcard-front,
+.pb-postcard-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.pb-postcard-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.pb-postcard-tag {
+  align-self: flex-end;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.pb-postcard-front-title {
+  font-family: 'Golte', Georgia, serif;
+  font-size: 22px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.pb-postcard-back {
+  transform: rotateY(180deg);
+  background: #f4ede1;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pb-postcard-message {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 28px;
+  color: #2c2a25;
+}
+
+.pb-postcard-meta {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 12px;
+  color: #555;
+  border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  padding-top: 10px;
+}
+
+.pb-postcard-meta span {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-right: 6px;
+}
+
 /* ===== HEADER ===== */
 
 /* ===== PILL NAVIGATION ===== */

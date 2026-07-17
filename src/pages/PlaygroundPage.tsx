@@ -5,6 +5,8 @@ import { DustyGlassModal } from '../components/DustyGlassModal'
 import { TennisBallsModal } from '../components/TennisBallsModal'
 import { TypewriterModal } from '../components/TypewriterModal'
 import { ImageLightboxModal } from '../components/ImageLightboxModal'
+import { PostboxModal, POSTBOX_PEEKS } from '../components/PostboxModal'
+import { MailboxGraphic } from '../components/MailboxGraphic'
 
 interface BaseItem {
   id: number
@@ -15,7 +17,7 @@ interface BaseItem {
   visualStyle: React.CSSProperties
   caseStudyPath?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
-  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image'
+  interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image' | 'postbox'
   imageSrc?: string
   /** Kept near the top of the cluster instead of scattered anywhere within it */
   pinned?: boolean
@@ -54,6 +56,16 @@ const BASE_ITEMS: BaseItem[] = [
       backgroundPosition: 'center',
     },
     interactive: 'typewriter',
+    pinned: true,
+  },
+  {
+    id: 27,
+    title: 'The Postbox',
+    desc: 'Sealed letters and postcards, waiting in the slot — click one to read it',
+    width: 260, height: 340,
+    visualStyle: { background: 'linear-gradient(180deg, #cfe3d8 0%, #cfe3d8 62%, #a9c9b3 62%, #a9c9b3 100%)' },
+    renderVisual: () => <MailboxGraphic peeks={POSTBOX_PEEKS} />,
+    interactive: 'postbox',
     pinned: true,
   },
   {
@@ -217,6 +229,7 @@ export function PlaygroundPage() {
   const [dustyGlassOpen, setDustyGlassOpen] = useState(false)
   const [tennisBallsOpen, setTennisBallsOpen] = useState(false)
   const [typewriterOpen, setTypewriterOpen] = useState(false)
+  const [postboxOpen, setPostboxOpen] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<PlayItem | null>(null)
 
   useEffect(() => {
@@ -365,6 +378,21 @@ export function PlaygroundPage() {
         </div>
       )
     }
+    if (item.interactive === 'postbox') {
+      return (
+        <div
+          key={key}
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+          role="button"
+          tabIndex={0}
+          onClick={() => setPostboxOpen(true)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setPostboxOpen(true)}
+        >
+          {content}
+        </div>
+      )
+    }
     if (item.interactive === 'image') {
       return (
         <div
@@ -433,6 +461,7 @@ export function PlaygroundPage() {
       {dustyGlassOpen && <DustyGlassModal onClose={() => setDustyGlassOpen(false)} />}
       {tennisBallsOpen && <TennisBallsModal onClose={() => setTennisBallsOpen(false)} />}
       {typewriterOpen && <TypewriterModal onClose={() => setTypewriterOpen(false)} />}
+      {postboxOpen && <PostboxModal onClose={() => setPostboxOpen(false)} />}
       {lightboxItem && (
         <ImageLightboxModal
           src={lightboxItem.imageSrc!}
