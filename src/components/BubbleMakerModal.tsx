@@ -31,6 +31,23 @@ interface Bubble {
 const WAND_X_FRAC = 0.5
 const WAND_Y_FRAC = 0.53
 
+// Short radial notches around the wand's loop, giving its rim a grooved,
+// knurled-grip texture instead of a plain smooth ring.
+const LOOP_CENTER = { x: 43, y: 30 }
+const LOOP_RADIUS = { x: 25, y: 27 }
+const GROOVE_COUNT = 26
+const WAND_GROOVES = Array.from({ length: GROOVE_COUNT }, (_, i) => {
+  const angle = (i / GROOVE_COUNT) * Math.PI * 2
+  const cos = Math.cos(angle)
+  const sin = Math.sin(angle)
+  return {
+    x1: LOOP_CENTER.x + cos * LOOP_RADIUS.x * 0.82,
+    y1: LOOP_CENTER.y + sin * LOOP_RADIUS.y * 0.82,
+    x2: LOOP_CENTER.x + cos * LOOP_RADIUS.x * 1.12,
+    y2: LOOP_CENTER.y + sin * LOOP_RADIUS.y * 1.12,
+  }
+})
+
 // Little fizz bubbles rising inside the bottle's liquid — varied position,
 // size, speed and start delay so they don't read as a single repeating loop.
 const LIQUID_FIZZ = [
@@ -325,6 +342,20 @@ export function BubbleMakerModal({ onClose }: BubbleMakerModalProps) {
             </clipPath>
           </defs>
           <ellipse cx="43" cy="30" rx="25" ry="27" stroke="#3fb6d8" strokeWidth="6" fill="rgba(255,255,255,0.06)" />
+          <g>
+            {WAND_GROOVES.map((g, i) => (
+              <line
+                key={i}
+                x1={g.x1}
+                y1={g.y1}
+                x2={g.x2}
+                y2={g.y2}
+                stroke={i % 2 === 0 ? 'rgba(15,70,88,0.32)' : 'rgba(255,255,255,0.4)'}
+                strokeWidth={1.1}
+                strokeLinecap="round"
+              />
+            ))}
+          </g>
           <path d="M43 57 C 40 90, 40 100, 36 118" stroke="#3fb6d8" strokeWidth="6" strokeLinecap="round" fill="none" />
           <rect x="14" y="112" width="58" height="64" rx="10" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
           <rect x="14" y="146" width="58" height="30" rx="10" fill="url(#bm-liquid-grad)" opacity="0.92" />
