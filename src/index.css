@@ -2692,82 +2692,89 @@ html[data-theme="dark"] .pg-page-header {
   overflow: hidden;
 }
 
-.candle-stage {
-  --candle-scale: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.candle-room {
+  border-radius: 12px;
+  background: radial-gradient(ellipse at 50% 20%, #241608 0%, #100a05 75%);
+  transition: filter 1.4s ease;
+  filter: brightness(1) saturate(1);
 }
 
-.candle-flame-slot {
+.candle-room.candle-room-dark {
+  filter: brightness(0.05) saturate(0.35);
+}
+
+.candle-photo-wrap {
   position: relative;
-  height: calc(72px * var(--candle-scale));
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
 }
 
-.candle-flame-lean {
-  transform-origin: bottom center;
-}
-
-.candle-flame-wrap {
-  position: relative;
-  width: calc(34px * var(--candle-scale));
-  height: calc(54px * var(--candle-scale));
-  transform-origin: bottom center;
-  filter: drop-shadow(0 0 calc(10px * var(--candle-scale)) rgba(255, 160, 60, 0.55));
-  animation: candle-flicker 2.3s ease-in-out infinite;
-}
-
-.candle-flame-wrap.candle-igniting {
-  animation: candle-ignite 0.26s ease-out;
-}
-
-.candle-flame-svg {
-  display: block;
+.candle-photo-wrap--fill {
   width: 100%;
   height: 100%;
 }
 
-.candle-glow {
-  position: absolute;
-  left: 50%;
-  bottom: calc(4px * var(--candle-scale));
-  width: calc(64px * var(--candle-scale));
-  height: calc(64px * var(--candle-scale));
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 190, 90, 0.55) 0%, rgba(255, 140, 40, 0.16) 45%, transparent 72%);
-  filter: blur(6px);
+.candle-photo-wrap--modal {
+  width: min(78vw, 380px);
+  height: min(60vh, 380px);
+  padding: 16px;
+}
+
+.candle-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   pointer-events: none;
-  z-index: -1;
-  animation: candle-glow-pulse 1.9s ease-in-out infinite;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: filter 0.15s ease-out;
+}
+
+.candle-photo.candle-igniting {
+  animation: candle-photo-ignite 0.3s ease-out;
+}
+
+@keyframes candle-photo-ignite {
+  0% { filter: brightness(0.3); }
+  55% { filter: brightness(1.5); }
+  100% { filter: brightness(1); }
+}
+
+.candle-wick-marker {
+  position: absolute;
+  left: 44%;
+  top: 30%;
+  width: 0;
+  height: 0;
 }
 
 .candle-ember {
-  width: calc(4px * var(--candle-scale));
-  height: calc(4px * var(--candle-scale));
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #ff6a2e;
-  box-shadow: 0 0 calc(6px * var(--candle-scale)) rgba(255, 106, 46, 0.85);
+  box-shadow: 0 0 7px rgba(255, 106, 46, 0.85);
   animation: candle-ember-fade 1.6s ease-out forwards;
 }
 
 .candle-smoke {
   position: absolute;
-  bottom: calc(6px * var(--candle-scale));
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  top: 0;
   pointer-events: none;
 }
 
 .candle-smoke-wisp {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: calc(6px * var(--candle-scale));
-  height: calc(6px * var(--candle-scale));
+  left: 0;
+  top: 0;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: rgba(220, 220, 220, 0.55);
   filter: blur(2px);
@@ -2777,52 +2784,15 @@ html[data-theme="dark"] .pg-page-header {
 .candle-smoke-wisp.cs-2 { animation-delay: 0.18s; }
 .candle-smoke-wisp.cs-3 { animation-delay: 0.36s; }
 
-.candle-wick {
-  width: calc(3px * var(--candle-scale));
-  height: calc(15px * var(--candle-scale));
-  background: linear-gradient(#3a2c1e, #1a120a);
-  border-radius: 2px;
-}
-
-.candle-wax {
-  width: calc(56px * var(--candle-scale));
-  height: calc(94px * var(--candle-scale));
-  border-radius: calc(10px * var(--candle-scale)) calc(10px * var(--candle-scale)) calc(6px * var(--candle-scale)) calc(6px * var(--candle-scale));
-  background: linear-gradient(180deg, #fff7e6 0%, #f3dcae 55%, #e6c583 100%);
-  box-shadow: inset 0 calc(-10px * var(--candle-scale)) calc(18px * var(--candle-scale)) rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.35);
-  position: relative;
-}
-
-@keyframes candle-flicker {
-  0%   { transform: translateX(0) rotate(0deg) scale(1, 1); }
-  15%  { transform: translateX(-1.5px) rotate(-3deg) scale(0.96, 1.05); }
-  32%  { transform: translateX(1.5px) rotate(2deg) scale(1.05, 0.94); }
-  50%  { transform: translateX(-1px) rotate(-1deg) scale(0.98, 1.02); }
-  68%  { transform: translateX(2px) rotate(3deg) scale(1.06, 0.95); }
-  85%  { transform: translateX(-0.5px) rotate(-2deg) scale(0.97, 1.03); }
-  100% { transform: translateX(0) rotate(0deg) scale(1, 1); }
-}
-
-@keyframes candle-ignite {
-  0% { transform: scale(0.2, 0.3); opacity: 0.3; }
-  60% { transform: scale(1.15, 0.9); opacity: 1; }
-  100% { transform: scale(1, 1); opacity: 1; }
-}
-
-@keyframes candle-glow-pulse {
-  0%, 100% { opacity: 0.75; transform: translateX(-50%) scale(1); }
-  50% { opacity: 1; transform: translateX(-50%) scale(1.12); }
-}
-
 @keyframes candle-ember-fade {
-  0% { opacity: 1; transform: scale(1); }
-  70% { opacity: 0.6; transform: scale(0.85); }
-  100% { opacity: 0; transform: scale(0.6); }
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  70% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.85); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
 }
 
 @keyframes candle-smoke-rise {
-  0% { transform: translate(-50%, 0) scale(0.6); opacity: 0.6; }
-  100% { transform: translate(calc(-50% + 14px), -70px) scale(1.8); opacity: 0; }
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.6; }
+  100% { transform: translate(calc(-50% + 14px), -100px) scale(1.8); opacity: 0; }
 }
 
 .candle-modal {
@@ -2831,18 +2801,10 @@ html[data-theme="dark"] .pg-page-header {
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  padding: 40px 60px 32px;
-  border-radius: 16px;
-  background: radial-gradient(ellipse at 50% 20%, #241608 0%, #100a05 75%);
+  padding: 32px 40px;
+  border-radius: 18px;
+  background: #0a0603;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
-}
-
-.candle-window {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  min-width: 260px;
-  min-height: 320px;
 }
 
 .candle-relight {
