@@ -20,6 +20,7 @@ type CollageItem = CollagePhoto | CollageVideo
 
 const ITEMS: CollageItem[] = [
   { type: 'video', src: '/videos/about/skydive',         trait: 'Adventurous',       color: 'var(--card-1)', size: 'lg' },
+  { type: 'image', src: '/images/about/ferrari-f1.jpg',  trait: 'Thrill-seeking',    color: 'var(--card-2)', size: 'lg' },
   { type: 'image', src: '/images/about/casino-night.jpg', trait: 'Fun-loving',       color: 'var(--card-2)' },
   { type: 'video', src: '/videos/about/fireworks',       trait: 'Joyful',            color: 'var(--card-3)' },
   { type: 'image', src: '/images/about/georgia-viewpoint.jpg', trait: 'Curious',     color: 'var(--card-4)' },
