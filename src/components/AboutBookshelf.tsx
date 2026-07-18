@@ -107,7 +107,10 @@ export function AboutBookshelf() {
           )
         })}
       </div>
-      <p className="about-shelf-hint">Drag a book to rearrange the shelf · Click one to look it up</p>
+      <p className="about-shelf-hint">
+        <span className="about-shelf-hint-drag">Drag a book to rearrange the shelf · </span>
+        Tap one to look it up
+      </p>
     </div>
   )
 }

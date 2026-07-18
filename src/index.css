@@ -409,6 +409,61 @@
   70%       { transform: translateY(-9px) rotate(1.5deg); }
 }
 
+/* ── Responsive: tablet ── */
+@media (max-width: 900px) {
+  .dh-center { padding: 0 32px; }
+  .dh-hero-headline { letter-spacing: -0.5px; }
+}
+
+/* ── Responsive: mobile/small tablet ──
+   The Matter.js shape catalogue (19 types) is laid out in columns sized off
+   viewport width, so below ~760px the shapes pile on top of each other and
+   bury the headline — hide them and let the hero settle into a plain,
+   fully-readable centred layout instead. ── */
+@media (max-width: 760px) {
+  .dh-shape-wrap { display: none; }
+
+  .dh-section {
+    height: auto;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 110px 0 64px;
+  }
+
+  .dh-center {
+    /* Hero.tsx sets an inline position:relative that CSS can't override,
+       so neutralize the desktop centring offset instead of fighting it. */
+    top: auto;
+    left: auto;
+    transform: none;
+    max-width: 100%;
+    padding: 0 24px;
+  }
+
+  .dh-hero-headline {
+    white-space: normal;
+    font-size: clamp(24px, 8vw, 34px);
+    letter-spacing: -0.4px;
+    margin-bottom: 28px;
+  }
+
+  .dh-hero-divider { margin-bottom: 24px; }
+
+  .dh-role-row { flex-wrap: wrap; row-gap: 4px; }
+
+  .dh-bio br { display: none; }
+
+  .dh-bio { max-width: 100%; }
+}
+
+@media (max-width: 380px) {
+  .dh-hero-headline { font-size: clamp(21px, 8vw, 28px); }
+  .dh-center { padding: 0 18px; }
+}
+
 
 .hero-top {
   display: flex;
@@ -917,6 +972,12 @@
   margin: 14px 0 0;
 }
 
+/* Native HTML5 drag-and-drop (used for shelf reordering) has no touch
+   equivalent, so don't advertise it on touch-only devices. */
+@media (hover: none) and (pointer: coarse) {
+  .about-shelf-hint-drag { display: none; }
+}
+
 /* ── Dark mode ── */
 html[data-theme="dark"] .about-divider {
   background: rgba(255,255,255,0.1);
@@ -1056,6 +1117,7 @@ html[data-theme="dark"] .about-divider {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0; /* let the grid item shrink below its flex children's content width */
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
@@ -1451,6 +1513,8 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   .tl-dot { position: static; }
   .tl-line-fill { display: none; }
   .tl-footer { flex-direction: column; align-items: flex-start; }
+  .tl-card-header { flex-wrap: wrap; row-gap: 8px; }
+  .tl-meta { flex-wrap: wrap; row-gap: 4px; }
 }
 
 .section-label {
@@ -2456,6 +2520,120 @@ html[data-theme="dark"] .pill-theme-btn:hover {
   color: #fff;
 }
 
+/* ── Hamburger (mobile only) ── */
+.pill-hamburger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-left: 2px;
+  flex-shrink: 0;
+  transition: background 0.18s ease;
+}
+
+.pill-hamburger:hover {
+  background: rgba(0,0,0,0.07);
+}
+
+.pill-hamburger span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: #3a3a3a;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.pill-nav--open .pill-hamburger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.pill-nav--open .pill-hamburger span:nth-child(2) { opacity: 0; }
+.pill-nav--open .pill-hamburger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+html[data-theme="dark"] .pill-hamburger:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+html[data-theme="dark"] .pill-hamburger span {
+  background: #ccc;
+}
+
+/* ── Mobile dropdown panel ── */
+.pill-mobile-menu {
+  pointer-events: all;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 200px;
+  background: rgba(248, 244, 238, 0.97);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.16), 0 1px 4px rgba(0,0,0,0.05);
+  animation: fade-up 0.2s ease forwards;
+}
+
+.pill-mobile-link {
+  font-family: 'AvantGarde', 'Century Gothic', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #3a3a3a;
+  text-decoration: none;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.pill-mobile-link:hover {
+  background: rgba(0,0,0,0.06);
+  color: #1a1a1a;
+}
+
+html[data-theme="dark"] .pill-mobile-menu {
+  background: rgba(28, 24, 20, 0.97);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+}
+
+html[data-theme="dark"] .pill-mobile-link {
+  color: #ccc;
+}
+
+html[data-theme="dark"] .pill-mobile-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+/* ── Responsive: collapse links into hamburger menu ── */
+@media (max-width: 640px) {
+  .pill-header { top: 14px; }
+  .pill-nav { padding: 7px 10px 7px 8px; gap: 4px; }
+  .pill-links { display: none; }
+  .pill-hamburger { display: flex; }
+  .pill-mobile-menu { display: flex; }
+  .pill-logo img { width: 26px; height: 26px; }
+}
+
+@media (max-width: 360px) {
+  .pill-mobile-menu { min-width: 168px; }
+}
+
 /* ===== DARK MODE VARIABLES ===== */
 
 html[data-theme="dark"] {
@@ -2651,6 +2829,30 @@ html[data-theme="dark"] .sticky-note::before {
   animation: plant-grow 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .garden-info { padding: 56px 56px 48px; gap: 32px; }
+  .garden-links-wrap { gap: 40px; }
+}
+
+@media (max-width: 700px) {
+  .garden-info {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 48px 24px 40px;
+    gap: 32px;
+  }
+  .garden-quote-text { font-size: 26px; }
+  .garden-links-wrap { gap: 40px; }
+  .garden-area { min-height: 280px; }
+}
+
+@media (max-width: 420px) {
+  .garden-links-wrap { gap: 28px; flex-wrap: wrap; }
+  .garden-quote-text { font-size: 22px; }
+  .garden-area { min-height: 220px; }
+}
+
 /* ===== PLAYGROUND ===== */
 
 .playground-section {
@@ -2673,6 +2875,7 @@ html[data-theme="dark"] .sticky-note::before {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;
 }
 
 .playground-viewport.playground-dragging {
@@ -2764,6 +2967,14 @@ html[data-theme="dark"] .playground-viewport {
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .playground-section { padding: 56px 0 0; }
+  .playground-label { padding-left: 20px; padding-bottom: 18px; }
+  .playground-viewport { height: 60vh; min-height: 360px; }
+  .playground-hint { font-size: 9px; bottom: 14px; }
+}
+
 /* ===== PLAYGROUND PAGE ===== */
 .pg-page {
   display: flex;
@@ -2813,6 +3024,7 @@ html[data-theme="dark"] .pg-page-header {
   position: relative;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;
   background-image: radial-gradient(circle, rgba(0, 0, 0, 0.14) 1.5px, transparent 1.5px);
   background-size: 28px 28px;
 }
@@ -4408,6 +4620,20 @@ html[data-theme="dark"] .case-footer-home:hover {
   width: 100%;
   height: auto;
   margin-bottom: -1px;
+}
+
+/* These case studies are full-bleed screenshot slides, scaled to 100% width.
+   Their baked-in cover titles sit close to the top of the image, and on
+   narrow viewports that scaled-down top region collides with the fixed
+   pill nav — give the very first slide breathing room below it. */
+@media (max-width: 700px) {
+  .cs-slides img:first-child,
+  .incite-slide:first-child,
+  .museo-slide:first-child,
+  .luna-slide:first-child,
+  .ai-product-strategy-slide:first-child {
+    margin-top: 64px;
+  }
 }
 
 /* Header Section */
