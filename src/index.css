@@ -699,7 +699,7 @@
   background: #ffffff;
   width: 100vw;
   margin-left: calc((100vw - 100%) / -2);
-  padding: 56px 80px;
+  padding: 100px 80px 120px;
   --text-primary: #131313;
   --text-secondary: #767676;
   --text-muted: #999;
@@ -947,13 +947,12 @@ html[data-theme="dark"] .about-divider {
 @media (max-width: 900px) {
   .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
-  .about-collage-section { padding: 40px 32px; }
+  .about-collage-section { padding: 72px 32px 80px; }
   .about-collage { grid-template-columns: repeat(4, 1fr); }
   .about-spine { height: 170px; }
 }
 
 @media (max-width: 560px) {
-  .about-collage-section { padding: 32px 20px; }
   .about-collage { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
