@@ -7,25 +7,28 @@ interface Book {
   mark: string
   bg: string
   fg: string
-  /** Open Library edition key (most reliable — points at a specific edition we confirmed exists). */
+  /** Google Books volume ID — checked first; Google's catalog has near-complete cover coverage for trade books. */
+  gbid?: string
+  /** Open Library edition key — a confirmed edition, tried if Google Books has no image. */
   olid?: string
-  /** ISBN-13, used as a second attempt (or the only attempt if no OLID is on record). */
+  /** ISBN-13, last resort before the styled fallback card. */
   isbn?: string
 }
 
-// Real cover art pulled from Open Library, with a hand-styled fallback
-// (matching the actual cover colors) if every source 404s or a book has
-// no catalog record at all.
+// Real cover art, tried across three independent catalogs (Google Books,
+// then Open Library by edition, then Open Library by ISBN) with a
+// hand-styled fallback if every source 404s or a book has no catalog
+// record at all (e.g. the self-published OKR guide).
 const INITIAL_BOOKS: Book[] = [
-  { title: 'The Design of Everyday Things', author: 'Don Norman',                       mark: 'Basic Books',   bg: '#F2EDE4', fg: '#171717', olid: 'OL25726927M', isbn: '9780465050659' },
-  { title: 'The Midnight Library',           author: 'Matt Haig',                       mark: 'Viking',         bg: '#1B2A4A', fg: '#ffffff', olid: 'OL31856078M', isbn: '9780525559474' },
-  { title: 'The Rosie Effect',                author: 'Graeme Simsion',                 mark: 'Simon & Schuster', bg: '#F28C8C', fg: '#171717', olid: 'OL27169091M', isbn: '9781476767321' },
-  { title: 'No Rules Rules', subtitle: 'Netflix and the Culture of Reinvention', author: 'Reed Hastings & Erin Meyer', mark: 'Penguin Press', bg: '#E50914', fg: '#ffffff', olid: 'OL29849756M', isbn: '9781984877864' },
-  { title: 'No Filter', subtitle: 'The Inside Story of Instagram', author: 'Sarah Frier', mark: 'Simon & Schuster', bg: '#C13584', fg: '#ffffff', isbn: '9781982126803' },
-  { title: 'Range', subtitle: 'Why Generalists Triumph in a Specialized World', author: 'David Epstein', mark: 'Riverhead Books', bg: '#F4A300', fg: '#171717', olid: 'OL27311259M', isbn: '9780735214484' },
-  { title: 'Universal Methods of Design',    author: 'Bella Martin & Bruce Hanington',  mark: 'Rockport',      bg: '#F5C518', fg: '#171717', olid: 'OL25054866M', isbn: '9781592537563' },
-  { title: 'Articulating Design Decisions',  author: 'Tom Greever',                     mark: "O'Reilly Media", bg: '#00857C', fg: '#ffffff', olid: 'OL26498984M', isbn: '9781491921562' },
-  { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', olid: 'OL27186851M', isbn: '9781449372866' },
+  { title: 'The Design of Everyday Things', author: 'Don Norman',                       mark: 'Basic Books',   bg: '#F2EDE4', fg: '#171717', gbid: 'nVQPAAAAQBAJ', olid: 'OL25726927M', isbn: '9780465050659' },
+  { title: 'The Midnight Library',           author: 'Matt Haig',                       mark: 'Viking',         bg: '#1B2A4A', fg: '#ffffff', gbid: '63fYDwAAQBAJ', olid: 'OL31856078M', isbn: '9780525559474' },
+  { title: 'The Rosie Effect',                author: 'Graeme Simsion',                 mark: 'Simon & Schuster', bg: '#F28C8C', fg: '#171717', gbid: 'lt8GBgAAQBAJ', olid: 'OL27169091M', isbn: '9781476767321' },
+  { title: 'No Rules Rules', subtitle: 'Netflix and the Culture of Reinvention', author: 'Reed Hastings & Erin Meyer', mark: 'Penguin Press', bg: '#E50914', fg: '#ffffff', gbid: '1u6_DwAAQBAJ', olid: 'OL29849756M', isbn: '9781984877864' },
+  { title: 'No Filter', subtitle: 'The Inside Story of Instagram', author: 'Sarah Frier', mark: 'Simon & Schuster', bg: '#C13584', fg: '#ffffff', gbid: 'e9qeDwAAQBAJ', isbn: '9781982126803' },
+  { title: 'Range', subtitle: 'Why Generalists Triumph in a Specialized World', author: 'David Epstein', mark: 'Riverhead Books', bg: '#F4A300', fg: '#171717', gbid: '6nsmEAAAQBAJ', olid: 'OL27311259M', isbn: '9780735214484' },
+  { title: 'Universal Methods of Design',    author: 'Bella Martin & Bruce Hanington',  mark: 'Rockport',      bg: '#F5C518', fg: '#171717', gbid: 'uZ8uzWAcdxEC', olid: 'OL25054866M', isbn: '9781592537563' },
+  { title: 'Articulating Design Decisions',  author: 'Tom Greever',                     mark: "O'Reilly Media", bg: '#00857C', fg: '#ffffff', gbid: 'z0CgCgAAQBAJ', olid: 'OL26498984M', isbn: '9781491921562' },
+  { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', gbid: '-BUjEAAAQBAJ', olid: 'OL27186851M', isbn: '9781449372866' },
   { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff' },
 ]
 
@@ -33,6 +36,7 @@ const amazonSearchUrl = (book: Book) =>
   `https://www.amazon.com/s?k=${encodeURIComponent(`${book.title} ${book.author}`)}`
 
 const coverSources = (book: Book) => [
+  book.gbid && `https://books.google.com/books/content?id=${book.gbid}&printsec=frontcover&img=1&zoom=1&source=gbs_api`,
   book.olid && `https://covers.openlibrary.org/b/olid/${book.olid}-L.jpg?default=false`,
   book.isbn && `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg?default=false`,
 ].filter((src): src is string => Boolean(src))
