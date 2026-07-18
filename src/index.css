@@ -823,17 +823,34 @@
 
 .about-stack-wrap {
   perspective: 1200px;
+  --row-h: 192px;
+  --row-gap: 34px;
+  --ledge-h: 18px;
+  --book-w: 128px;
 }
 
+/* One shelf plank per row: painted as a repeating background so any number
+   of rows (books wrap onto a new shelf once a row is full) gets its own ledge. */
 .about-stack {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  flex-wrap: nowrap;
-  gap: 14px;
-  padding: 20px 4px 18px;
-  overflow-x: auto;
-  scrollbar-width: thin;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--book-w));
+  grid-auto-rows: var(--row-h);
+  justify-content: start;
+  align-items: end;
+  column-gap: 14px;
+  row-gap: var(--row-gap);
+  padding: 20px 4px calc(var(--ledge-h) + 4px);
+  background-origin: content-box;
+  background-repeat: repeat;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent var(--row-h),
+    #6b4226 var(--row-h),
+    #3f2416 calc(var(--row-h) + var(--ledge-h)),
+    transparent calc(var(--row-h) + var(--ledge-h)),
+    transparent calc(var(--row-h) + var(--row-gap))
+  );
 }
 
 .about-book {
@@ -841,13 +858,12 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  width: 128px;
-  height: 192px;
+  width: var(--book-w);
+  height: var(--row-h);
   cursor: pointer;
   transform: rotateZ(var(--tilt));
   transform-origin: bottom center;
   transition: transform 0.25s ease, filter 0.25s ease;
-  flex-shrink: 0;
   filter: drop-shadow(2px 6px 10px rgba(0,0,0,0.35));
 }
 
@@ -922,13 +938,6 @@
   margin-top: 4px;
 }
 
-.about-shelf-ledge {
-  height: 18px;
-  background: linear-gradient(180deg, #6b4226 0%, #3f2416 100%);
-  border-radius: 2px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-}
-
 .about-shelf-hint {
   font-family: 'AvantGarde', sans-serif;
   font-size: 10px;
@@ -958,7 +967,7 @@ html[data-theme="dark"] .about-era-tag {
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
   .about-collage { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-  .about-book { width: 100px; height: 150px; }
+  .about-stack-wrap { --row-h: 150px; --row-gap: 30px; --ledge-h: 16px; --book-w: 100px; }
 }
 
 /* ===== PROJECT CARDS ===== */

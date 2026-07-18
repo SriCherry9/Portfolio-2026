@@ -10,19 +10,19 @@ interface Book {
   isbn: string
 }
 
-// Real books from my shelf — real cover art pulled by ISBN, with a
-// hand-styled fallback (matching the actual cover colors) if an image 404s.
+// Real cover art pulled by ISBN, with a hand-styled fallback (matching the
+// actual cover colors) if an image 404s or a book has no ISBN on record.
 const INITIAL_BOOKS: Book[] = [
-  { title: 'Universal Principles of Design', author: '',                              mark: 'Rockport',       bg: '#1B3A6B', fg: '#ffffff', isbn: '9781592535873' },
-  { title: 'Start With Why',                 author: 'Simon Sinek',                   mark: 'Portfolio',      bg: '#6E1423', fg: '#ffffff', isbn: '9781591846444' },
-  { title: 'Zero to One',                    author: 'Peter Thiel',                   mark: 'Virgin Books',   bg: '#FFD400', fg: '#171717', isbn: '9780804139298' },
-  { title: 'Creative Confidence',            author: 'Tom Kelley & David Kelley',     mark: 'William Collins', bg: '#F3EFE2', fg: '#171717', isbn: '9780385349369' },
-  { title: 'Hooked', subtitle: 'How to Build Habit-Forming Products', author: 'Nir Eyal', mark: 'Portfolio',   bg: '#FFD400', fg: '#171717', isbn: '9781591847786' },
-  { title: '100 More Things Every Designer Needs to Know About People', author: 'Susan Weinschenk', mark: 'New Riders', bg: '#C7D62B', fg: '#171717', isbn: '9780133577433' },
-  { title: "Don't Make Me Think, Revisited", subtitle: 'A Common Sense Approach to Web Usability', author: 'Steve Krug', mark: 'New Riders', bg: '#F6B26B', fg: '#171717', isbn: '9780321965516' },
-  { title: 'A Project Guide to UX Design',   subtitle: 'For User Experience Designers in the Field or in the Making', author: 'Russ Unger & Carolyn Chandler', mark: 'New Riders', bg: '#14213D', fg: '#ffffff', isbn: '9780321815380' },
-  { title: 'Smashing UX Design',             author: 'Jesmond Allen & James Chudley', mark: 'Wiley', bg: '#ffffff', fg: '#171717', isbn: '9780470666795' },
-  { title: 'The Lean Startup',                author: 'Eric Ries',                     mark: 'Portfolio',      bg: '#1C6EA4', fg: '#ffffff', isbn: '9780307887894' },
+  { title: 'The Design of Everyday Things', author: 'Don Norman',                       mark: 'Basic Books',   bg: '#F2EDE4', fg: '#171717', isbn: '9780465050659' },
+  { title: 'The Midnight Library',           author: 'Matt Haig',                       mark: 'Viking',         bg: '#1B2A4A', fg: '#ffffff', isbn: '9780525559474' },
+  { title: 'The Rosie Effect',                author: 'Graeme Simsion',                 mark: 'Simon & Schuster', bg: '#F28C8C', fg: '#171717', isbn: '9781476767677' },
+  { title: 'No Rules Rules', subtitle: 'Netflix and the Culture of Reinvention', author: 'Reed Hastings & Erin Meyer', mark: 'Penguin Press', bg: '#E50914', fg: '#ffffff', isbn: '9781984877864' },
+  { title: 'No Filter', subtitle: 'The Inside Story of Instagram', author: 'Sarah Frier', mark: 'Simon & Schuster', bg: '#C13584', fg: '#ffffff', isbn: '9781982126806' },
+  { title: 'Range', subtitle: 'Why Generalists Triumph in a Specialized World', author: 'David Epstein', mark: 'Riverhead Books', bg: '#F4A300', fg: '#171717', isbn: '9780735214484' },
+  { title: 'Universal Methods of Design',    author: 'Bella Martin & Bruce Hanington',  mark: 'Rockport',      bg: '#F5C518', fg: '#171717', isbn: '9781592537563' },
+  { title: 'Articulating Design Decisions',  author: 'Tom Greever',                     mark: "O'Reilly Media", bg: '#00857C', fg: '#ffffff', isbn: '9781491921560' },
+  { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', isbn: '9781491955179' },
+  { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff', isbn: '' },
 ]
 
 const amazonSearchUrl = (book: Book) =>
@@ -53,7 +53,7 @@ export function AboutBookshelf() {
     <div className="about-stack-wrap">
       <div className="about-stack">
         {books.map((book, i) => {
-          const coverFailed = failedCovers.has(book.isbn)
+          const coverFailed = !book.isbn || failedCovers.has(book.isbn)
           return (
             <div
               key={book.title}
@@ -94,8 +94,7 @@ export function AboutBookshelf() {
           )
         })}
       </div>
-      <div className="about-shelf-ledge" />
-      <p className="about-shelf-hint">Scroll to see more · Drag a book to rearrange the shelf · Click one to look it up</p>
+      <p className="about-shelf-hint">Drag a book to rearrange the shelf · Click one to look it up</p>
     </div>
   )
 }
