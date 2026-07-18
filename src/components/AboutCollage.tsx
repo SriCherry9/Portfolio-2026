@@ -27,10 +27,12 @@ const ITEMS: CollageItem[] = [
   { type: 'video', src: '/videos/about/sandboarding',                                color: 'var(--card-1)', size: 'lg' },
   { type: 'image', src: '/images/about/cave-hike.jpg',                               color: 'var(--card-2)' },
   { type: 'video', src: '/videos/about/immersive-art',                               color: 'var(--card-3)' },
-  { type: 'image', src: '/images/about/ice-cream.jpg',                               color: 'var(--card-4)' },
-  { type: 'video', src: '/videos/about/disco-mirror',                                color: 'var(--card-5)' },
-  { type: 'video', src: '/videos/about/concert',                                     color: 'var(--card-1)' },
-  { type: 'video', src: '/videos/about/aquarium-shark',                              color: 'var(--card-2)' },
+  { type: 'image', src: '/images/about/basketball.jpg', trait: 'Competitive',        color: 'var(--card-4)' },
+  { type: 'image', src: '/images/about/ice-cream.jpg',                               color: 'var(--card-5)' },
+  { type: 'video', src: '/videos/about/night-serve',    trait: 'Determined',         color: 'var(--card-1)', size: 'lg' },
+  { type: 'video', src: '/videos/about/disco-mirror',                                color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/concert',                                     color: 'var(--card-3)' },
+  { type: 'video', src: '/videos/about/aquarium-shark',                              color: 'var(--card-4)' },
 ]
 
 function VideoTile({ item }: { item: CollageVideo }) {
