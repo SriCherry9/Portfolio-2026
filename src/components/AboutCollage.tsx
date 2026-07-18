@@ -35,6 +35,8 @@ const ITEMS: CollageItem[] = [
   { type: 'video', src: '/videos/about/concert',         trait: 'Spirited',          color: 'var(--card-3)' },
   { type: 'video', src: '/videos/about/aquarium-shark',  trait: 'Wide-eyed',         color: 'var(--card-4)' },
   { type: 'image', src: '/images/about/fjord-boat.jpg',  trait: 'Grounded',          color: 'var(--card-5)' },
+  { type: 'image', src: '/images/about/scuba.jpg',       trait: 'Bold',              color: 'var(--card-1)' },
+  { type: 'image', src: '/images/about/zipline.jpg',     trait: 'Game for anything', color: 'var(--card-2)' },
 ]
 
 function VideoTile({ item }: { item: CollageVideo }) {
