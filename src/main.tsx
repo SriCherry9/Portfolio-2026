@@ -12,6 +12,7 @@ import { IncitePage } from './pages/IncitePage.tsx'
 import { MuseoPage } from './pages/MuseoPage.tsx'
 import { LunaPage } from './pages/LunaPage.tsx'
 import { AboutPage } from './pages/AboutPage.tsx'
+import { ResumePage } from './pages/ResumePage.tsx'
 import { HfeInhalerPage } from './pages/HfeInhalerPage.tsx'
 import { ComicStripPage } from './pages/ComicStripPage.tsx'
 
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
         <Route element={<Layout />}>
           <Route path="/" element={<App />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/resume" element={<ResumePage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="/case-study/ai-product-strategy" element={<AiProductStrategyPage />} />
           <Route path="/case-study/cashless" element={<CashlessPage />} />

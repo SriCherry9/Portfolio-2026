@@ -103,7 +103,7 @@ export function GardenFooter() {
             <a href="/" className="garden-link">HOME</a>
             <Link to="/playground" className="garden-link">PLAYGROUND</Link>
             <Link to="/about" className="garden-link">ABOUT</Link>
-            <a href="/resume" className="garden-link">RESUME</a>
+            <Link to="/resume" className="garden-link">RESUME</Link>
           </div>
         </div>
       </div>

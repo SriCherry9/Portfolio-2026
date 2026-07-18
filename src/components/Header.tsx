@@ -30,7 +30,7 @@ export function Header() {
           <button className="pill-link" onClick={goWork}>Work</button>
           <Link to="/playground" className="pill-link">Playground</Link>
           <button className="pill-link" onClick={() => navigate('/about')}>About</button>
-          <a href="#resume" className="pill-link">Resume</a>
+          <Link to="/resume" className="pill-link">Resume</Link>
         </div>
 
         <button
