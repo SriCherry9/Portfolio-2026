@@ -153,7 +153,19 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
         >
           <div className="tl-card-header">
             <div className="tl-meta">
-              <span className="tl-company">{project.company}</span>
+              {project.url && project.url !== 'NDA' ? (
+                <a
+                  href={`https://${project.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tl-company tl-company--link"
+                  onClick={e => e.stopPropagation()}
+                >
+                  {project.company}
+                </a>
+              ) : (
+                <span className="tl-company">{project.company}</span>
+              )}
               <span className="tl-separator">·</span>
               <span className="tl-role">{project.role}</span>
             </div>
