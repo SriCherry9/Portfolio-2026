@@ -670,72 +670,17 @@
   margin: 0;
 }
 
-/* ── Era rows ── */
-.about-eras {
-  display: flex;
-  flex-direction: column;
-  padding-top: 56px;
+/* ── Bio ── */
+.about-bio {
+  padding: 56px 0;
 }
 
-.about-era-row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 48px;
-  padding: 32px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  align-items: start;
+.about-bio-body {
+  max-width: 820px;
+  font-size: clamp(15px, 1.3vw, 17px);
 }
 
-.about-era-row:first-child {
-  border-top: 1px solid rgba(0,0,0,0.07);
-}
-
-.about-era-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-top: 3px;
-}
-
-.about-era-tag {
-  display: inline-block;
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.07);
-  color: var(--text-secondary);
-  width: fit-content;
-}
-
-.about-era-tag--present {
-  background: rgba(26,15,10,0.18);
-  color: #1a0f0a;
-}
-
-.about-era-tag--future {
-  background: #1B5252;
-  color: #fff;
-}
-
-.about-era-year {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 12px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-}
-
-.about-era-body {
-  font-size: clamp(14px, 1.2vw, 16px);
-  line-height: 1.8;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-.about-era-body strong {
+.about-bio-body strong {
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -998,19 +943,10 @@ html[data-theme="dark"] .about-divider {
   background: rgba(255,255,255,0.1);
 }
 
-html[data-theme="dark"] .about-era-row {
-  border-color: rgba(255,255,255,0.08);
-}
-
-html[data-theme="dark"] .about-era-tag {
-  background: rgba(255,255,255,0.1);
-}
-
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
-  .about-era-row { grid-template-columns: 1fr; gap: 16px; }
   .about-collage-section { padding: 40px 32px; }
   .about-collage { grid-template-columns: repeat(4, 1fr); }
   .about-spine { height: 170px; }
