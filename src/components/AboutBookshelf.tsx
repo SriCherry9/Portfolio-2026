@@ -69,7 +69,6 @@ export function AboutBookshelf() {
               onClick={() => window.open(amazonSearchUrl(book), '_blank', 'noopener,noreferrer')}
               title={`${book.title}${book.author ? ' — ' + book.author : ''}`}
             >
-              <div className="about-book-pages" />
               <div className="about-book-cover">
                 {!coverFailed ? (
                   <img
@@ -96,7 +95,7 @@ export function AboutBookshelf() {
         })}
       </div>
       <div className="about-shelf-ledge" />
-      <p className="about-shelf-hint">Drag a book to rearrange the shelf · Click one to look it up</p>
+      <p className="about-shelf-hint">Scroll to see more · Drag a book to rearrange the shelf · Click one to look it up</p>
     </div>
   )
 }

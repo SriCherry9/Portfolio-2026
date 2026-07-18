@@ -829,9 +829,11 @@
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 20px 4px 10px;
+  flex-wrap: nowrap;
+  gap: 14px;
+  padding: 20px 4px 18px;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .about-book {
@@ -839,10 +841,10 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  width: 92px;
-  height: 210px;
+  width: 128px;
+  height: 192px;
   cursor: pointer;
-  transform: rotateY(var(--tilt));
+  transform: rotateZ(var(--tilt));
   transform-origin: bottom center;
   transition: transform 0.25s ease, filter 0.25s ease;
   flex-shrink: 0;
@@ -850,8 +852,8 @@
 }
 
 .about-book:hover {
-  transform: rotateY(-14deg) translateY(-10px);
-  filter: drop-shadow(6px 16px 20px rgba(0,0,0,0.5));
+  transform: rotateZ(0deg) translateY(-10px) scale(1.04);
+  filter: drop-shadow(4px 16px 22px rgba(0,0,0,0.5));
   z-index: 2;
 }
 
@@ -859,31 +861,16 @@
   opacity: 0.35;
 }
 
-/* The "rim" — the page block along the spine edge that reads as a real hardcover */
-.about-book-pages {
-  width: 7px;
-  flex-shrink: 0;
-  border-radius: 3px 0 0 3px;
-  background: repeating-linear-gradient(
-    180deg,
-    #efe9d8 0px,
-    #efe9d8 1px,
-    #d8d0ba 2px,
-    #d8d0ba 3px
-  );
-  box-shadow: inset -2px 0 3px rgba(0,0,0,0.25);
-}
-
 .about-book-cover {
   position: relative;
   flex: 1;
   min-width: 0;
-  border-radius: 0 3px 3px 0;
+  border-radius: 4px;
   overflow: hidden;
   background: #1a1a1a;
   box-shadow:
     inset 0 0 0 1px rgba(0,0,0,0.15),
-    inset -6px 0 10px -6px rgba(0,0,0,0.35);
+    0 1px 0 rgba(255,255,255,0.15);
 }
 
 .about-book-img {
@@ -971,7 +958,7 @@ html[data-theme="dark"] .about-era-tag {
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
   .about-collage { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-  .about-book { height: 170px; width: 76px; }
+  .about-book { width: 100px; height: 150px; }
 }
 
 /* ===== PROJECT CARDS ===== */
