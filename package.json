@@ -14,6 +14,7 @@
     "@types/matter-js": "^0.20.2",
     "@types/three": "^0.184.1",
     "matter-js": "^0.20.0",
+    "pdfjs-dist": "^4.10.38",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.15.1",
