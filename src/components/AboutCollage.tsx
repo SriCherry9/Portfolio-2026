@@ -5,6 +5,8 @@ interface CollagePhoto {
   src: string
   trait?: string
   color: string
+  size?: 'lg'
+  pos?: string
 }
 
 interface CollageVideo {
@@ -12,23 +14,31 @@ interface CollageVideo {
   src: string
   trait?: string
   color: string
+  size?: 'lg'
+  pos?: string
 }
 
 type CollageItem = CollagePhoto | CollageVideo
 
 const ITEMS: CollageItem[] = [
-  { type: 'video', src: '/videos/about/skydive',         trait: 'Adventurous',       color: 'var(--card-1)' },
-  { type: 'image', src: '/images/about/casino-night.jpg', trait: 'Fun-loving',       color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/skydive',         trait: 'Adventurous',       color: 'var(--card-1)', size: 'lg' },
+  { type: 'image', src: '/images/about/ferrari-f1.jpg',  trait: 'Thrill-seeking',    color: 'var(--card-2)', size: 'lg', pos: '50% 65%' },
+  { type: 'image', src: '/images/about/casino-night.jpg', trait: 'Fun-loving',       color: 'var(--card-2)', pos: '50% 30%' },
   { type: 'video', src: '/videos/about/fireworks',       trait: 'Joyful',            color: 'var(--card-3)' },
   { type: 'image', src: '/images/about/georgia-viewpoint.jpg', trait: 'Curious',     color: 'var(--card-4)' },
   { type: 'image', src: '/images/about/perfume-shop.jpg', trait: 'A little dramatic', color: 'var(--card-5)' },
-  { type: 'video', src: '/videos/about/sandboarding',                                color: 'var(--card-1)' },
-  { type: 'image', src: '/images/about/cave-hike.jpg',                               color: 'var(--card-2)' },
-  { type: 'video', src: '/videos/about/immersive-art',                               color: 'var(--card-3)' },
-  { type: 'image', src: '/images/about/ice-cream.jpg',                               color: 'var(--card-4)' },
-  { type: 'video', src: '/videos/about/disco-mirror',                                color: 'var(--card-5)' },
-  { type: 'video', src: '/videos/about/concert',                                     color: 'var(--card-1)' },
-  { type: 'video', src: '/videos/about/aquarium-shark',                              color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/sandboarding',    trait: 'Fearless',          color: 'var(--card-1)', size: 'lg', pos: '50% 35%' },
+  { type: 'image', src: '/images/about/cave-hike.jpg',   trait: 'Free-spirited',     color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/immersive-art',   trait: 'Playful',           color: 'var(--card-3)', pos: '50% 65%' },
+  { type: 'image', src: '/images/about/basketball.jpg', trait: 'Competitive',        color: 'var(--card-4)' },
+  { type: 'image', src: '/images/about/ice-cream.jpg',   trait: 'Culinary experimenter', color: 'var(--card-5)', pos: '50% 100%' },
+  { type: 'video', src: '/videos/about/night-serve',    trait: 'Determined',         color: 'var(--card-1)', size: 'lg' },
+  { type: 'video', src: '/videos/about/disco-mirror',    trait: 'Whimsical',         color: 'var(--card-2)' },
+  { type: 'video', src: '/videos/about/concert',         trait: 'Spirited',          color: 'var(--card-3)', pos: '50% 75%' },
+  { type: 'video', src: '/videos/about/aquarium-shark',  trait: 'Wide-eyed',         color: 'var(--card-4)' },
+  { type: 'image', src: '/images/about/fjord-boat.jpg',  trait: 'Grounded',          color: 'var(--card-5)' },
+  { type: 'image', src: '/images/about/scuba.jpg',       trait: 'Bold',              color: 'var(--card-1)' },
+  { type: 'image', src: '/images/about/zipline.jpg',     trait: 'Game for anything', color: 'var(--card-2)' },
 ]
 
 function VideoTile({ item }: { item: CollageVideo }) {
@@ -67,8 +77,8 @@ export function AboutCollage() {
       {ITEMS.map((item, i) => (
         <div
           key={i}
-          className="about-photo-card"
-          style={{ '--fallback': item.color } as React.CSSProperties}
+          className={`about-photo-card${item.size === 'lg' ? ' about-photo-card--lg' : ''}`}
+          style={{ '--fallback': item.color, '--pos': item.pos } as React.CSSProperties}
         >
           {item.type === 'image' ? (
             <img

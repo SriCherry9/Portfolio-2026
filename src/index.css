@@ -670,72 +670,19 @@
   margin: 0;
 }
 
-/* ── Era rows ── */
-.about-eras {
+/* ── Bio ── */
+.about-bio {
+  padding: 56px 0;
   display: flex;
   flex-direction: column;
-  padding-top: 56px;
+  gap: 20px;
 }
 
-.about-era-row {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 48px;
-  padding: 32px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  align-items: start;
+.about-bio-body {
+  font-size: clamp(15px, 1.3vw, 17px);
 }
 
-.about-era-row:first-child {
-  border-top: 1px solid rgba(0,0,0,0.07);
-}
-
-.about-era-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-top: 3px;
-}
-
-.about-era-tag {
-  display: inline-block;
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.07);
-  color: var(--text-secondary);
-  width: fit-content;
-}
-
-.about-era-tag--present {
-  background: rgba(26,15,10,0.18);
-  color: #1a0f0a;
-}
-
-.about-era-tag--future {
-  background: #1B5252;
-  color: #fff;
-}
-
-.about-era-year {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 12px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-}
-
-.about-era-body {
-  font-size: clamp(14px, 1.2vw, 16px);
-  line-height: 1.8;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-.about-era-body strong {
+.about-bio-body strong {
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -745,17 +692,33 @@
   padding: 56px 0 32px;
 }
 
-.about-beyond-body {
-  max-width: 640px;
-}
 
 /* ── Photo collage ── */
+.about-collage-section {
+  background: #ffffff;
+  width: 100vw;
+  margin-left: calc((100vw - 100%) / -2);
+  padding: 100px 80px 120px;
+  --text-primary: #131313;
+  --text-secondary: #767676;
+  --text-muted: #999;
+}
+
+.about-collage-section .about-beyond {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 0 32px;
+}
+
 .about-collage {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 1fr;
+  grid-auto-flow: dense;
   gap: 14px;
-  padding: 12px 0 8px;
   width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
 .about-photo-card {
@@ -763,14 +726,19 @@
   aspect-ratio: 1;
   border-radius: 8px;
   overflow: hidden;
-  background: var(--fallback, rgba(255,255,255,0.1));
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background: var(--fallback, rgba(0,0,0,0.05));
+  box-shadow: 0 8px 20px rgba(0,0,0,0.14);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-photo-card--lg {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
 .about-photo-card:hover {
   transform: scale(1.04);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.4);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.22);
   z-index: 2;
 }
 
@@ -778,6 +746,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--pos, 50% 50%);
   display: block;
   transition: transform 0.4s ease;
 }
@@ -953,21 +922,17 @@ html[data-theme="dark"] .about-divider {
   background: rgba(255,255,255,0.1);
 }
 
-html[data-theme="dark"] .about-era-row {
-  border-color: rgba(255,255,255,0.08);
-}
-
-html[data-theme="dark"] .about-era-tag {
-  background: rgba(255,255,255,0.1);
-}
-
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
-  .about-era-row { grid-template-columns: 1fr; gap: 16px; }
-  .about-collage { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .about-collage-section { padding: 72px 32px 80px; }
+  .about-collage { grid-template-columns: repeat(4, 1fr); }
   .about-stack-wrap { --row-h: 150px; --row-gap: 30px; --ledge-h: 16px; --book-w: 100px; }
+}
+
+@media (max-width: 560px) {
+  .about-collage { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
 /* ===== PROJECT CARDS ===== */

@@ -57,67 +57,58 @@ export function AboutSection() {
       {/* ── Divider ─────────────────────────────────────────────────── */}
       <div className="about-divider about-reveal" />
 
-      {/* ── Past / Present / Future — stacked rows ──────────────────── */}
-      <div className="about-eras">
-
-        <div className="about-era-row about-reveal" style={{ '--delay': '0ms' } as React.CSSProperties}>
-          <div className="about-era-meta">
-            <span className="about-era-tag">Past</span>
-            <span className="about-era-year">2021 – 2024</span>
-          </div>
-          <p className="about-era-body">
-            I explored the frontier of embodied and multimodal interaction through
-            projects like <strong>Museo</strong> — a gesture-based TV bidding
-            experience showcased at <strong>CES 2024</strong> — and a social robot
-            designed to reduce loneliness in patients, where I pushed the boundaries
-            of gesture, speech, and emotionally resonant design.
-          </p>
-        </div>
-
-        <div className="about-era-row about-reveal" style={{ '--delay': '100ms' } as React.CSSProperties}>
-          <div className="about-era-meta">
-            <span className="about-era-tag about-era-tag--present">Present</span>
-            <span className="about-era-year">Now</span>
-          </div>
-          <p className="about-era-body">
-            At <strong>Qapita</strong>, I'm transforming complex, compliance-heavy
-            equity workflows into intuitive experiences, identifying AI opportunities
-            that shape product roadmaps, and growing into design leadership through
-            mentorship and outcome-driven strategy.
-          </p>
-        </div>
-
-        <div className="about-era-row about-reveal" style={{ '--delay': '200ms' } as React.CSSProperties}>
-          <div className="about-era-meta">
-            <span className="about-era-tag about-era-tag--future">Future</span>
-            <span className="about-era-year">Next</span>
-          </div>
-          <p className="about-era-body">
-            Working toward designing the next generation of human-technology
-            interactions — across spatial, embodied, and multimodal systems — where
-            I can bridge deep user empathy with strategic impact at the frontier of
-            emerging technology.
-          </p>
-        </div>
-
+      {/* ── Who I am ─────────────────────────────────────────────────── */}
+      <div className="about-bio about-reveal">
+        <p className="about-kicker">Who I am</p>
+        <p className="about-body about-bio-body">
+          I'm <strong>Cherry</strong>, a product designer who moves fluidly between
+          two very different kinds of complexity:{' '}
+          <strong>compliance-heavy enterprise systems and expressive, multimodal
+          consumer experiences</strong>. At <strong>Qapita</strong>, I redesigned
+          core workflows for a platform managing <strong>$55B</strong> in{' '}
+          <strong>equity</strong> across <strong>2,400+ companies</strong>, cutting
+          setup time by <strong>25%</strong> and abandonment by{' '}
+          <strong>20%</strong>. I ran an accessibility audit and built the
+          execution plan to bring the platform to <strong>WCAG 2.2</strong>{' '}
+          compliance, and I identified AI opportunities that shaped the product
+          roadmap. On the other end of the spectrum, I designed{' '}
+          <strong>Museo</strong> — a{' '}
+          <strong>gesture-based TV bidding experience</strong> for art auctions —
+          shown at <strong>CES 2024</strong> to{' '}
+          <strong>138,700 attendees</strong>. That range is the point: whether
+          the challenge is simplifying a dense financial workflow or designing a
+          natural gesture interaction for a new medium, I bring the same{' '}
+          <strong>research-first, systems-level thinking</strong>. For teams
+          building the next generation of experiences — B2B or B2C — I bring{' '}
+          <strong>empathy, multimodal fluency,</strong> and the ability to{' '}
+          <strong>align design with real business and human outcomes</strong>.
+        </p>
       </div>
 
       {/* ── Divider ─────────────────────────────────────────────────── */}
       <div className="about-divider about-reveal" />
 
-      {/* ── Beyond the work ─────────────────────────────────────────── */}
-      <div className="about-beyond about-reveal">
-        <p className="about-kicker">Beyond the work</p>
-        <p className="about-body about-beyond-body">
-          Outside of pixels and prototypes, I'm probably chasing something new — a
-          trip I haven't taken, a trail I haven't hiked, or a conversation I didn't
-          expect to have. I laugh easily, ask too many questions, and every so often
-          turn a small moment into a whole production. Hover on a photo below to
-          get to know me a little better.
-        </p>
-      </div>
+      <div className="about-collage-section about-reveal">
+        {/* ── Beyond the work ─────────────────────────────────────────── */}
+        <div className="about-beyond">
+          <p className="about-kicker">Beyond the work</p>
+          <p className="about-body about-beyond-body">
+            So, who am I when I'm not designing? Punctual, assertive, and
+            endlessly curious, with an all-rounder streak that goes back to
+            childhood. I played basketball at the national level and tennis
+            alongside it, danced, did karate — if there was a way to try
+            something new, I was in. That same instinct still drives me: I've
+            gone skydiving, scuba diving, surfing, and ziplining, and I'm always
+            adding to the list. But I balance that with real stillness — I
+            protect time to just play, read, or do absolutely nothing. I lead
+            the way I always have: organizing, showing up, mentoring without
+            micromanaging. I'm a team player with strong opinions, someone who
+            values peace and real relationships over just chasing the next
+            thing — even while chasing quite a lot of things. Hover on a photo
+            below to get to know me a little better.
+          </p>
+        </div>
 
-      <div className="about-reveal">
         <AboutCollage />
       </div>
 
