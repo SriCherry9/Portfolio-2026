@@ -83,19 +83,6 @@ export function AboutSection() {
           <strong>empathy, multimodal fluency,</strong> and the ability to{' '}
           <strong>align design with real business and human outcomes</strong>.
         </p>
-        <p className="about-body about-bio-body">
-          I'm Cherry — punctual, assertive, and endlessly curious, with an
-          all-rounder streak that goes back to childhood. I played basketball at
-          the national level and tennis alongside it, danced, did karate, wrote
-          poetry — if there was a way to try something new, I was in. That same
-          instinct still drives me: I've gone skydiving, scuba diving, surfing,
-          and ziplining, and I'm always adding to the list. But I balance that
-          with real stillness — I protect time to just play, read, or do
-          absolutely nothing. I lead the way I always have: organizing, showing
-          up, mentoring without micromanaging. I'm a team player with strong
-          opinions, someone who values peace and real relationships over just
-          chasing the next thing — even while chasing quite a lot of things.
-        </p>
       </div>
 
       {/* ── Divider ─────────────────────────────────────────────────── */}
@@ -106,11 +93,18 @@ export function AboutSection() {
         <div className="about-beyond">
           <p className="about-kicker">Beyond the work</p>
           <p className="about-body about-beyond-body">
-            Outside of pixels and prototypes, I'm probably chasing something new — a
-            trip I haven't taken, a trail I haven't hiked, or a conversation I didn't
-            expect to have. I laugh easily, ask too many questions, and every so often
-            turn a small moment into a whole production. Hover on a photo below to
-            get to know me a little better.
+            I'm Cherry — punctual, assertive, and endlessly curious, with an
+            all-rounder streak that goes back to childhood. I played basketball at
+            the national level and tennis alongside it, danced, did karate, wrote
+            poetry — if there was a way to try something new, I was in. That same
+            instinct still drives me: I've gone skydiving, scuba diving, surfing,
+            and ziplining, and I'm always adding to the list. But I balance that
+            with real stillness — I protect time to just play, read, or do
+            absolutely nothing. I lead the way I always have: organizing, showing
+            up, mentoring without micromanaging. I'm a team player with strong
+            opinions, someone who values peace and real relationships over just
+            chasing the next thing — even while chasing quite a lot of things.
+            Hover on a photo below to get to know me a little better.
           </p>
         </div>
 
