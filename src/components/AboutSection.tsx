@@ -117,7 +117,7 @@ export function AboutSection() {
         </p>
       </div>
 
-      <div className="about-reveal">
+      <div className="about-collage-section about-reveal">
         <AboutCollage />
       </div>
 

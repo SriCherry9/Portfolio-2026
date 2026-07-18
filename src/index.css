@@ -750,12 +750,22 @@
 }
 
 /* ── Photo collage ── */
+.about-collage-section {
+  background: #ffffff;
+  width: 100vw;
+  margin-left: calc((100vw - 100%) / -2);
+  padding: 56px 80px;
+}
+
 .about-collage {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 1fr;
+  grid-auto-flow: dense;
   gap: 14px;
-  padding: 12px 0 8px;
   width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
 .about-photo-card {
@@ -763,14 +773,19 @@
   aspect-ratio: 1;
   border-radius: 8px;
   overflow: hidden;
-  background: var(--fallback, rgba(255,255,255,0.1));
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background: var(--fallback, rgba(0,0,0,0.05));
+  box-shadow: 0 8px 20px rgba(0,0,0,0.14);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-photo-card--lg {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
 .about-photo-card:hover {
   transform: scale(1.04);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.4);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.22);
   z-index: 2;
 }
 
@@ -987,8 +1002,14 @@ html[data-theme="dark"] .about-era-tag {
   .about-section { padding: 72px 32px 80px; }
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
-  .about-collage { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .about-collage-section { padding: 40px 32px; }
+  .about-collage { grid-template-columns: repeat(4, 1fr); }
   .about-spine { height: 170px; }
+}
+
+@media (max-width: 560px) {
+  .about-collage-section { padding: 32px 20px; }
+  .about-collage { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
 /* ===== PROJECT CARDS ===== */

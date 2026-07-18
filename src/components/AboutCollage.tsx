@@ -5,6 +5,7 @@ interface CollagePhoto {
   src: string
   trait?: string
   color: string
+  size?: 'lg'
 }
 
 interface CollageVideo {
@@ -12,17 +13,18 @@ interface CollageVideo {
   src: string
   trait?: string
   color: string
+  size?: 'lg'
 }
 
 type CollageItem = CollagePhoto | CollageVideo
 
 const ITEMS: CollageItem[] = [
-  { type: 'video', src: '/videos/about/skydive',         trait: 'Adventurous',       color: 'var(--card-1)' },
+  { type: 'video', src: '/videos/about/skydive',         trait: 'Adventurous',       color: 'var(--card-1)', size: 'lg' },
   { type: 'image', src: '/images/about/casino-night.jpg', trait: 'Fun-loving',       color: 'var(--card-2)' },
   { type: 'video', src: '/videos/about/fireworks',       trait: 'Joyful',            color: 'var(--card-3)' },
   { type: 'image', src: '/images/about/georgia-viewpoint.jpg', trait: 'Curious',     color: 'var(--card-4)' },
   { type: 'image', src: '/images/about/perfume-shop.jpg', trait: 'A little dramatic', color: 'var(--card-5)' },
-  { type: 'video', src: '/videos/about/sandboarding',                                color: 'var(--card-1)' },
+  { type: 'video', src: '/videos/about/sandboarding',                                color: 'var(--card-1)', size: 'lg' },
   { type: 'image', src: '/images/about/cave-hike.jpg',                               color: 'var(--card-2)' },
   { type: 'video', src: '/videos/about/immersive-art',                               color: 'var(--card-3)' },
   { type: 'image', src: '/images/about/ice-cream.jpg',                               color: 'var(--card-4)' },
@@ -67,7 +69,7 @@ export function AboutCollage() {
       {ITEMS.map((item, i) => (
         <div
           key={i}
-          className="about-photo-card"
+          className={`about-photo-card${item.size === 'lg' ? ' about-photo-card--lg' : ''}`}
           style={{ '--fallback': item.color } as React.CSSProperties}
         >
           {item.type === 'image' ? (
