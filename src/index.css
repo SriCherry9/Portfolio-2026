@@ -679,7 +679,6 @@
 }
 
 .about-bio-body {
-  max-width: 820px;
   font-size: clamp(15px, 1.3vw, 17px);
 }
 
@@ -693,9 +692,6 @@
   padding: 56px 0 32px;
 }
 
-.about-beyond-body {
-  max-width: 820px;
-}
 
 /* ── Photo collage ── */
 .about-collage-section {
