@@ -834,122 +834,105 @@
   padding: 20px 4px 10px;
 }
 
-.about-spine {
-  --bg: #7B68EE;
-  --fg: #ffffff;
+.about-book {
   --tilt: 0deg;
   position: relative;
-  width: 50px;
-  height: 210px;
-  background: var(--bg);
-  color: var(--fg);
-  border-radius: 3px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px 4px 10px;
-  gap: 8px;
-  box-shadow:
-    inset 1px 0 0 rgba(255,255,255,0.25),
-    inset -1px 0 0 rgba(0,0,0,0.15),
-    2px 4px 10px rgba(0,0,0,0.35);
+  align-items: stretch;
+  width: 92px;
+  height: 210px;
   cursor: pointer;
   transform: rotateY(var(--tilt));
   transform-origin: bottom center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: hidden;
+  transition: transform 0.25s ease, filter 0.25s ease;
   flex-shrink: 0;
+  filter: drop-shadow(2px 6px 10px rgba(0,0,0,0.35));
 }
 
-.about-spine:hover {
-  transform: rotateY(0deg) translateY(-10px);
-  box-shadow:
-    inset 1px 0 0 rgba(255,255,255,0.25),
-    inset -1px 0 0 rgba(0,0,0,0.15),
-    4px 14px 22px rgba(0,0,0,0.5);
+.about-book:hover {
+  transform: rotateY(-14deg) translateY(-10px);
+  filter: drop-shadow(6px 16px 20px rgba(0,0,0,0.5));
   z-index: 2;
 }
 
-.about-spine--dragging {
+.about-book--dragging {
   opacity: 0.35;
 }
 
-.about-spine-text {
+/* The "rim" — the page block along the spine edge that reads as a real hardcover */
+.about-book-pages {
+  width: 7px;
+  flex-shrink: 0;
+  border-radius: 3px 0 0 3px;
+  background: repeating-linear-gradient(
+    180deg,
+    #efe9d8 0px,
+    #efe9d8 1px,
+    #d8d0ba 2px,
+    #d8d0ba 3px
+  );
+  box-shadow: inset -2px 0 3px rgba(0,0,0,0.25);
+}
+
+.about-book-cover {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-radius: 0 3px 3px 0;
+  overflow: hidden;
+  background: #1a1a1a;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.15),
+    inset -6px 0 10px -6px rgba(0,0,0,0.35);
+}
+
+.about-book-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-book-fallback {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px;
+  text-align: center;
 }
 
-.about-spine-title {
+.about-book-fallback-title {
   font-family: 'AvantGarde', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: 100%;
+  line-height: 1.25;
 }
 
-.about-spine-subtitle {
+.about-book-fallback-subtitle {
   font-size: 8px;
   font-weight: 500;
   opacity: 0.75;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: 60px;
+  line-height: 1.2;
 }
 
-.about-spine-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  flex-shrink: 0;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-}
-
-.about-spine-author {
+.about-book-fallback-author {
   font-size: 9px;
   font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  max-height: 90px;
-  text-overflow: ellipsis;
 }
 
-.about-spine-mark {
+.about-book-fallback-mark {
   font-family: 'AvantGarde', sans-serif;
   font-size: 7px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   opacity: 0.6;
-  white-space: nowrap;
-}
-
-.about-spine-edge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255,255,255,0.55) 0px,
-    rgba(255,255,255,0.55) 1px,
-    rgba(0,0,0,0.05) 2px,
-    rgba(0,0,0,0.05) 3px
-  );
-  background-color: #efe9d8;
-  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.15);
+  margin-top: 4px;
 }
 
 .about-shelf-ledge {
@@ -988,7 +971,7 @@ html[data-theme="dark"] .about-era-tag {
   .about-two-col { grid-template-columns: 1fr; gap: 40px; }
   .about-era-row { grid-template-columns: 1fr; gap: 16px; }
   .about-collage { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-  .about-spine { height: 170px; }
+  .about-book { height: 170px; width: 76px; }
 }
 
 /* ===== PROJECT CARDS ===== */
