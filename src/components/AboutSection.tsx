@@ -62,24 +62,26 @@ export function AboutSection() {
         <p className="about-kicker">Who I am</p>
         <p className="about-body about-bio-body">
           I'm <strong>Cherry</strong>, a product designer who moves fluidly between
-          two very different kinds of complexity: compliance-heavy enterprise
-          systems and expressive, multimodal consumer experiences. At{' '}
-          <strong>Qapita</strong>, I redesigned core workflows for a platform
-          managing <strong>$55B</strong> in equity across{' '}
-          <strong>2,400+ companies</strong>, cutting setup time by{' '}
-          <strong>25%</strong> and abandonment by <strong>20%</strong>. I ran an
-          accessibility audit and built the execution plan to bring the platform
-          to <strong>WCAG 2.2</strong> compliance, and I identified AI
-          opportunities that shaped the product roadmap. On the other end of the
-          spectrum, I designed <strong>Museo</strong> — a gesture-based TV bidding
-          experience for art auctions — shown at <strong>CES 2024</strong> to{' '}
+          two very different kinds of complexity:{' '}
+          <strong>compliance-heavy enterprise systems and expressive, multimodal
+          consumer experiences</strong>. At <strong>Qapita</strong>, I redesigned
+          core workflows for a platform managing <strong>$55B</strong> in{' '}
+          <strong>equity</strong> across <strong>2,400+ companies</strong>, cutting
+          setup time by <strong>25%</strong> and abandonment by{' '}
+          <strong>20%</strong>. I ran an accessibility audit and built the
+          execution plan to bring the platform to <strong>WCAG 2.2</strong>{' '}
+          compliance, and I identified AI opportunities that shaped the product
+          roadmap. On the other end of the spectrum, I designed{' '}
+          <strong>Museo</strong> — a{' '}
+          <strong>gesture-based TV bidding experience</strong> for art auctions —
+          shown at <strong>CES 2024</strong> to{' '}
           <strong>138,700 attendees</strong>. That range is the point: whether
           the challenge is simplifying a dense financial workflow or designing a
-          natural gesture interaction for a new medium, I bring the same
-          research-first, systems-level thinking. For teams building the next
-          generation of experiences — B2B or B2C — I bring empathy, multimodal
-          fluency, and the ability to align design with real business and human
-          outcomes.
+          natural gesture interaction for a new medium, I bring the same{' '}
+          <strong>research-first, systems-level thinking</strong>. For teams
+          building the next generation of experiences — B2B or B2C — I bring{' '}
+          <strong>empathy, multimodal fluency,</strong> and the ability to{' '}
+          <strong>align design with real business and human outcomes</strong>.
         </p>
       </div>
 
