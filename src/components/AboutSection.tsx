@@ -105,19 +105,19 @@ export function AboutSection() {
       {/* ── Divider ─────────────────────────────────────────────────── */}
       <div className="about-divider about-reveal" />
 
-      {/* ── Beyond the work ─────────────────────────────────────────── */}
-      <div className="about-beyond about-reveal">
-        <p className="about-kicker">Beyond the work</p>
-        <p className="about-body about-beyond-body">
-          Outside of pixels and prototypes, I'm probably chasing something new — a
-          trip I haven't taken, a trail I haven't hiked, or a conversation I didn't
-          expect to have. I laugh easily, ask too many questions, and every so often
-          turn a small moment into a whole production. Hover on a photo below to
-          get to know me a little better.
-        </p>
-      </div>
-
       <div className="about-collage-section about-reveal">
+        {/* ── Beyond the work ─────────────────────────────────────────── */}
+        <div className="about-beyond">
+          <p className="about-kicker">Beyond the work</p>
+          <p className="about-body about-beyond-body">
+            Outside of pixels and prototypes, I'm probably chasing something new — a
+            trip I haven't taken, a trail I haven't hiked, or a conversation I didn't
+            expect to have. I laugh easily, ask too many questions, and every so often
+            turn a small moment into a whole production. Hover on a photo below to
+            get to know me a little better.
+          </p>
+        </div>
+
         <AboutCollage />
       </div>
 

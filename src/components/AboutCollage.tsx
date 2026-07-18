@@ -33,6 +33,7 @@ const ITEMS: CollageItem[] = [
   { type: 'video', src: '/videos/about/disco-mirror',                                color: 'var(--card-2)' },
   { type: 'video', src: '/videos/about/concert',                                     color: 'var(--card-3)' },
   { type: 'video', src: '/videos/about/aquarium-shark',                              color: 'var(--card-4)' },
+  { type: 'image', src: '/images/about/fjord-boat.jpg',                              color: 'var(--card-5)' },
 ]
 
 function VideoTile({ item }: { item: CollageVideo }) {

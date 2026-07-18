@@ -755,6 +755,15 @@
   width: 100vw;
   margin-left: calc((100vw - 100%) / -2);
   padding: 56px 80px;
+  --text-primary: #131313;
+  --text-secondary: #767676;
+  --text-muted: #999;
+}
+
+.about-collage-section .about-beyond {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 0 32px;
 }
 
 .about-collage {
