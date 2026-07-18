@@ -85,8 +85,19 @@ export function ShredderLanding() {
       scrollTimerRef.current = setTimeout(stopAudio, 220)
     }
 
+    const NEWSPAPER_LIGHT = '/images/newspaper.webp'
+    const NEWSPAPER_DARK  = '/images/newspaper-dark.webp'
+    const newspaperSrc = () =>
+      document.documentElement.getAttribute('data-theme') === 'dark' ? NEWSPAPER_DARK : NEWSPAPER_LIGHT
+
     const img = new Image()
-    img.src = '/images/newspaper.webp'
+    img.src = newspaperSrc()
+
+    const themeObserver = new MutationObserver(() => {
+      const next = newspaperSrc()
+      if (!img.src.endsWith(next)) img.src = next
+    })
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
 
     // ── Render loop ──────────────────────────────────────────────────
     const tick = (ts: number) => {
@@ -252,6 +263,7 @@ export function ShredderLanding() {
       window.removeEventListener('touchstart', unlock)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current)
+      themeObserver.disconnect()
       audio.pause()
       audioRef.current = null
     }
