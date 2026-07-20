@@ -7,29 +7,44 @@ interface Book {
   mark: string
   bg: string
   fg: string
-  thickness: number
+  /** Google Books volume ID — checked first; Google's catalog has near-complete cover coverage for trade books. */
+  gbid?: string
+  /** Open Library edition key — a confirmed edition, tried if Google Books has no image. */
+  olid?: string
+  /** ISBN-13, last resort before the styled fallback card. */
+  isbn?: string
 }
 
-// Real books from my shelf — spines recreated to match their actual covers.
+// Real cover art, tried across three independent catalogs (Google Books,
+// then Open Library by edition, then Open Library by ISBN) with a
+// hand-styled fallback if every source 404s or a book has no catalog
+// record at all (e.g. the self-published OKR guide).
 const INITIAL_BOOKS: Book[] = [
-  { title: 'Universal Principles of Design', author: '',                              mark: 'Rockport',    bg: '#1B3A6B', fg: '#ffffff', thickness: 60 },
-  { title: 'Start With Why',                 author: 'Simon Sinek',                   mark: 'Portfolio',   bg: '#6E1423', fg: '#ffffff', thickness: 56 },
-  { title: 'Zero to One',                    author: 'Peter Thiel',                   mark: 'Virgin Books', bg: '#FFD400', fg: '#171717', thickness: 44 },
-  { title: 'Creative Confidence',            author: 'Tom Kelley & David Kelley',     mark: 'William Collins', bg: '#F3EFE2', fg: '#171717', thickness: 50 },
-  { title: 'Hooked', subtitle: 'How to Build Habit-Forming Products', author: 'Nir Eyal', mark: 'Portfolio', bg: '#FFD400', fg: '#171717', thickness: 48 },
-  { title: '100 More Things Every Designer Needs to Know About People', author: 'Susan Weinschenk', mark: 'New Riders', bg: '#C7D62B', fg: '#171717', thickness: 52 },
-  { title: "Don't Make Me Think, Revisited", subtitle: 'A Common Sense Approach to Web Usability', author: 'Steve Krug', mark: 'New Riders', bg: '#F6B26B', fg: '#171717', thickness: 46 },
-  { title: 'A Project Guide to UX Design',   subtitle: 'For User Experience Designers in the Field or in the Making', author: 'Russ Unger & Carolyn Chandler', mark: 'New Riders', bg: '#14213D', fg: '#ffffff', thickness: 54 },
-  { title: 'Smashing UX Design',             author: 'Jesmond Allen & James Chudley', mark: 'Wiley', bg: '#ffffff', fg: '#171717', thickness: 50 },
-  { title: 'The Lean Startup',                author: 'Eric Ries',                     mark: 'Portfolio',   bg: '#1C6EA4', fg: '#ffffff', thickness: 58 },
+  { title: 'The Design of Everyday Things', author: 'Don Norman',                       mark: 'Basic Books',   bg: '#F2EDE4', fg: '#171717', gbid: 'nVQPAAAAQBAJ', olid: 'OL25726927M', isbn: '9780465050659' },
+  { title: 'The Midnight Library',           author: 'Matt Haig',                       mark: 'Viking',         bg: '#1B2A4A', fg: '#ffffff', gbid: '63fYDwAAQBAJ', olid: 'OL31856078M', isbn: '9780525559474' },
+  { title: 'The Rosie Effect',                author: 'Graeme Simsion',                 mark: 'Simon & Schuster', bg: '#F28C8C', fg: '#171717', gbid: 'lt8GBgAAQBAJ', olid: 'OL27169091M', isbn: '9781476767321' },
+  { title: 'No Rules Rules', subtitle: 'Netflix and the Culture of Reinvention', author: 'Reed Hastings & Erin Meyer', mark: 'Penguin Press', bg: '#E50914', fg: '#ffffff', gbid: '1u6_DwAAQBAJ', olid: 'OL29849756M', isbn: '9781984877864' },
+  { title: 'No Filter', subtitle: 'The Inside Story of Instagram', author: 'Sarah Frier', mark: 'Simon & Schuster', bg: '#C13584', fg: '#ffffff', gbid: 'e9qeDwAAQBAJ', isbn: '9781982126803' },
+  { title: 'Range', subtitle: 'Why Generalists Triumph in a Specialized World', author: 'David Epstein', mark: 'Riverhead Books', bg: '#F4A300', fg: '#171717', gbid: '6nsmEAAAQBAJ', olid: 'OL27311259M', isbn: '9780735214484' },
+  { title: 'Universal Methods of Design',    author: 'Bella Martin & Bruce Hanington',  mark: 'Rockport',      bg: '#F5C518', fg: '#171717', gbid: 'uZ8uzWAcdxEC', olid: 'OL25054866M', isbn: '9781592537563' },
+  { title: 'Articulating Design Decisions',  author: 'Tom Greever',                     mark: "O'Reilly Media", bg: '#00857C', fg: '#ffffff', gbid: 'z0CgCgAAQBAJ', olid: 'OL26498984M', isbn: '9781491921562' },
+  { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', gbid: '-BUjEAAAQBAJ', olid: 'OL27186851M', isbn: '9781449372866' },
+  { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff' },
 ]
 
 const amazonSearchUrl = (book: Book) =>
   `https://www.amazon.com/s?k=${encodeURIComponent(`${book.title} ${book.author}`)}`
 
+const coverSources = (book: Book) => [
+  book.gbid && `https://books.google.com/books/content?id=${book.gbid}&printsec=frontcover&img=1&zoom=1&source=gbs_api`,
+  book.olid && `https://covers.openlibrary.org/b/olid/${book.olid}-L.jpg?default=false`,
+  book.isbn && `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg?default=false`,
+].filter((src): src is string => Boolean(src))
+
 export function AboutBookshelf() {
   const [books, setBooks] = useState(INITIAL_BOOKS)
   const [dragging, setDragging] = useState<number | null>(null)
+  const [attempt, setAttempt] = useState<Record<string, number>>({})
   const dragIndex = useRef<number | null>(null)
 
   const handleDrop = (index: number) => {
@@ -48,38 +63,54 @@ export function AboutBookshelf() {
   return (
     <div className="about-stack-wrap">
       <div className="about-stack">
-        {books.map((book, i) => (
-          <div
-            key={book.title}
-            className={`about-spine${dragging === i ? ' about-spine--dragging' : ''}`}
-            style={{
-              '--bg': book.bg,
-              '--fg': book.fg,
-              width: `${book.thickness}px`,
-              '--tilt': `${((i * 37) % 5 - 2) * 0.4}deg`,
-            } as React.CSSProperties}
-            draggable
-            onDragStart={() => { dragIndex.current = i; setDragging(i) }}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => handleDrop(i)}
-            onDragEnd={() => setDragging(null)}
-            onClick={() => window.open(amazonSearchUrl(book), '_blank', 'noopener,noreferrer')}
-            title={`${book.title}${book.author ? ' — ' + book.author : ''}`}
-          >
-            <div className="about-spine-edge" />
-            <div className="about-spine-text">
-              <span className="about-spine-title">{book.title}</span>
-              {book.subtitle && <span className="about-spine-subtitle">{book.subtitle}</span>}
+        {books.map((book, i) => {
+          const sources = coverSources(book)
+          const currentAttempt = attempt[book.title] ?? 0
+          const coverSrc = sources[currentAttempt]
+          return (
+            <div
+              key={book.title}
+              className={`about-book${dragging === i ? ' about-book--dragging' : ''}`}
+              style={{
+                '--tilt': `${((i * 37) % 5 - 2) * 0.4}deg`,
+              } as React.CSSProperties}
+              draggable
+              onDragStart={() => { dragIndex.current = i; setDragging(i) }}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => handleDrop(i)}
+              onDragEnd={() => setDragging(null)}
+              onClick={() => window.open(amazonSearchUrl(book), '_blank', 'noopener,noreferrer')}
+              title={`${book.title}${book.author ? ' — ' + book.author : ''}`}
+            >
+              <div className="about-book-cover">
+                {coverSrc ? (
+                  <img
+                    className="about-book-img"
+                    src={coverSrc}
+                    alt={`${book.title} cover`}
+                    loading="lazy"
+                    onError={() => setAttempt((prev) => ({ ...prev, [book.title]: currentAttempt + 1 }))}
+                  />
+                ) : (
+                  <div
+                    className="about-book-fallback"
+                    style={{ '--bg': book.bg, '--fg': book.fg } as React.CSSProperties}
+                  >
+                    <span className="about-book-fallback-title">{book.title}</span>
+                    {book.subtitle && <span className="about-book-fallback-subtitle">{book.subtitle}</span>}
+                    {book.author && <span className="about-book-fallback-author">{book.author}</span>}
+                    <span className="about-book-fallback-mark">{book.mark}</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="about-spine-meta">
-              {book.author && <span className="about-spine-author">{book.author}</span>}
-              <span className="about-spine-mark">{book.mark}</span>
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
-      <div className="about-shelf-ledge" />
-      <p className="about-shelf-hint">Drag a book to rearrange the shelf · Click one to look it up</p>
+      <p className="about-shelf-hint">
+        <span className="about-shelf-hint-drag">Drag a book to rearrange the shelf · </span>
+        Tap one to look it up
+      </p>
     </div>
   )
 }

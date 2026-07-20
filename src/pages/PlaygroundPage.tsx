@@ -246,7 +246,7 @@ export function PlaygroundPage() {
   }, [])
 
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
+    const onPointerMove = (e: PointerEvent) => {
       if (!dragging.current) return
       const dx = e.clientX - lastPos.current.x
       const dy = e.clientY - lastPos.current.y
@@ -255,7 +255,7 @@ export function PlaygroundPage() {
       setPan(p => ({ x: p.x + dx, y: p.y + dy }))
     }
 
-    const onMouseUp = () => {
+    const onPointerUp = () => {
       if (!dragging.current) return
       dragging.current = false
       setIsDragging(false)
@@ -275,11 +275,13 @@ export function PlaygroundPage() {
       animFrame.current = requestAnimationFrame(animate)
     }
 
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointercancel', onPointerUp)
     return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointercancel', onPointerUp)
       cancelAnimationFrame(animFrame.current!)
     }
   }, [])
@@ -296,7 +298,7 @@ export function PlaygroundPage() {
     return () => el.removeEventListener('wheel', handleWheel)
   }, [])
 
-  const onMouseDown = (e: React.MouseEvent) => {
+  const onPointerDown = (e: React.PointerEvent) => {
     e.preventDefault()
     cancelAnimationFrame(animFrame.current!)
     dragging.current = true
@@ -439,7 +441,7 @@ export function PlaygroundPage() {
         ref={containerRef}
         className={`pg-canvas-wrap${isDragging ? ' pg-dragging' : ''}`}
         style={{ backgroundPosition: `${mod(pan.x, 28)}px ${mod(pan.y, 28)}px` }}
-        onMouseDown={onMouseDown}
+        onPointerDown={onPointerDown}
       >
         <div
           className="pg-canvas"

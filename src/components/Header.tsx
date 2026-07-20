@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
 
@@ -5,22 +6,38 @@ export function Header() {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  // Close the mobile menu on route change / resize back to desktop
+  useEffect(() => {
+    if (!menuOpen) return
+    const onResize = () => { if (window.innerWidth > 640) setMenuOpen(false) }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [menuOpen])
 
   const goHome = () => {
+    setMenuOpen(false)
     navigate('/')
     setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 50)
   }
 
   const goWork = () => {
+    setMenuOpen(false)
     navigate('/#work')
     setTimeout(() => {
       document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
     }, 80)
   }
 
+  const goAbout = () => {
+    setMenuOpen(false)
+    navigate('/about')
+  }
+
   return (
     <header className="pill-header">
-      <nav className="pill-nav">
+      <nav className={`pill-nav${menuOpen ? ' pill-nav--open' : ''}`}>
         {/* Cherry logo → top of home */}
         <button className="pill-logo" aria-label="Home" onClick={goHome}>
           <img src="/Cherry.svg" alt="" width="30" height="30" />
@@ -29,7 +46,7 @@ export function Header() {
         <div className="pill-links">
           <button className="pill-link" onClick={goWork}>Work</button>
           <Link to="/playground" className="pill-link">Playground</Link>
-          <button className="pill-link" onClick={() => navigate('/about')}>About</button>
+          <button className="pill-link" onClick={goAbout}>About</button>
           <Link to="/resume" className="pill-link">Resume</Link>
         </div>
 
@@ -57,7 +74,27 @@ export function Header() {
             </svg>
           )}
         </button>
+
+        <button
+          className="pill-hamburger"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(o => !o)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </nav>
+
+      {menuOpen && (
+        <div className="pill-mobile-menu">
+          <button className="pill-mobile-link" onClick={goWork}>Work</button>
+          <Link to="/playground" className="pill-mobile-link" onClick={() => setMenuOpen(false)}>Playground</Link>
+          <button className="pill-mobile-link" onClick={goAbout}>About</button>
+          <Link to="/resume" className="pill-mobile-link" onClick={() => setMenuOpen(false)}>Resume</Link>
+        </div>
+      )}
     </header>
   )
 }
