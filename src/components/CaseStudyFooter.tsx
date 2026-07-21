@@ -20,8 +20,8 @@ export function CaseStudyFooter({ nextPath, nextTitle, nextCover }: CaseStudyFoo
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="case-footer-contact-link">
               LinkedIn
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="case-footer-contact-link">
-              Twitter
+            <a href="https://medium.com/@sricherry.k" target="_blank" rel="noopener noreferrer" className="case-footer-contact-link">
+              Medium
             </a>
             <a href="/resume" className="case-footer-contact-link">Resume</a>
           </div>
