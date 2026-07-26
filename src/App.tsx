@@ -29,6 +29,7 @@ const PROJECTS = [
     accentColor: '#633ea5',
     coverVideo: '/images/dilution-shock/scenario-final.mp4',
     coverVideoWebm: '/images/dilution-shock/scenario-final.webm',
+    coverVideoFit: 'contain' as const,
     caseStudyPath: '/case-study/dilution-shock',
     company: 'QAPITA',
     role: 'Product Designer',

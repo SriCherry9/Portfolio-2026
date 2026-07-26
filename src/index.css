@@ -1393,6 +1393,11 @@ html[data-theme="dark"] .about-divider {
   display: block;
 }
 
+/* Show the video's full frame (letterboxed) instead of cropping to fill the card. */
+.tl-cover-img--contain {
+  object-fit: contain;
+}
+
 .tl-cover-overlay {
   position: absolute;
   inset: 0;

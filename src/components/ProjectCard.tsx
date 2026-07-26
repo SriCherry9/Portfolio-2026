@@ -11,6 +11,8 @@ interface Project {
   coverVideo?: string
   /** Optional webm source, preferred by the browser when supported. */
   coverVideoWebm?: string
+  /** When 'contain', the cover video letterboxes to show its full frame instead of cropping to fill. */
+  coverVideoFit?: 'cover' | 'contain'
   coverComponent?: React.ReactNode
   /** Set when coverComponent already renders its own hover interaction (e.g. hover-to-play video),
    *  so the card's default "View Case Study" dark overlay doesn't cover it. */
@@ -193,7 +195,13 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
             <div className="tl-cover-inner">
               {project.coverComponent ? project.coverComponent
                 : project.coverVideo ? (
-                  <video className="tl-cover-img" autoPlay muted loop playsInline>
+                  <video
+                    className={`tl-cover-img${project.coverVideoFit === 'contain' ? ' tl-cover-img--contain' : ''}`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  >
                     {project.coverVideoWebm && <source src={project.coverVideoWebm} type="video/webm" />}
                     <source src={project.coverVideo} type="video/mp4" />
                   </video>
