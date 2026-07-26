@@ -107,19 +107,15 @@ export function NinjaHirePage() {
 
         {/* ── The Solution ── */}
         <div className="nh-section" id="nh-section-solution">
-          <h2 className="nh-eyebrow">The Solution</h2>
-          <p className="nh-statement">
-            Re-arranged the flow and introduced the hook point which is the search right into the onboarding
-            process.
-          </p>
-          <div className="nh-panel nh-panel--teal">
-            <img
-              src="/images/ninjahire/solution.png"
-              alt="Set-up Account and Search for Candidates screens shown side by side, the new onboarding flow with search built in"
-            />
+          <div className="nh-body-group">
+            <h2 className="nh-eyebrow">The Solution</h2>
+            <p className="nh-statement">
+              Re-arranged the flow and introduced the hook point which is the search right into the onboarding
+              process.
+            </p>
           </div>
           <p className="nh-caption">
-            Screen recording, no narration — the same flow is shown step by step in the screenshots above.
+            Screen recording — no spoken narration.
           </p>
           <video
             className="nh-video"
