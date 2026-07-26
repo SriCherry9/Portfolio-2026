@@ -28,7 +28,7 @@ export function NinjaHirePage() {
         {/* ── Header ── */}
         <div className="nh-header" id="nh-section-overview">
           <h1 className="nh-title">
-            Enhanced Search for Agentic Experience — Onboarding to First Experience — Growth and Monetisation UX
+            Enhanced Search for Agentic Experience - Onboarding to first experience - Growth and Monetisation UX
           </h1>
           <dl className="nh-meta-grid">
             <div className="nh-meta-item">
@@ -75,8 +75,8 @@ export function NinjaHirePage() {
         <div className="nh-section" id="nh-section-problem">
           <h2 className="nh-eyebrow">The Problem</h2>
           <p className="nh-statement">
-            The current journey takes time to experience the application. "It lacks the hook point as the user
-            enters."
+            The current journey takes time to experience the application. &ldquo;It lacks the hook point as the
+            user enters&rdquo;
           </p>
 
           <div className="nh-panel nh-panel--mint" style={{ marginTop: '24px' }}>
