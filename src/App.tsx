@@ -106,6 +106,22 @@ const PROJECTS = [
     url: 'incite.design',
     readTime: '9 min read',
   },
+  {
+    id: 9,
+    dateRange: '2026',
+    category: 'AI · Growth & Monetisation UX',
+    accentColor: '#24887a',
+    coverImage: '/images/ninjahire-cover.png',
+    caseStudyPath: '/case-study/ninjahire',
+    company: 'NINJAHIRE',
+    role: 'Product Designer',
+    title: 'Enhanced Search for Agentic Experience',
+    description:
+      'Rearranged a recruiting agent\'s onboarding flow to put search — the hook point — right at sign-up, cutting the path to first value from 5-6 steps to 3.',
+    tags: ['AI', 'Onboarding', 'Growth', 'B2B SaaS'],
+    url: 'ninjahire.ai',
+    readTime: '6 min read',
+  },
 ]
 
 export default function App() {

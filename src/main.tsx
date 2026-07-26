@@ -15,6 +15,7 @@ import { AboutPage } from './pages/AboutPage.tsx'
 import { ResumePage } from './pages/ResumePage.tsx'
 import { HfeInhalerPage } from './pages/HfeInhalerPage.tsx'
 import { ComicStripPage } from './pages/ComicStripPage.tsx'
+import { NinjaHirePage } from './pages/NinjaHirePage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -33,6 +34,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/case-study/luna" element={<LunaPage />} />
           <Route path="/case-study/hfe-inhaler" element={<HfeInhalerPage />} />
           <Route path="/case-study/comic-strip" element={<ComicStripPage />} />
+          <Route path="/case-study/ninjahire" element={<NinjaHirePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

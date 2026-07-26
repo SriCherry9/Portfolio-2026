@@ -49,9 +49,9 @@ export function MuseoPage() {
       </div>
 
       <CaseStudyFooter
-        nextPath="/case-study/incite"
-        nextTitle="In;cite — Ingredient Intelligence"
-        nextCover="/images/incite-cover.png"
+        nextPath="/case-study/ninjahire"
+        nextTitle="Enhanced Search for Agentic Experience"
+        nextCover="/images/ninjahire-cover.png"
       />
     </div>
   )
