@@ -113,6 +113,27 @@
   font-style: italic;
 }
 
+.ds-body--dark {
+  color: #333;
+}
+
+.ds-body--dark strong {
+  color: #333;
+}
+
+.ds-body--italic {
+  font-style: italic;
+  color: #737373;
+}
+
+.ds-body-lg {
+  font-size: 20px;
+}
+
+.ds-statement--sm {
+  font-size: clamp(18px, 2vw, 24px);
+}
+
 .ds-body-group {
   display: flex;
   flex-direction: column;
@@ -122,6 +143,19 @@
 .ds-body-group--spaced {
   gap: 24px;
 }
+
+/* ── Nested vertical stacks (Design Process spacing hierarchy) ── */
+.ds-stack-24,
+.ds-stack-56,
+.ds-stack-80 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ds-stack-24 { gap: 24px; }
+.ds-stack-56 { gap: 56px; }
+.ds-stack-80 { gap: 80px; }
 
 .ds-list {
   font-family: 'Raleway', sans-serif;
@@ -137,7 +171,9 @@
 
 /* ── Swatch cards (Deeper Problem / Iterations) ──
    Grid with auto-fit/minmax adapts column count to available width without
-   the uneven 2+1 wrap flexbox's greedy hypothetical-size algorithm produces. */
+   the uneven 2+1 wrap flexbox's greedy hypothetical-size algorithm produces.
+   Each swatch image ships at the same 364:437 aspect ratio as the card, so
+   it fills the card edge-to-edge with no cropping. */
 .ds-swatch-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -168,44 +204,129 @@
   width: 100%;
   aspect-ratio: 364 / 437;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .ds-swatch-block--cyan   { background: #ddf1f5; }
 .ds-swatch-block--blue   { background: #5460ff; }
 .ds-swatch-block--orange { background: #fe8938; }
 
-/* ── Two-panel image duo (Solution / Research / etc.) ── */
-.ds-image-duo {
-  display: flex;
+.ds-swatch-img {
+  display: block;
   width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
+  height: 100%;
+  object-fit: cover;
 }
 
-.ds-image-duo-primary,
-.ds-image-duo-secondary {
-  min-height: 340px;
+/* ── Full-width case study screenshots (research, before/after, constraints) ── */
+.ds-bleed-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.ds-bleed-img--narrow {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── Product walkthrough videos (Solution, AI setup, final states) ── */
+.ds-hero-video {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  background: #000;
+}
+
+.ds-solution-credit {
+  font-weight: 700;
+  color: #633ea5;
+  text-decoration: underline;
+}
+
+/* ── Inline links (research references) ── */
+.ds-link-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ds-inline-link {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #5a8afa;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.ds-inline-link--static {
+  cursor: default;
+}
+
+.ds-link-divider {
+  width: 1px;
+  height: 20px;
+  background: #d0d0d0;
+}
+
+/* ── Audience chips (research participants) ── */
+.ds-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.ds-chip {
+  border-left: 8px solid;
+  padding: 8px 32px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+/* ── Phase label ("After Revamp") ── */
+.ds-phase-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: #633ea5;
+  margin: 0;
+}
+
+/* ── Before / After screenshots ── */
+.ds-before-after {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.ds-before-after-label {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #020202;
+  text-align: center;
+}
+
+/* ── Dilution Insights showcase (Constraints final chart) ── */
+.ds-chart-showcase {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.ds-image-duo-primary {
-  flex: 0 0 47%;
-  background: #633ea5;
-}
-
-.ds-image-duo-secondary {
-  flex: 1;
   background: #f2edfb;
+  border-radius: 8px;
+  padding: 48px;
 }
 
-.ds-image-duo-icon {
-  opacity: 0.5;
+.ds-chart-showcase-img {
+  max-width: 560px;
 }
-
-.ds-image-duo-primary .ds-image-duo-icon { color: #f2edfb; }
-.ds-image-duo-secondary .ds-image-duo-icon { color: #633ea5; }
 
 /* ── Dark mode ── */
 html[data-theme="dark"] .ds-page {
@@ -229,8 +350,25 @@ html[data-theme="dark"] .ds-meta-label {
   color: #a887e0;
 }
 
-html[data-theme="dark"] .ds-image-duo-secondary {
+html[data-theme="dark"] .ds-body--dark {
+  color: #d0d0d0;
+}
+
+html[data-theme="dark"] .ds-body--italic {
+  color: #8a8a8a;
+}
+
+html[data-theme="dark"] .ds-chart-showcase {
   background: #241a38;
+}
+
+html[data-theme="dark"] .ds-chip {
+  background: #1f1f1f;
+  color: #d0d0d0;
+}
+
+html[data-theme="dark"] .ds-before-after-label {
+  color: #d0d0d0;
 }
 
 /* ── Responsive ──
@@ -243,18 +381,6 @@ html[data-theme="dark"] .ds-image-duo-secondary {
 
   .ds-meta-grid {
     gap: 28px 40px;
-  }
-}
-
-@media (max-width: 860px) {
-  .ds-image-duo {
-    flex-direction: column;
-  }
-
-  .ds-image-duo-primary,
-  .ds-image-duo-secondary {
-    flex: 1 1 auto;
-    min-height: 220px;
   }
 }
 
@@ -274,6 +400,14 @@ html[data-theme="dark"] .ds-image-duo-secondary {
 
   .ds-section {
     gap: 12px;
+  }
+
+  .ds-chip {
+    padding: 8px 16px;
+  }
+
+  .ds-chart-showcase {
+    padding: 20px 12px;
   }
 }
 
