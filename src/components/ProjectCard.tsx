@@ -7,6 +7,10 @@ interface Project {
   category: string
   accentColor: string
   coverImage?: string
+  /** Autoplaying, looping, muted cover video — rendered edge-to-edge exactly like coverImage. */
+  coverVideo?: string
+  /** Optional webm source, preferred by the browser when supported. */
+  coverVideoWebm?: string
   coverComponent?: React.ReactNode
   /** Set when coverComponent already renders its own hover interaction (e.g. hover-to-play video),
    *  so the card's default "View Case Study" dark overlay doesn't cover it. */
@@ -188,6 +192,12 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
           >
             <div className="tl-cover-inner">
               {project.coverComponent ? project.coverComponent
+                : project.coverVideo ? (
+                  <video className="tl-cover-img" autoPlay muted loop playsInline>
+                    {project.coverVideoWebm && <source src={project.coverVideoWebm} type="video/webm" />}
+                    <source src={project.coverVideo} type="video/mp4" />
+                  </video>
+                )
                 : project.coverImage ? <img src={project.coverImage} alt={project.title} className="tl-cover-img" />
                 : null}
             </div>
