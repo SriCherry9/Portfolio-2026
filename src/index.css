@@ -4274,7 +4274,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
 
 .case-toc--collapsed .case-toc-item {
   justify-content: center;
-  padding: 5px 8px;
+  padding: 10px;
 }
 
 @media (max-width: 1100px) {
@@ -4374,7 +4374,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #999;
+  color: #666;
   margin: 0;
 }
 
@@ -4462,7 +4462,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #999;
+  color: #666;
 }
 
 .case-footer-next-title {
@@ -4494,7 +4494,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
 .case-footer-signature {
   font-family: 'Montserrat', sans-serif;
   font-size: 13px;
-  color: #999;
+  color: #666;
   margin: 0;
 }
 
@@ -4502,7 +4502,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
   font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   font-weight: 500;
-  color: #999;
+  color: #666;
   text-decoration: none;
   transition: color 0.25s ease;
 }
@@ -4549,7 +4549,7 @@ html[data-theme="dark"] .case-footer-eyebrow,
 html[data-theme="dark"] .case-footer-label,
 html[data-theme="dark"] .case-footer-signature,
 html[data-theme="dark"] .case-footer-home {
-  color: var(--text-muted);
+  color: #a0a0a0;
 }
 
 html[data-theme="dark"] .case-footer-message,

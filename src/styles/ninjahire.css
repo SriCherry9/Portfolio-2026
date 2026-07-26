@@ -50,14 +50,15 @@
   font-size: 13px;
   letter-spacing: 0.52px;
   text-transform: uppercase;
-  color: #24887a;
+  color: #1c6f62;
   margin: 0;
+  font-weight: normal;
 }
 
 .nh-meta-value {
   font-family: 'Raleway', sans-serif;
   font-size: 15px;
-  color: #888;
+  color: #666;
   margin: 0;
 }
 
@@ -65,6 +66,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  margin: 0;
 }
 
 /* ── Section ── */
@@ -77,10 +79,11 @@
 
 .nh-eyebrow {
   font-family: 'Golte', Georgia, serif;
+  font-weight: normal;
   font-size: 14px;
   letter-spacing: 0.84px;
   text-transform: uppercase;
-  color: #24887a;
+  color: #1c6f62;
   margin: 0;
 }
 
@@ -98,7 +101,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 1.6;
-  color: #888;
+  color: #666;
   margin: 0;
   max-width: 900px;
 }
@@ -106,7 +109,7 @@
 .nh-body strong,
 .nh-body b {
   font-weight: 700;
-  color: #888;
+  color: #666;
 }
 
 .nh-body em {
@@ -124,7 +127,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 1.6;
-  color: #888;
+  color: #666;
   margin: 0;
 }
 
@@ -141,7 +144,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 1.6;
-  color: #888;
+  color: #666;
   margin: 0;
 }
 
@@ -157,7 +160,7 @@
   font-style: italic;
   font-size: 24px;
   line-height: 1.6;
-  color: #737373;
+  color: #5c5c5c;
   margin: 0;
 }
 
@@ -167,12 +170,12 @@
   font-style: italic;
   font-size: 16px;
   line-height: 1.6;
-  color: #737373;
+  color: #5c5c5c;
   margin: 0;
 }
 
 .nh-tag-banner {
-  background: #e18bf8;
+  background: #6b21a8;
   border-left: 8px solid #e18bf8;
   display: flex;
   align-items: center;
@@ -301,6 +304,14 @@
   background: #000;
 }
 
+/* ── Definition-list reset (metadata / goals key-value pairs) ── */
+.nh-dl-reset {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 /* ── Dark mode ── */
 html[data-theme="dark"] .nh-page {
   background: #161616;
@@ -312,6 +323,8 @@ html[data-theme="dark"] .nh-statement {
 }
 
 html[data-theme="dark"] .nh-body,
+html[data-theme="dark"] .nh-body strong,
+html[data-theme="dark"] .nh-body b,
 html[data-theme="dark"] .nh-meta-value,
 html[data-theme="dark"] .nh-caption,
 html[data-theme="dark"] .nh-subsection-label,
@@ -323,6 +336,14 @@ html[data-theme="dark"] .nh-artifact-subtitle {
 html[data-theme="dark"] .nh-eyebrow,
 html[data-theme="dark"] .nh-meta-label {
   color: #4fc7b7;
+}
+
+html[data-theme="dark"] .nh-link {
+  color: #6fa8ff;
+}
+
+html[data-theme="dark"] .nh-tag-banner {
+  background: #4c1876;
 }
 
 /* ── Responsive ──

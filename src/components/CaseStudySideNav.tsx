@@ -65,6 +65,7 @@ export function CaseStudySideNav({ sections }: CaseStudySideNavProps) {
             onMouseLeave={() => setTooltip(null)}
             onFocus={(e) => showTooltip(e as unknown as React.MouseEvent<HTMLButtonElement>, section.label)}
             onBlur={() => setTooltip(null)}
+            aria-current={index === activeIndex ? 'location' : undefined}
           >
             <span className="case-toc-dot" />
             <span className="case-toc-label">{section.label}</span>
