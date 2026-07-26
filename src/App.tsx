@@ -111,7 +111,7 @@ const PROJECTS = [
     dateRange: '2026',
     category: 'AI · Growth & Monetisation UX',
     accentColor: '#24887a',
-    coverImage: '/images/ninjahire-cover.png',
+    coverImage: '/images/ninjahire-cover.gif',
     caseStudyPath: '/case-study/ninjahire',
     company: 'NINJAHIRE',
     role: 'Product Designer',
