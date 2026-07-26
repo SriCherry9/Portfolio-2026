@@ -113,6 +113,27 @@
   font-style: italic;
 }
 
+.ds-body--dark {
+  color: #333;
+}
+
+.ds-body--dark strong {
+  color: #333;
+}
+
+.ds-body--italic {
+  font-style: italic;
+  color: #737373;
+}
+
+.ds-body-lg {
+  font-size: 20px;
+}
+
+.ds-statement--sm {
+  font-size: clamp(18px, 2vw, 24px);
+}
+
 .ds-body-group {
   display: flex;
   flex-direction: column;
@@ -207,6 +228,454 @@
 .ds-image-duo-primary .ds-image-duo-icon { color: #f2edfb; }
 .ds-image-duo-secondary .ds-image-duo-icon { color: #633ea5; }
 
+/* ── Single large hero placeholder (Scenario Final, Scenario on Scenario final, etc.) ── */
+.ds-hero-placeholder {
+  width: 100%;
+  border-radius: 8px;
+  background: #f2edfb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-hero-placeholder .ds-image-duo-icon {
+  color: #633ea5;
+}
+
+.ds-hero-placeholder-framed {
+  width: 100%;
+  border-radius: 5px;
+  background: #633ea5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+}
+
+.ds-hero-placeholder-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-hero-placeholder-inner .ds-image-duo-icon {
+  color: #f2edfb;
+}
+
+.ds-solution-credit {
+  font-weight: 700;
+  color: #633ea5;
+  text-decoration: underline;
+}
+
+/* ── Inline links (research references) ── */
+.ds-link-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ds-inline-link {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #5a8afa;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.ds-inline-link--static {
+  cursor: default;
+}
+
+.ds-link-divider {
+  width: 1px;
+  height: 20px;
+  background: #d0d0d0;
+}
+
+/* ── Research image blocks (competitor screenshots, AI patterns) ── */
+.ds-research-block {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  border-radius: 4px;
+}
+
+.ds-research-block-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ds-research-thumb {
+  flex: 1 1 220px;
+  max-width: 340px;
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #633ea5;
+}
+
+/* ── Audience chips (research participants) ── */
+.ds-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.ds-chip {
+  border-left: 8px solid;
+  padding: 8px 32px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+/* ── Cap table card (Dilution Surprise recreation) ── */
+.ds-swatch-block--framed {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 28px 12px 0;
+  overflow: hidden;
+}
+
+.ds-cap-card {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  border: 2px solid #e2e2e2;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ds-cap-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.ds-cap-checkbox {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.ds-cap-card-heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-cap-title {
+  margin: 0;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #101828;
+}
+
+.ds-cap-subtitle {
+  margin: 2px 0 0;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-size: 11px;
+  color: #4a5565;
+}
+
+.ds-cap-subtitle-link {
+  color: #633ea5;
+  text-decoration: underline;
+}
+
+.ds-cap-date {
+  margin: 2px 0 0;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  color: #4a5565;
+}
+
+.ds-cap-kebab {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-cap-kebab span,
+.ds-cap-kebab::before,
+.ds-cap-kebab::after {
+  content: '';
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #666;
+  box-shadow: 0 -6px 0 #666, 0 6px 0 #666;
+}
+
+.ds-cap-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ds-cap-stats-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ds-cap-stat--right {
+  text-align: right;
+}
+
+.ds-cap-stat-label {
+  margin: 0;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-size: 10px;
+  color: #4a5565;
+}
+
+.ds-cap-stat-value {
+  margin: 2px 0 0;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #101828;
+}
+
+.ds-cap-ownership-label {
+  margin: 0 0 6px;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-size: 10px;
+  color: #4a5565;
+}
+
+.ds-cap-ownership-bar {
+  display: flex;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ds-cap-manage-btn {
+  align-self: stretch;
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  background: #f2edfb;
+  color: #633ea5;
+  font-family: 'Inter', 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* ── Dilution Insights ownership chart (Constraints recreation) ── */
+.ds-chart-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  width: 100%;
+}
+
+.ds-chart-card--small {
+  flex: 1;
+  padding: 16px;
+}
+
+.ds-chart-title {
+  margin: 0 0 16px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #333;
+}
+
+.ds-chart-card--small .ds-chart-title {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.ds-chart-columns {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.ds-chart-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ds-chart-round-label {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+}
+
+.ds-chart-bar {
+  width: 100%;
+  max-width: 72px;
+  height: 180px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-chart-card--small .ds-chart-bar {
+  height: 90px;
+  max-width: 48px;
+}
+
+.ds-chart-segment {
+  width: 100%;
+}
+
+.ds-chart-holders {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+.ds-chart-holder {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+}
+
+.ds-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ds-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  color: #333;
+}
+
+.ds-chart-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ds-constraints-final {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  background: #f2edfb;
+  border-radius: 8px;
+  padding: 24px;
+  flex-wrap: wrap;
+}
+
+.ds-chart-showcase {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2edfb;
+  border-radius: 8px;
+  padding: 48px;
+}
+
+.ds-chart-showcase .ds-chart-card {
+  max-width: 560px;
+  border: 1px solid #e2e2e2;
+}
+
+/* ── Phase label ("After Revamp") ── */
+.ds-phase-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: #633ea5;
+  margin: 0;
+}
+
+/* ── Before / After screenshots ── */
+.ds-before-after {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+.ds-before-after-label {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #020202;
+  text-align: center;
+}
+
+.ds-before-after-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ds-before-after-row--single .ds-before-after-phone {
+  max-width: 293px;
+}
+
+.ds-before-after-phone {
+  flex: 1 1 300px;
+  max-width: 360px;
+  aspect-ratio: 16 / 9;
+  background: #f2edfb;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #633ea5;
+}
+
 /* ── Dark mode ── */
 html[data-theme="dark"] .ds-page {
   background: #161616;
@@ -231,6 +700,63 @@ html[data-theme="dark"] .ds-meta-label {
 
 html[data-theme="dark"] .ds-image-duo-secondary {
   background: #241a38;
+}
+
+html[data-theme="dark"] .ds-body--dark {
+  color: #d0d0d0;
+}
+
+html[data-theme="dark"] .ds-body--italic {
+  color: #8a8a8a;
+}
+
+html[data-theme="dark"] .ds-hero-placeholder,
+html[data-theme="dark"] .ds-before-after-phone,
+html[data-theme="dark"] .ds-constraints-final,
+html[data-theme="dark"] .ds-chart-showcase {
+  background: #241a38;
+}
+
+html[data-theme="dark"] .ds-hero-placeholder-inner {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .ds-chip {
+  background: #1f1f1f;
+  color: #d0d0d0;
+}
+
+html[data-theme="dark"] .ds-chart-card,
+html[data-theme="dark"] .ds-cap-card {
+  background: #1c1c1c;
+  border-color: #333;
+}
+
+html[data-theme="dark"] .ds-chart-card--small {
+  background: #1c1c1c;
+}
+
+html[data-theme="dark"] .ds-chart-title,
+html[data-theme="dark"] .ds-cap-title,
+html[data-theme="dark"] .ds-cap-stat-value {
+  color: #f0ede8;
+}
+
+html[data-theme="dark"] .ds-chart-round-label,
+html[data-theme="dark"] .ds-chart-holder,
+html[data-theme="dark"] .ds-chart-legend-item,
+html[data-theme="dark"] .ds-cap-subtitle,
+html[data-theme="dark"] .ds-cap-date,
+html[data-theme="dark"] .ds-cap-stat-label {
+  color: #a0a0a0;
+}
+
+html[data-theme="dark"] .ds-chart-legend {
+  border-color: #333;
+}
+
+html[data-theme="dark"] .ds-before-after-label {
+  color: #d0d0d0;
 }
 
 /* ── Responsive ──
@@ -281,5 +807,40 @@ html[data-theme="dark"] .ds-image-duo-secondary {
   .ds-meta-grid {
     flex-direction: column;
     gap: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .ds-chip {
+    padding: 8px 16px;
+  }
+
+  .ds-chart-columns {
+    gap: 8px;
+  }
+
+  .ds-chart-bar {
+    max-width: 48px;
+  }
+
+  .ds-chart-holder,
+  .ds-chart-legend-item {
+    font-size: 10px;
+  }
+
+  .ds-chart-showcase {
+    padding: 20px 12px;
+  }
+
+  .ds-chart-showcase {
+    padding: 24px 16px;
+  }
+
+  .ds-constraints-final {
+    padding: 16px;
+  }
+
+  .ds-hero-placeholder-framed {
+    padding: 6% 4%;
   }
 }
