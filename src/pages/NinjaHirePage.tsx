@@ -114,9 +114,6 @@ export function NinjaHirePage() {
               process.
             </p>
           </div>
-          <p className="nh-caption">
-            Screen recording — no spoken narration.
-          </p>
           <video
             className="nh-video"
             controls
@@ -245,27 +242,29 @@ export function NinjaHirePage() {
 
           <div className="nh-subsection">
             {/* Login/Sign up Iterations */}
-            <h3 className="nh-statement" style={{ fontSize: '24px' }}>Login/Sign up Iterations</h3>
-            <div className="nh-grid-2x2">
-              <img src="/images/ninjahire/login-iteration-1.png" alt="Login/sign-up iteration 1 — sign-up form with a decorative dark panel" />
-              <img src="/images/ninjahire/login-iteration-2.png" alt="Login/sign-up iteration 2 — sign-up form with Sourcing, Outreach, and Screening agent explainers" />
-              <img src="/images/ninjahire/login-iteration-3.png" alt="Login/sign-up iteration 3 — sign-up form with an animated dot-grid pattern" />
-              <img src="/images/ninjahire/login-iteration-4.png" alt="Login/sign-up iteration 4 — sign-up form with an abstract blob illustration" />
+            <div className="nh-body-group" style={{ gap: '16px' }}>
+              <h3 className="nh-statement" style={{ fontSize: '24px' }}>Login/Sign up Iterations</h3>
+              <div className="nh-grid-2x2">
+                <img src="/images/ninjahire/login-iteration-1.png" alt="Login/sign-up iteration 1 — sign-up form with a decorative dark panel" />
+                <img src="/images/ninjahire/login-iteration-2.png" alt="Login/sign-up iteration 2 — sign-up form with Sourcing, Outreach, and Screening agent explainers" />
+                <img src="/images/ninjahire/login-iteration-3.png" alt="Login/sign-up iteration 3 — sign-up form with an animated dot-grid pattern" />
+                <img src="/images/ninjahire/login-iteration-4.png" alt="Login/sign-up iteration 4 — sign-up form with an abstract blob illustration" />
+              </div>
             </div>
-            <div className="nh-body-group">
+            <div className="nh-body-group" style={{ gap: '16px' }}>
               <h4 className="nh-subsection-label">Final</h4>
               <p className="nh-statement" style={{ fontSize: '24px' }}>
                 Rather than splitting attention between form and visual, I sequenced them: the form carries the
                 primary task, and the visual follows to reinforce it — using that moment to also communicate what
                 the product can do.
               </p>
-            </div>
-            <div className="nh-panel nh-panel--teal">
-              <img src="/images/ninjahire/login-final.png" alt="Final sign-up screen — form on the left, Sourcing Agent capability panel on the right" />
+              <div className="nh-panel nh-panel--teal">
+                <img src="/images/ninjahire/login-final.png" alt="Final sign-up screen — form on the left, Sourcing Agent capability panel on the right" />
+              </div>
             </div>
           </div>
 
-          <div className="nh-subsection">
+          <div className="nh-subsection" style={{ gap: '8px' }}>
             {/* Set-up Iterations */}
             <h3 className="nh-statement" style={{ fontSize: '24px' }}>Set-up Iterations</h3>
             <div className="nh-iteration-row">
@@ -292,42 +291,43 @@ export function NinjaHirePage() {
             </div>
           </div>
 
-          <div className="nh-subsection">
+          <div className="nh-subsection" style={{ gap: '16px' }}>
             {/* Product Tour Iterations */}
-            <h3 className="nh-statement" style={{ fontSize: '24px' }}>Product Tour Iterations</h3>
-            <div className="nh-iteration-row">
-              <div className="nh-iteration-card">
-                <h4 className="nh-subsection-label">Iteration 1</h4>
-                <div className="nh-panel nh-panel--lightblue" style={{ padding: 0 }}>
-                  <img src="/images/ninjahire/product-tour-iteration-1.png" alt="Product tour iteration 1 — full-screen 'Get Started' checklist modal over the search results" />
+            <div className="nh-body-group" style={{ gap: '8px' }}>
+              <h3 className="nh-statement" style={{ fontSize: '24px' }}>Product Tour Iterations</h3>
+              <div className="nh-iteration-row">
+                <div className="nh-iteration-card">
+                  <h4 className="nh-subsection-label">Iteration 1</h4>
+                  <div className="nh-panel nh-panel--lightblue" style={{ padding: 0 }}>
+                    <img src="/images/ninjahire/product-tour-iteration-1.png" alt="Product tour iteration 1 — full-screen 'Get Started' checklist modal over the search results" />
+                  </div>
                 </div>
-              </div>
-              <div className="nh-iteration-card">
-                <h4 className="nh-subsection-label">Iteration 2</h4>
-                <div className="nh-panel nh-panel--blue" style={{ padding: 0 }}>
-                  <img src="/images/ninjahire/product-tour-iteration-2.png" alt="Product tour iteration 2 — step-by-step 'Add to Sequence' walkthrough panel" />
+                <div className="nh-iteration-card">
+                  <h4 className="nh-subsection-label">Iteration 2</h4>
+                  <div className="nh-panel nh-panel--blue" style={{ padding: 0 }}>
+                    <img src="/images/ninjahire/product-tour-iteration-2.png" alt="Product tour iteration 2 — step-by-step 'Add to Sequence' walkthrough panel" />
+                  </div>
                 </div>
-              </div>
-              <div className="nh-iteration-card">
-                <h4 className="nh-subsection-label">Iteration 3</h4>
-                <div className="nh-panel nh-panel--orange" style={{ padding: 0 }}>
-                  <img src="/images/ninjahire/product-tour-iteration-3.png" alt="Product tour iteration 3 — inline sidebar tooltip pointing to the Shortlisted tab" />
+                <div className="nh-iteration-card">
+                  <h4 className="nh-subsection-label">Iteration 3</h4>
+                  <div className="nh-panel nh-panel--orange" style={{ padding: 0 }}>
+                    <img src="/images/ninjahire/product-tour-iteration-3.png" alt="Product tour iteration 3 — inline sidebar tooltip pointing to the Shortlisted tab" />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="nh-body-group">
-              <h4 className="nh-subsection-label">Final</h4>
+            <div className="nh-body-group" style={{ gap: '16px' }}>
               <p className="nh-statement" style={{ fontSize: '24px' }}>
-                Rather than front-loading instructions, the product teaches through use — each action surfaces the
-                next logical step
+                <strong>Final</strong> Rather than front-loading instructions, the product teaches through use —
+                each action surfaces the next logical step
               </p>
+              <div className="nh-panel nh-panel--teal">
+                <img src="/images/ninjahire/product-tour-final.png" alt="Final product tour — a lightweight 'Add to Shortlist' tooltip appears the first time a candidate result is starred" />
+              </div>
+              <a className="nh-link" href="https://www.onborda.dev" target="_blank" rel="noopener noreferrer">
+                https://www.onborda.dev
+              </a>
             </div>
-            <div className="nh-panel nh-panel--teal">
-              <img src="/images/ninjahire/product-tour-final.png" alt="Final product tour — a lightweight 'Add to Shortlist' tooltip appears the first time a candidate result is starred" />
-            </div>
-            <a className="nh-link" href="https://www.onborda.dev" target="_blank" rel="noopener noreferrer">
-              https://www.onborda.dev
-            </a>
           </div>
         </div>
 
