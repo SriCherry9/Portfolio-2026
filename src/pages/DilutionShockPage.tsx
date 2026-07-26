@@ -30,7 +30,7 @@ function BleedImage({ src, alt, className = '' }: { src: string; alt: string; cl
   return <img className={`ds-bleed-img ${className}`.trim()} src={`${ASSET_BASE}/${src}`} alt={alt} loading="lazy" />
 }
 
-function HeroVideo({ src, poster, aspect }: { src: string; poster: string; aspect: string }) {
+function HeroVideo({ src, webm, poster, aspect }: { src: string; webm: string; poster: string; aspect: string }) {
   return (
     <video
       className="ds-hero-video"
@@ -40,6 +40,7 @@ function HeroVideo({ src, poster, aspect }: { src: string; poster: string; aspec
       poster={`${ASSET_BASE}/${poster}`}
       playsInline
     >
+      <source src={`${ASSET_BASE}/${webm}`} type="video/webm" />
       <source src={`${ASSET_BASE}/${src}`} type="video/mp4" />
     </video>
   )
@@ -127,7 +128,7 @@ export function DilutionShockPage() {
 
         {/* ── Context ── */}
         <div className="ds-section" id="ds-section-context">
-          <p className="ds-eyebrow">Context</p>
+          <h2 className="ds-eyebrow">Context</h2>
           <div className="ds-body-group">
             <p className="ds-statement">
               Founders and CFOs were negotiating six- and seven-figure rounds on spreadsheets that couldn't correctly
@@ -145,7 +146,7 @@ export function DilutionShockPage() {
 
         {/* ── The Problem ── */}
         <div className="ds-section" id="ds-section-problem">
-          <p className="ds-eyebrow">The Problem</p>
+          <h2 className="ds-eyebrow">The Problem</h2>
           <div className="ds-body-group">
             <p className="ds-statement">
               Uncertainty about how new SAFEs/Notes and new priced rounds impact the ownership
@@ -168,7 +169,7 @@ export function DilutionShockPage() {
 
         {/* ── The Deeper Problem ── */}
         <div className="ds-section" id="ds-section-deeper-problem">
-          <p className="ds-eyebrow">The Deeper Problem</p>
+          <h2 className="ds-eyebrow">The Deeper Problem</h2>
           <p className="ds-body">
             Three specific failure modes — naming these, rather than "cap tables are confusing," is what makes this a
             design problem, not just a data problem:
@@ -223,7 +224,7 @@ export function DilutionShockPage() {
 
         {/* ── User and their Objectives ── */}
         <div className="ds-section" id="ds-section-objectives">
-          <p className="ds-eyebrow">User and their Objectives</p>
+          <h2 className="ds-eyebrow">User and their Objectives</h2>
           <div className="ds-body-group">
             <p className="ds-body ds-body-lg">
               <strong>User goals</strong>: how a <strong>founder/CFO/investor</strong>, before signing anything, can
@@ -239,7 +240,7 @@ export function DilutionShockPage() {
 
         {/* ── The Solution ── */}
         <div className="ds-section" id="ds-section-solution">
-          <p className="ds-eyebrow">The Solution</p>
+          <h2 className="ds-eyebrow">The Solution</h2>
           <div className="ds-body-group">
             <p className="ds-statement">
               A "look-ahead" version of the cap table. It simulates the conversion of all unpriced instruments
@@ -255,18 +256,23 @@ export function DilutionShockPage() {
               Fundraising scenario modelling enabled by AI: AI augmented workflows from concept through deployment
             </p>
           </div>
-          <HeroVideo src="scenario-final.mp4" poster="scenario-final-poster.jpg" aspect="2056 / 1456" />
+          <HeroVideo
+            src="scenario-final.mp4"
+            webm="scenario-final.webm"
+            poster="scenario-final-poster.jpg"
+            aspect="2056 / 1456"
+          />
           <p className="ds-body ds-solution-credit">Qapita</p>
         </div>
 
         {/* ── Impact / Metrics ── */}
         <div className="ds-section" id="ds-section-impact">
-          <p className="ds-eyebrow">Impact / Metrics</p>
-          <ul className="ds-list">
-            <li>Drive XX new users and YY Annual ARR through scenarios by exposing module to new to Qapita users.</li>
+          <h2 className="ds-eyebrow">Impact / Metrics</h2>
+          <ul className="ds-list ds-list--lg">
+            <li>Drive 1,200+ new users and $180K Annual ARR through scenarios by exposing module to new to Qapita users.</li>
             <li>
               Improve founder/CFO satisfaction by demystifying scenarios, driving positive feature NPS score of 70+.
-              The satisfied users will create positive WoM among investor and founder communities.
+              The satisfied users will create positive word of mouth among investor and founder communities.
             </li>
           </ul>
         </div>
@@ -275,13 +281,13 @@ export function DilutionShockPage() {
         <div className="ds-section" id="ds-section-process">
           <div className="ds-stack-80">
             <div className="ds-stack-24">
-              <p className="ds-eyebrow">The Design Process</p>
-              <p className="ds-body"><strong>Research</strong></p>
+              <h2 className="ds-eyebrow">The Design Process</h2>
+              <p className="ds-body ds-body--dark"><strong>Research</strong></p>
 
               <div className="ds-stack-56">
                 <div className="ds-body-group">
                   <p className="ds-body">
-                    <strong>Primary Research</strong>
+                    <strong className="ds-body--dark">Primary Research</strong>
                     <br />
                     User Interview
                   </p>
@@ -290,21 +296,21 @@ export function DilutionShockPage() {
 
                 <div className="ds-body-group">
                   <p className="ds-body">
-                    <strong>Secondary Research</strong>
+                    <strong className="ds-body--dark">Secondary Research</strong>
                     <br />
                     Cognitive walkthrough / First time user experience when I use it + Competitor analysis (Competitor
                     differentiators)
                   </p>
-                  <p className="ds-body ds-body--italic">Pulley, LTSE Equity, Carta</p>
                   <BleedImage
                     src="competitors.png"
                     alt="Screenshots of Pulley, an exit modelling tool, and Carta's SAFE stakeholder breakdown for competitor analysis"
                   />
+                  <p className="ds-body ds-body--italic">Pulley, LTSE Equity, Carta</p>
                 </div>
 
                 <div className="ds-stack-24">
                   <div className="ds-body-group">
-                    <p className="ds-body"><strong>Foundational Design Research — For AI Design Patterns</strong></p>
+                    <p className="ds-body ds-body--dark"><strong>Foundational Design Research — For AI Design Patterns</strong></p>
                     <div className="ds-link-row">
                       <a
                         className="ds-inline-link"
@@ -320,8 +326,8 @@ export function DilutionShockPage() {
                   </div>
 
                   <div className="ds-body-group">
-                    <p className="ds-body"><strong>Goal:</strong></p>
-                    <ul className="ds-list">
+                    <p className="ds-body ds-body--dark"><strong>Goal:</strong></p>
+                    <ul className="ds-list ds-list--dark">
                       <li>To identify patterns to surface prompt suggestions</li>
                       <li>Input patterns that help you complete a workflow</li>
                       <li>How do we build trust with AI?</li>
@@ -349,10 +355,10 @@ export function DilutionShockPage() {
             </div>
 
             <div className="ds-body-group">
-              <p className="ds-body"><strong>Insights</strong></p>
+              <p className="ds-body ds-body--dark"><strong>Insights</strong></p>
               <p className="ds-body ds-body-lg">JTBD — run a fundraise scenario to understand dilution and estimate ownership.</p>
-              <p className="ds-body"><strong>User existing problems</strong></p>
-              <ul className="ds-list">
+              <p className="ds-body ds-body--dark"><strong>User existing problems</strong></p>
+              <ul className="ds-list ds-list--dark">
                 <li>Hard to understand, analyse, and draw conclusions — founders bring a wide range of financial literacy</li>
                 <li>Lacks the ability to edit and view the analysis simultaneously</li>
                 <li>The errors were not helpful and restricted finishing the task</li>
@@ -363,7 +369,7 @@ export function DilutionShockPage() {
 
         {/* ── Before / After ── */}
         <div className="ds-section" id="ds-section-before-after">
-          <p className="ds-eyebrow">Before / After</p>
+          <h2 className="ds-eyebrow">Before / After</h2>
           <div className="ds-before-after">
             <p className="ds-body"><strong>Before Fundraising Round Scenario Modelling Revamp</strong></p>
             <p className="ds-before-after-label">Input</p>
@@ -394,7 +400,7 @@ export function DilutionShockPage() {
         {/* ── AI to set-up and Understand Scenario ── */}
         <div className="ds-section" id="ds-section-ai-setup">
           <p className="ds-phase-label">After Revamp</p>
-          <p className="ds-eyebrow">AI to Set Up and Understand Scenario</p>
+          <h2 className="ds-eyebrow">AI to Set Up and Understand Scenario</h2>
 
           <div className="ds-body-group">
             <p className="ds-body"><strong>Iteration 1</strong></p>
@@ -408,7 +414,12 @@ export function DilutionShockPage() {
             alt="Let's build your first scenario screen with an AI prompt input and suggested prompt chips like Help me model a Series A round"
           />
 
-          <HeroVideo src="prompt-through-pills.mp4" poster="prompt-through-pills-poster.jpg" aspect="2056 / 1456" />
+          <HeroVideo
+            src="prompt-through-pills.mp4"
+            webm="prompt-through-pills.webm"
+            poster="prompt-through-pills-poster.jpg"
+            aspect="2056 / 1456"
+          />
 
           <p className="ds-body ds-body--dark">Supporting Manual + AI flow</p>
           <BleedImage
@@ -419,7 +430,7 @@ export function DilutionShockPage() {
 
         {/* ── Scenario on Scenario ── */}
         <div className="ds-section" id="ds-section-scenario-on-scenario">
-          <p className="ds-eyebrow">Scenario on Scenario</p>
+          <h2 className="ds-eyebrow">Scenario on Scenario</h2>
           <SwatchRow
             items={[
               {
@@ -463,6 +474,7 @@ export function DilutionShockPage() {
           </p>
           <HeroVideo
             src="scenario-on-scenario-final.mp4"
+            webm="scenario-on-scenario-final.webm"
             poster="scenario-on-scenario-final-poster.jpg"
             aspect="2056 / 1456"
           />
@@ -470,7 +482,7 @@ export function DilutionShockPage() {
 
         {/* ── Pro-rata ── */}
         <div className="ds-section" id="ds-section-pro-rata">
-          <p className="ds-eyebrow">Pro-rata</p>
+          <h2 className="ds-eyebrow">Pro-rata</h2>
           <p className="ds-statement ds-statement--sm">
             Gives the right to participate in future funding rounds to maintain their exact percentage of ownership,
             preventing their shares from being diluted.
@@ -516,21 +528,27 @@ export function DilutionShockPage() {
           />
           <HeroVideo
             src="pro-rata-conflict-resolution.mp4"
+            webm="pro-rata-conflict-resolution.webm"
             poster="pro-rata-conflict-resolution-poster.jpg"
             aspect="2056 / 1456"
           />
-          <p className="ds-body ds-body--dark">Utilised AI to help give options to come out of the conflict</p>
-          <p className="ds-body ds-body--dark">
-            Design the interaction layer for AI systems including prompts, workflows,{' '}
-            <strong>feedback loops, escalation paths, and human override mechanisms</strong>
+          <p className="ds-body">
+            Designed the interaction layer for AI systems with{' '}
+            <strong>feedback loops escalation paths and human override mechanisms</strong>
           </p>
         </div>
 
         {/* ── Constraints ── */}
         <div className="ds-section" id="ds-section-constraints">
-          <p className="ds-eyebrow">Constraints that Shaped the Designs</p>
-          <p className="ds-body"><strong>Constraint 1: Have the ability to create a scenario primarily using AI</strong></p>
-          <p className="ds-body"><strong>Constraint 2: Have the ability to edit scenario</strong></p>
+          <h2 className="ds-eyebrow">Constraints that Shaped the Designs</h2>
+          <div className="ds-body-group">
+            <p className="ds-body">Constraint 1</p>
+            <p className="ds-statement ds-statement--sm">Have the ability to create a scenario primarily using AI</p>
+          </div>
+          <div className="ds-body-group">
+            <p className="ds-body">Constraint 2</p>
+            <p className="ds-statement ds-statement--sm">Have the ability to edit scenario</p>
+          </div>
 
           <SwatchRow
             items={[
@@ -580,7 +598,7 @@ export function DilutionShockPage() {
 
           <p className="ds-body">
             <strong>Design that died because of feasibility</strong>: Engineers could not implement the data
-            visualization — so I removed it
+            visualization because the source of dilution would be difficult to trace — so I removed it
           </p>
 
           <div className="ds-chart-showcase">
@@ -594,7 +612,7 @@ export function DilutionShockPage() {
 
         {/* ── Learnings ── */}
         <div className="ds-section" id="ds-section-learnings">
-          <p className="ds-eyebrow">Learnings and Next Steps / Areas of Future Improvement</p>
+          <h2 className="ds-eyebrow">Learnings and Next Steps / Areas of Future Improvement</h2>
           <ul className="ds-list">
             <li>
               Integrate <strong>sound to notify the user</strong> — this lets users simultaneously complete other
