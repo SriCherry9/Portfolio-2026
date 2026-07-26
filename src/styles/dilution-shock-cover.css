@@ -8,7 +8,7 @@
   background: #633ea5;
   border-radius: 8px;
   overflow: hidden;
-  padding: clamp(14px, 8%, 100px);
+  padding: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,4 +98,22 @@
   width: 12px;
   height: 12px;
   flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .ds-cover-frame {
+    padding: 48px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ds-cover-frame {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ds-cover-frame {
+    padding: 14px;
+  }
 }
