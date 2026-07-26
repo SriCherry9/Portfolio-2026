@@ -25,8 +25,8 @@
 .nh-title {
   font-family: 'Golte', Georgia, serif;
   font-weight: normal;
-  font-size: clamp(26px, 3.6vw, 48px);
-  line-height: 1.235;
+  font-size: clamp(22px, 2.6vw, 32px);
+  line-height: 1.174;
   color: #333;
   margin: 0;
 }
@@ -90,7 +90,7 @@
 .nh-statement {
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
-  font-size: clamp(20px, 2.4vw, 32px);
+  font-size: clamp(18px, 2vw, 24px);
   line-height: 1.2;
   color: #333;
   margin: 0;

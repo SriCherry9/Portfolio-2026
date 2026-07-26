@@ -28,7 +28,7 @@ export function NinjaHirePage() {
         {/* ── Header ── */}
         <div className="nh-header" id="nh-section-overview">
           <h1 className="nh-title">
-            Enhanced Search for Agentic Experience — Onboarding to First Experience — Growth and Monetisation UX
+            Enhanced Search for Agentic Experience - Onboarding to first experience - Growth and Monetisation UX
           </h1>
           <dl className="nh-meta-grid">
             <div className="nh-meta-item">
@@ -75,8 +75,8 @@ export function NinjaHirePage() {
         <div className="nh-section" id="nh-section-problem">
           <h2 className="nh-eyebrow">The Problem</h2>
           <p className="nh-statement">
-            The current journey takes time to experience the application. "It lacks the hook point as the user
-            enters."
+            The current journey takes time to experience the application. &ldquo;It lacks the hook point as the
+            user enters&rdquo;
           </p>
 
           <div className="nh-panel nh-panel--mint" style={{ marginTop: '24px' }}>
@@ -107,19 +107,15 @@ export function NinjaHirePage() {
 
         {/* ── The Solution ── */}
         <div className="nh-section" id="nh-section-solution">
-          <h2 className="nh-eyebrow">The Solution</h2>
-          <p className="nh-statement">
-            Re-arranged the flow and introduced the hook point which is the search right into the onboarding
-            process.
-          </p>
-          <div className="nh-panel nh-panel--teal">
-            <img
-              src="/images/ninjahire/solution.png"
-              alt="Set-up Account and Search for Candidates screens shown side by side, the new onboarding flow with search built in"
-            />
+          <div className="nh-body-group">
+            <h2 className="nh-eyebrow">The Solution</h2>
+            <p className="nh-statement">
+              Re-arranged the flow and introduced the hook point which is the search right into the onboarding
+              process.
+            </p>
           </div>
           <p className="nh-caption">
-            Screen recording, no narration — the same flow is shown step by step in the screenshots above.
+            Screen recording — no spoken narration.
           </p>
           <video
             className="nh-video"
