@@ -2,9 +2,9 @@ import { useRef, useState } from 'react'
 import '../../styles/dilution-shock-cover.css'
 
 interface DilutionShockCoverProps {
-  /** Poster image — the Figma cover frame export (node 2224:12137). Shown at rest and while the video loads. */
+  /** Poster image — first frame of the Solution walkthrough video. Shown at rest and while the video loads. */
   posterSrc?: string
-  /** mp4 source for the prototype walkthrough. Drop the file at this path once available. */
+  /** mp4 source for the Solution walkthrough (the same "Scenario Final" video embedded in the case study). */
   videoSrc?: string
   /** Optional webm source, preferred by the browser when supported. */
   videoSrcWebm?: string
@@ -15,16 +15,15 @@ interface DilutionShockCoverProps {
  * matching the Figma cover frame (node 2224:12135). Pass as a project's
  * `coverComponent` (see App.tsx PROJECTS).
  *
- * Resting state is the real exported screenshot — export the frame from
- * Figma as PNG and drop it at the posterSrc path (default
- * /images/dilution-shock-scenario-poster.png). On hover/focus it swaps to
- * a looping muted video of the live prototype. If either asset is missing,
- * it falls back gracefully instead of showing a broken image/video.
+ * Resting state is the poster frame of the Solution's "Scenario Final"
+ * walkthrough video. On hover/focus it swaps to that same looping muted
+ * video. If either asset is missing, it falls back gracefully instead of
+ * showing a broken image/video.
  */
 export function DilutionShockCover({
-  posterSrc = '/images/dilution-shock-scenario-poster.png',
-  videoSrc = '/videos/dilution-shock-prototype.mp4',
-  videoSrcWebm,
+  posterSrc = '/images/dilution-shock/scenario-final-poster.jpg',
+  videoSrc = '/images/dilution-shock/scenario-final.mp4',
+  videoSrcWebm = '/images/dilution-shock/scenario-final.webm',
 }: DilutionShockCoverProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [hovering, setHovering] = useState(false)
@@ -34,6 +33,9 @@ export function DilutionShockCover({
 
   const play = () => {
     setHovering(true)
+    // Respect reduced-motion preference: keep the still poster instead of
+    // starting playback for users sensitive to motion.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const video = videoRef.current
     if (!video) return
     // Seeking before metadata has loaded (readyState 0) can reset the
@@ -61,7 +63,7 @@ export function DilutionShockCover({
       onBlur={stop}
       tabIndex={0}
       role="group"
-      aria-label="Fundraising Scenario Tool — hover to preview the interactive prototype"
+      aria-label="Fundraising Scenario Tool — hover or focus to preview the interactive prototype"
     >
       <div className="ds-cover-stage">
         {posterAvailable ? (

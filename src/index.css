@@ -4146,7 +4146,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
   flex-direction: column;
   max-height: 76vh;
   padding: 14px 8px;
-  background: rgba(8, 12, 28, 0.6);
+  background: rgba(8, 12, 28, 0.86);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -4205,7 +4205,7 @@ html[data-theme="dark"] .pg-canvas-wrap {
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;
   transition: color 0.2s ease, background 0.2s ease;
 }
