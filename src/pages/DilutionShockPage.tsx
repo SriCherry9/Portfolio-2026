@@ -273,85 +273,91 @@ export function DilutionShockPage() {
 
         {/* ── The Design Process ── */}
         <div className="ds-section" id="ds-section-process">
-          <p className="ds-eyebrow">The Design Process</p>
+          <div className="ds-stack-80">
+            <div className="ds-stack-24">
+              <p className="ds-eyebrow">The Design Process</p>
+              <p className="ds-body"><strong>Research</strong></p>
 
-          <div className="ds-body-group">
-            <p className="ds-body"><strong>Research</strong></p>
+              <div className="ds-stack-56">
+                <div className="ds-body-group">
+                  <p className="ds-body">
+                    <strong>Primary Research</strong>
+                    <br />
+                    User Interview
+                  </p>
+                  <AudienceChips />
+                </div>
 
-            <div className="ds-body-group">
-              <p className="ds-body">
-                <strong>Primary Research</strong>
-                <br />
-                User Interview
-              </p>
-              <AudienceChips />
-            </div>
+                <div className="ds-body-group">
+                  <p className="ds-body">
+                    <strong>Secondary Research</strong>
+                    <br />
+                    Cognitive walkthrough / First time user experience when I use it + Competitor analysis (Competitor
+                    differentiators)
+                  </p>
+                  <p className="ds-body ds-body--italic">Pulley, LTSE Equity, Carta</p>
+                  <BleedImage
+                    src="competitors.png"
+                    alt="Screenshots of Pulley, an exit modelling tool, and Carta's SAFE stakeholder breakdown for competitor analysis"
+                  />
+                </div>
 
-            <div className="ds-body-group">
-              <p className="ds-body">
-                <strong>Secondary Research</strong>
-                <br />
-                Cognitive walkthrough / First time user experience when I use it + Competitor analysis (Competitor
-                differentiators)
-              </p>
-              <p className="ds-body ds-body--italic">Pulley, LTSE Equity, Carta</p>
-              <BleedImage
-                src="competitors.png"
-                alt="Screenshots of Pulley, an exit modelling tool, and Carta's SAFE stakeholder breakdown for competitor analysis"
-              />
-            </div>
+                <div className="ds-stack-24">
+                  <div className="ds-body-group">
+                    <p className="ds-body"><strong>Foundational Design Research — For AI Design Patterns</strong></p>
+                    <div className="ds-link-row">
+                      <a
+                        className="ds-inline-link"
+                        href="https://www.shapeof.ai/#inputs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        https://www.shapeof.ai/#inputs
+                      </a>
+                      <span className="ds-link-divider" aria-hidden="true" />
+                      <p className="ds-inline-link ds-inline-link--static">https://www.aiuxpatterns.com/patterns.html</p>
+                    </div>
+                  </div>
 
-            <div className="ds-body-group">
-              <p className="ds-body"><strong>Foundational Design Research — For AI Design Patterns</strong></p>
-              <div className="ds-link-row">
-                <a
-                  className="ds-inline-link"
-                  href="https://www.shapeof.ai/#inputs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  https://www.shapeof.ai/#inputs
-                </a>
-                <span className="ds-link-divider" aria-hidden="true" />
-                <p className="ds-inline-link ds-inline-link--static">https://www.aiuxpatterns.com/patterns.html</p>
+                  <div className="ds-body-group">
+                    <p className="ds-body"><strong>Goal:</strong></p>
+                    <ul className="ds-list">
+                      <li>To identify patterns to surface prompt suggestions</li>
+                      <li>Input patterns that help you complete a workflow</li>
+                      <li>How do we build trust with AI?</li>
+                      <li>AI identifiers and actions with AI outputs</li>
+                    </ul>
+                  </div>
+
+                  <div className="ds-body-group">
+                    <p className="ds-body ds-body--dark">Prompt Suggestions</p>
+                    <BleedImage
+                      src="prompt-suggestion.png"
+                      alt="AI prompt suggestion patterns: recipe-style quick actions, a dark 'Ask anything' input, and 'Ready when you are' quick action chips"
+                    />
+                  </div>
+
+                  <div className="ds-body-group">
+                    <p className="ds-body ds-body--dark">AI Trust Builders</p>
+                    <BleedImage
+                      src="ai-trust-builders.png"
+                      alt="AI trust-building UI patterns showing disclaimers that AI responses can be inaccurate and should be double-checked"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="ds-body-group">
-                <p className="ds-body"><strong>Goal:</strong></p>
-                <ul className="ds-list">
-                  <li>To identify patterns to surface prompt suggestions</li>
-                  <li>Input patterns that help you complete a workflow</li>
-                  <li>How do we build trust with AI?</li>
-                  <li>AI identifiers and actions with AI outputs</li>
-                </ul>
-              </div>
             </div>
 
             <div className="ds-body-group">
-              <p className="ds-body ds-body--dark">Prompt Suggestions</p>
-              <BleedImage
-                src="prompt-suggestion.png"
-                alt="AI prompt suggestion patterns: recipe-style quick actions, a dark 'Ask anything' input, and 'Ready when you are' quick action chips"
-              />
+              <p className="ds-body"><strong>Insights</strong></p>
+              <p className="ds-body ds-body-lg">JTBD — run a fundraise scenario to understand dilution and estimate ownership.</p>
+              <p className="ds-body"><strong>User existing problems</strong></p>
+              <ul className="ds-list">
+                <li>Hard to understand, analyse, and draw conclusions — founders bring a wide range of financial literacy</li>
+                <li>Lacks the ability to edit and view the analysis simultaneously</li>
+                <li>The errors were not helpful and restricted finishing the task</li>
+              </ul>
             </div>
-
-            <div className="ds-body-group">
-              <p className="ds-body ds-body--dark">AI Trust Builders</p>
-              <BleedImage
-                src="ai-trust-builders.png"
-                alt="AI trust-building UI patterns showing disclaimers that AI responses can be inaccurate and should be double-checked"
-              />
-            </div>
-          </div>
-
-          <div className="ds-body-group">
-            <p className="ds-body"><strong>Insights</strong></p>
-            <p className="ds-body ds-body-lg">JTBD — run a fundraise scenario to understand dilution and estimate ownership.</p>
-            <p className="ds-body"><strong>User existing problems</strong></p>
-            <ul className="ds-list">
-              <li>Hard to understand, analyse, and draw conclusions — founders bring a wide range of financial literacy</li>
-              <li>Lacks the ability to edit and view the analysis simultaneously</li>
-              <li>The errors were not helpful and restricted finishing the task</li>
-            </ul>
           </div>
         </div>
 

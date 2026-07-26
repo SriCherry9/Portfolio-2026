@@ -144,6 +144,19 @@
   gap: 24px;
 }
 
+/* ── Nested vertical stacks (Design Process spacing hierarchy) ── */
+.ds-stack-24,
+.ds-stack-56,
+.ds-stack-80 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ds-stack-24 { gap: 24px; }
+.ds-stack-56 { gap: 56px; }
+.ds-stack-80 { gap: 80px; }
+
 .ds-list {
   font-family: 'Raleway', sans-serif;
   font-size: 16px;
