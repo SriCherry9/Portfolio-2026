@@ -154,7 +154,12 @@ const BASE_ITEMS: BaseItem[] = [
     title: 'Design OKRs at Qapita',
     desc: 'Cascading department OKRs so they ladder up to company-level goals — framework based on Felipe Castro\'s "Beginner\'s Guide to OKRs". Details redacted for NDA.',
     width: 320, height: 240,
-    visualStyle: { background: 'linear-gradient(135deg, #14324f 0%, #1f5c8a 55%, #4a9fd6 100%)' },
+    visualStyle: {
+      background: '#dce4dc',
+      backgroundImage: 'url(/images/design-okrs-qapita-cover.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
     externalUrl: 'https://docs.google.com/spreadsheets/d/1VYDKWMG5xa4QhBByr4PwsL7-PnktuhcGETuzfQX5QEg/edit?usp=sharing',
   },
 ]
