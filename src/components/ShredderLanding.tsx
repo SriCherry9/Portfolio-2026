@@ -208,11 +208,12 @@ export function ShredderLanding() {
               shifts[b]  = Math.sin(stripPhase + norm * NOODLE_BEND + t * stripSpeed) * amp
             }
 
-            ctx.save()
-            ctx.shadowColor   = 'rgba(0,0,0,0.38)'
-            ctx.shadowBlur    = 5
-            ctx.shadowOffsetX = 3
-            ctx.shadowOffsetY = 2
+            // One flat offset rect per strip instead of a native shadowBlur
+            // (which rasterizes per drawImage call — with ~2000+ draws/frame
+            // in this loop that was the main cause of scroll-time frame
+            // drops) or a per-band rect (still ~2000+ fillRect calls/frame).
+            ctx.fillStyle = 'rgba(0,0,0,0.3)'
+            ctx.fillRect(dstX0 + shifts[NOODLE_BANDS - 1] + 3, barY + 2, dstW, stripH + 0.5)
             for (let b = 0; b < NOODLE_BANDS; b++) {
               ctx.drawImage(
                 img,
@@ -220,7 +221,6 @@ export function ShredderLanding() {
                 dstX0 + shifts[b], barY + b * bandH, dstW, bandH
               )
             }
-            ctx.restore()
 
             for (let b = 0; b < NOODLE_BANDS; b++) {
               const x  = dstX0 + shifts[b]
