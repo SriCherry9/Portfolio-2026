@@ -15,6 +15,7 @@ interface BaseItem {
   height: number
   visualStyle: React.CSSProperties
   caseStudyPath?: string
+  externalUrl?: string
   renderVisual?: (width: number, height: number) => React.ReactNode
   interactive?: 'dusty-glass' | 'tennis-balls' | 'typewriter' | 'image' | 'bubbles'
   imageSrc?: string
@@ -147,6 +148,14 @@ const BASE_ITEMS: BaseItem[] = [
       backgroundPosition: 'center',
     },
     caseStudyPath: '/case-study/comic-strip',
+  },
+  {
+    id: 28,
+    title: 'Design OKRs at Qapita',
+    desc: 'Cascading department OKRs so they ladder up to company-level goals — framework based on Felipe Castro\'s "Beginner\'s Guide to OKRs". Details redacted for NDA.',
+    width: 320, height: 240,
+    visualStyle: { background: 'linear-gradient(135deg, #14324f 0%, #1f5c8a 55%, #4a9fd6 100%)' },
+    externalUrl: 'https://docs.google.com/spreadsheets/d/1VYDKWMG5xa4QhBByr4PwsL7-PnktuhcGETuzfQX5QEg/edit?usp=sharing',
   },
 ]
 
@@ -411,6 +420,20 @@ export function PlaygroundPage() {
         >
           {content}
         </div>
+      )
+    }
+    if (item.externalUrl) {
+      return (
+        <a
+          key={key}
+          href={item.externalUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="play-item play-item-link"
+          style={{ left: x, top: y, width: item.width }}
+        >
+          {content}
+        </a>
       )
     }
     return item.caseStudyPath ? (
