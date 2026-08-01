@@ -167,7 +167,12 @@ const BASE_ITEMS: BaseItem[] = [
     title: 'Accessibility Audit — WCAG 2.2',
     desc: 'A POUR-framework audit checklist mapped against WCAG 2.2 success criteria',
     width: 320, height: 240,
-    visualStyle: { background: 'linear-gradient(135deg, #1f4d3d 0%, #2f7a5c 55%, #6bc79a 100%)' },
+    visualStyle: {
+      background: '#0b6dc7',
+      backgroundImage: 'url(/images/accessibility-audit-cover.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
     externalUrl: 'https://docs.google.com/spreadsheets/d/1bq_xcES1mHNWG5qL3e31gT_Mlb_y38mjan78kpiAZok/edit?usp=sharing',
   },
 ]
