@@ -3,7 +3,7 @@ import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { GardenFooter } from './components/GardenFooter'
-import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY } from './utils/protectedProjects'
+import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY, DILUTION_SHOCK_PASSWORD, DILUTION_SHOCK_UNLOCK_KEY } from './utils/protectedProjects'
 
 const PROJECTS = [
   {
@@ -18,7 +18,7 @@ const PROJECTS = [
     title: 'Enhanced Search for Agentic Experience',
     description:
       'Rearranged a recruiting agent\'s onboarding flow to put search — the hook point — right at sign-up, cutting the path to first value from 5-6 steps to 3.',
-    tags: ['AI', 'Onboarding', 'Growth', 'B2B SaaS'],
+    tags: ['AI', 'Onboarding', 'Growth', 'B2B SaaS', 'Monetisation UX'],
     url: 'ninjahire.ai',
     readTime: '6 min read',
   },
@@ -31,12 +31,13 @@ const PROJECTS = [
     coverVideoWebm: '/images/dilution-shock/scenario-final.webm',
     coverVideoFit: 'contain' as const,
     caseStudyPath: '/case-study/dilution-shock',
+    locked: { password: DILUTION_SHOCK_PASSWORD, storageKey: DILUTION_SHOCK_UNLOCK_KEY },
     company: 'QAPITA',
     role: 'Product Designer',
     title: 'Designing for Dilution Shock: The Fundraising Scenario Tool',
     description:
       "Designed the fundraising module that turns SAFE/note conversion math into a number founders and CFOs can see and negotiate against before signing anything — replacing spreadsheets that couldn't correctly model dilution.",
-    tags: ['Fintech', 'SaaS', 'Cap Table', 'AI-Assisted Design'],
+    tags: ['Fintech', 'SaaS', 'Cap Table', 'AI Augmented Workflow'],
     url: 'qapita.com',
     readTime: '6 min read',
   },
@@ -98,7 +99,7 @@ const PROJECTS = [
     coverImage: '/images/museo-cover.png',
     caseStudyPath: '/case-study/museo',
     company: 'GAIAN SOLUTIONS',
-    role: 'Lead Product Designer',
+    role: 'Product Designer',
     title: 'Museo — Broadcast Auction Platform',
     description:
       "Designed the end-to-end product for the US market — a CES'24 Badge-winning auction platform powered by ATSC 3.0. Built a cohesive design system for a B2B2C experience that lets viewers bid on products right from where they watch.",
@@ -114,7 +115,7 @@ const PROJECTS = [
     coverImage: '/images/incite-cover.png',
     caseStudyPath: '/case-study/incite',
     company: 'INDEPENDENT',
-    role: 'Lead UX/UI Designer',
+    role: 'Product Designer',
     title: 'In;cite — Ingredient Intelligence',
     description:
       'Designed an intelligent product scanner that empowers consumers to make informed choices about ingredients. A human-centered design approach to make ingredient transparency accessible to everyone.',

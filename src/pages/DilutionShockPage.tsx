@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import { CaseStudySideNav } from '../components/CaseStudySideNav'
+import { PasswordGate } from '../components/PasswordGate'
+import { DILUTION_SHOCK_PASSWORD, DILUTION_SHOCK_UNLOCK_KEY } from '../utils/protectedProjects'
 import '../styles/dilution-shock.css'
 
 const SECTIONS = [
@@ -90,6 +92,11 @@ export function DilutionShockPage() {
   }, [])
 
   return (
+    <PasswordGate
+      password={DILUTION_SHOCK_PASSWORD}
+      storageKey={DILUTION_SHOCK_UNLOCK_KEY}
+      title="Designing for Dilution Shock is password protected"
+    >
     <div className="ds-page">
       <CaseStudySideNav sections={SECTIONS} />
 
@@ -631,5 +638,6 @@ export function DilutionShockPage() {
         nextCover="/images/museo-cover.png"
       />
     </div>
+    </PasswordGate>
   )
 }
