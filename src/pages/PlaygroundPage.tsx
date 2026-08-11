@@ -26,7 +26,12 @@ interface BaseItem {
 interface PlayItem extends BaseItem {
   x: number
   y: number
+  rotation: number
+  pinColor: string
 }
+
+// Same family as the sticky-note accents used elsewhere on the site
+const PIN_COLORS = ['#FFCA60', '#2DBD8B', '#ADD6F7', '#E7C1E5', '#D3D872', '#D2D2FF']
 
 const BASE_ITEMS: BaseItem[] = [
   {
@@ -235,7 +240,13 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
     positions.set(item.id, place(item.width, item.height + CAPTION_ALLOWANCE, () => { restYMax *= 1.05 }, () => restYMax))
   }
 
-  return items.map(item => ({ ...item, ...positions.get(item.id)! }))
+  return items.map(item => ({
+    ...item,
+    ...positions.get(item.id)!,
+    // A hand-placed tilt, never dead-straight, so the board reads as pinned rather than aligned
+    rotation: Math.round((Math.random() * 7 - 3.5) * 10) / 10,
+    pinColor: PIN_COLORS[Math.floor(Math.random() * PIN_COLORS.length)],
+  }))
 }
 
 const ITEMS: PlayItem[] = scatterLayout(BASE_ITEMS)
@@ -353,8 +364,15 @@ export function PlaygroundPage() {
     const x = item.x + tx * CLUSTER_WIDTH
     const y = item.y + ty * CLUSTER_HEIGHT
     const key = `${item.id}-${tx}-${ty}`
+    const itemStyle = {
+      left: x,
+      top: y,
+      width: item.width,
+      '--item-rot': `${item.rotation}deg`,
+    } as React.CSSProperties
     const content = (
       <>
+        <span className="play-pin" style={{ background: item.pinColor }} aria-hidden="true" />
         <div
           className="play-item-visual"
           style={{ height: item.height, ...item.visualStyle }}
@@ -370,7 +388,7 @@ export function PlaygroundPage() {
         <div
           key={key}
           className="play-item play-item-link"
-          style={{ left: x, top: y, width: item.width }}
+          style={itemStyle}
           role="button"
           tabIndex={0}
           onClick={() => setDustyGlassOpen(true)}
@@ -385,7 +403,7 @@ export function PlaygroundPage() {
         <div
           key={key}
           className="play-item play-item-link"
-          style={{ left: x, top: y, width: item.width }}
+          style={itemStyle}
           role="button"
           tabIndex={0}
           onClick={() => setTennisBallsOpen(true)}
@@ -400,7 +418,7 @@ export function PlaygroundPage() {
         <div
           key={key}
           className="play-item play-item-link"
-          style={{ left: x, top: y, width: item.width }}
+          style={itemStyle}
           role="button"
           tabIndex={0}
           onClick={() => setTypewriterOpen(true)}
@@ -415,7 +433,7 @@ export function PlaygroundPage() {
         <div
           key={key}
           className="play-item play-item-link"
-          style={{ left: x, top: y, width: item.width }}
+          style={itemStyle}
           role="button"
           tabIndex={0}
           onClick={() => setBubbleMakerOpen(true)}
@@ -430,7 +448,7 @@ export function PlaygroundPage() {
         <div
           key={key}
           className="play-item play-item-link"
-          style={{ left: x, top: y, width: item.width }}
+          style={itemStyle}
           role="button"
           tabIndex={0}
           onClick={() => setLightboxItem(item)}
@@ -448,7 +466,7 @@ export function PlaygroundPage() {
           target="_blank"
           rel="noopener noreferrer"
           className="play-item play-item-link"
-          style={{ left: x, top: y, width: item.width }}
+          style={itemStyle}
         >
           {content}
         </a>
@@ -459,7 +477,7 @@ export function PlaygroundPage() {
         key={key}
         to={item.caseStudyPath}
         className="play-item play-item-link"
-        style={{ left: x, top: y, width: item.width }}
+        style={itemStyle}
       >
         {content}
       </Link>
@@ -467,7 +485,7 @@ export function PlaygroundPage() {
       <div
         key={key}
         className="play-item"
-        style={{ left: x, top: y, width: item.width }}
+        style={itemStyle}
       >
         {content}
       </div>
@@ -481,7 +499,7 @@ export function PlaygroundPage() {
       <div
         ref={containerRef}
         className={`pg-canvas-wrap${isDragging ? ' pg-dragging' : ''}`}
-        style={{ backgroundPosition: `${mod(pan.x, 28)}px ${mod(pan.y, 28)}px` }}
+        style={{ backgroundPosition: `${mod(pan.x, 56)}px ${mod(pan.y, 56)}px` }}
         onPointerDown={onPointerDown}
       >
         <div
@@ -490,6 +508,8 @@ export function PlaygroundPage() {
         >
           {tiles.flatMap(({ tx, ty }) => ITEMS.map(item => renderItem(item, tx, ty)))}
         </div>
+
+        <div className="pg-board-vignette" aria-hidden="true" />
 
         <div className="playground-hint">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

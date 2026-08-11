@@ -2893,12 +2893,13 @@ html[data-theme="dark"] .sticky-note::before {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transform: rotate(var(--item-rot, 0deg));
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .play-item-link {
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s ease;
 }
 
 .play-item-link, .play-item-link * {
@@ -2906,15 +2907,16 @@ html[data-theme="dark"] .sticky-note::before {
 }
 
 .play-item-link:hover {
-  transform: translateY(-3px);
+  transform: rotate(0deg) translateY(-6px) scale(1.02);
+  z-index: 5;
 }
 
 .play-item-link:hover .play-item-visual {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22), 0 4px 10px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
 .play-item-visual {
-  border-radius: 6px;
+  border-radius: 3px;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -2922,11 +2924,36 @@ html[data-theme="dark"] .sticky-note::before {
   justify-content: center;
   flex-shrink: 0;
   margin-bottom: 6px;
+  border: 6px solid #fdfdfb;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+html[data-theme="dark"] .play-item-visual {
+  border-color: #f3f1ea;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .play-item-label {
   pointer-events: none;
   user-select: none;
+}
+
+/* Pushpin tacking each tile to the board */
+.play-pin {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow:
+    inset -2px -2px 3px rgba(0, 0, 0, 0.25),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.5),
+    0 3px 6px rgba(0, 0, 0, 0.35);
+  z-index: 3;
+  pointer-events: none;
 }
 
 .play-item-title {
@@ -3022,12 +3049,35 @@ html[data-theme="dark"] .pg-page-header {
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.14) 1.5px, transparent 1.5px);
-  background-size: 28px 28px;
+  background-color: #fcfbf7;
+  background-image:
+    linear-gradient(rgba(20, 18, 10, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 18, 10, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
 html[data-theme="dark"] .pg-canvas-wrap {
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px);
+  background-color: #1b2420;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+.pg-board-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 18% 0%, rgba(255, 255, 255, 0.6), transparent 60%),
+    radial-gradient(ellipse 80% 65% at 105% 110%, rgba(0, 0, 0, 0.05), transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.055) 100%);
+}
+
+html[data-theme="dark"] .pg-board-vignette {
+  background:
+    radial-gradient(ellipse 60% 40% at 18% 0%, rgba(255, 255, 255, 0.07), transparent 60%),
+    radial-gradient(ellipse 80% 65% at 105% 110%, rgba(0, 0, 0, 0.4), transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 50%, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
 }
 
 .pg-canvas-wrap.pg-dragging {
