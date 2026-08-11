@@ -11,6 +11,10 @@
   cursor: url('/Cherry-cursor.svg') 19 19, auto !important;
 }
 
+.resume-section, .resume-section *, .resume-section *::before, .resume-section *::after {
+  cursor: default !important;
+}
+
 /* ===== FONTS ===== */
 
 @font-face {
