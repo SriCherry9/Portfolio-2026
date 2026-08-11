@@ -10721,7 +10721,10 @@ html[data-theme="dark"] .case-footer-home:hover {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--text-primary);
+  /* Fixed dark text — the pill background is a light accent color that
+     doesn't flip with the theme, so --text-primary (which turns near-white
+     in dark mode) would wash it out. */
+  color: #131313;
   background: var(--card-1, #D2D2FF);
   padding: 10px 20px;
   border-radius: 999px;
