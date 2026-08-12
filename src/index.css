@@ -10753,6 +10753,7 @@ html[data-theme="dark"] .case-footer-home:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
   margin-bottom: 20px;
 }
 
@@ -10764,6 +10765,54 @@ html[data-theme="dark"] .case-footer-home:hover {
   text-transform: uppercase;
   color: var(--text-muted);
   margin: 0;
+}
+
+.resume-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resume-zoom {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid rgba(128,128,128,0.3);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.resume-zoom-btn {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.resume-zoom-btn:hover {
+  background: var(--card-1, rgba(128,128,128,0.15));
+}
+
+.resume-zoom-value {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  min-width: 44px;
+  text-align: center;
 }
 
 .resume-download {
@@ -10788,7 +10837,16 @@ html[data-theme="dark"] .case-footer-home:hover {
 }
 
 .resume-frame-wrap {
-  width: 100%;
+  /* Cap the viewer's height to what's left in the viewport below the
+     header/toolbar so the whole resume fits above the fold; width then
+     follows from the fixed 8.5:11 aspect ratio. Falls back to full width
+     (letting aspect-ratio drive height) when dvh math would shrink it
+     below a usable size. */
+  width: min(100%, calc((100vh - 260px) * 8.5 / 11));
+  width: min(100%, calc((100dvh - 260px) * 8.5 / 11));
+  max-width: 100%;
+  min-width: 280px;
+  margin: 0 auto;
   aspect-ratio: 8.5 / 11;
   border-radius: 12px;
   overflow: hidden;
@@ -10813,4 +10871,9 @@ html[data-theme="dark"] .case-footer-home:hover {
 @media (max-width: 640px) {
   .resume-section { padding: 96px 20px 48px; }
   .resume-header-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .resume-controls { width: 100%; justify-content: space-between; }
+  .resume-frame-wrap {
+    width: min(100%, calc((100vh - 320px) * 8.5 / 11));
+    width: min(100%, calc((100dvh - 320px) * 8.5 / 11));
+  }
 }
