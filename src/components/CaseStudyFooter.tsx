@@ -17,7 +17,7 @@ export function CaseStudyFooter({ nextPath, nextTitle, nextCover }: CaseStudyFoo
             thoughts — or talk about what you're building.
           </h3>
           <div className="case-footer-contact">
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="case-footer-contact-link">
+            <a href="https://www.linkedin.com/in/sricherrykotamreddy" target="_blank" rel="noopener noreferrer" className="case-footer-contact-link">
               LinkedIn
             </a>
             <a href="https://medium.com/@sricherry.k" target="_blank" rel="noopener noreferrer" className="case-footer-contact-link">
