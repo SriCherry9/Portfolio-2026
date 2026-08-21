@@ -125,7 +125,7 @@ export function AboutSection() {
       {/* ── Bookshelf ────────────────────────────────────────────────── */}
       <div className="about-shelf-section about-reveal">
         <p className="about-kicker">On my shelf</p>
-        <h3 className="about-shelf-title">UX reads that shaped how I think</h3>
+        <h3 className="about-shelf-title">Books that shaped how I think</h3>
         <AboutBookshelf />
       </div>
 
