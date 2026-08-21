@@ -83,6 +83,10 @@
     padding: 0;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background: var(--page-bg);
     color: var(--text-primary);

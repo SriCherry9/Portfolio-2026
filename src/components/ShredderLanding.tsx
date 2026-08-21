@@ -21,6 +21,7 @@ export function ShredderLanding() {
   const elapsedRef      = useRef(0)
   const lastTsRef       = useRef<number | null>(null)
   const prevRawRef      = useRef(0)
+  const smoothRawRef    = useRef(0)
   const audioRef        = useRef<HTMLAudioElement | null>(null)
   const scrollTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
   const audioPlayingRef = useRef(false)
@@ -109,9 +110,15 @@ export function ShredderLanding() {
       // Derive raw from scroll position within the tall container
       const rect           = root.getBoundingClientRect()
       const totalScrollable = root.offsetHeight - window.innerHeight
-      const raw = totalScrollable > 0
+      const targetRaw = totalScrollable > 0
         ? Math.max(0, Math.min(1, -rect.top / totalScrollable))
         : 0
+
+      // Smooth the scroll-derived value so wheel/trackpad "ticks" glide
+      // into the animation instead of jumping frame to frame.
+      const smoothing = 1 - Math.exp(-dt * 14)
+      smoothRawRef.current += (targetRaw - smoothRawRef.current) * smoothing
+      const raw = smoothRawRef.current
 
       // Velocity from scroll delta (for strip sway amplitude)
       const prevRaw = prevRawRef.current
@@ -289,8 +296,17 @@ export function ShredderLanding() {
         </div>
 
         <div ref={hintRef} className="shredder-hint">
-          <span className="shredder-hint-text">Scroll to read</span>
-          <span className="shredder-hint-line" />
+          <span className="shredder-hint-badge">
+            <span className="shredder-hint-text">Scroll to shred</span>
+          </span>
+          <span className="shredder-hint-chevrons" aria-hidden="true">
+            <svg viewBox="0 0 24 12" className="shredder-hint-chevron shredder-hint-chevron--1">
+              <path d="M2 2L12 10L22 2" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <svg viewBox="0 0 24 12" className="shredder-hint-chevron shredder-hint-chevron--2">
+              <path d="M2 2L12 10L22 2" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
         </div>
       </div>
     </div>
