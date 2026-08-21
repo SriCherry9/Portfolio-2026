@@ -70,12 +70,14 @@ export function AboutSection() {
           setup time by <strong>25%</strong> and abandonment by{' '}
           <strong>20%</strong>. I ran an accessibility audit and built the
           execution plan to bring the platform to <strong>WCAG 2.2</strong>{' '}
-          compliance, and I identified AI opportunities that shaped the product
-          roadmap. At <strong>NinjaHire</strong>, I designed AI-native
-          workflows end-to-end — prompt inputs, agent outputs, confidence
-          signals, and trust cues — and redesigned onboarding and
-          monetization flows, cutting time-to-first-result and surfacing
-          pricing, credit usage, and upgrade paths clearly to drive adoption.
+          compliance, and I identified <strong>AI opportunities</strong> that
+          shaped the <strong>product roadmap</strong>. At{' '}
+          <strong>NinjaHire</strong>, I designed{' '}
+          <strong>AI-native workflows</strong> end-to-end — prompt inputs,
+          agent outputs, confidence signals, and trust cues — and redesigned{' '}
+          <strong>onboarding and monetization</strong> flows, cutting
+          time-to-first-result and surfacing pricing, credit usage, and
+          upgrade paths clearly to <strong>drive adoption</strong>.
           On the other end of the spectrum, I designed{' '}
           <strong>Museo</strong> — a{' '}
           <strong>gesture-based TV bidding experience</strong> for art auctions —
