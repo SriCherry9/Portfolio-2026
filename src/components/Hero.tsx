@@ -329,8 +329,8 @@ export function Hero() {
             </div>
           </div>
           <p className="dh-bio">
-            So far simplified complex workflows and added delight<br />
-            through embodied interactions which reached 1M + users
+            I simplified complex workflows into usable, accessible and<br />
+            trustworthy interactions that reached 0.5M users
           </p>
           <button
             className="dh-view-work"
