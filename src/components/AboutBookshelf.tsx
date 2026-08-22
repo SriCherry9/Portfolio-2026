@@ -25,7 +25,7 @@ const INITIAL_BOOKS: Book[] = [
   { title: 'The Design of Everyday Things', author: 'Don Norman',                       mark: 'Basic Books',   bg: '#F2EDE4', fg: '#171717', gbid: 'nVQPAAAAQBAJ', olid: 'OL25726927M', isbn: '9780465050659' },
   { title: 'The Midnight Library',           author: 'Matt Haig',                       mark: 'Viking',         bg: '#1B2A4A', fg: '#ffffff', gbid: '63fYDwAAQBAJ', olid: 'OL31856078M', isbn: '9780525559474' },
   { title: 'The Rosie Effect',                author: 'Graeme Simsion',                 mark: 'Simon & Schuster', bg: '#F28C8C', fg: '#171717', gbid: 'lt8GBgAAQBAJ', olid: 'OL27169091M', isbn: '9781476767321' },
-  { title: 'No Rules Rules', subtitle: 'Netflix and the Culture of Reinvention', author: 'Reed Hastings & Erin Meyer', mark: 'Penguin Press', bg: '#E50914', fg: '#ffffff', gbid: '1u6_DwAAQBAJ', olid: 'OL29849756M', isbn: '9781984877864' },
+  { title: 'No Rules Rules', subtitle: 'Netflix and the Culture of Reinvention', author: 'Reed Hastings & Erin Meyer', mark: 'Penguin Press', bg: '#E50914', fg: '#ffffff', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLiw8Zd9LnCzYd9JcIAE9und_clsv70WhbK_c41gOjOiQ_vnC67d3G3lCSRoiBXJefSJEiGN0&s=300', gbid: '1u6_DwAAQBAJ', olid: 'OL29849756M', isbn: '9781984877864' },
   { title: 'No Filter', subtitle: 'The Inside Story of Instagram', author: 'Sarah Frier', mark: 'Simon & Schuster', bg: '#C13584', fg: '#ffffff', gbid: 'e9qeDwAAQBAJ', isbn: '9781982126803' },
   { title: 'Range', subtitle: 'Why Generalists Triumph in a Specialized World', author: 'David Epstein', mark: 'Riverhead Books', bg: '#F4A300', fg: '#171717', gbid: '6nsmEAAAQBAJ', olid: 'OL27311259M', isbn: '9780735214484' },
   { title: 'Universal Methods of Design',    author: 'Bella Martin & Bruce Hanington',  mark: 'Rockport',      bg: '#F5C518', fg: '#171717', gbid: 'uZ8uzWAcdxEC', olid: 'OL25054866M', isbn: '9781592537563' },
@@ -34,7 +34,7 @@ const INITIAL_BOOKS: Book[] = [
   { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff' },
   { title: 'Rich Dad Poor Dad',               author: 'Robert Kiyosaki',                mark: 'Plata Publishing', bg: '#0E3B36', fg: '#ffffff', olid: 'OL47304048M', isbn: '9781612680194' },
   { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Fingerprint! Publishing', bg: '#241C4E', fg: '#F5C518', isbn: '9788172345662' },
-  { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4', isbn: '9780008196677' },
+  { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNcBHWuh5vm2cP25w4DW7XhY7X71XJPzf-r-jfGYvD-RCMEzPefxK8jQWYwJ1neSgIcKa7a9Y&s=300', isbn: '9780008196677' },
 ]
 
 const amazonSearchUrl = (book: Book) =>
