@@ -30,9 +30,9 @@ const INITIAL_BOOKS: Book[] = [
   { title: 'Articulating Design Decisions',  author: 'Tom Greever',                     mark: "O'Reilly Media", bg: '#00857C', fg: '#ffffff', gbid: 'z0CgCgAAQBAJ', olid: 'OL26498984M', isbn: '9781491921562' },
   { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', gbid: '-BUjEAAAQBAJ', olid: 'OL27186851M', isbn: '9781449372866' },
   { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff' },
-  { title: 'Rich Dad Poor Dad',               author: 'Robert Kiyosaki',                mark: 'Plata Publishing', bg: '#0E3B36', fg: '#ffffff', isbn: '9781612680194' },
-  { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Tarcher Perigee', bg: '#241C4E', fg: '#F5C518' },
-  { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4' },
+  { title: 'Rich Dad Poor Dad',               author: 'Robert Kiyosaki',                mark: 'Plata Publishing', bg: '#0E3B36', fg: '#ffffff', olid: 'OL47304048M', isbn: '9781612680194' },
+  { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Bantam',         bg: '#241C4E', fg: '#F5C518', isbn: '9780735204553' },
+  { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4', isbn: '9780008196677' },
 ]
 
 const amazonSearchUrl = (book: Book) =>
