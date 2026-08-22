@@ -179,21 +179,28 @@
 }
 
 /* ── Swatch cards (Deeper Problem / Iterations) ──
+   Captions and images are laid out as two separate grids stacked
+   vertically, rather than each caption+image pair living in its own
+   column. That way captions of different lengths all stretch to the
+   height of the tallest one (grid's default align-items: stretch),
+   so every image below still starts and ends at the same row — a
+   caption running two lines longer can't push its image down and
+   throw the row out of alignment.
    Grid with auto-fit/minmax adapts column count to available width without
    the uneven 2+1 wrap flexbox's greedy hypothetical-size algorithm produces.
    Each swatch image ships at the same 364:437 aspect ratio as the card, so
    it fills the card edge-to-edge with no cropping. */
 .ds-swatch-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 8px;
-}
-
-.ds-swatch-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-width: 0;
+}
+
+.ds-swatch-captions,
+.ds-swatch-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
 }
 
 .ds-swatch-caption {
@@ -203,6 +210,7 @@
   line-height: 1.6;
   color: #666;
   margin: 0;
+  min-width: 0;
 }
 
 .ds-swatch-caption span {

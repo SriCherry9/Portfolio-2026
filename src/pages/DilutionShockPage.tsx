@@ -73,15 +73,21 @@ function SwatchRow({
 }) {
   return (
     <div className="ds-swatch-row">
-      {items.map((item) => (
-        <div className="ds-swatch-card" key={item.title}>
-          <p className="ds-swatch-caption">
+      <div className="ds-swatch-captions">
+        {items.map((item) => (
+          <p className="ds-swatch-caption" key={item.title}>
             {item.title}
             {item.body && <span> — {item.body}</span>}
           </p>
-          <div className={`ds-swatch-block ds-swatch-block--${item.color}`}>{item.visual}</div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <div className="ds-swatch-images">
+        {items.map((item) => (
+          <div className={`ds-swatch-block ds-swatch-block--${item.color}`} key={item.title}>
+            {item.visual}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
