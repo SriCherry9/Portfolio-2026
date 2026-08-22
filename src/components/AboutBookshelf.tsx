@@ -7,6 +7,8 @@ interface Book {
   mark: string
   bg: string
   fg: string
+  /** Direct cover image URL — takes priority over every catalog lookup below when set. */
+  cover?: string
   /** Google Books volume ID — checked first; Google's catalog has near-complete cover coverage for trade books. */
   gbid?: string
   /** Open Library edition key — a confirmed edition, tried if Google Books has no image. */
@@ -31,7 +33,7 @@ const INITIAL_BOOKS: Book[] = [
   { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', gbid: '-BUjEAAAQBAJ', olid: 'OL27186851M', isbn: '9781449372866' },
   { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff' },
   { title: 'Rich Dad Poor Dad',               author: 'Robert Kiyosaki',                mark: 'Plata Publishing', bg: '#0E3B36', fg: '#ffffff', olid: 'OL47304048M', isbn: '9781612680194' },
-  { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Bantam',         bg: '#241C4E', fg: '#F5C518', isbn: '9780735204553' },
+  { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Fingerprint! Publishing', bg: '#241C4E', fg: '#F5C518', isbn: '9788172345662' },
   { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4', isbn: '9780008196677' },
 ]
 
@@ -39,6 +41,7 @@ const amazonSearchUrl = (book: Book) =>
   `https://www.amazon.com/s?k=${encodeURIComponent(`${book.title} ${book.author}`)}`
 
 const coverSources = (book: Book) => [
+  book.cover,
   book.gbid && `https://books.google.com/books/content?id=${book.gbid}&printsec=frontcover&img=1&zoom=1&source=gbs_api`,
   book.olid && `https://covers.openlibrary.org/b/olid/${book.olid}-L.jpg?default=false`,
   book.isbn && `https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg?default=false`,
