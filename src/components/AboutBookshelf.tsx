@@ -33,7 +33,7 @@ const INITIAL_BOOKS: Book[] = [
   { title: 'UX Strategy',                     author: 'Jaime Levy',                     mark: "O'Reilly Media", bg: '#C0392B', fg: '#ffffff', gbid: '-BUjEAAAQBAJ', olid: 'OL27186851M', isbn: '9781449372866' },
   { title: "The Beginner's Guide to OKR",    author: 'Felipe Castro',                   mark: 'Self-Published', bg: '#2E86AB', fg: '#ffffff' },
   { title: 'Rich Dad Poor Dad',               author: 'Robert Kiyosaki',                mark: 'Plata Publishing', bg: '#0E3B36', fg: '#ffffff', olid: 'OL47304048M', isbn: '9781612680194' },
-  { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Fingerprint! Publishing', bg: '#241C4E', fg: '#F5C518', cover: ['https://m.media-amazon.com/images/I/71Dpk3cThOL._AC_UF1000,1000_QL80_.jpg', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6TpA4vfqzpTRN8E9lMpwBQBbbajOj8JeolZBtXbI5_g&s=300'], isbn: '9788172345662' },
+  { title: 'The Power of Your Subconscious Mind', author: 'Joseph Murphy',              mark: 'Fingerprint! Publishing', bg: '#241C4E', fg: '#F5C518', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6TpA4vfqzpTRN8E9lMpwBQBbbajOj8JeolZBtXbI5_g&s=300', isbn: '9788172345662' },
   { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNcBHWuh5vm2cP25w4DW7XhY7X71XJPzf-r-jfGYvD-RCMEzPefxK8jQWYwJ1neSgIcKa7a9Y&s=300', isbn: '9780008196677' },
 ]
 
