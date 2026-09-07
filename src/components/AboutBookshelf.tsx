@@ -36,8 +36,8 @@ const INITIAL_BOOKS: Book[] = [
   { title: 'The Unexpected Guest',            author: 'Agatha Christie',                mark: 'HarperCollins', bg: '#5C1A1A', fg: '#F2EDE4', cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNcBHWuh5vm2cP25w4DW7XhY7X71XJPzf-r-jfGYvD-RCMEzPefxK8jQWYwJ1neSgIcKa7a9Y&s=300', isbn: '9780008196677' },
 ]
 
-const amazonSearchUrl = (book: Book) =>
-  `https://www.amazon.com/s?k=${encodeURIComponent(`${book.title} ${book.author}`)}`
+const goodreadsSearchUrl = (book: Book) =>
+  `https://www.goodreads.com/search?q=${encodeURIComponent(`${book.title} ${book.author}`)}`
 
 const coverSources = (book: Book) => [
   ...(Array.isArray(book.cover) ? book.cover : [book.cover]),
@@ -84,7 +84,7 @@ export function AboutBookshelf() {
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => handleDrop(i)}
               onDragEnd={() => setDragging(null)}
-              onClick={() => window.open(amazonSearchUrl(book), '_blank', 'noopener,noreferrer')}
+              onClick={() => window.open(goodreadsSearchUrl(book), '_blank', 'noopener,noreferrer')}
               title={`${book.title}${book.author ? ' — ' + book.author : ''}`}
             >
               <div className="about-book-cover">
