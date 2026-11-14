@@ -275,7 +275,16 @@ export function DilutionShockPage() {
             poster="scenario-final-poster.jpg"
             aspect="2056 / 1456"
           />
-          <p className="ds-body ds-solution-credit">Qapita</p>
+          <p className="ds-body ds-solution-credit">
+            <a
+              href="https://www.youtube.com/watch?v=K7yAw3efsTs&t=109s"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Qapita — watch the scenarios walkthrough on YouTube from 1:49 (opens in a new tab)"
+            >
+              Qapita
+            </a>
+          </p>
         </div>
 
         {/* ── Impact / Metrics ── */}

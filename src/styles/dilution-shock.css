@@ -262,6 +262,16 @@
   text-decoration: underline;
 }
 
+.ds-solution-credit a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.ds-solution-credit a:hover,
+.ds-solution-credit a:focus-visible {
+  opacity: 0.8;
+}
+
 /* ── Inline links (research references) ── */
 .ds-link-row {
   display: flex;
