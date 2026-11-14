@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { CaseStudyFooter } from '../components/CaseStudyFooter'
 import { CaseStudySideNav } from '../components/CaseStudySideNav'
 import { PasswordGate } from '../components/PasswordGate'
@@ -6,7 +6,6 @@ import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY } from '../utils/protectedProjec
 
 const SECTIONS = [
   { id: 'cashless-section-1', label: 'Cashless Exercise' },
-  { id: 'cashless-section-2', label: 'Product Walkthrough' },
   { id: 'cashless-section-3', label: 'Product Screenshot' },
   { id: 'cashless-section-4', label: 'Context & Problem' },
   { id: 'cashless-section-5', label: 'Problem Space' },
@@ -26,24 +25,9 @@ const SECTIONS = [
 ]
 
 export function CashlessPage() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [videoPlaying, setVideoPlaying] = useState(false)
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  const handlePlayVideo = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play()
-        setVideoPlaying(true)
-      } else {
-        videoRef.current.pause()
-        setVideoPlaying(false)
-      }
-    }
-  }
 
   return (
     <PasswordGate password={CASHLESS_PASSWORD} storageKey={CASHLESS_UNLOCK_KEY} title="Cashless Equity Ownership is password protected">
@@ -53,38 +37,6 @@ export function CashlessPage() {
       {/* ── Cashless Exercise Section ── */}
       <section className="cs-slides">
         <img id="cashless-section-1" src="/images/cashless-slide-01.png" alt="Cashless Exercise Platform — project overview, role, platform, timeline, and scale" className="cs-slide-image" />
-      </section>
-
-      {/* ── Video Section ── */}
-      <section id="cashless-section-2" className="cs-design-video-section">
-        <div className="cs-design-video-inner">
-          <div className="cs-section-tag">Product Walkthrough</div>
-          <h2 className="cs-section-title">See it in action</h2>
-          <p className="cs-section-desc">
-            A walkthrough of the Cashless Exercise settlement flow — from request initiation to shares issued.
-          </p>
-          <div className="cs-video-wrap" onClick={handlePlayVideo}>
-            <video
-              ref={videoRef}
-              className="cs-video"
-              playsInline
-              onEnded={() => setVideoPlaying(false)}
-              poster="/images/card1-cover.png"
-            >
-              <source src="/videos/product-tour.mov" type="video/mp4" />
-            </video>
-            {!videoPlaying && (
-              <div className="cs-video-overlay">
-                <button className="cs-play-btn" aria-label="Play video">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
-                <span className="cs-video-hint">Watch the product demo</span>
-              </div>
-            )}
-          </div>
-        </div>
       </section>
 
       {/* ── Case Study Slides ── */}
