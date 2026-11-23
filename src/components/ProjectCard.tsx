@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ProjectTransition } from './ProjectTransition'
 
 interface Project {
   id: number
@@ -46,6 +47,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
   const [pwPromptOpen, setPwPromptOpen] = useState(false)
   const [pwValue, setPwValue] = useState('')
   const [pwError, setPwError] = useState(false)
+  const [openingPath, setOpeningPath] = useState<string | null>(null)
   const pwInputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
@@ -99,10 +101,17 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
       if (project.caseStudyPath.startsWith('http')) {
         window.open(project.caseStudyPath, '_blank', 'noopener,noreferrer')
       } else {
-        navigate(project.caseStudyPath)
+        // Open with a colour splash + loading shapes before landing on the case study.
+        setOpeningPath(project.caseStudyPath)
       }
     } else if (project.videoSrc) setVideoModalOpen(true)
   }
+
+  const handleTransitionNavigate = useCallback(() => {
+    if (openingPath) navigate(openingPath)
+  }, [openingPath, navigate])
+
+  const handleTransitionDone = useCallback(() => setOpeningPath(null), [])
 
   const handleActivate = () => {
     if (project.locked && !isUnlocked()) {
@@ -260,6 +269,13 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
           </div>
         </div>
       )}
+
+      <ProjectTransition
+        active={!!openingPath}
+        color={project.accentColor}
+        onNavigate={handleTransitionNavigate}
+        onDone={handleTransitionDone}
+      />
 
       {videoModalOpen && project.videoSrc && (
         <div className="video-modal-backdrop" onClick={() => setVideoModalOpen(false)}>

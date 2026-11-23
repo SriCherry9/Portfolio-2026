@@ -198,7 +198,7 @@ export function Hero() {
     const getW = () => section.getBoundingClientRect().width  || window.innerWidth
     const getH = () => section.getBoundingClientRect().height || window.innerHeight
 
-    const { Engine, Runner, Bodies, Body, Mouse, MouseConstraint, Composite, World } = Matter
+    const { Engine, Runner, Bodies, Body, Events, Composite, World } = Matter
 
     const engine = Engine.create({ gravity: { x: 0, y: 1.5 } })
     const world  = engine.world
@@ -231,22 +231,124 @@ export function Hero() {
     })
     Composite.add(world, bodies)
 
-    // Bind to document so the section element itself never intercepts scroll events
-    const mouse = Mouse.create(document.body)
-    mouse.element.removeEventListener('mousewheel',    (mouse as any).mousewheel)
-    mouse.element.removeEventListener('DOMMouseScroll',(mouse as any).mousewheel)
-    mouse.element.removeEventListener('wheel',         (mouse as any).mousewheel)
-    mouse.element.removeEventListener('touchstart',    (mouse as any).mousedown)
-    mouse.element.removeEventListener('touchmove',     (mouse as any).mousemove)
-    mouse.element.removeEventListener('touchend',      (mouse as any).mouseup)
-    mouse.element.addEventListener('touchstart', (mouse as any).mousedown, { passive: true })
-    mouse.element.addEventListener('touchmove',  (mouse as any).mousemove, { passive: true })
-    mouse.element.addEventListener('touchend',   (mouse as any).mouseup,   { passive: true })
-    const mc = MouseConstraint.create(engine, {
-      mouse,
-      constraint: { stiffness: 0.2, render: { visible: false } },
-    })
-    Composite.add(world, mc)
+    // Hover interaction: shapes drift away from the cursor as it nears them —
+    // no click needed. Pointer position is tracked relative to the section.
+    const pointer = { x: -9999, y: -9999 }
+    const setPointer = (clientX: number, clientY: number) => {
+      const r = section.getBoundingClientRect()
+      pointer.x = clientX - r.left
+      pointer.y = clientY - r.top
+    }
+    const onPointerMove = (e: PointerEvent) => setPointer(e.clientX, e.clientY)
+    const onPointerLeave = () => { pointer.x = -9999; pointer.y = -9999 }
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0]
+      if (t) setPointer(t.clientX, t.clientY)
+    }
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    section.addEventListener('pointerleave', onPointerLeave)
+
+    // Kept tight and close to the shapes' own radii (14–44px) so the cursor can pass
+    // right by, and even nearly touch, a shape without it reacting — it should only
+    // start moving once the cursor is genuinely close to (or on) it, not from several
+    // shape-widths away.
+    const HOVER_RADIUS = 70
+    // Matter.js forces are plain F = m·a — acceleration, not force, is what reads as
+    // "strong" or "weak" regardless of a shape's mass. Gravity here is 1.5 px/step².
+    // These are expressed as multiples of that so the push reliably overpowers gravity
+    // and actually scatters shapes, instead of the barely-perceptible nudge a tiny flat
+    // force constant produced before.
+    const PUSH_ACCEL      = 9    // steady outward shove from a lingering cursor
+    const SWIPE_ACCEL_MAX = 42   // extra kick added when the cursor sweeps through fast
+    const SWIPE_GAIN      = 0.028
+
+    const now0 = typeof performance !== 'undefined' ? performance.now() : Date.now()
+    let prevPointer = { x: -9999, y: -9999, t: now0 }
+    let hadPointer = false
+
+    const onBeforeUpdate = () => {
+      const now = typeof performance !== 'undefined' ? performance.now() : Date.now()
+      const dt = Math.max((now - prevPointer.t) / 1000, 1 / 120)
+      const pointerActive = pointer.x > -9000
+      // The first frame the pointer becomes active (page load, or re-entering after
+      // pointerleave reset it to the off-screen sentinel) would otherwise read as a
+      // teleport from (-9999, -9999) to the real position — a spurious "swipe" at
+      // effectively infinite speed. Skip the swipe term that one frame only.
+      const justEntered = pointerActive && !hadPointer
+      hadPointer = pointerActive
+
+      const rawSpeedX = pointer.x - prevPointer.x
+      const rawSpeedY = pointer.y - prevPointer.y
+      const rawSpeed  = justEntered ? 0 : Math.hypot(rawSpeedX, rawSpeedY) / dt
+      const pvx = justEntered ? 0 : rawSpeedX / dt
+      const pvy = justEntered ? 0 : rawSpeedY / dt
+      const pointerSpeed = Math.min(rawSpeed, 6000)
+      prevPointer = { x: pointer.x, y: pointer.y, t: now }
+
+      for (const b of bodies) {
+        const dx = b.position.x - pointer.x
+        const dy = b.position.y - pointer.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        const node = nodeRefs.current[b.label]
+        if (dist < HOVER_RADIUS && pointerActive) {
+          node?.classList.add('dh-hover-near')
+          const d = Math.max(dist, 1)
+          // A steeper curve than linear keeps the push negligible until the cursor is
+          // right up against the shape, instead of ramping up gradually across the
+          // whole radius.
+          const falloff = (1 - d / HOVER_RADIUS) ** 2.2
+          const nx = dx / d
+          const ny = dy / d
+
+          let ax = nx * PUSH_ACCEL * falloff
+          let ay = ny * PUSH_ACCEL * falloff
+
+          // A fast sweep of the cursor "throws" the shape onward in that direction,
+          // on top of the steady radial push — this is what makes it feel tossable
+          // rather than just mildly repelled. Normalize by the true (uncapped)
+          // speed, not the capped one, or the "unit" vector stops being a unit vector.
+          if (rawSpeed > 40) {
+            const swipeAccel = Math.min(pointerSpeed * SWIPE_GAIN, SWIPE_ACCEL_MAX) * falloff
+            ax += (pvx / rawSpeed) * swipeAccel
+            ay += (pvy / rawSpeed) * swipeAccel
+          }
+
+          Body.applyForce(b, b.position, { x: ax * b.mass, y: ay * b.mass })
+        } else {
+          node?.classList.remove('dh-hover-near')
+        }
+      }
+    }
+    Events.on(engine, 'beforeUpdate', onBeforeUpdate)
+
+    // Safety net: a fast swipe at point-blank range, or Matter's own solver untangling
+    // a cluster of resting bodies when one of them gets shoved, can occasionally produce
+    // one oversized step — easily enough to tunnel through the (thin, discretely-collided)
+    // walls in a single frame. Cap speed every step, and as a hard backstop, snap back
+    // anything that still ends up well outside the stage so a shape can never wander off
+    // and simply vanish.
+    const MAX_SPEED = 42
+    const onAfterUpdate = () => {
+      for (const b of bodies) {
+        const speed = Math.hypot(b.velocity.x, b.velocity.y)
+        if (speed > MAX_SPEED) {
+          const scale = MAX_SPEED / speed
+          Body.setVelocity(b, { x: b.velocity.x * scale, y: b.velocity.y * scale })
+        }
+
+        const margin = 140
+        const { x, y } = b.position
+        if (x < -margin || x > W + margin || y < -margin || y > H + margin) {
+          Body.setPosition(b, {
+            x: Math.max(0, Math.min(W, x)),
+            y: Math.max(0, Math.min(H, y)),
+          })
+          Body.setVelocity(b, { x: 0, y: 0 })
+        }
+      }
+    }
+    Events.on(engine, 'afterUpdate', onAfterUpdate)
 
     const runner = Runner.create()
     Runner.run(runner, engine)
@@ -278,9 +380,14 @@ export function Hero() {
     return () => {
       cancelAnimationFrame(rafRef.current!)
       Runner.stop(runner)
+      Events.off(engine, 'beforeUpdate', onBeforeUpdate)
+      Events.off(engine, 'afterUpdate', onAfterUpdate)
       World.clear(world, false)
       Engine.clear(engine)
       window.removeEventListener('resize', onResize)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('touchmove', onTouchMove)
+      section.removeEventListener('pointerleave', onPointerLeave)
     }
   }, [])
 
