@@ -1475,8 +1475,9 @@ html[data-theme="dark"] .about-photo-trait {
 }
 
 /* ── Company sticker ── a small real-logo sticker right before the company name.
-   The only interaction is a peel: its corner lifts on hover (sized to ~25% of
-   its face), as if someone were about to pull it off, then settles back. ── */
+   The only interaction is a peel: its corner genuinely lifts off the surface in
+   3D on hover (sized to ~25% of its face), as if someone had caught a fingernail
+   under it, then settles flat again. ── */
 .company-sticker {
   position: relative;
   display: inline-flex;
@@ -1486,9 +1487,15 @@ html[data-theme="dark"] .about-photo-trait {
   width: 22px;
   height: 22px;
   border-radius: 5px;
-  overflow: hidden;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease;
+  perspective: 60px;
+}
+
+.company-sticker:hover {
+  /* The gap the lifted corner would cast a shadow into. */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,0,0,0.06), -1px 2px 4px rgba(0,0,0,0.2);
 }
 
 .company-sticker-img {
@@ -1497,8 +1504,12 @@ html[data-theme="dark"] .about-photo-trait {
   object-fit: contain;
   padding: 2px;
   display: block;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
+/* The underside of the paper, revealed as the corner peels back — a touch of
+   warm shadow near the fold, fading to the flat matte white of the paper's back. */
 .company-sticker-peel {
   position: absolute;
   top: 0;
@@ -1507,16 +1518,19 @@ html[data-theme="dark"] .about-photo-trait {
   width: 70%;
   height: 70%;
   clip-path: polygon(100% 0, 0 0, 100% 100%);
-  background: linear-gradient(225deg, #fdfdfd 55%, rgba(0,0,0,0.12) 100%);
-  box-shadow: -2px 2px 3px rgba(0,0,0,0.18);
+  background: linear-gradient(225deg, rgba(0,0,0,0.12) 0%, #fafafa 22%, #fcfcfc 100%);
+  transform-style: preserve-3d;
   transform-origin: 100% 0%;
-  transform: rotate(0deg) translate(0, 0);
-  transition: transform 0.28s cubic-bezier(0.34, 1.2, 0.4, 1);
+  transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
 }
 
 .company-sticker:hover .company-sticker-peel {
-  transform: rotate(-22deg) translate(-2px, 2px);
+  /* Tilts the flap up and toward the viewer around the still-stuck corner,
+     instead of just sliding sideways in-plane — the thing that actually reads
+     as paper lifting off a surface rather than a shape rotating in place. */
+  transform: rotateX(45deg) rotateY(35deg) translateZ(2px);
 }
 
 @media (max-width: 600px) {
@@ -3040,21 +3054,46 @@ html[data-theme="dark"] .play-item-visual {
   user-select: none;
 }
 
-/* Pushpin tacking each tile to the board */
-.play-pin {
+/* ── Washi tape ── tacking each tile to the board. The only interaction is a
+   peel: hover it and the free end lifts genuinely off the surface in 3D (the
+   other end stays stuck), then settles flat again on mouse-out. ── */
+.play-tape {
   position: absolute;
-  top: -9px;
+  top: -13px;
   left: 50%;
-  transform: translateX(-50%);
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  box-shadow:
-    inset -2px -2px 3px rgba(0, 0, 0, 0.25),
-    inset 2px 2px 3px rgba(255, 255, 255, 0.5),
-    0 3px 6px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%) rotate(var(--tape-rot, -3deg));
+  width: 62px;
+  height: 24px;
   z-index: 3;
-  pointer-events: none;
+  perspective: 150px;
+}
+
+.play-tape-strip {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.4) 0 3px, rgba(255,255,255,0.1) 3px 7px),
+    var(--tape-color, #FFCA60);
+  opacity: 0.84;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* Small sawtooth notches on the two short ends only, mimicking a torn strip —
+     the long top/bottom edges stay straight. */
+  clip-path: polygon(
+    0% 0%, 5% 13%, 0% 26%, 5% 39%, 0% 52%, 5% 65%, 0% 78%, 5% 91%, 0% 100%,
+    100% 100%, 95% 88%, 100% 75%, 95% 62%, 100% 49%, 95% 36%, 100% 23%, 95% 10%, 100% 0%
+  );
+  transform-style: preserve-3d;
+  transform-origin: 6% 50%;
+  transform: rotateY(0deg) translateZ(0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.play-tape:hover .play-tape-strip {
+  /* Pivots the free (right) end up and toward the viewer around the still-stuck
+     left end — a real lift, not just a slide — and the shadow deepens as a gap
+     opens beneath it. */
+  transform: rotateY(-48deg) translateZ(6px) translateY(-2px);
+  box-shadow: 6px 10px 16px rgba(0, 0, 0, 0.3);
 }
 
 .play-item-title {
