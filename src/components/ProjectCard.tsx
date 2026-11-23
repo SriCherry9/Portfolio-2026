@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ProjectTransition } from './ProjectTransition'
+import { CompanySticker } from './CompanySticker'
 
 interface Project {
   id: number
@@ -46,6 +48,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
   const [pwPromptOpen, setPwPromptOpen] = useState(false)
   const [pwValue, setPwValue] = useState('')
   const [pwError, setPwError] = useState(false)
+  const [openingPath, setOpeningPath] = useState<string | null>(null)
   const pwInputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
@@ -99,10 +102,17 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
       if (project.caseStudyPath.startsWith('http')) {
         window.open(project.caseStudyPath, '_blank', 'noopener,noreferrer')
       } else {
-        navigate(project.caseStudyPath)
+        // Open with a colour splash + loading shapes before landing on the case study.
+        setOpeningPath(project.caseStudyPath)
       }
     } else if (project.videoSrc) setVideoModalOpen(true)
   }
+
+  const handleTransitionNavigate = useCallback(() => {
+    if (openingPath) navigate(openingPath)
+  }, [openingPath, navigate])
+
+  const handleTransitionDone = useCallback(() => setOpeningPath(null), [])
 
   const handleActivate = () => {
     if (project.locked && !isUnlocked()) {
@@ -214,6 +224,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
                 <span>View Case Study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             )}
+            <CompanySticker company={project.company} color={project.accentColor} />
           </div>
 
           <div className="tl-footer">
@@ -260,6 +271,13 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
           </div>
         </div>
       )}
+
+      <ProjectTransition
+        active={!!openingPath}
+        color={project.accentColor}
+        onNavigate={handleTransitionNavigate}
+        onDone={handleTransitionDone}
+      />
 
       {videoModalOpen && project.videoSrc && (
         <div className="video-modal-backdrop" onClick={() => setVideoModalOpen(false)}>

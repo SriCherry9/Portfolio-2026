@@ -361,16 +361,25 @@
   position: absolute;
   top: 0;
   left: 0;
-  cursor: grab;
   user-select: none;
   touch-action: auto;
   filter: drop-shadow(0 8px 20px rgba(0,0,0,0.13));
   z-index: 3;
+  transition: filter 0.2s ease;
   /* transform set by Matter.js each frame */
 }
 
-.dh-shape-wrap:active {
-  cursor: grabbing;
+/* Hovered shapes (pointer within the repel radius) nudge away and settle —
+   pause their idle spin/wiggle so the drift reads clearly. */
+.dh-shape-wrap.dh-hover-near {
+  filter: drop-shadow(0 14px 26px rgba(0,0,0,0.22));
+}
+
+.dh-shape-wrap.dh-hover-near .dh-spin-svg,
+.dh-shape-wrap.dh-hover-near .dh-rotate-svg,
+.dh-shape-wrap.dh-hover-near .dh-rotate-slow-svg,
+.dh-shape-wrap.dh-hover-near .dh-noodle-svg {
+  animation-play-state: paused;
 }
 
 /* Per-shape SVG animations — on the SVG itself so drag/hover transforms
@@ -745,9 +754,21 @@
   font-size: clamp(15px, 1.3vw, 17px);
 }
 
-.about-bio-body strong {
+.about-bio-body .wr-strong {
   font-weight: 600;
   color: var(--text-primary);
+}
+
+/* ── Scrolltelling word reveal ──
+   Each word is its own span whose opacity is driven directly from a scroll
+   handler (see ScrollRevealParagraph), brightening in reading order as the
+   paragraph crosses the "reading line". The short transition smooths the
+   per-frame opacity jumps without adding perceptible lag. */
+.wr-word {
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.06s linear, transform 0.06s linear;
+  will-change: opacity, transform;
 }
 
 /* ── Beyond the work ── */
@@ -989,6 +1010,29 @@
 /* ── Dark mode ── */
 html[data-theme="dark"] .about-divider {
   background: rgba(255,255,255,0.1);
+}
+
+/* The photo collage is a deliberately bright editorial panel in light mode —
+   in dark mode it becomes a dark elevated surface instead of staying a
+   jarring pure-white block between two dark sections. */
+html[data-theme="dark"] .about-collage-section {
+  background: #161616;
+  --text-primary: #F0EDE8;
+  --text-secondary: #A0A0A0;
+  --text-muted: #686868;
+}
+
+html[data-theme="dark"] .about-photo-card {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+}
+
+html[data-theme="dark"] .about-photo-card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.65);
+}
+
+html[data-theme="dark"] .about-photo-trait {
+  color: #F0EDE8;
+  background: linear-gradient(to top, rgba(10,10,10,0.92), rgba(10,10,10,0));
 }
 
 /* ── Responsive ── */
@@ -1428,6 +1472,61 @@ html[data-theme="dark"] .about-divider {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.06em;
+}
+
+/* ── Company sticker ── a draggable monogram badge on the project cover ── */
+.company-sticker {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 5;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sticker-color, #333);
+  border: 2.5px solid rgba(255,255,255,0.92);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: transform 0.08s ease-out, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.company-sticker:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.38), 0 2px 5px rgba(0,0,0,0.25);
+}
+
+.company-sticker--dragging {
+  cursor: grabbing;
+  transition: box-shadow 0.2s ease;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.42), 0 3px 8px rgba(0,0,0,0.3);
+}
+
+.company-sticker-ring {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255,255,255,0.5);
+  pointer-events: none;
+}
+
+.company-sticker-initials {
+  font-family: 'AvantGarde', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .company-sticker { width: 38px; height: 38px; top: 10px; left: 10px; }
+  .company-sticker-initials { font-size: 12px; }
 }
 
 /* Footer */

@@ -198,7 +198,7 @@ export function Hero() {
     const getW = () => section.getBoundingClientRect().width  || window.innerWidth
     const getH = () => section.getBoundingClientRect().height || window.innerHeight
 
-    const { Engine, Runner, Bodies, Body, Mouse, MouseConstraint, Composite, World } = Matter
+    const { Engine, Runner, Bodies, Body, Events, Composite, World } = Matter
 
     const engine = Engine.create({ gravity: { x: 0, y: 1.5 } })
     const world  = engine.world
@@ -231,22 +231,48 @@ export function Hero() {
     })
     Composite.add(world, bodies)
 
-    // Bind to document so the section element itself never intercepts scroll events
-    const mouse = Mouse.create(document.body)
-    mouse.element.removeEventListener('mousewheel',    (mouse as any).mousewheel)
-    mouse.element.removeEventListener('DOMMouseScroll',(mouse as any).mousewheel)
-    mouse.element.removeEventListener('wheel',         (mouse as any).mousewheel)
-    mouse.element.removeEventListener('touchstart',    (mouse as any).mousedown)
-    mouse.element.removeEventListener('touchmove',     (mouse as any).mousemove)
-    mouse.element.removeEventListener('touchend',      (mouse as any).mouseup)
-    mouse.element.addEventListener('touchstart', (mouse as any).mousedown, { passive: true })
-    mouse.element.addEventListener('touchmove',  (mouse as any).mousemove, { passive: true })
-    mouse.element.addEventListener('touchend',   (mouse as any).mouseup,   { passive: true })
-    const mc = MouseConstraint.create(engine, {
-      mouse,
-      constraint: { stiffness: 0.2, render: { visible: false } },
-    })
-    Composite.add(world, mc)
+    // Hover interaction: shapes drift away from the cursor as it nears them —
+    // no click needed. Pointer position is tracked relative to the section.
+    const pointer = { x: -9999, y: -9999 }
+    const setPointer = (clientX: number, clientY: number) => {
+      const r = section.getBoundingClientRect()
+      pointer.x = clientX - r.left
+      pointer.y = clientY - r.top
+    }
+    const onPointerMove = (e: PointerEvent) => setPointer(e.clientX, e.clientY)
+    const onPointerLeave = () => { pointer.x = -9999; pointer.y = -9999 }
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0]
+      if (t) setPointer(t.clientX, t.clientY)
+    }
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: true })
+    section.addEventListener('pointerleave', onPointerLeave)
+
+    const HOVER_RADIUS = 160
+    const HOVER_FORCE  = 0.0042
+
+    const onBeforeUpdate = () => {
+      for (const b of bodies) {
+        const dx = b.position.x - pointer.x
+        const dy = b.position.y - pointer.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        const node = nodeRefs.current[b.label]
+        if (dist < HOVER_RADIUS) {
+          node?.classList.add('dh-hover-near')
+          const d = Math.max(dist, 1)
+          const falloff = (1 - d / HOVER_RADIUS) ** 2
+          const forceMag = falloff * HOVER_FORCE
+          Body.applyForce(b, b.position, {
+            x: (dx / d) * forceMag,
+            y: (dy / d) * forceMag,
+          })
+        } else {
+          node?.classList.remove('dh-hover-near')
+        }
+      }
+    }
+    Events.on(engine, 'beforeUpdate', onBeforeUpdate)
 
     const runner = Runner.create()
     Runner.run(runner, engine)
@@ -278,9 +304,13 @@ export function Hero() {
     return () => {
       cancelAnimationFrame(rafRef.current!)
       Runner.stop(runner)
+      Events.off(engine, 'beforeUpdate', onBeforeUpdate)
       World.clear(world, false)
       Engine.clear(engine)
       window.removeEventListener('resize', onResize)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('touchmove', onTouchMove)
+      section.removeEventListener('pointerleave', onPointerLeave)
     }
   }, [])
 
