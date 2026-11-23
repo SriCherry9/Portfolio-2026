@@ -249,7 +249,11 @@ export function Hero() {
     window.addEventListener('touchmove', onTouchMove, { passive: true })
     section.addEventListener('pointerleave', onPointerLeave)
 
-    const HOVER_RADIUS = 190
+    // Kept tight and close to the shapes' own radii (14–44px) so the cursor can pass
+    // right by, and even nearly touch, a shape without it reacting — it should only
+    // start moving once the cursor is genuinely close to (or on) it, not from several
+    // shape-widths away.
+    const HOVER_RADIUS = 70
     // Matter.js forces are plain F = m·a — acceleration, not force, is what reads as
     // "strong" or "weak" regardless of a shape's mass. Gravity here is 1.5 px/step².
     // These are expressed as multiples of that so the push reliably overpowers gravity
@@ -290,7 +294,10 @@ export function Hero() {
         if (dist < HOVER_RADIUS && pointerActive) {
           node?.classList.add('dh-hover-near')
           const d = Math.max(dist, 1)
-          const falloff = (1 - d / HOVER_RADIUS) ** 1.3
+          // A steeper curve than linear keeps the push negligible until the cursor is
+          // right up against the shape, instead of ramping up gradually across the
+          // whole radius.
+          const falloff = (1 - d / HOVER_RADIUS) ** 2.2
           const nx = dx / d
           const ny = dy / d
 
@@ -399,10 +406,8 @@ export function Hero() {
       ))}
 
       <div className="dh-center" style={{ position: 'relative', zIndex: 4, pointerEvents: 'none' }}>
-        <h1 className="dh-hero-headline" style={{ pointerEvents: 'all' }}>
-          {renderRainbowText('Expanding the horizon')}
-          <br />
-          {renderRainbowText('of what design can influence.', 22)}
+        <h1 className="dh-hero-headline">
+          Expanding the horizon<br />of what design can influence.
         </h1>
         <div className="dh-hero-divider" />
         <div className="dh-hero-lower">
@@ -641,17 +646,6 @@ function renderShape(type: string, w: number, h: number) {
 
     default: return null
   }
-}
-
-/** Splits text into per-letter spans, staggered via a CSS custom property, so
- *  hovering the headline (see .dh-hero-headline:hover .dh-letter in index.css)
- *  cycles each letter through a different colour in a wave across the line. */
-function renderRainbowText(text: string, indexOffset = 0) {
-  return text.split('').map((char, i) => (
-    <span key={indexOffset + i} className="dh-letter" style={{ '--i': indexOffset + i } as React.CSSProperties}>
-      {char === ' ' ? ' ' : char}
-    </span>
-  ))
 }
 
 function starPath(cx: number, cy: number, outerR: number, innerR: number, points: number): string {

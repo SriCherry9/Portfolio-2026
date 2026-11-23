@@ -14,6 +14,7 @@ const PROJECTS = [
     coverImage: '/images/ninjahire-cover.gif',
     caseStudyPath: '/case-study/ninjahire',
     company: 'NINJAHIRE',
+    companyLogo: '/images/logos/ninjahire-logo.png',
     role: 'Product Designer',
     title: 'Enhanced Search for Agentic Experience',
     description:
@@ -33,6 +34,7 @@ const PROJECTS = [
     caseStudyPath: '/case-study/dilution-shock',
     locked: { password: DILUTION_SHOCK_PASSWORD, storageKey: DILUTION_SHOCK_UNLOCK_KEY },
     company: 'QAPITA',
+    companyLogo: '/images/logos/qapita-logo.png',
     role: 'Product Designer',
     title: 'Designing for Dilution Shock: The Fundraising Scenario Tool',
     description:
@@ -83,6 +85,7 @@ const PROJECTS = [
     caseStudyPath: '/case-study/cashless',
     locked: { password: CASHLESS_PASSWORD, storageKey: CASHLESS_UNLOCK_KEY },
     company: 'QAPITA',
+    companyLogo: '/images/logos/qapita-logo.png',
     role: 'Product Designer',
     title: 'Cashless Equity Ownership',
     description:
@@ -99,6 +102,7 @@ const PROJECTS = [
     coverImage: '/images/museo-cover.png',
     caseStudyPath: '/case-study/museo',
     company: 'GAIAN SOLUTIONS',
+    companyLogo: '/images/ces-logo.png',
     role: 'Product Designer',
     title: 'Museo — Broadcast Auction Platform',
     description:

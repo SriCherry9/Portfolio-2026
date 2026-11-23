@@ -199,29 +199,6 @@
   text-align: center;
   white-space: nowrap;
   margin: 0 0 40px;
-  cursor: default;
-}
-
-/* Each letter is its own span so hovering the headline can cycle them through
-   different colours in a wave, rather than recolouring the whole line at once. */
-.dh-letter {
-  display: inline-block;
-  transition: color 0.15s ease;
-}
-
-.dh-hero-headline:hover .dh-letter {
-  animation: dh-letter-rainbow 1.6s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 0.045s);
-}
-
-@keyframes dh-letter-rainbow {
-  0%, 100% { color: var(--text-primary); }
-  14%      { color: #E8694A; }
-  28%      { color: #2B62E8; }
-  42%      { color: #4A9B7F; }
-  57%      { color: #C49DD8; }
-  71%      { color: #F5D47E; }
-  85%      { color: #910707; }
 }
 
 /* ── Divider ── */
@@ -1248,12 +1225,6 @@ html[data-theme="dark"] .about-photo-trait {
   color: var(--text-primary);
 }
 
-.tl-title-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
 .tl-title {
   font-family: 'Golte', Georgia, serif;
   font-size: clamp(22px, 2.8vw, 36px);
@@ -1503,59 +1474,53 @@ html[data-theme="dark"] .about-photo-trait {
   letter-spacing: 0.06em;
 }
 
-/* ── Company sticker ── a draggable monogram badge next to the project title ── */
+/* ── Company sticker ── a small real-logo sticker right before the company name.
+   The only interaction is a peel: its corner lifts on hover (sized to ~25% of
+   its face), as if someone were about to pull it off, then settles back. ── */
 .company-sticker {
   position: relative;
-  z-index: 5;
-  flex-shrink: 0;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--sticker-color, #333);
-  border: 2.5px solid rgba(255,255,255,0.92);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  transition: transform 0.08s ease-out, box-shadow 0.2s ease;
-  will-change: transform;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.06);
 }
 
-.company-sticker:hover {
-  box-shadow: 0 8px 20px rgba(0,0,0,0.38), 0 2px 5px rgba(0,0,0,0.25);
+.company-sticker-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 2px;
+  display: block;
 }
 
-.company-sticker--dragging {
-  cursor: grabbing;
-  transition: box-shadow 0.2s ease;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.42), 0 3px 8px rgba(0,0,0,0.3);
-}
-
-.company-sticker-ring {
+.company-sticker-peel {
   position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  border: 1px dashed rgba(255,255,255,0.5);
+  top: 0;
+  right: 0;
+  /* A right triangle with legs at 70% of the side covers ~25% of the sticker's area. */
+  width: 70%;
+  height: 70%;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  background: linear-gradient(225deg, #fdfdfd 55%, rgba(0,0,0,0.12) 100%);
+  box-shadow: -2px 2px 3px rgba(0,0,0,0.18);
+  transform-origin: 100% 0%;
+  transform: rotate(0deg) translate(0, 0);
+  transition: transform 0.28s cubic-bezier(0.34, 1.2, 0.4, 1);
   pointer-events: none;
 }
 
-.company-sticker-initials {
-  font-family: 'AvantGarde', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-  pointer-events: none;
+.company-sticker:hover .company-sticker-peel {
+  transform: rotate(-22deg) translate(-2px, 2px);
 }
 
 @media (max-width: 600px) {
-  .tl-title-row { gap: 10px; }
-  .company-sticker { width: 38px; height: 38px; }
-  .company-sticker-initials { font-size: 12px; }
+  .company-sticker { width: 18px; height: 18px; border-radius: 4px; }
 }
 
 /* Footer */

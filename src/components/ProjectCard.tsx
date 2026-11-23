@@ -27,6 +27,9 @@ interface Project {
   description: string
   tags: string[]
   cesLogo?: string
+  /** Real company logo shown as a sticker beside the company name. Omit for
+   *  independent/self-directed projects, which get no sticker at all. */
+  companyLogo?: string
   url: string
   readTime?: string
   locked?: { password: string; storageKey: string }
@@ -169,6 +172,9 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
         >
           <div className="tl-card-header">
             <div className="tl-meta">
+              {project.companyLogo && (
+                <CompanySticker logoSrc={project.companyLogo} company={project.company} />
+              )}
               {project.url && project.url !== 'NDA' ? (
                 <a
                   href={`https://${project.url}`}
@@ -191,10 +197,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
             </span>
           </div>
 
-          <div className="tl-title-row">
-            <CompanySticker company={project.company} color={project.accentColor} />
-            <h2 className="tl-title">{project.title}</h2>
-          </div>
+          <h2 className="tl-title">{project.title}</h2>
           <p className="tl-desc">{project.description}</p>
 
           <div
