@@ -191,7 +191,10 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
             </span>
           </div>
 
-          <h2 className="tl-title">{project.title}</h2>
+          <div className="tl-title-row">
+            <CompanySticker company={project.company} color={project.accentColor} />
+            <h2 className="tl-title">{project.title}</h2>
+          </div>
           <p className="tl-desc">{project.description}</p>
 
           <div
@@ -224,7 +227,6 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
                 <span>View Case Study <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
               </div>
             )}
-            <CompanySticker company={project.company} color={project.accentColor} />
           </div>
 
           <div className="tl-footer">

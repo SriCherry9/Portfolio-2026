@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { AboutCollage } from './AboutCollage'
 import { AboutBookshelf } from './AboutBookshelf'
 import { ScrollRevealParagraph, type RevealSegment } from './ScrollRevealParagraph'
-import { unlockFontTickAudio } from '../utils/scrollTick'
 
 const BIO_SEGMENTS: RevealSegment[] = [
   { text: "I'm " },
@@ -65,20 +64,7 @@ export function AboutSection() {
       { threshold: 0.12 }
     )
     els.forEach(el => obs.observe(el))
-
-    // Web Audio needs a real user gesture to start — wheel/touch/click all count,
-    // but a bare scroll event (used to drive the word-reveal ticks) does not.
-    const unlock = () => unlockFontTickAudio()
-    window.addEventListener('wheel', unlock, { once: true, passive: true })
-    window.addEventListener('touchstart', unlock, { once: true, passive: true })
-    window.addEventListener('click', unlock, { once: true })
-
-    return () => {
-      obs.disconnect()
-      window.removeEventListener('wheel', unlock)
-      window.removeEventListener('touchstart', unlock)
-      window.removeEventListener('click', unlock)
-    }
+    return () => obs.disconnect()
   }, [])
 
   return (

@@ -199,6 +199,29 @@
   text-align: center;
   white-space: nowrap;
   margin: 0 0 40px;
+  cursor: default;
+}
+
+/* Each letter is its own span so hovering the headline can cycle them through
+   different colours in a wave, rather than recolouring the whole line at once. */
+.dh-letter {
+  display: inline-block;
+  transition: color 0.15s ease;
+}
+
+.dh-hero-headline:hover .dh-letter {
+  animation: dh-letter-rainbow 1.6s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.045s);
+}
+
+@keyframes dh-letter-rainbow {
+  0%, 100% { color: var(--text-primary); }
+  14%      { color: #E8694A; }
+  28%      { color: #2B62E8; }
+  42%      { color: #4A9B7F; }
+  57%      { color: #C49DD8; }
+  71%      { color: #F5D47E; }
+  85%      { color: #910707; }
 }
 
 /* ── Divider ── */
@@ -1225,6 +1248,12 @@ html[data-theme="dark"] .about-photo-trait {
   color: var(--text-primary);
 }
 
+.tl-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .tl-title {
   font-family: 'Golte', Georgia, serif;
   font-size: clamp(22px, 2.8vw, 36px);
@@ -1474,12 +1503,11 @@ html[data-theme="dark"] .about-photo-trait {
   letter-spacing: 0.06em;
 }
 
-/* ── Company sticker ── a draggable monogram badge on the project cover ── */
+/* ── Company sticker ── a draggable monogram badge next to the project title ── */
 .company-sticker {
-  position: absolute;
-  top: 14px;
-  left: 14px;
+  position: relative;
   z-index: 5;
+  flex-shrink: 0;
   width: 46px;
   height: 46px;
   border-radius: 50%;
@@ -1525,7 +1553,8 @@ html[data-theme="dark"] .about-photo-trait {
 }
 
 @media (max-width: 600px) {
-  .company-sticker { width: 38px; height: 38px; top: 10px; left: 10px; }
+  .tl-title-row { gap: 10px; }
+  .company-sticker { width: 38px; height: 38px; }
   .company-sticker-initials { font-size: 12px; }
 }
 

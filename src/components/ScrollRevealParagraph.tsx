@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { playFontTick } from '../utils/scrollTick'
 
 export interface RevealSegment {
   text: string
@@ -38,28 +37,23 @@ function buildWords(segments: RevealSegment[]): Word[] {
 const REVEAL_WINDOW = 3
 /** How far below the viewport top the "reading line" sits — where words finish revealing. */
 const READING_LINE_FRAC = 0.58
-const MAX_TICKS_PER_FRAME = 4
 
 interface ScrollRevealParagraphProps {
   segments?: RevealSegment[]
   text?: string
   className?: string
-  soundEnabled?: boolean
 }
 
 /**
  * A paragraph whose words fade in opacity as the page scrolls, brightening in
  * reading order (left-to-right, top-to-bottom) as the text crosses a "reading
- * line" partway down the viewport — and ticking a soft synthesized sound per
- * word as it reveals, mimicking the feel of hearing letters type themselves in.
+ * line" partway down the viewport.
  */
-export function ScrollRevealParagraph({ segments, text, className, soundEnabled = true }: ScrollRevealParagraphProps) {
+export function ScrollRevealParagraph({ segments, text, className }: ScrollRevealParagraphProps) {
   const words = buildWords(segments ?? (text ? [{ text }] : []))
   const pRef = useRef<HTMLParagraphElement>(null)
   const wordRefs = useRef<Array<HTMLSpanElement | null>>([])
-  const lastFrontRef = useRef(0)
   const tickingRef = useRef(false)
-  const firstRunRef = useRef(true)
 
   useEffect(() => {
     const update = () => {
@@ -74,7 +68,6 @@ export function ScrollRevealParagraph({ segments, text, className, soundEnabled 
       const revealDistance = Math.max(rect.height, window.innerHeight * 0.6)
       const progress = Math.max(0, Math.min(1, (readingLine - rect.top) / revealDistance))
       const revealedCount = progress * words.length
-      const frontIdx = Math.floor(revealedCount)
 
       for (let i = 0; i < wordRefs.current.length; i++) {
         const span = wordRefs.current[i]
@@ -83,15 +76,6 @@ export function ScrollRevealParagraph({ segments, text, className, soundEnabled 
         span.style.opacity = opacity.toFixed(3)
         span.style.transform = `translateY(${(1 - opacity) * 3}px)`
       }
-
-      if (!firstRunRef.current && soundEnabled && frontIdx > lastFrontRef.current) {
-        const steps = Math.min(frontIdx - lastFrontRef.current, MAX_TICKS_PER_FRAME)
-        for (let k = 0; k < steps; k++) {
-          playFontTick(((lastFrontRef.current + k) % 5) / 5)
-        }
-      }
-      lastFrontRef.current = frontIdx
-      firstRunRef.current = false
     }
 
     const onScroll = () => {
@@ -112,7 +96,7 @@ export function ScrollRevealParagraph({ segments, text, className, soundEnabled 
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
-  }, [words.length, soundEnabled])
+  }, [words.length])
 
   return (
     <p className={className} ref={pRef}>

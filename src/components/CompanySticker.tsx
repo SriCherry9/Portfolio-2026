@@ -21,12 +21,12 @@ function randomTilt() {
   return Math.round(Math.random() * 14 - 7)
 }
 
-const EDGE_MARGIN = 4
+const EDGE_PAD = 6
 
 /**
- * A circular "sticker" bearing the company's initials, sitting on the project
- * cover like a physical sticker — drag it anywhere within the card and it
- * stays put, with a little spring-back wobble on release.
+ * A circular "sticker" bearing the company's initials, sitting next to the
+ * project title like a physical sticker — drag it anywhere within the card
+ * and it stays put, with a little tilt while it moves.
  */
 export function CompanySticker({ company, color }: CompanyStickerProps) {
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -45,19 +45,23 @@ export function CompanySticker({ company, color }: CompanyStickerProps) {
     setDragging(true)
     startRef.current = { px: e.clientX, py: e.clientY, x: pos.x, y: pos.y }
 
-    // Bound the drag to the cover's own rendered size so the sticker never
-    // slips past the (overflow: hidden) cover edge, on any card width.
+    // Let it roam over the whole card (title, cover, description — none of which
+    // clip their contents), not just the narrow row it starts in next to the title.
     const el = wrapRef.current
-    const parent = el?.parentElement
-    if (el && parent) {
-      const anchorLeft = el.offsetLeft
-      const anchorTop  = el.offsetTop
+    const card = el?.closest('.tl-card') as HTMLElement | null
+    if (el && card) {
+      const elRect  = el.getBoundingClientRect()
+      const cardRect = card.getBoundingClientRect()
       const size = el.offsetWidth
+      // elRect already reflects the current translate(pos.x, pos.y), so subtracting
+      // it back out gives the sticker's untransformed position to bound pos against.
+      const naturalLeft = elRect.left - pos.x
+      const naturalTop  = elRect.top - pos.y
       boundsRef.current = {
-        minX: -(anchorLeft - EDGE_MARGIN),
-        maxX: parent.clientWidth - anchorLeft - size - EDGE_MARGIN,
-        minY: -(anchorTop - EDGE_MARGIN),
-        maxY: parent.clientHeight - anchorTop - size - EDGE_MARGIN,
+        minX: cardRect.left + EDGE_PAD - naturalLeft,
+        maxX: cardRect.right - EDGE_PAD - size - naturalLeft,
+        minY: cardRect.top + EDGE_PAD - naturalTop,
+        maxY: cardRect.bottom - EDGE_PAD - size - naturalTop,
       }
     }
     wrapRef.current?.setPointerCapture(e.pointerId)

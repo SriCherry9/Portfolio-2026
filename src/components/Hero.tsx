@@ -249,30 +249,99 @@ export function Hero() {
     window.addEventListener('touchmove', onTouchMove, { passive: true })
     section.addEventListener('pointerleave', onPointerLeave)
 
-    const HOVER_RADIUS = 160
-    const HOVER_FORCE  = 0.0042
+    const HOVER_RADIUS = 190
+    // Matter.js forces are plain F = m·a — acceleration, not force, is what reads as
+    // "strong" or "weak" regardless of a shape's mass. Gravity here is 1.5 px/step².
+    // These are expressed as multiples of that so the push reliably overpowers gravity
+    // and actually scatters shapes, instead of the barely-perceptible nudge a tiny flat
+    // force constant produced before.
+    const PUSH_ACCEL      = 9    // steady outward shove from a lingering cursor
+    const SWIPE_ACCEL_MAX = 42   // extra kick added when the cursor sweeps through fast
+    const SWIPE_GAIN      = 0.028
+
+    const now0 = typeof performance !== 'undefined' ? performance.now() : Date.now()
+    let prevPointer = { x: -9999, y: -9999, t: now0 }
+    let hadPointer = false
 
     const onBeforeUpdate = () => {
+      const now = typeof performance !== 'undefined' ? performance.now() : Date.now()
+      const dt = Math.max((now - prevPointer.t) / 1000, 1 / 120)
+      const pointerActive = pointer.x > -9000
+      // The first frame the pointer becomes active (page load, or re-entering after
+      // pointerleave reset it to the off-screen sentinel) would otherwise read as a
+      // teleport from (-9999, -9999) to the real position — a spurious "swipe" at
+      // effectively infinite speed. Skip the swipe term that one frame only.
+      const justEntered = pointerActive && !hadPointer
+      hadPointer = pointerActive
+
+      const rawSpeedX = pointer.x - prevPointer.x
+      const rawSpeedY = pointer.y - prevPointer.y
+      const rawSpeed  = justEntered ? 0 : Math.hypot(rawSpeedX, rawSpeedY) / dt
+      const pvx = justEntered ? 0 : rawSpeedX / dt
+      const pvy = justEntered ? 0 : rawSpeedY / dt
+      const pointerSpeed = Math.min(rawSpeed, 6000)
+      prevPointer = { x: pointer.x, y: pointer.y, t: now }
+
       for (const b of bodies) {
         const dx = b.position.x - pointer.x
         const dy = b.position.y - pointer.y
         const dist = Math.sqrt(dx * dx + dy * dy)
         const node = nodeRefs.current[b.label]
-        if (dist < HOVER_RADIUS) {
+        if (dist < HOVER_RADIUS && pointerActive) {
           node?.classList.add('dh-hover-near')
           const d = Math.max(dist, 1)
-          const falloff = (1 - d / HOVER_RADIUS) ** 2
-          const forceMag = falloff * HOVER_FORCE
-          Body.applyForce(b, b.position, {
-            x: (dx / d) * forceMag,
-            y: (dy / d) * forceMag,
-          })
+          const falloff = (1 - d / HOVER_RADIUS) ** 1.3
+          const nx = dx / d
+          const ny = dy / d
+
+          let ax = nx * PUSH_ACCEL * falloff
+          let ay = ny * PUSH_ACCEL * falloff
+
+          // A fast sweep of the cursor "throws" the shape onward in that direction,
+          // on top of the steady radial push — this is what makes it feel tossable
+          // rather than just mildly repelled. Normalize by the true (uncapped)
+          // speed, not the capped one, or the "unit" vector stops being a unit vector.
+          if (rawSpeed > 40) {
+            const swipeAccel = Math.min(pointerSpeed * SWIPE_GAIN, SWIPE_ACCEL_MAX) * falloff
+            ax += (pvx / rawSpeed) * swipeAccel
+            ay += (pvy / rawSpeed) * swipeAccel
+          }
+
+          Body.applyForce(b, b.position, { x: ax * b.mass, y: ay * b.mass })
         } else {
           node?.classList.remove('dh-hover-near')
         }
       }
     }
     Events.on(engine, 'beforeUpdate', onBeforeUpdate)
+
+    // Safety net: a fast swipe at point-blank range, or Matter's own solver untangling
+    // a cluster of resting bodies when one of them gets shoved, can occasionally produce
+    // one oversized step — easily enough to tunnel through the (thin, discretely-collided)
+    // walls in a single frame. Cap speed every step, and as a hard backstop, snap back
+    // anything that still ends up well outside the stage so a shape can never wander off
+    // and simply vanish.
+    const MAX_SPEED = 42
+    const onAfterUpdate = () => {
+      for (const b of bodies) {
+        const speed = Math.hypot(b.velocity.x, b.velocity.y)
+        if (speed > MAX_SPEED) {
+          const scale = MAX_SPEED / speed
+          Body.setVelocity(b, { x: b.velocity.x * scale, y: b.velocity.y * scale })
+        }
+
+        const margin = 140
+        const { x, y } = b.position
+        if (x < -margin || x > W + margin || y < -margin || y > H + margin) {
+          Body.setPosition(b, {
+            x: Math.max(0, Math.min(W, x)),
+            y: Math.max(0, Math.min(H, y)),
+          })
+          Body.setVelocity(b, { x: 0, y: 0 })
+        }
+      }
+    }
+    Events.on(engine, 'afterUpdate', onAfterUpdate)
 
     const runner = Runner.create()
     Runner.run(runner, engine)
@@ -305,6 +374,7 @@ export function Hero() {
       cancelAnimationFrame(rafRef.current!)
       Runner.stop(runner)
       Events.off(engine, 'beforeUpdate', onBeforeUpdate)
+      Events.off(engine, 'afterUpdate', onAfterUpdate)
       World.clear(world, false)
       Engine.clear(engine)
       window.removeEventListener('resize', onResize)
@@ -329,8 +399,10 @@ export function Hero() {
       ))}
 
       <div className="dh-center" style={{ position: 'relative', zIndex: 4, pointerEvents: 'none' }}>
-        <h1 className="dh-hero-headline">
-          Expanding the horizon<br />of what design can influence.
+        <h1 className="dh-hero-headline" style={{ pointerEvents: 'all' }}>
+          {renderRainbowText('Expanding the horizon')}
+          <br />
+          {renderRainbowText('of what design can influence.', 22)}
         </h1>
         <div className="dh-hero-divider" />
         <div className="dh-hero-lower">
@@ -569,6 +641,17 @@ function renderShape(type: string, w: number, h: number) {
 
     default: return null
   }
+}
+
+/** Splits text into per-letter spans, staggered via a CSS custom property, so
+ *  hovering the headline (see .dh-hero-headline:hover .dh-letter in index.css)
+ *  cycles each letter through a different colour in a wave across the line. */
+function renderRainbowText(text: string, indexOffset = 0) {
+  return text.split('').map((char, i) => (
+    <span key={indexOffset + i} className="dh-letter" style={{ '--i': indexOffset + i } as React.CSSProperties}>
+      {char === ' ' ? ' ' : char}
+    </span>
+  ))
 }
 
 function starPath(cx: number, cy: number, outerR: number, innerR: number, points: number): string {
