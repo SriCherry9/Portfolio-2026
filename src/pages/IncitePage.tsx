@@ -64,6 +64,7 @@ export function IncitePage() {
         nextPath="/case-study/ai-product-strategy"
         nextTitle="AI Product Strategy"
         nextCover="/images/ai-product-strategy-cover.png"
+        nextAccentColor="#7B68EE"
       />
     </div>
   )

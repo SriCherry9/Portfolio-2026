@@ -353,6 +353,7 @@ export function NinjaHirePage() {
         nextPath="/case-study/incite"
         nextTitle="In;cite — Ingredient Intelligence"
         nextCover="/images/incite-cover.png"
+        nextAccentColor="#840FF1"
       />
     </div>
   )

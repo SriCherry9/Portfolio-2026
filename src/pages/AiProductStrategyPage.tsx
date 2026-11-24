@@ -48,6 +48,7 @@ export function AiProductStrategyPage() {
         nextPath="/case-study/luna"
         nextTitle="Luna — Human Robot Interaction"
         nextCover="/images/luna-cover.png"
+        nextAccentColor="#5B8CFF"
       />
     </div>
   )

@@ -45,6 +45,7 @@ export function HfeInhalerPage() {
         nextPath="/case-study/comic-strip"
         nextTitle="Oh No! — A Comic Strip"
         nextCover="/images/comic-strip-cover.png"
+        nextAccentColor="#E8694A"
       />
     </div>
   )

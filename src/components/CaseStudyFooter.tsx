@@ -1,12 +1,31 @@
-import { Link } from 'react-router-dom'
+import { useCallback, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ProjectTransition } from './ProjectTransition'
 
 interface CaseStudyFooterProps {
   nextPath: string
   nextTitle: string
   nextCover: string
+  /** Drives the colour of the same splash + loading-shapes transition used when
+   *  opening a project from the home page, so "Next Case Study" opens the same way. */
+  nextAccentColor: string
 }
 
-export function CaseStudyFooter({ nextPath, nextTitle, nextCover }: CaseStudyFooterProps) {
+export function CaseStudyFooter({ nextPath, nextTitle, nextCover, nextAccentColor }: CaseStudyFooterProps) {
+  const [openingPath, setOpeningPath] = useState<string | null>(null)
+  const navigate = useNavigate()
+
+  const handleNextClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    setOpeningPath(nextPath)
+  }, [nextPath])
+
+  const handleTransitionNavigate = useCallback(() => {
+    if (openingPath) navigate(openingPath)
+  }, [openingPath, navigate])
+
+  const handleTransitionDone = useCallback(() => setOpeningPath(null), [])
+
   return (
     <footer className="case-footer">
       <div className="case-footer-inner">
@@ -27,7 +46,7 @@ export function CaseStudyFooter({ nextPath, nextTitle, nextCover }: CaseStudyFoo
           </div>
         </div>
 
-        <Link to={nextPath} className="case-footer-next">
+        <Link to={nextPath} className="case-footer-next" onClick={handleNextClick}>
           <span className="case-footer-next-thumb">
             <img src={nextCover} alt="" />
           </span>
@@ -47,6 +66,13 @@ export function CaseStudyFooter({ nextPath, nextTitle, nextCover }: CaseStudyFoo
           <Link to="/" className="case-footer-home">← Back to portfolio</Link>
         </div>
       </div>
+
+      <ProjectTransition
+        active={!!openingPath}
+        color={nextAccentColor}
+        onNavigate={handleTransitionNavigate}
+        onDone={handleTransitionDone}
+      />
     </footer>
   )
 }

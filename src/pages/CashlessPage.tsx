@@ -73,6 +73,7 @@ export function CashlessPage() {
         nextPath="/case-study/dilution-shock"
         nextTitle="Designing for Dilution Shock — Fundraising Scenario Tool"
         nextCover="/images/dilution-shock-cover.svg"
+        nextAccentColor="#633ea5"
       />
     </div>
     </PasswordGate>

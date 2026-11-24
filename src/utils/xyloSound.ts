@@ -9,9 +9,27 @@ function getCtx(): AudioContext | null {
   return ctx
 }
 
-/** Unlocks/creates the AudioContext — call this from a real user gesture (click/key/touch). */
+const SAMPLE_URL = '/audio/xylophone-hit.mp3'
+let bufferPromise: Promise<AudioBuffer | null> | null = null
+
+/** Fetches and decodes the real xylophone hit sample once, caching the result
+ *  (and the in-flight promise, so rapid hovers before it's ready don't each
+ *  trigger their own fetch). */
+function loadBuffer(audioCtx: AudioContext): Promise<AudioBuffer | null> {
+  if (!bufferPromise) {
+    bufferPromise = fetch(SAMPLE_URL)
+      .then(res => res.arrayBuffer())
+      .then(data => audioCtx.decodeAudioData(data))
+      .catch(() => null)
+  }
+  return bufferPromise
+}
+
+/** Unlocks/creates the AudioContext — call this from a real user gesture (click/key/touch) —
+ *  and kicks off loading the sample so it's decoded and ready by the time anyone hovers. */
 export function unlockXyloAudio() {
-  getCtx()
+  const audioCtx = getCtx()
+  if (audioCtx) loadBuffer(audioCtx)
 }
 
 /** A ping-ponging two-octave-ish scale, so sweeping across a long run of letters
@@ -29,42 +47,31 @@ export function noteFrequencyForIndex(i: number): number {
   return SCALE[idx]
 }
 
-/** A short, bright, percussive tone — a struck xylophone bar — synthesized so no
- *  audio asset is needed. A fast-decaying high harmonic gives the "clack" of the
- *  mallet strike, layered over a longer-ringing fundamental. */
+// The sample is treated as sounding roughly at the middle of SCALE (D5) — so
+// pitching it up to the highest note and down to the lowest both stay within
+// about +/-2.2x playback rate, rather than skewing the whole range to one side
+// and pushing the far end into a chipmunked or over-slowed extreme.
+const SAMPLE_REFERENCE_FREQ = 587.33
+const MIN_RATE = 0.4
+const MAX_RATE = 2.5
+
+/** Plays the real recorded xylophone-hit sample, pitch-shifted (via playback
+ *  rate, like a classic sampler) to the requested note frequency. */
 export function playXyloNote(freq: number) {
   const audioCtx = getCtx()
   if (!audioCtx) return
 
-  const now = audioCtx.currentTime
+  loadBuffer(audioCtx).then(buffer => {
+    if (!buffer) return
+    const source = audioCtx.createBufferSource()
+    source.buffer = buffer
+    const rate = freq / SAMPLE_REFERENCE_FREQ
+    source.playbackRate.value = Math.min(MAX_RATE, Math.max(MIN_RATE, rate))
 
-  const fundamental = audioCtx.createOscillator()
-  fundamental.type = 'sine'
-  fundamental.frequency.setValueAtTime(freq, now)
+    const gain = audioCtx.createGain()
+    gain.gain.value = 0.9
 
-  const harmonic = audioCtx.createOscillator()
-  harmonic.type = 'sine'
-  harmonic.frequency.setValueAtTime(freq * 3.97, now) // slightly inharmonic, like a real bar
-
-  const fundGain = audioCtx.createGain()
-  fundGain.gain.setValueAtTime(0.0001, now)
-  fundGain.gain.exponentialRampToValueAtTime(0.42, now + 0.004)
-  fundGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55)
-
-  const harmGain = audioCtx.createGain()
-  harmGain.gain.setValueAtTime(0.0001, now)
-  harmGain.gain.exponentialRampToValueAtTime(0.16, now + 0.003)
-  harmGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12)
-
-  const master = audioCtx.createGain()
-  master.gain.value = 0.55
-
-  fundamental.connect(fundGain).connect(master)
-  harmonic.connect(harmGain).connect(master)
-  master.connect(audioCtx.destination)
-
-  fundamental.start(now)
-  harmonic.start(now)
-  fundamental.stop(now + 0.6)
-  harmonic.stop(now + 0.14)
+    source.connect(gain).connect(audioCtx.destination)
+    source.start()
+  })
 }

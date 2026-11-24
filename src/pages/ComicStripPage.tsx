@@ -43,6 +43,7 @@ export function ComicStripPage() {
         nextPath="/case-study/hfe-inhaler"
         nextTitle="Human Factors & Ergonomics"
         nextCover="/images/hfe-inhaler-cover.png"
+        nextAccentColor="#2B62E8"
       />
     </div>
   )

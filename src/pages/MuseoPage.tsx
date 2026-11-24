@@ -52,6 +52,7 @@ export function MuseoPage() {
         nextPath="/case-study/ninjahire"
         nextTitle="Enhanced Search for Agentic Experience"
         nextCover="/images/ninjahire-cover.png"
+        nextAccentColor="#24887a"
       />
     </div>
   )

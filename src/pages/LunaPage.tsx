@@ -48,6 +48,7 @@ export function LunaPage() {
         nextPath="/case-study/cashless"
         nextTitle="Cashless Equity Ownership"
         nextCover="/images/cashless-cover.png"
+        nextAccentColor="#B8E4C9"
       />
     </div>
   )

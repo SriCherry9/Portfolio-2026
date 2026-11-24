@@ -651,6 +651,7 @@ export function DilutionShockPage() {
         nextPath="/case-study/museo"
         nextTitle="Museo — Broadcast Auction Platform"
         nextCover="/images/museo-cover.png"
+        nextAccentColor="#C4A96A"
       />
     </div>
     </PasswordGate>
