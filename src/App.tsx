@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import './App.css'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
+import { LetsTalk } from './components/LetsTalk'
 import { GardenFooter } from './components/GardenFooter'
 import { CASHLESS_PASSWORD, CASHLESS_UNLOCK_KEY, DILUTION_SHOCK_PASSWORD, DILUTION_SHOCK_UNLOCK_KEY } from './utils/protectedProjects'
 
@@ -189,6 +190,7 @@ export default function App() {
           ))}
         </div>
       </section>
+      <LetsTalk />
       <GardenFooter />
     </>
   )

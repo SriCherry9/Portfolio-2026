@@ -114,9 +114,10 @@ export function ShredderLanding() {
         ? Math.max(0, Math.min(1, -rect.top / totalScrollable))
         : 0
 
-      // Smooth the scroll-derived value so wheel/trackpad "ticks" glide
-      // into the animation instead of jumping frame to frame.
-      const smoothing = 1 - Math.exp(-dt * 14)
+      // Smooth the scroll-derived value just enough to take the stepped edge
+      // off discrete wheel ticks — a low time constant (~15ms) so the shred
+      // still tracks the actual scroll position with no perceptible lag.
+      const smoothing = 1 - Math.exp(-dt * 65)
       smoothRawRef.current += (targetRaw - smoothRawRef.current) * smoothing
       const raw = smoothRawRef.current
 

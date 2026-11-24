@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { LetsTalk } from '../components/LetsTalk'
 import { GardenFooter } from '../components/GardenFooter'
 
 export function ResumePage() {
@@ -82,6 +83,7 @@ export function ResumePage() {
           </div>
         </div>
       </section>
+      <LetsTalk />
       <GardenFooter />
     </>
   )

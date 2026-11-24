@@ -383,6 +383,7 @@ export function PlaygroundPage() {
       top: y,
       width: item.width,
       '--item-rot': `${item.rotation}deg`,
+      '--tape-color': item.pinColor,
     } as React.CSSProperties
     const content = (
       <>
@@ -393,11 +394,10 @@ export function PlaygroundPage() {
         >
           <span className="play-tape-strip" />
         </span>
-        <div
-          className="play-item-visual"
-          style={{ height: item.height, ...item.visualStyle }}
-        >
-          {item.renderVisual && item.renderVisual(item.width, item.height)}
+        <div className="play-item-cut" style={{ height: item.height }}>
+          <div className="play-item-visual" style={item.visualStyle}>
+            {item.renderVisual && item.renderVisual(item.width, item.height)}
+          </div>
         </div>
         <p className="play-item-title">{item.title}</p>
         <p className="play-item-desc">{item.desc}</p>
