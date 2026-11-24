@@ -414,7 +414,11 @@ export function Hero() {
       ))}
 
       <div className="dh-center" style={{ position: 'relative', zIndex: 4, pointerEvents: 'none' }}>
-        <h1 className="dh-hero-headline" style={{ pointerEvents: 'all' }}>
+        <h1
+          className="dh-hero-headline"
+          style={{ pointerEvents: 'all' }}
+          aria-label="Expanding the horizon of what design can influence."
+        >
           {headlineLine1.nodes}
           <br />
           {headlineLine2.nodes}

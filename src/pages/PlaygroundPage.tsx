@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { AudioRhythmVisualizer } from '../components/AudioRhythmVisualizer'
 import { DustyGlassModal } from '../components/DustyGlassModal'
@@ -249,16 +249,21 @@ function scatterLayout(items: BaseItem[]): PlayItem[] {
   }))
 }
 
-const ITEMS: PlayItem[] = scatterLayout(BASE_ITEMS)
-
 // Bounding box of the packed cluster, padded so repeated copies read as distinct tiles.
 const TILE_GAP = 80
-const CLUSTER_WIDTH = Math.max(...ITEMS.map(i => i.x + i.width)) + TILE_GAP
-const CLUSTER_HEIGHT = Math.max(...ITEMS.map(i => i.y + i.height + CAPTION_ALLOWANCE)) + TILE_GAP
 
 const mod = (n: number, m: number) => ((n % m) + m) % m
 
 export function PlaygroundPage() {
+  // Reshuffled fresh on every visit to the page (computed during render, via
+  // useMemo, so the randomised layout is there for the very first paint —
+  // never a flash of one arrangement settling into another). Previously this
+  // ran once at module load, so the board looked identical every time you
+  // came back without a full page reload.
+  const ITEMS = useMemo(() => scatterLayout(BASE_ITEMS), [])
+  const CLUSTER_WIDTH = useMemo(() => Math.max(...ITEMS.map(i => i.x + i.width)) + TILE_GAP, [ITEMS])
+  const CLUSTER_HEIGHT = useMemo(() => Math.max(...ITEMS.map(i => i.y + i.height + CAPTION_ALLOWANCE)) + TILE_GAP, [ITEMS])
+
   const containerRef = useRef<HTMLDivElement>(null)
   const [pan, setPan] = useState({ x: 0, y: 0 })
   const [viewport, setViewport] = useState({ width: 1200, height: 800 })
