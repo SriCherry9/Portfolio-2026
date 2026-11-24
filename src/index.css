@@ -2514,7 +2514,8 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   color: #1a1a1a;
 }
 
-.pill-theme-btn {
+.pill-theme-btn,
+.pill-sound-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2529,12 +2530,14 @@ html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
   transition: background 0.18s ease, color 0.18s ease;
 }
 
-.pill-theme-btn:hover {
+.pill-theme-btn:hover,
+.pill-sound-btn:hover {
   background: rgba(0,0,0,0.07);
   color: #111;
 }
 
-.pill-theme-btn:focus-visible {
+.pill-theme-btn:focus-visible,
+.pill-sound-btn:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
@@ -2558,11 +2561,13 @@ html[data-theme="dark"] .pill-link:hover {
   color: #fff;
 }
 
-html[data-theme="dark"] .pill-theme-btn {
+html[data-theme="dark"] .pill-theme-btn,
+html[data-theme="dark"] .pill-sound-btn {
   color: #aaa;
 }
 
-html[data-theme="dark"] .pill-theme-btn:hover {
+html[data-theme="dark"] .pill-theme-btn:hover,
+html[data-theme="dark"] .pill-sound-btn:hover {
   background: rgba(255,255,255,0.1);
   color: #fff;
 }
