@@ -75,3 +75,17 @@ export function playXyloNote(freq: number) {
     source.start()
   })
 }
+
+/** A short ascending run of notes, timed to land with the falling shapes in
+ *  ProjectTransition (same 220/300/380/460ms stagger as .pt-shape--* in
+ *  ProjectTransition.css) — so opening a project sounds like the shapes
+ *  themselves are striking the xylophone keys on the way down. Returns a
+ *  cleanup function that cancels any notes not yet played. */
+export function playXyloArpeggio(): () => void {
+  unlockXyloAudio()
+  const delays = [220, 300, 380, 460]
+  const timers = delays.map((delay, i) =>
+    setTimeout(() => playXyloNote(noteFrequencyForIndex(i)), delay)
+  )
+  return () => timers.forEach(clearTimeout)
+}

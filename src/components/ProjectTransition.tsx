@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import './ProjectTransition.css'
+import { playXyloArpeggio } from '../utils/xyloSound'
 
 interface ProjectTransitionProps {
   active: boolean
@@ -26,7 +27,11 @@ export function ProjectTransition({ active, color, onNavigate, onDone }: Project
       if (!firedRef.current) { firedRef.current = true; onNavigate() }
     }, NAVIGATE_AT)
     const doneTimer = setTimeout(onDone, DONE_AT)
-    return () => { clearTimeout(navTimer); clearTimeout(doneTimer) }
+    // Same xylophone voice as hovering the letters elsewhere on the site — here
+    // timed to the falling shapes, so opening a project sounds the same way it
+    // feels: playful, and of a piece with the rest of the hover interactions.
+    const cancelArpeggio = playXyloArpeggio()
+    return () => { clearTimeout(navTimer); clearTimeout(doneTimer); cancelArpeggio() }
   }, [active, onNavigate, onDone])
 
   if (!active) return null
