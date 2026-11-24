@@ -30,8 +30,17 @@ interface PlayItem extends BaseItem {
   pinColor: string
 }
 
-// Same family as the sticky-note accents used elsewhere on the site
+// Same family as the sticky-note accents used elsewhere on the site —
+// now tinting a strip of washi tape rather than a pushpin's head.
 const PIN_COLORS = ['#FFCA60', '#2DBD8B', '#ADD6F7', '#E7C1E5', '#D3D872', '#D2D2FF']
+
+/** A small, deterministic tilt per item (stable across repeated tile copies of
+ *  the same id) so each piece of tape reads as hand-placed, not uniform. */
+function tapeAngle(id: number): number {
+  const seed = Math.sin(id * 12.9898) * 43758.5453
+  const frac = seed - Math.floor(seed)
+  return Math.round((frac - 0.5) * 10 * 10) / 10 // -5..5deg
+}
 
 const BASE_ITEMS: BaseItem[] = [
   {
@@ -377,7 +386,13 @@ export function PlaygroundPage() {
     } as React.CSSProperties
     const content = (
       <>
-        <span className="play-pin" style={{ background: item.pinColor }} aria-hidden="true" />
+        <span
+          className="play-tape"
+          style={{ '--tape-color': item.pinColor, '--tape-rot': `${tapeAngle(item.id)}deg` } as React.CSSProperties}
+          aria-hidden="true"
+        >
+          <span className="play-tape-strip" />
+        </span>
         <div
           className="play-item-visual"
           style={{ height: item.height, ...item.visualStyle }}

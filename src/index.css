@@ -2995,21 +2995,46 @@ html[data-theme="dark"] .play-item-visual {
   user-select: none;
 }
 
-/* Pushpin tacking each tile to the board */
-.play-pin {
+/* ── Washi tape ── tacking each tile to the board. The only interaction is a
+   peel: hover it and the free end lifts genuinely off the surface in 3D (the
+   other end stays stuck), then settles flat again on mouse-out. ── */
+.play-tape {
   position: absolute;
-  top: -9px;
+  top: -13px;
   left: 50%;
-  transform: translateX(-50%);
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  box-shadow:
-    inset -2px -2px 3px rgba(0, 0, 0, 0.25),
-    inset 2px 2px 3px rgba(255, 255, 255, 0.5),
-    0 3px 6px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%) rotate(var(--tape-rot, -3deg));
+  width: 62px;
+  height: 24px;
   z-index: 3;
-  pointer-events: none;
+  perspective: 150px;
+}
+
+.play-tape-strip {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.4) 0 3px, rgba(255,255,255,0.1) 3px 7px),
+    var(--tape-color, #FFCA60);
+  opacity: 0.84;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* Small sawtooth notches on the two short ends only, mimicking a torn strip —
+     the long top/bottom edges stay straight. */
+  clip-path: polygon(
+    0% 0%, 5% 13%, 0% 26%, 5% 39%, 0% 52%, 5% 65%, 0% 78%, 5% 91%, 0% 100%,
+    100% 100%, 95% 88%, 100% 75%, 95% 62%, 100% 49%, 95% 36%, 100% 23%, 95% 10%, 100% 0%
+  );
+  transform-style: preserve-3d;
+  transform-origin: 6% 50%;
+  transform: rotateY(0deg) translateZ(0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.play-tape:hover .play-tape-strip {
+  /* Pivots the free (right) end up and toward the viewer around the still-stuck
+     left end — a real lift, not just a slide — and the shadow deepens as a gap
+     opens beneath it. */
+  transform: rotateY(-48deg) translateZ(6px) translateY(-2px);
+  box-shadow: 6px 10px 16px rgba(0, 0, 0, 0.3);
 }
 
 .play-item-title {
