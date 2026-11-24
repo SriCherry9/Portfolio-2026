@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import Matter from 'matter-js'
+import { noteFrequencyForIndex, playXyloNote } from '../utils/xyloSound'
+import { renderXyloLetters } from '../utils/xyloLetters'
+import { XyloText } from './XyloText'
 
 const ROLES = [
   'Interaction Designer',
@@ -391,6 +394,11 @@ export function Hero() {
     }
   }, [])
 
+
+  const playNoteAt = (i: number) => playXyloNote(noteFrequencyForIndex(i))
+  const headlineLine1 = renderXyloLetters('Expanding the horizon', 0, playNoteAt)
+  const headlineLine2 = renderXyloLetters('of what design can influence.', headlineLine1.nextIndex, playNoteAt)
+
   return (
     <section ref={sectionRef} className="dh-section">
 
@@ -406,13 +414,15 @@ export function Hero() {
       ))}
 
       <div className="dh-center" style={{ position: 'relative', zIndex: 4, pointerEvents: 'none' }}>
-        <h1 className="dh-hero-headline">
-          Expanding the horizon<br />of what design can influence.
+        <h1 className="dh-hero-headline" style={{ pointerEvents: 'all' }}>
+          {headlineLine1.nodes}
+          <br />
+          {headlineLine2.nodes}
         </h1>
         <div className="dh-hero-divider" />
         <div className="dh-hero-lower">
           <div className="dh-name-row">
-            <p className="dh-name-blue">{NAME}</p>
+            <p className="dh-name-blue" style={{ pointerEvents: 'all' }}><XyloText text={NAME} /></p>
             <button
               type="button"
               className={`dh-pronounce-btn${isSpeaking ? ' speaking' : ''}`}

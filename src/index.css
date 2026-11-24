@@ -199,6 +199,27 @@
   text-align: center;
   white-space: nowrap;
   margin: 0 0 40px;
+  cursor: default;
+}
+
+/* Each letter is its own span — hovering one bumps it up like a struck xylophone
+   bar (see Hero.tsx, which plays a note on the same hover). A snappy rise with a
+   softer, bouncier return is what sells "struck and springing back" rather than
+   a plain linear slide. */
+.dh-letter {
+  display: inline-block;
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dh-letter:hover {
+  transform: translateY(-9px);
+  transition: transform 0.08s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dh-letter--space {
+  /* Not a "key" — no hover lift, just preserves the word gap. */
+  transition: none;
 }
 
 /* ── Divider ── */

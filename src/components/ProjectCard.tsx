@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ProjectTransition } from './ProjectTransition'
+import { XyloText } from './XyloText'
 
 interface Project {
   id: number
@@ -190,7 +191,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
             </span>
           </div>
 
-          <h2 className="tl-title">{project.title}</h2>
+          <h2 className="tl-title"><XyloText text={project.title} /></h2>
           <p className="tl-desc">{project.description}</p>
 
           <div

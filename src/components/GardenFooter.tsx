@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import { XyloText } from './XyloText'
 
 interface PlantInstance {
   id: number
@@ -88,7 +89,11 @@ export function GardenFooter() {
       {/* Info bar */}
       <div className="garden-info">
         <div className="garden-quote-block">
-          <p className="garden-quote-text">Plant a garden that adds<br />life into your journey on earth.</p>
+          <p className="garden-quote-text">
+            <XyloText text="Plant a garden that adds" />
+            <br />
+            <XyloText text="life into your journey on earth." />
+          </p>
           <p className="garden-made-with">MADE WITH CLAUDE AND DEPLOYED WITH VERCEL</p>
         </div>
         <div className="garden-links-wrap">
