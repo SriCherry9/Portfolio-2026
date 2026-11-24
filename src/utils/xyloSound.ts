@@ -1,3 +1,30 @@
+const SOUND_PREF_KEY = 'xyloSoundEnabled'
+
+let soundEnabled = true
+if (typeof window !== 'undefined') {
+  try {
+    const stored = window.localStorage.getItem(SOUND_PREF_KEY)
+    if (stored !== null) soundEnabled = stored === 'true'
+  } catch {
+    // localStorage unavailable — default stays on for this session
+  }
+}
+
+export function isXyloSoundEnabled(): boolean {
+  return soundEnabled
+}
+
+/** Turns the xylophone sound on/off everywhere it's used (letter hovers, the
+ *  project-open arpeggio) and remembers the choice for next visit. */
+export function setXyloSoundEnabled(enabled: boolean) {
+  soundEnabled = enabled
+  try {
+    window.localStorage.setItem(SOUND_PREF_KEY, String(enabled))
+  } catch {
+    // localStorage unavailable — preference just won't persist across visits
+  }
+}
+
 let ctx: AudioContext | null = null
 
 function getCtx(): AudioContext | null {
@@ -58,6 +85,7 @@ const MAX_RATE = 2.5
 /** Plays the real recorded xylophone-hit sample, pitch-shifted (via playback
  *  rate, like a classic sampler) to the requested note frequency. */
 export function playXyloNote(freq: number) {
+  if (!soundEnabled) return
   const audioCtx = getCtx()
   if (!audioCtx) return
 

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../hooks/useTheme'
+import { useSound } from '../hooks/useSound'
 
 export function Header() {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
+  const { soundEnabled, toggleSound } = useSound()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -49,6 +51,31 @@ export function Header() {
           <button className="pill-link" onClick={goAbout}>About</button>
           <Link to="/resume" className="pill-link">Resume</Link>
         </div>
+
+        <button
+          onClick={toggleSound}
+          className="pill-sound-btn"
+          role="switch"
+          aria-checked={soundEnabled}
+          aria-label={soundEnabled ? 'Turn sound off' : 'Turn sound on'}
+          title={soundEnabled ? 'Sound on' : 'Sound off'}
+        >
+          {soundEnabled ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+              <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+              <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+              <line x1="23" y1="9" x2="17" y2="15" />
+              <line x1="17" y1="9" x2="23" y2="15" />
+            </svg>
+          )}
+        </button>
 
         <button
           onClick={toggleTheme}
