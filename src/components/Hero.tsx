@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Matter from 'matter-js'
+import { noteFrequencyForIndex, playXyloNote, unlockXyloAudio } from '../utils/xyloSound'
 
 const ROLES = [
   'Interaction Designer',
@@ -391,6 +392,25 @@ export function Hero() {
     }
   }, [])
 
+  /* Headline "xylophone" — Web Audio needs a real user gesture to start, which
+     a bare hover doesn't count as, so unlock it on the first click/key/touch
+     anywhere and the notes are ready by the time anyone sweeps across the letters. */
+  useEffect(() => {
+    const unlock = () => unlockXyloAudio()
+    window.addEventListener('pointerdown', unlock, { once: true })
+    window.addEventListener('touchstart', unlock, { once: true, passive: true })
+    window.addEventListener('keydown', unlock, { once: true })
+    return () => {
+      window.removeEventListener('pointerdown', unlock)
+      window.removeEventListener('touchstart', unlock)
+      window.removeEventListener('keydown', unlock)
+    }
+  }, [])
+
+  const playNoteAt = (i: number) => playXyloNote(noteFrequencyForIndex(i))
+  const headlineLine1 = renderXyloLetters('Expanding the horizon', 0, playNoteAt)
+  const headlineLine2 = renderXyloLetters('of what design can influence.', headlineLine1.nextIndex, playNoteAt)
+
   return (
     <section ref={sectionRef} className="dh-section">
 
@@ -406,8 +426,10 @@ export function Hero() {
       ))}
 
       <div className="dh-center" style={{ position: 'relative', zIndex: 4, pointerEvents: 'none' }}>
-        <h1 className="dh-hero-headline">
-          Expanding the horizon<br />of what design can influence.
+        <h1 className="dh-hero-headline" style={{ pointerEvents: 'all' }}>
+          {headlineLine1.nodes}
+          <br />
+          {headlineLine2.nodes}
         </h1>
         <div className="dh-hero-divider" />
         <div className="dh-hero-lower">
@@ -646,6 +668,27 @@ function renderShape(type: string, w: number, h: number) {
 
     default: return null
   }
+}
+
+/** Splits a line of the headline into per-letter spans. Hovering a letter bumps it
+ *  up (pure CSS, see .dh-letter:hover) and — via onHit — plays the xylophone note
+ *  for its position, so sweeping the cursor across the line plays a little run.
+ *  Spaces are rendered but skipped as "keys" and don't consume a note index.
+ *  `startIndex` lets a second line continue the same note sequence as the first. */
+function renderXyloLetters(text: string, startIndex: number, onHit: (i: number) => void) {
+  let idx = startIndex
+  const nodes = text.split('').map((char, i) => {
+    if (char === ' ') {
+      return <span key={i} className="dh-letter dh-letter--space">{' '}</span>
+    }
+    const thisIndex = idx++
+    return (
+      <span key={i} className="dh-letter" onPointerEnter={() => onHit(thisIndex)}>
+        {char}
+      </span>
+    )
+  })
+  return { nodes, nextIndex: idx }
 }
 
 function starPath(cx: number, cy: number, outerR: number, innerR: number, points: number): string {
