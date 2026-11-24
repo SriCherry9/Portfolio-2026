@@ -1633,17 +1633,16 @@ html[data-theme="dark"] .tl-year { color: rgba(255,255,255,0.1); }
 html[data-theme="dark"] .tl-year--active { color: rgba(255,255,255,0.2); }
 
 /* Responsive */
+/* A two-column "year + dot beside the card" layout only has room to breathe
+   above ~900px. Between 900 and 600px it used to keep that two-column grid
+   while the title's font had already hit its minimum size — narrower than
+   either the stacked single-column layout below or the roomier desktop grid
+   above, so a long title (e.g. "Enhanced Search for Agentic Experience")
+   wrapped there even though it fit fine on both sides of that gap. Moving the
+   stacked layout's threshold up to 900px removes that pinch entirely. */
 @media (max-width: 900px) {
   .cards-section { padding: 60px 24px 80px; }
-  .tl-line-fill { left: 20px; }
-  .tl-row { grid-template-columns: 160px 1fr; gap: 20px; padding: 36px 0; }
-  .tl-left { padding-left: 44px; }
-  .tl-dot { left: 16px; }
-  .tl-year { font-size: 42px; }
-}
-
-@media (max-width: 600px) {
-  .tl-row { grid-template-columns: 1fr; }
+  .tl-row { grid-template-columns: 1fr; padding: 36px 0; }
   .tl-left { flex-direction: row; align-items: center; gap: 8px; padding-left: 0; }
   .tl-year { position: static; }
   .tl-dot { display: none; }
