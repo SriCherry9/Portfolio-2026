@@ -217,9 +217,11 @@
   transition: transform 0.08s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.dh-letter--space {
-  /* Not a "key" — no hover lift, just preserves the word gap. */
-  transition: none;
+/* Wraps one word's letters so the line can only break between words, never
+   inside one — the actual breakable space between .dh-letter-word elements is
+   a plain space character in the markup, not trapped inside a span. */
+.dh-letter-word {
+  display: inline-block;
 }
 
 /* ── Divider ── */
@@ -1253,6 +1255,7 @@ html[data-theme="dark"] .about-photo-trait {
   color: var(--text-primary);
   line-height: 1.15;
   margin: 0;
+  text-wrap: balance;
 }
 
 .tl-desc {
