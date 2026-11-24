@@ -70,6 +70,7 @@ export function CaseStudyFooter({ nextPath, nextTitle, nextCover, nextAccentColo
       <ProjectTransition
         active={!!openingPath}
         color={nextAccentColor}
+        path={openingPath ?? ''}
         onNavigate={handleTransitionNavigate}
         onDone={handleTransitionDone}
       />

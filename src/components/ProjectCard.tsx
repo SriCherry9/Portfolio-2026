@@ -281,6 +281,7 @@ export function ProjectCard({ project, index, onActive, activeId }: ProjectCardP
       <ProjectTransition
         active={!!openingPath}
         color={project.accentColor}
+        path={openingPath ?? ''}
         onNavigate={handleTransitionNavigate}
         onDone={handleTransitionDone}
       />
